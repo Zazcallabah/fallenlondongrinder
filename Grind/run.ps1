@@ -1,10 +1,17 @@
-$actions = @(
-	"spite,Alleys,Cats,Black",
-	"ladybones,sketch,clandestine",
-        "veilgarden,writer,rapidly",
-	"watchmakers,Rowdy,unruly"
-)
-
+function Get-Action
+{
+	$actions = @(
+		"spite,Alleys,Cats,Black",
+		"ladybones,sketch,clandestine",
+		"veilgarden,writer,rapidly",
+		"veilgarden,writer,rework,daring",
+		"watchmakers,Rowdy,unruly"
+	)
+	$selectorH = [DateTime]::UtcNow.Hour * 3
+	$selectorM = [Math]::Floor([DateTime]::UtcNow.Minute / 20)
+	$count = $selectorH + $selectorM
+	return $actions[$count%($actions.Length)]
+}
 function Get-Blob
 {
     $accountContext = New-AzureStorageContext -SasToken $env:BLOB_SAS -storageaccountname "fallenlondongrinder"
@@ -192,7 +199,4 @@ function DoAction
 	}
 }
 
-$selector = [DateTime]::UtcNow.Hour
-
-$action = $actions[$selector%($actions.Length)]
-DoAction $action
+DoAction (Get-Action)
