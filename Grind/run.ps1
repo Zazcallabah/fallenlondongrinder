@@ -1,3 +1,9 @@
+$actions = @(
+	"spite,Alleys,Cats,Black",
+	"ladybones,sketch,clandestine",
+        "veilgarden,writer,rapidly",
+	"watchmakers,Rowdy,unruly"
+)
 
 function Get-Blob
 {
@@ -180,12 +186,6 @@ function DoAction
 		}
 	}
 }
-$actions = @(
-	"spite,Alleys,Cats,Black",
-	"ladybones,sketch,clandestine",
-  #  "veilgarden,heiress,straightforward",
-	"watchmakers,Rowdy,unruly"
-)
 
 $selector = [DateTime]::UtcNow.Hour
 
