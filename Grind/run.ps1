@@ -181,10 +181,10 @@ function DoAction
 	}
 }
 $actions = @(
-	"spite,Alleys,Cats,Ginger",
-	"ladybones,hidden language,Frequent"
-#	"veilgarden,Mandrake,Poseur",
-#	"watchmakers,Rowdy,Clay",
+	"spite,Alleys,Cats,Black",
+	"ladybones,sketch,clandestine",
+  #  "veilgarden,heiress,straightforward",
+	"watchmakers,Rowdy,unruly"
 )
 
 $selector = [DateTime]::UtcNow.Hour
