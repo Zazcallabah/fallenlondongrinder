@@ -2,9 +2,17 @@ function Get-Action
 {
 	$actions = @(
 		"spite,Alleys,Cats,Black",
+		"spite,Alleys,Cats,Black",
+		"spite,Alleys,Cats,Black",
+		"spite,Alleys,Cats,Black",
+		"spite,Alleys,Cats,Black",
+		"spite,Alleys,Cats,Black",
+		"ladybones,sketch,clandestine",
 		"ladybones,sketch,clandestine",
 		"veilgarden,writer,rapidly",
 		"veilgarden,writer,rework,daring",
+		"watchmakers,Rowdy,unruly",
+		"watchmakers,Rowdy,unruly",
 		"watchmakers,Rowdy,unruly"
 	)
 	$selectorH = [DateTime]::UtcNow.Hour * 3
