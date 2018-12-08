@@ -152,6 +152,11 @@ function DoAction
 			$result = GoBack
 		}
 	}
+	if( $result.actions -lt 5 )
+	{
+		write-warning "not enough actions left"
+		return
+	}
 	if( $result.storylets -ne $null )
 	{
 		$storyletid = GetStoryletId $storyletname
