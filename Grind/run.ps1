@@ -1,83 +1,230 @@
+param([switch]$runTests)
+
+$script:actions = @(
+	"spite,Alleys,Cats,Black",
+	"spite,Alleys,Cats,Black",
+	"spite,Alleys,Cats,Black",
+	"spite,Alleys,Cats,Black",
+	"spite,Alleys,Cats,Black",
+	"spite,Alleys,Cats,Black",
+	"ladybones,sketch,clandestine",
+	"ladybones,sketch,clandestine",
+	"veilgarden,writer,rapidly",
+	"veilgarden,writer,rework,daring",
+	"watchmakers,Rowdy,unruly",
+	"watchmakers,Rowdy,unruly",
+	"watchmakers,Rowdy,unruly"
+)
+
+$script:uastring = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
+
 function Get-Action
 {
-	$actions = @(
-		"spite,Alleys,Cats,Black",
-		"spite,Alleys,Cats,Black",
-		"spite,Alleys,Cats,Black",
-		"spite,Alleys,Cats,Black",
-		"spite,Alleys,Cats,Black",
-		"spite,Alleys,Cats,Black",
-		"ladybones,sketch,clandestine",
-		"ladybones,sketch,clandestine",
-		"veilgarden,writer,rapidly",
-		"veilgarden,writer,rework,daring",
-		"watchmakers,Rowdy,unruly",
-		"watchmakers,Rowdy,unruly",
-		"watchmakers,Rowdy,unruly"
-	)
-	$selectorH = [DateTime]::UtcNow.Hour * 3
-	$selectorM = [Math]::Floor([DateTime]::UtcNow.Minute / 20)
+	param($now)
+	$selectorH = $now.Hour * 3
+	$selectorM = [Math]::Floor($now.Minute / 20)
 	$count = $selectorH + $selectorM
-	return $actions[$count%($actions.Length)]
-}
-function Get-Blob
-{
-    $accountContext = New-AzureStorageContext -SasToken $env:BLOB_SAS -storageaccountname "fallenlondongrinder"
-    return Get-AzureStorageBlob -Context $accountContext -Container persist -blob "credentials.json"
+	return $script:actions[$count%($script:actions.Length)]
 }
 
+if($runTests)
+{
+	$script:actions =@( 0,1,2,3,4,5,6 )
+	Describe "Get-Action" {
+		It "selects based on time of day" {
+			Get-Action (new-object datetime 2018,1,1,0,0,0) | should be 0
+			Get-Action (new-object datetime 2018,1,1,0,20,0) | should be 1
+		}
+		It "handles minute/hour proper" {
+			Get-Action (new-object datetime 2018,1,1,1,40,0) | should be 5
+			Get-Action (new-object datetime 2018,1,1,2,0,0) | should be 6
+		}
+		It "cycles" {
+			Get-Action (new-object datetime 2018,1,1,2,0,0) | should be 6
+			Get-Action (new-object datetime 2018,1,1,2,20,0) | should be 0
+		}
+	}
+}
+
+
+function Get-Blob
+{
+	$accountContext = New-AzureStorageContext -SasToken $env:BLOB_SAS -storageaccountname "fallenlondongrinder"
+	return Get-AzureStorageBlob -Context $accountContext -Container persist -blob "credentials.json"
+}
 
 function Save-Blob
 {
-    param($obj)
-    $script:credentials = $obj
-    $str = $obj | ConvertTo-Json
-    $blob = Get-Blob
-    $blob.ICloudBlob.UploadText( $str )
+	param($obj)
+	$blob = Get-Blob
+	$blob.ICloudBlob.UploadText( ($obj | ConvertTo-Json) )
 }
 
-function Get-Headers
+if($runTests)
 {
-	$headers = @{
+	Describe "Get-Blob" {
+		It "gets blob object" {
+			$blob = Get-Blob
+			$blob | should not be $null
+			$blob.GetType().Name | should be "AzureStorageBlob"
+		}
+	}
+}
+
+
+function Download-CredentialsCache
+{
+	$blob = Get-Blob
+	$blobcontent = $blob.ICloudBlob.DownloadText()
+	if( [string]::isNullOrWhitespace( $blobcontent ) )
+	{
+		return $null
+	}
+	return $blobcontent | ConvertFrom-Json
+}
+
+function Get-CredentialsObject
+{
+	if( $script:credentials -eq $null )
+	{
+		$script:credentials = Download-CredentialsCache
+	}
+	return $script:credentials
+}
+
+if( $runTests )
+{
+	Describe "Get-CredentialsObject" {
+		It "sets scriptcredentials if null" {
+			$script:credentials = $null
+			$obj = Get-CredentialsObject
+			$script:credentials | should not be $null
+		}
+	}
+}
+
+
+function Get-CachedToken
+{
+
+	$cached = Get-CredentialsObject
+
+	if( $cached -ne $null -and $cached.timeout -ne $null -and $cached.token -ne $null -and $cached.timeout -gt [DateTime]::UtcNow.Ticks )
+	{
+		return $cached.token
+	}
+	return $null
+}
+
+if( $runTests )
+{
+	$onesecond = 10000000
+	Describe "Get-CachedToken" {
+		It "returns null if timed out" {
+			$script:credentials = @{"timeout"=[DateTime]::UtcNow.Ticks - $onesecond; "token" = "notused" }
+			Get-CachedToken | should be $null
+		}
+		It "returns token if not timed out" {
+			$script:credentials = @{"timeout"=[DateTime]::UtcNow.Ticks + $onesecond; "token" = "secrettoken" }
+			Get-CachedToken | should be "secrettoken"
+		}
+		$script:credentials = $null
+	}
+}
+
+
+function Get-BasicHeaders
+{
+	return @{
 		"Content-Type" = "application/json";
 		"Host" = "api.fallenlondon.com";
 		"Accept" = "application/json";
 	}
+}
 
-	$uastring = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-    if( $script:credentials -eq $null )
-    {
-        $blob = Get-Blob
-        $blobcontent = $blob.ICloudBlob.DownloadText()
-        if( [string]::isNullOrWhitespace( $blobcontent ) )
-        {
-            $script:credentials = $blobcontent | ConvertFrom-Json
-        }
-    }
-
-	$cached = $script:credentials
-
-	if( $cached -ne $null -and $cached.timeout -ne $null -and $cached.token -ne $null -and $cached.timeout -gt [DateTime]::UtcNow.Ticks )
-	{
-		$headers.Add("Authorization", "Bearer $($cached.token)");
-		return $headers
-	}
-
+function Login
+{
+	$headers = Get-BasicHeaders
 	$email = $env:LOGIN_EMAIL
 	$password = $env:LOGIN_PASS
 	$payload = @{ "email" = $email; "password" = $password; }
 	$uri = "https://api.fallenlondon.com/api/login"
-	$token = $payload | ConvertTo-Json | Invoke-WebRequest -UseBasicParsing -Uri $uri -Method POST -UserAgent $uastring -Headers $headers | Select -Expandproperty Content | convertfrom-json | select -expandproperty jwt
-	$timeout = ([datetime]::UtcNow).addhours(47).Ticks
-
-	Save-Blob -obj @{"timeout" = $timeout; "token" = $token}
-
-	$headers.Add("Authorization", "Bearer $token")
-
-	return $headers
+	$token = $payload | ConvertTo-Json | Invoke-WebRequest -UseBasicParsing -Uri $uri -Method POST -UserAgent $script:uastring -Headers $headers | Select -Expandproperty Content | convertfrom-json | select -expandproperty jwt
+	return $token
 }
 
+if( $runTests )
+{
+	Describe "Login" {
+		It "returns token" {
+			$token = Login
+			$token | should not be $null
+		}
+	}
+}
+
+
+function Get-Token
+{
+	$token = Get-CachedToken
+	if($token -ne $null )
+	{
+		return $token
+	}
+	$token = Login
+	$timeout = ([datetime]::UtcNow).addhours(47).Ticks
+	$script:credentials = @{"timeout" = $timeout; "token" = $token}
+	Save-Blob $script:credentials
+	return $token
+}
+
+if( $runTests )
+{
+	Describe "Get-Token" {
+		It "login with no cached token, caches token" {
+			Save-Blob @{}
+			$script:credentials = $null
+			$token = Get-Token
+			$token | should not be $null
+			$token | should not be ""
+			$cc = Download-CredentialsCache
+			$cc | should not be $null
+			$cc.token | should be $script:credentials.token
+			$cc.timeout | should be $script:credentials.timeout
+			$cc.token | should be $token
+			
+		}
+		It "calling twice returns same token" {
+			$token = Get-Token
+			Get-Token | should be $token
+		}
+		It "calling twice clearing cache between each returns same token" {
+			$token = Get-Token
+			$script:credentials = $null
+			Get-Token | should be $token
+		}
+		It "calling twice clearing cache and blob between each returns different tokens" {
+			$token = Get-Token
+			$token | should not be $null
+			$token | should not be ""
+			Save-Blob @{}
+			$script:credentials = $null
+			$token2 = Get-Token
+			$token2 | should not be $token
+			$token2 | should not be $null
+			$token2 | should not be ""
+		}
+	}
+}
+
+
+function Get-Headers
+{
+	$token = Get-Token
+	$headers = Get-BasicHeaders
+	$headers.Add("Authorization", "Bearer $($token)");
+	return $headers
+}
 
 function Post
 {
@@ -86,7 +233,7 @@ function Post
 	$uri = "https://api.fallenlondon.com/api/$href"
 	if($payload -ne $null )
 	{
-		$content = $payload | ConvertTo-Json -Depth 99 | Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -Method POST | select -ExpandProperty Content
+		$content = $payload | ConvertTo-Json -Depth 99 | Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method POST | select -ExpandProperty Content
 	}
 	else
 	{
@@ -113,6 +260,16 @@ function ListStorylet
 {
 	Post -href "storylet"
 }
+
+if( $runTests )
+{
+	Describe "List-Storylet" {
+		It "can get storylets" {
+		ListStorylet | should not be $null
+		}
+	}
+}
+
 
 function GoBack
 {
@@ -207,4 +364,7 @@ function DoAction
 	}
 }
 
-DoAction (Get-Action)
+if(!$runTests)
+{
+	DoAction (Get-Action ([DateTime]::UtcNow))
+}
