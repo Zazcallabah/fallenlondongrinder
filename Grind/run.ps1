@@ -78,6 +78,7 @@ function Download-CredentialsCache
 	$blobcontent = $blob.ICloudBlob.DownloadText()
 	if( [string]::isNullOrWhitespace( $blobcontent ) )
 	{
+		Write-Error "invalid blob"
 		return $null
 	}
 	return $blobcontent | ConvertFrom-Json
@@ -106,7 +107,6 @@ if( $runTests )
 
 function Get-CachedToken
 {
-
 	$cached = Get-CredentialsObject
 
 	if( $cached -ne $null -and $cached.timeout -ne $null -and $cached.token -ne $null -and $cached.timeout -gt [DateTime]::UtcNow.Ticks )
@@ -144,6 +144,7 @@ function Get-BasicHeaders
 
 function Login
 {
+	Write-Warning "Doing explicit login"
 	$headers = Get-BasicHeaders
 	$email = $env:LOGIN_EMAIL
 	$password = $env:LOGIN_PASS
@@ -316,6 +317,8 @@ function DoAction
 			$secondbranch = $spl[3]
 		}
 	}
+	Write-Output "doing action $location $storyletname $branchname $secondbranch"
+	
 	$result	= ListStorylet
 	if( $result.storylet -ne $null )
 	{
