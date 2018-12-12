@@ -5,12 +5,19 @@ $script:actions = @(
 	"spite,Alleys,Cats,Black",
 	"spite,Alleys,Cats,Black",
 	"spite,Alleys,Cats,Black",
-	"spite,Alleys,Cats,Black",
-	"spite,Alleys,Cats,Black",
+	"ladybones,sketch,clandestine",
+	"ladybones,sketch,clandestine",
 	"ladybones,sketch,clandestine",
 	"ladybones,sketch,clandestine",
 	"veilgarden,writer,rapidly",
+	"veilgarden,writer,rapidly",
 	"veilgarden,writer,rework,daring",
+	"watchmakers,Rowdy,unruly",
+	"watchmakers,Rowdy,unruly",
+	"watchmakers,Rowdy,unruly",
+	"watchmakers,Rowdy,unruly",
+	"watchmakers,Rowdy,unruly",
+	"watchmakers,Rowdy,unruly",
 	"watchmakers,Rowdy,unruly",
 	"watchmakers,Rowdy,unruly",
 	"watchmakers,Rowdy,unruly"
@@ -253,6 +260,7 @@ function MoveTo
 	if($id -eq "watchmakers"){ $id = 5 }
 	if($id -eq "veilgarden"){ $id = 6 }
 	if($id -eq "spite"){ $id = 7 }
+	if($id -eq "carnival"){ $id = 18 }
 
 	Post -href "map/move/$id"
 }
