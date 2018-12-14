@@ -6,11 +6,17 @@ $script:actions = @(
 	"spite,Alleys,Cats,Black",
 	"spite,Alleys,Cats,Black",
 	"ladybones,sketch,clandestine",
-	"ladybones,sketch,clandestine",
-	"ladybones,sketch,clandestine",
-	"ladybones,sketch,clandestine",
+	"ladybones,courier,search",
+	"ladybones,courier,1",
+	"ladybones,courier,search",
 	"veilgarden,writer,rapidly",
+	"",
+	"",
+	"",
 	"veilgarden,writer,rapidly",
+	"",
+	"",
+	"",
 	"veilgarden,writer,rework,daring",
 	"watchmakers,Rowdy,unruly",
 	"watchmakers,Rowdy,unruly",
@@ -29,25 +35,25 @@ function Get-Action
 {
 	param($now)
 	$selectorH = $now.Hour * 3
-	$selectorM = [Math]::Floor($now.Minute / 20)
+	$selectorM = [Math]::Floor($now.Minute / 10)
 	$count = $selectorH + $selectorM
 	return $script:actions[$count%($script:actions.Length)]
 }
-
+0 1 2 3 4 5 6
 if($runTests)
 {
 	$script:actions =@( 0,1,2,3,4,5,6 )
 	Describe "Get-Action" {
 		It "selects based on time of day" {
 			Get-Action (new-object datetime 2018,1,1,0,0,0) | should be 0
-			Get-Action (new-object datetime 2018,1,1,0,20,0) | should be 1
+			Get-Action (new-object datetime 2018,1,1,0,10,0) | should be 1
 		}
 		It "handles minute/hour proper" {
-			Get-Action (new-object datetime 2018,1,1,1,40,0) | should be 5
-			Get-Action (new-object datetime 2018,1,1,2,0,0) | should be 6
+			Get-Action (new-object datetime 2018,1,1,0,50,0) | should be 5
+			Get-Action (new-object datetime 2018,1,1,1,0,0) | should be 6
 		}
 		It "cycles" {
-			Get-Action (new-object datetime 2018,1,1,2,0,0) | should be 6
+			Get-Action (new-object datetime 2018,1,1,2,0,0) | should be 5
 			Get-Action (new-object datetime 2018,1,1,2,20,0) | should be 0
 		}
 	}
@@ -297,16 +303,31 @@ function ChooseBranch
 	Post -href "storylet/choosebranch" -payload @{"branchId"=$id;"secondChanceIds"=@();}
 }
 
+function IsNumber
+{
+	param($str)
+	
+	return $str -match "^\d+$"
+}
+
 function GetStoryletId
 {
 	param($name)
 	$result = ListStorylet
+	if( IsNumber $name )
+	{
+		return $result.storylets | select -first 1 -skip ($name-1) -expandproperty id
+	}
 	return $result.storylets | ?{ $_.name -match $name } | select -first 1 -expandproperty id
 }
 
 function GetBranchId
 {
 	param($result,$name)
+	if( IsNumber $name )
+	{
+		return $result.storylet.childBranches | select -first 1 -skip ($name-1) -expandproperty id
+	}
 	return $result.storylet.childBranches | ?{ $_.name -match $name } | select -first 1 -expandproperty id
 }
 
@@ -335,7 +356,7 @@ function DoAction
 			$result = GoBack
 		}
 	}
-	if( $result.actions -lt 5 )
+	if( $result.actions -lt 20 )
 	{
 		write-warning "not enough actions left"
 		return
