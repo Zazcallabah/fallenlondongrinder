@@ -356,7 +356,7 @@ function DoAction
 			$result = GoBack
 		}
 	}
-	if( $result.actions -lt 20 )
+	if( $result.actions -lt 19 )
 	{
 		write-warning "not enough actions left"
 		return
