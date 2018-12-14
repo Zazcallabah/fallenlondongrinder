@@ -39,7 +39,6 @@ function Get-Action
 	$count = $selectorH + $selectorM
 	return $script:actions[$count%($script:actions.Length)]
 }
-0 1 2 3 4 5 6
 if($runTests)
 {
 	$script:actions =@( 0,1,2,3,4,5,6 )
