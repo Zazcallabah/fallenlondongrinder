@@ -2,29 +2,13 @@ param([switch]$runTests)
 
 $script:actions = @(
 	"spite,Alleys,Cats,Black",
-	"spite,Alleys,Cats,Black",
-	"spite,Alleys,Cats,Black",
-	"spite,Alleys,Cats,Black",
 	"ladybones,sketch,clandestine",
 	"ladybones,courier,search",
 	"ladybones,courier,1",
 	"ladybones,courier,search",
 	"veilgarden,writer,rapidly",
-	"",
-	"",
-	"",
 	"veilgarden,writer,rapidly",
-	"",
-	"",
-	"",
 	"veilgarden,writer,rework,daring",
-	"watchmakers,Rowdy,unruly",
-	"watchmakers,Rowdy,unruly",
-	"watchmakers,Rowdy,unruly",
-	"watchmakers,Rowdy,unruly",
-	"watchmakers,Rowdy,unruly",
-	"watchmakers,Rowdy,unruly",
-	"watchmakers,Rowdy,unruly",
 	"watchmakers,Rowdy,unruly",
 	"watchmakers,Rowdy,unruly"
 )
@@ -34,26 +18,20 @@ $script:uastring = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/201
 function Get-Action
 {
 	param($now)
-	$selectorH = $now.Hour * 3
-	$selectorM = [Math]::Floor($now.Minute / 10)
-	$count = $selectorH + $selectorM
-	return $script:actions[$count%($script:actions.Length)]
+	$selector = $now.DayOfYear
+	return $script:actions[$selector%($script:actions.Length)]
 }
 if($runTests)
 {
 	$script:actions =@( 0,1,2,3,4,5,6 )
 	Describe "Get-Action" {
-		It "selects based on time of day" {
-			Get-Action (new-object datetime 2018,1,1,0,0,0) | should be 0
+		It "selects based on day of year" {
+			Get-Action (new-object datetime 2018,1,1,0,0,0) | should be 1
 			Get-Action (new-object datetime 2018,1,1,0,10,0) | should be 1
 		}
-		It "handles minute/hour proper" {
-			Get-Action (new-object datetime 2018,1,1,0,50,0) | should be 5
-			Get-Action (new-object datetime 2018,1,1,1,0,0) | should be 6
-		}
 		It "cycles" {
-			Get-Action (new-object datetime 2018,1,1,2,0,0) | should be 5
-			Get-Action (new-object datetime 2018,1,1,2,20,0) | should be 0
+			Get-Action (new-object datetime 2018,1,6,2,0,0) | should be 6
+			Get-Action (new-object datetime 2018,1,7,2,0,0) | should be 0
 		}
 	}
 }
