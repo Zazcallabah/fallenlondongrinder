@@ -326,17 +326,17 @@ function DoAction
 	Write-Output "doing action $location $storyletname $branchname $secondbranch"
 	
 	$result	= ListStorylet
+	if( $result.actions -lt 19 )
+	{
+		write-warning "not enough actions left"
+		return
+	}
 	if( $result.storylet -ne $null )
 	{
 		if( $result.storylet.canGoBack )
 		{
 			$result = GoBack
 		}
-	}
-	if( $result.actions -lt 19 )
-	{
-		write-warning "not enough actions left"
-		return
 	}
 	if( $result.storylets -ne $null )
 	{
