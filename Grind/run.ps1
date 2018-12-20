@@ -9,6 +9,7 @@ $script:actions = @(
 	"veilgarden,writer,rapidly",
 	"veilgarden,writer,rapidly",
 	"veilgarden,writer,rework,daring",
+	"veilgarden,literary,1",
 	"watchmakers,Rowdy,unruly",
 	"watchmakers,Rowdy,unruly"
 )
