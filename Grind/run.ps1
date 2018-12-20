@@ -245,6 +245,7 @@ function MoveTo
 	if($id -eq "veilgarden"){ $id = 6 }
 	if($id -eq "spite"){ $id = 7 }
 	if($id -eq "carnival"){ $id = 18 }
+	if($id -eq "forgottenquarter"){ $id = 9 }
 
 	Post -href "map/move/$id"
 }
