@@ -2,13 +2,11 @@ param([switch]$runTests)
 
 $script:actions = @(
 	"spite,Alleys,Cats,Black",
-	"ladybones,sketch,clandestine",
-	"ladybones,courier,search",
-	"ladybones,courier,1",
-	"ladybones,courier,search",
+	"ladybones,spirifer,1"
 	"veilgarden,writer,rapidly",
 	"veilgarden,writer,rapidly",
 	"veilgarden,writer,rework,daring",
+	"veilgarden,archaeology,1",
 	"veilgarden,literary,1",
 	"watchmakers,Rowdy,unruly",
 	"watchmakers,Rowdy,unruly"
