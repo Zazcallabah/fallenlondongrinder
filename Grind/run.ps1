@@ -8,6 +8,8 @@ $script:actions = @(
 	"veilgarden,writer,rework,daring",
 	"veilgarden,archaeology,1",
 	"veilgarden,literary,1",
+	"veilgarden,seamstress,1",
+	"veilgarden,rescue,publisher",
 	"watchmakers,Rowdy,unruly",
 	"watchmakers,Rowdy,unruly"
 )
@@ -218,16 +220,16 @@ function Get-Headers
 
 function Post
 {
-	param($href,$payload)
+	param($href,$payload,$method="POST")
 	$headers = Get-Headers
 	$uri = "https://api.fallenlondon.com/api/$href"
 	if($payload -ne $null )
 	{
-		$content = $payload | ConvertTo-Json -Depth 99 | Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method POST | select -ExpandProperty Content
+		$content = $payload | ConvertTo-Json -Depth 99 | Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method | select -ExpandProperty Content
 	}
 	else
 	{
-		$content = Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -Method POST | select -ExpandProperty Content
+		$content = Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -Method $method | select -ExpandProperty Content
 	}
 	$result = $content | ConvertFrom-Json
 	return $result
@@ -262,6 +264,11 @@ if( $runTests )
 	}
 }
 
+
+function Myself
+{
+	Post -href "character/myself" -method "GET"
+}
 
 function GoBack
 {
@@ -305,7 +312,33 @@ function GetBranchId
 	{
 		return $result.storylet.childBranches | select -first 1 -skip ($name-1) -expandproperty id
 	}
-	return $result.storylet.childBranches | ?{ $_.name -match $name } | select -first 1 -expandproperty id
+	return $result.storylet.childBranches | ?{ $_.name -match $name -and $_.isLocked -eq $false } | select -first 1 -expandproperty id
+}
+
+function LowerMenaces
+{
+	$myself = Myself
+	$menaces = $myself.possessions | ?{ $_.name -eq "Menaces" }
+	if( $menaces -eq $null )
+	{
+		write-host "no menaces"
+		return $false
+	}
+	$scandal = $menaces.possessions | ?{ $_.name -eq "Scandal" }
+	if( $scandal -ne $null -and $scandal.effectiveLevel -ge 3 )
+	{
+		write-host "lowering scandal"
+		DoAction "lodgings,scandal,service"
+		return $true
+	}
+	$wounds = $menaces.possessions | ?{ $_.name -eq "Wounds" }
+	if( $wounds -ne $null -and $wounds.effectiveLevel -ge 2 )
+	{
+		write-host "lowering wounds"
+		DoAction "lodgings,wounds,time"
+		return $true
+	}
+	return $false
 }
 
 function DoAction
@@ -375,5 +408,8 @@ function DoAction
 
 if(!$runTests)
 {
-	DoAction (Get-Action ([DateTime]::UtcNow))
+	if( !(LowerMenaces) )
+	{
+		DoAction (Get-Action ([DateTime]::UtcNow))
+	}
 }
