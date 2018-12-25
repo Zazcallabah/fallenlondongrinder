@@ -11,6 +11,7 @@ $script:actions = @(
 	"veilgarden,seamstress,1",
 	"veilgarden,rescue,publisher",
 	"watchmakers,Rowdy,unruly",
+	"ladybones,warehouse,1",
 	"watchmakers,Rowdy,unruly"
 )
 
@@ -265,6 +266,11 @@ if( $runTests )
 }
 
 
+function User
+{
+	Post -href "login/user" -method "GET"
+}
+
 function Myself
 {
 	Post -href "character/myself" -method "GET"
@@ -318,6 +324,11 @@ function GetBranchId
 function LowerMenaces
 {
 	$myself = Myself
+	if( $myself.character.actions -lt 19 )
+	{
+		write-warning "not enough actions left"
+		return $true
+	}
 	$menaces = $myself.possessions | ?{ $_.name -eq "Menaces" }
 	if( $menaces -eq $null )
 	{
@@ -359,11 +370,7 @@ function DoAction
 	Write-Output "doing action $location $storyletname $branchname $secondbranch"
 	
 	$result	= ListStorylet
-	if( $result.actions -lt 19 )
-	{
-		write-warning "not enough actions left"
-		return
-	}
+	
 	if( $result.storylet -ne $null )
 	{
 		if( $result.storylet.canGoBack )
