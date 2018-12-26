@@ -255,12 +255,11 @@ function ListStorylet
 {
 	Post -href "storylet"
 }
-
 if( $runTests )
 {
 	Describe "List-Storylet" {
 		It "can get storylets" {
-		ListStorylet | should not be $null
+			ListStorylet | should not be $null
 		}
 	}
 }
@@ -273,7 +272,11 @@ function User
 
 function Myself
 {
-	Post -href "character/myself" -method "GET"
+	if( $script:myself -eq $null )
+	{
+		$script:myself = Post -href "character/myself" -method "GET"
+	}
+	return $script:myself
 }
 
 function GoBack
@@ -321,38 +324,68 @@ function GetBranchId
 	return $result.storylet.childBranches | ?{ $_.name -match $name -and $_.isLocked -eq $false } | select -first 1 -expandproperty id
 }
 
-function LowerMenaces
+function HasActionsToSpare
 {
-	$myself = Myself
-	if( $myself.character.actions -lt 19 )
+	if( (Myself).character.actions -lt 19 )
 	{
 		write-warning "not enough actions left"
-		return $true
-	}
-	$menaces = $myself.possessions | ?{ $_.name -eq "Menaces" }
-	if( $menaces -eq $null )
-	{
-		write-host "no menaces"
 		return $false
 	}
-	$scandal = $menaces.possessions | ?{ $_.name -eq "Scandal" }
+	return $true
+}
+
+function GetPossession
+{
+	param( $category, $name )
+	$myself = Myself
+	$category = $myself.possessions | ?{ $_.name -eq $category } | select -first 1
+	if( $category -eq $null )
+	{
+		write-warning "no category $category"
+		return $null
+	}
+	return $category.possessions | ?{ $_.name -eq $name } | select -first 1
+}
+
+function LowerNightmares
+{
+	$secrets = GetPossession "Mysteries" "Appalling Secret"
+	if( $secrets -ne $null -and $secrets.level -ge 10 )
+	{
+		#use secrets
+		return
+	}
+	# else "spite,Alleys,Cats,Black"?
+	$clues = GetPossession "Mysteries" "Cryptic Clues"
+	if( $clues -ne $null -and $clues.level -ge 500 )
+	{
+		# use clues
+		return
+	}
+	DoAction "spite,Alleys,Cats,Grey"
+}
+
+function HasMenaces
+{
+	$scandal = GetPossession "Menaces" "Scandal"
 	if( $scandal -ne $null -and $scandal.effectiveLevel -ge 3 )
 	{
 		write-host "lowering scandal"
 		DoAction "lodgings,scandal,service"
 		return $true
 	}
-	$wounds = $menaces.possessions | ?{ $_.name -eq "Wounds" }
+	$wounds = GetPossession "Menaces" "Wounds"
 	if( $wounds -ne $null -and $wounds.effectiveLevel -ge 2 )
 	{
 		write-host "lowering wounds"
 		DoAction "lodgings,wounds,time"
 		return $true
 	}
-	$nightmares = $menaces.possessions | ?{ $_.name -eq "Nightmares" }
-	if( $nightmares -ne $null -and $nightmares.effectiveLevel -ge 7 )
+	$nightmares = GetPossession "Menaces" "Nightmares"
+	if( $nightmares -ne $null -and $nightmares.effectiveLevel -ge 5 )
 	{
 		write-host "has nightmares"
+		LowerNightmares
 		return $true
 	}
 	return $false
@@ -419,10 +452,26 @@ function DoAction
 	}
 }
 
+function IsInForcedStorylet
+{
+	$user = User
+	if( $user.area.id -eq 13 )
+	{
+		write-warning "a state of some confusion"
+		#DoAction "13,drink,1"
+		return $true
+	}
+	return $false
+}
+
 if(!$runTests)
 {
-	if( !(LowerMenaces) )
+	if( HasActionsToSpare )
 	{
+		if( IsInForcedStorylet -or HasMenaces )
+		{
+			return
+		}
 		DoAction (Get-Action ([DateTime]::UtcNow))
 	}
 }
