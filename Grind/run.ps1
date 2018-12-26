@@ -1,18 +1,18 @@
 param([switch]$runTests)
 
 $script:actions = @(
-	"spite,Alleys,Cats,Black",
-	"ladybones,spirifer,1"
-	"veilgarden,writer,rapidly",
-	"veilgarden,writer,rapidly",
-	"veilgarden,writer,rework,daring",
-	"veilgarden,archaeology,1",
-	"veilgarden,literary,1",
-	"veilgarden,seamstress,1",
-	"veilgarden,rescue,publisher",
-	"watchmakers,Rowdy,unruly",
-	"ladybones,warehouse,1",
-	"watchmakers,Rowdy,unruly"
+	# "spite,Alleys,Cats,Black",
+	# "ladybones,spirifer,1"
+	# "veilgarden,writer,rapidly",
+	# "veilgarden,writer,rapidly",
+	# "veilgarden,writer,rework,daring",
+	# "veilgarden,archaeology,1",
+	# "veilgarden,literary,1",
+	# "veilgarden,seamstress,1",
+	# "veilgarden,rescue,publisher",
+	# "watchmakers,Rowdy,unruly",
+	"ladybones,warehouse,1"
+#	"watchmakers,Rowdy,unruly"
 )
 
 $script:uastring = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
@@ -347,6 +347,12 @@ function LowerMenaces
 	{
 		write-host "lowering wounds"
 		DoAction "lodgings,wounds,time"
+		return $true
+	}
+	$nightmares = $menaces.possessions | ?{ $_.name -eq "Nightmares" }
+	if( $nightmares -ne $null -and $nightmares.effectiveLevel -ge 7 )
+	{
+		write-host "has nightmares"
 		return $true
 	}
 	return $false
