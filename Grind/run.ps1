@@ -1,21 +1,21 @@
 param([switch]$runTests)
 
+. $PSScriptRoot\apicalls.ps1 -runTests:$runTests
+
+
+
 $script:actions = @(
-	# "spite,Alleys,Cats,Black",
-	# "ladybones,spirifer,1"
+	"ladybones,spirifer,1"
 	# "veilgarden,writer,rapidly",
 	# "veilgarden,writer,rapidly",
 	# "veilgarden,writer,rework,daring",
-	# "veilgarden,archaeology,1",
-	# "veilgarden,literary,1",
-	# "veilgarden,seamstress,1",
-	# "veilgarden,rescue,publisher",
-	# "watchmakers,Rowdy,unruly",
+	"veilgarden,archaeology,1",
+	"veilgarden,literary,1",
+	"veilgarden,seamstress,1",
+	"veilgarden,rescue,publisher",
 	"ladybones,warehouse,1"
-#	"watchmakers,Rowdy,unruly"
+	"watchmakers,Rowdy,unruly"
 )
-
-$script:uastring = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
 
 function Get-Action
 {
@@ -23,6 +23,7 @@ function Get-Action
 	$selector = $now.DayOfYear
 	return $script:actions[$selector%($script:actions.Length)]
 }
+
 if($runTests)
 {
 	$script:actions =@( 0,1,2,3,4,5,6 )
@@ -39,261 +40,46 @@ if($runTests)
 }
 
 
-function Get-Blob
+
+function GetUserLocation
 {
-	$accountContext = New-AzureStorageContext -SasToken $env:BLOB_SAS -storageaccountname "fallenlondongrinder"
-	return Get-AzureStorageBlob -Context $accountContext -Container persist -blob "credentials.json"
+	return (User).area.id
 }
 
-function Save-Blob
+function IsInLocation
 {
-	param($obj)
-	$blob = Get-Blob
-	$blob.ICloudBlob.UploadText( ($obj | ConvertTo-Json) )
+	param($location)
+	$id = GetLocationId $location
+	return (GetUserLocation) -eq $id
 }
 
-if($runTests)
+function IsInForcedStorylet
 {
-	Describe "Get-Blob" {
-		It "gets blob object" {
-			$blob = Get-Blob
-			$blob | should not be $null
-			$blob.GetType().Name | should be "AzureStorageBlob"
-		}
-	}
-}
-
-
-function Download-CredentialsCache
-{
-	$blob = Get-Blob
-	$blobcontent = $blob.ICloudBlob.DownloadText()
-	if( [string]::isNullOrWhitespace( $blobcontent ) )
+	if( IsInLocation "confusion" )
 	{
-		Write-Error "invalid blob"
-		return $null
+		write-warning "a state of some confusion"
+		#DoAction "13,drink,1"
+		return $true
 	}
-	return $blobcontent | ConvertFrom-Json
+	# if is in newgate prison (missing id)
+	# do nonrisk action to lower suspicion
+	return $false
 }
 
-function Get-CredentialsObject
+function ExitIfInStorylet
 {
-	if( $script:credentials -eq $null )
+	$result	= ListStorylet
+	
+	if( $result.storylet -ne $null )
 	{
-		$script:credentials = Download-CredentialsCache
-	}
-	return $script:credentials
-}
-
-if( $runTests )
-{
-	Describe "Get-CredentialsObject" {
-		It "sets scriptcredentials if null" {
-			$script:credentials = $null
-			$obj = Get-CredentialsObject
-			$script:credentials | should not be $null
+		if( $result.storylet.canGoBack )
+		{
+			write-verbose "exiting storylet"
+			return GoBack
 		}
 	}
-}
-
-
-function Get-CachedToken
-{
-	$cached = Get-CredentialsObject
-
-	if( $cached -ne $null -and $cached.timeout -ne $null -and $cached.token -ne $null -and $cached.timeout -gt [DateTime]::UtcNow.Ticks )
-	{
-		return $cached.token
-	}
-	return $null
-}
-
-if( $runTests )
-{
-	$onesecond = 10000000
-	Describe "Get-CachedToken" {
-		It "returns null if timed out" {
-			$script:credentials = @{"timeout"=[DateTime]::UtcNow.Ticks - $onesecond; "token" = "notused" }
-			Get-CachedToken | should be $null
-		}
-		It "returns token if not timed out" {
-			$script:credentials = @{"timeout"=[DateTime]::UtcNow.Ticks + $onesecond; "token" = "secrettoken" }
-			Get-CachedToken | should be "secrettoken"
-		}
-		$script:credentials = $null
-	}
-}
-
-
-function Get-BasicHeaders
-{
-	return @{
-		"Content-Type" = "application/json";
-		"Host" = "api.fallenlondon.com";
-		"Accept" = "application/json";
-	}
-}
-
-function Login
-{
-	Write-Warning "Doing explicit login"
-	$headers = Get-BasicHeaders
-	$email = $env:LOGIN_EMAIL
-	$password = $env:LOGIN_PASS
-	$payload = @{ "email" = $email; "password" = $password; }
-	$uri = "https://api.fallenlondon.com/api/login"
-	$token = $payload | ConvertTo-Json | Invoke-WebRequest -UseBasicParsing -Uri $uri -Method POST -UserAgent $script:uastring -Headers $headers | Select -Expandproperty Content | convertfrom-json | select -expandproperty jwt
-	return $token
-}
-
-if( $runTests )
-{
-	Describe "Login" {
-		It "returns token" {
-			$token = Login
-			$token | should not be $null
-		}
-	}
-}
-
-
-function Get-Token
-{
-	$token = Get-CachedToken
-	if($token -ne $null )
-	{
-		return $token
-	}
-	$token = Login
-	$timeout = ([datetime]::UtcNow).addhours(47).Ticks
-	$script:credentials = @{"timeout" = $timeout; "token" = $token}
-	Save-Blob $script:credentials
-	return $token
-}
-
-if( $runTests )
-{
-	Describe "Get-Token" {
-		It "login with no cached token, caches token" {
-			Save-Blob @{}
-			$script:credentials = $null
-			$token = Get-Token
-			$token | should not be $null
-			$token | should not be ""
-			$cc = Download-CredentialsCache
-			$cc | should not be $null
-			$cc.token | should be $script:credentials.token
-			$cc.timeout | should be $script:credentials.timeout
-			$cc.token | should be $token
-			
-		}
-		It "calling twice returns same token" {
-			$token = Get-Token
-			Get-Token | should be $token
-		}
-		It "calling twice clearing cache between each returns same token" {
-			$token = Get-Token
-			$script:credentials = $null
-			Get-Token | should be $token
-		}
-		It "calling twice clearing cache and blob between each returns different tokens" {
-			$token = Get-Token
-			$token | should not be $null
-			$token | should not be ""
-			Save-Blob @{}
-			$script:credentials = $null
-			$token2 = Get-Token
-			$token2 | should not be $token
-			$token2 | should not be $null
-			$token2 | should not be ""
-		}
-	}
-}
-
-
-function Get-Headers
-{
-	$token = Get-Token
-	$headers = Get-BasicHeaders
-	$headers.Add("Authorization", "Bearer $($token)");
-	return $headers
-}
-
-function Post
-{
-	param($href,$payload,$method="POST")
-	$headers = Get-Headers
-	$uri = "https://api.fallenlondon.com/api/$href"
-	if($payload -ne $null )
-	{
-		$content = $payload | ConvertTo-Json -Depth 99 | Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method | select -ExpandProperty Content
-	}
-	else
-	{
-		$content = Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -Method $method | select -ExpandProperty Content
-	}
-	$result = $content | ConvertFrom-Json
+	
 	return $result
-}
-
-function MoveTo
-{
-	param($id)
-
-	if($id -eq "lodgings"){ $id = 2 }
-	if($id -eq "ladybones"){ $id = 4 }
-	if($id -eq "watchmakers"){ $id = 5 }
-	if($id -eq "veilgarden"){ $id = 6 }
-	if($id -eq "spite"){ $id = 7 }
-	if($id -eq "carnival"){ $id = 18 }
-	if($id -eq "forgottenquarter"){ $id = 9 }
-
-	Post -href "map/move/$id"
-}
-
-function ListStorylet
-{
-	Post -href "storylet"
-}
-if( $runTests )
-{
-	Describe "List-Storylet" {
-		It "can get storylets" {
-			ListStorylet | should not be $null
-		}
-	}
-}
-
-
-function User
-{
-	Post -href "login/user" -method "GET"
-}
-
-function Myself
-{
-	if( $script:myself -eq $null )
-	{
-		$script:myself = Post -href "character/myself" -method "GET"
-	}
-	return $script:myself
-}
-
-function GoBack
-{
-	Post -href "storylet/goback"
-}
-
-function BeginStorylet
-{
-	param($id)
-	Post -href "storylet/begin" -payload @{ "eventId" = $id }
-}
-
-function ChooseBranch
-{
-	param($id)
-	Post -href "storylet/choosebranch" -payload @{"branchId"=$id;"secondChanceIds"=@();}
 }
 
 function IsNumber
@@ -314,14 +100,148 @@ function GetStoryletId
 	return $result.storylets | ?{ $_.name -match $name } | select -first 1 -expandproperty id
 }
 
-function GetBranchId
+if($runTests)
+{
+	Describe "GetUserLocation" {
+		It "can get current location" {
+			ExitIfInStorylet
+			GetUserLocation | should not be $null
+		}
+	}
+	$location = GetUserLocation
+	if( $location -ge 2 -and $location -le 7 )
+	{
+		# sanity check, not in forced location (we're not able to detect all forced locations yet)
+		Describe "IsinforcedStorylet" {
+			It "is false" {
+				IsInForcedStorylet | should be $false
+			}
+		}
+		
+		Describe "MoveTo" {
+			It "can move" {
+				$result = MoveTo "spite"
+				$result.area.name | should be "Spite"
+				GetUserLocation | should be 7
+			}
+			It "can move to lodgings" {
+				$result = MoveTo "lodgings"
+				$result.area.name | should be "Your Lodgings"
+				GetUserLocation | should be 2
+			}
+		}
+	}
+	
+	Describe "GetStoryletId" {
+		It "can get storylet id by name" {
+			GetStoryletId "Society" | should be 276092
+		}
+	}
+	
+	Describe "BeginStorylet" {
+		It "can begin storylet" {
+			$result = BeginStorylet 276092
+			$result.isSuccess | should be $true
+			$result.storylet | should not be $null
+			$result.storylet.cangoback | should be $true
+		}
+	}
+	
+	Describe "Exit Storylet" {
+		It "can back out of chosen storylet" {
+			$result = ExitIfInStorylet
+			$result.storylet | should be $null
+			$result.storylets | should not be $null
+		}
+		It "does nothing if exiting and no storylet is chosen" {
+			$result = ExitIfInStorylet
+			$result.storylet | should be $null
+			$result.storylets | should not be $null
+		}
+	}
+}
+
+
+
+function GetPossession
+{
+	param( $category, $name )
+	$category = (Myself).possessions | ?{ $_.name -eq $category } | select -first 1
+	if( $category -eq $null )
+	{
+		write-warning "no category $category"
+		return $null
+	}
+	return $category.possessions | ?{ $_.name -eq $name } | select -first 1
+}
+
+if($runTests)
+{
+	Describe "GetPossession" {
+		It "can get possession" {
+			$hints = GetPossession "Mysteries" "Whispered Hint"
+			$hints.id | should be 380
+		}
+	}
+}
+
+
+
+function PerformAction
 {
 	param($result,$name)
 	if( IsNumber $name )
 	{
-		return $result.storylet.childBranches | select -first 1 -skip ($name-1) -expandproperty id
+		$branch = $result.storylet.childBranches | select -first 1 -skip ($name-1)
 	}
-	return $result.storylet.childBranches | ?{ $_.name -match $name -and $_.isLocked -eq $false } | select -first 1 -expandproperty id
+	else
+	{
+		$branch = $result.storylet.childBranches | ?{ $_.name -match $name -and $_.isLocked -eq $false } | select -first 1
+	}
+	
+	if( $branch -ne $null )
+	{
+		return ChooseBranch $branch.id
+	}
+}
+
+function EnterStoryletAndPerformAction
+{
+	param($storyletname, $name)
+	$storyletid = GetStoryletId $storyletname
+	$result = BeginStorylet $storyletid
+	return PerformAction $result $name
+}
+
+function PerformActionFromCurrent
+{
+	param($name)
+	$result = ListStorylet
+	return PerformAction $result $name
+}
+
+if($runTests)
+{
+	Describe "EnterStoryletPerformAction" {
+		It "can perform action" {
+			MoveTo "spite"
+			$result = EnterStoryletAndPerformAction "Alleys" "Cats"
+			$result.isSuccess | should be $true
+			$result.endStorylet | should not be $null
+		}
+	}
+}
+
+
+
+function UseItem
+{
+	param($id,$branch)
+	$result = UseQuality $id
+	if($result.isSuccess)
+	{
+		PerformActionFromCurrent $branch
+	}
 }
 
 function HasActionsToSpare
@@ -334,39 +254,32 @@ function HasActionsToSpare
 	return $true
 }
 
-function GetPossession
-{
-	param( $category, $name )
-	$myself = Myself
-	$category = $myself.possessions | ?{ $_.name -eq $category } | select -first 1
-	if( $category -eq $null )
-	{
-		write-warning "no category $category"
-		return $null
-	}
-	return $category.possessions | ?{ $_.name -eq $name } | select -first 1
-}
+
 
 function LowerNightmares
 {
 	$secrets = GetPossession "Mysteries" "Appalling Secret"
 	if( $secrets -ne $null -and $secrets.level -ge 10 )
 	{
-		#use secrets
+		Write-host "using secret to lower nightmares"
+		UseItem $secrets.id "1"
 		return
 	}
-	# else "spite,Alleys,Cats,Black"?
+	# else "spite,Alleys,Cats,Black"? - no, only 1 secret/action instead of 70/21 actions
 	$clues = GetPossession "Mysteries" "Cryptic Clues"
 	if( $clues -ne $null -and $clues.level -ge 500 )
 	{
-		# use clues
+		Write-host "converting clues to secrets"
+		UseItem $clues.id "great many"
 		return
 	}
+	Write-host "catch a grey cat for clues"
 	DoAction "spite,Alleys,Cats,Grey"
 }
 
 function HasMenaces
 {
+	write-host "checkeing menaces"
 	$scandal = GetPossession "Menaces" "Scandal"
 	if( $scandal -ne $null -and $scandal.effectiveLevel -ge 3 )
 	{
@@ -408,67 +321,39 @@ function DoAction
 	}
 	Write-Output "doing action $location $storyletname $branchname $secondbranch"
 	
-	$result	= ListStorylet
 	
-	if( $result.storylet -ne $null )
+	$result = ExitIfInStorylet
+	
+	if( !(IsInLocation $location) )
 	{
-		if( $result.storylet.canGoBack )
-		{
-			$result = GoBack
-		}
+		$result = MoveTo $location
 	}
+	
 	if( $result.storylets -ne $null )
 	{
-		$storyletid = GetStoryletId $storyletname
-		if( $storyletid -eq $null )
-		{
-			$l = MoveTo $location
-			$storyletid = GetStoryletId $storyletname
-		}
-		
-		$result = BeginStorylet $storyletid
-		$branchid = GetBranchId -result $result -name $branchname
-		if( $branchid -ne $null )
-		{
-			ChooseBranch $branchid
-			if( $secondbranch -ne $null )
-			{
-				$result = ListStorylet
-				$branchid = GetBranchId -result $result -name $secondbranch
-				if( $branchid -ne $null )
-				{
-					ChooseBranch $branchid
-				}
-				else
-				{
-					write-warning "second $secondbranch not found"
-				}
-			}
-		}
-		else
+		$result = EnterStoryletAndPerformAction $storyletname $branchname
+		if( $result -eq  $null )
 		{
 			write-warning "$branchname not found"
+		}
+
+		if( $secondbranch -ne $null )
+		{
+			$result = PerformActionFromCurrent $secondbranch
+			if( $result -eq $null )
+			{
+				write-warning "second $secondbranch not found"
+			}
 		}
 	}
 }
 
-function IsInForcedStorylet
-{
-	$user = User
-	if( $user.area.id -eq 13 )
-	{
-		write-warning "a state of some confusion"
-		#DoAction "13,drink,1"
-		return $true
-	}
-	return $false
-}
 
 if(!$runTests)
 {
 	if( HasActionsToSpare )
 	{
-		if( IsInForcedStorylet -or HasMenaces )
+		if( (IsInForcedStorylet) -or (HasMenaces) )
 		{
 			return
 		}
