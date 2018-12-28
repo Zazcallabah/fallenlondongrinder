@@ -1,4 +1,4 @@
-param([switch]$runTests)
+param([switch]$runTests,[switch]$force)
 
 
 if($env:Home -eq $null)
@@ -20,8 +20,9 @@ $script:actions = @(
 	#"ladybones,warehouse,1"
 	#"carnival,games,high"
 	#"watchmakers,Rowdy,unruly"
-	"carnival,big,?"
-	"carnival,sideshows,?"
+	#"carnival,big,?"
+	#"carnival,sideshows,?"
+	"empresscourt,Matters,artistically"
 )
 
 function Get-Action
@@ -265,6 +266,10 @@ function UseItem
 
 function HasActionsToSpare
 {
+	if($force)
+	{
+		return $true
+	}
 	if( (Myself).character.actions -lt 19 )
 	{
 		write-warning "not enough actions left"
@@ -397,7 +402,14 @@ function DoAction
 	
 	if( !(IsInLocation $location) )
 	{
-		$result = MoveTo $location
+		if( $location -eq "empresscourt" )
+		{
+			DoAction "shutteredpalace,Spend,1"
+		}
+		else
+		{
+			$result = MoveTo $location
+		}
 	}
 
 	if( IsInLocation "carnival" )

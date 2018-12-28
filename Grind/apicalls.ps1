@@ -132,6 +132,8 @@ function GetLocationId
 	if($id -eq "spite"){ $id = 7 }
 	if($id -eq "carnival"){ $id = 18 }
 	if($id -eq "forgottenquarter"){ $id = 9 }
+	if($id -eq "shutteredpalace"){ $id = 10 }
+	if($id -eq "empresscourt"){ $id = 26 }
 	if($id -eq "confusion"){ $id = 13 }
 	
 	return $id
