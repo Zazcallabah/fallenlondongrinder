@@ -396,9 +396,12 @@ function DoAction
 		$result = MoveTo $location
 	}
 
-	if( !(EnsureTickets) )
+	if( IsInLocation "carnival" )
 	{
-		return
+		if(!(EnsureTickets))
+		{
+			return
+		}
 	}
 	
 	if( $result.storylets -ne $null )
