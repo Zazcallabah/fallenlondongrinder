@@ -199,6 +199,10 @@ function PerformAction
 	param($result,$name)
 	
 	$childBranches = $result.storylet.childBranches | ?{ !$_.isLocked }
+	if( $childBranches -eq $null )
+	{
+		return $null
+	}
 	
 	if( $name -eq "?" )
 	{
@@ -303,7 +307,8 @@ function EnsureTickets
 		return $true
 	}
 	write-host "need tickets for the carnival"
-	$clues = GetPossession "Mysteries" "Cryptic Clues"
+	$clues = GetPossession "Mysteries" "Cryptic Clue"
+	
 	if( $clues -ne $null -and $clues.level -ge 20 )
 	{
 		Write-Host "buying tickets using clues"
@@ -328,7 +333,7 @@ function LowerNightmares
 		return
 	}
 	# else "spite,Alleys,Cats,Black"? - no, only 1 secret/action instead of 70/21 actions
-	$clues = GetPossession "Mysteries" "Cryptic Clues"
+	$clues = GetPossession "Mysteries" "Cryptic Clue"
 	if( $clues -ne $null -and $clues.level -ge 500 )
 	{
 		Write-host "converting clues to secrets"
@@ -341,7 +346,6 @@ function LowerNightmares
 
 function HasMenaces
 {
-	write-host "checkeing menaces"
 	$scandal = GetPossession "Menaces" "Scandal"
 	if( $scandal -ne $null -and $scandal.effectiveLevel -ge 3 )
 	{
@@ -381,7 +385,7 @@ function DoAction
 			$secondbranch = $spl[3]
 		}
 	}
-	Write-Output "doing action $location $storyletname $branchname $secondbranch"
+	Write-host "doing action $location $storyletname $branchname $secondbranch"
 	
 	if( $location -eq "writing" )
 	{
@@ -404,21 +408,18 @@ function DoAction
 		}
 	}
 	
-	if( $result.storylets -ne $null )
+	$result = EnterStoryletAndPerformAction $storyletname $branchname
+	if( $result -eq $null )
 	{
-		$result = EnterStoryletAndPerformAction $storyletname $branchname
-		if( $result -eq  $null )
-		{
-			write-warning "$branchname not found"
-		}
+		write-warning "$branchname not found"
+	}
 
-		if( $secondbranch -ne $null )
+	if( $secondbranch -ne $null )
+	{
+		$result = PerformActionFromCurrent $secondbranch
+		if( $result -eq $null )
 		{
-			$result = PerformActionFromCurrent $secondbranch
-			if( $result -eq $null )
-			{
-				write-warning "second $secondbranch not found"
-			}
+			write-warning "second $secondbranch not found"
 		}
 	}
 }
