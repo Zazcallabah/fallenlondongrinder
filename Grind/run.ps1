@@ -12,16 +12,16 @@ else
 
 
 $script:actions = @(
-	"ladybones,spirifer,1"
-	# "veilgarden,writer,rapidly",
-	# "veilgarden,writer,rapidly",
-	# "veilgarden,writer,rework,daring",
-	"veilgarden,archaeology,1",
-	"veilgarden,literary,1",
-	"veilgarden,seamstress,1",
-	"veilgarden,rescue,publisher",
-	"ladybones,warehouse,1"
-	"watchmakers,Rowdy,unruly"
+	#"ladybones,spirifer,1"
+	#"veilgarden,archaeology,1"
+	#"veilgarden,literary,1"
+	#"veilgarden,seamstress,1"
+	#"veilgarden,rescue,publisher"
+	#"ladybones,warehouse,1"
+	#"carnival,games,high"
+	#"watchmakers,Rowdy,unruly"
+	"carnival,big,?"
+	"carnival,sideshows,?"
 )
 
 function Get-Action
@@ -197,13 +197,21 @@ if($runTests)
 function PerformAction
 {
 	param($result,$name)
+	
+	$childBranches = $result.storylet.childBranches | ?{ !$_.isLocked }
+	
+	if( $name -eq "?" )
+	{
+		$name = (random $childBranches.length)+1
+	}
+	
 	if( IsNumber $name )
 	{
-		$branch = $result.storylet.childBranches | select -first 1 -skip ($name-1)
+		$branch = $childBranches[$name-1]
 	}
 	else
 	{
-		$branch = $result.storylet.childBranches | ?{ $_.name -match $name -and $_.isLocked -eq $false } | select -first 1
+		$branch = $childBranches | ?{ $_.name -match $name } | select -first 1
 	}
 	
 	if( $branch -ne $null )
@@ -262,7 +270,30 @@ function HasActionsToSpare
 }
 
 
-
+function Writing
+{
+	$potential = GetPossession "Progress" "Potential"
+	if( $potential -eq $null )
+	{
+		# start new?
+		return $false
+	}
+	
+	$pages = GetPossession "Curiosity" "Manuscript Page"
+	if($pages -eq $null -or $pages.level -le 10 )
+	{
+		DoAction "lodgings,writer,rapidly"
+		return $true
+	}
+	
+	if( $potential.level -le 60 )
+	{
+		DoAction "lodgings,writer,rework,daring"
+		return $true
+	}
+	
+	return $false
+}
 
 function EnsureTickets
 {
@@ -276,7 +307,7 @@ function EnsureTickets
 	if( $clues -ne $null -and $clues.level -ge 20 )
 	{
 		Write-Host "buying tickets using clues"
-		DoAction "carnival,Buy,clues"
+		EnterStoryletAndPerformAction "Buy" "clues"
 	}
 	else
 	{
@@ -352,8 +383,9 @@ function DoAction
 	}
 	Write-Output "doing action $location $storyletname $branchname $secondbranch"
 	
-	if( !(EnsureTickets) )
+	if( $location -eq "writing" )
 	{
+		Writing
 		return
 	}
 	
@@ -362,6 +394,11 @@ function DoAction
 	if( !(IsInLocation $location) )
 	{
 		$result = MoveTo $location
+	}
+
+	if( !(EnsureTickets) )
+	{
+		return
 	}
 	
 	if( $result.storylets -ne $null )
