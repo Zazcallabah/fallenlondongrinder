@@ -1,6 +1,6 @@
 param([switch]$runTests)
 
-. $PSScriptRoot\apicalls.ps1 -runTests:$runTests
+. $($env:HOME)/site/wwwroot/Grind/apicalls.ps1 -runTests:$runTests
 
 
 

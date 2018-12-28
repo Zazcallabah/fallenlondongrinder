@@ -2,7 +2,7 @@ param([switch]$runTests)
 
 $script:uastring = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
 
-. $PSScriptRoot\credentials.ps1 -runTests:$runTests
+. $($env:HOME)/site/wwwroot/Grind/credentials.ps1 -runTests:$runTests
 
 function Get-BasicHeaders
 {
