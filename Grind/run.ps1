@@ -1,7 +1,14 @@
 param([switch]$runTests)
 
-. $($env:HOME)/site/wwwroot/Grind/apicalls.ps1 -runTests:$runTests
 
+if($env:Home -eq $null)
+{
+	. $PSScriptRoot/apicalls.ps1 -runTests:$runTests
+}
+else
+{
+	. ${env:HOME}/site/wwwroot/Grind/apicalls.ps1 -runTests:$runTests
+}
 
 
 $script:actions = @(
