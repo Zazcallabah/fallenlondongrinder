@@ -263,6 +263,30 @@ function HasActionsToSpare
 
 
 
+
+function EnsureTickets
+{
+	$tickets = GetPossession "Curiosity" "Carnival Ticket"
+	if( $tickets -ne $null -and $tickets.level -ge 2 )
+	{
+		return $true
+	}
+	write-host "need tickets for the carnival"
+	$clues = GetPossession "Mysteries" "Cryptic Clues"
+	if( $clues -ne $null -and $clues.level -ge 20 )
+	{
+		Write-Host "buying tickets using clues"
+		DoAction "carnival,Buy,clues"
+	}
+	else
+	{
+		Write-host "catch a grey cat for clues"
+		DoAction "spite,Alleys,Cats,Grey"
+	}
+
+	return $false
+}
+
 function LowerNightmares
 {
 	$secrets = GetPossession "Mysteries" "Appalling Secret"
@@ -328,6 +352,10 @@ function DoAction
 	}
 	Write-Output "doing action $location $storyletname $branchname $secondbranch"
 	
+	if( !(EnsureTickets) )
+	{
+		return
+	}
 	
 	$result = ExitIfInStorylet
 	
