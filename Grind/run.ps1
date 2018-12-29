@@ -21,8 +21,8 @@ $script:actions = @(
 	#"carnival,games,high"
 	#"watchmakers,Rowdy,unruly"
 	#"carnival,big,?"
-	#"carnival,sideshows,?"
-	"empresscourt,Matters,artistically"
+	"carnival,sideshows,?"
+	#"empresscourt,Matters,artistically"
 )
 
 function Get-Action
