@@ -175,13 +175,16 @@ if($runTests)
 function GetPossession
 {
 	param( $category, $name )
-	$category = (Myself).possessions | ?{ $_.name -eq $category } | select -first 1
-	if( $category -eq $null )
+	if( $name -eq $null )
 	{
-		write-warning "no category $category"
-		return $null
+		$name = $category
+		$possessions = (Myself).possessions | select -expandproperty possessions
 	}
-	return $category.possessions | ?{ $_.name -eq $name } | select -first 1
+	else
+	{
+		$possessions = (Myself).possessions | ?{ $_.name -eq $category } | select -expandproperty possessions
+	}
+	return $possessions | ?{ $_.name -match $name } | select -first 1
 }
 
 if($runTests)
@@ -189,6 +192,14 @@ if($runTests)
 	Describe "GetPossession" {
 		It "can get possession" {
 			$hints = GetPossession "Mysteries" "Whispered Hint"
+			$hints.id | should be 380
+		}
+		It "can get possession without giving category" {
+			$hints = GetPossession "Whispered Hint"
+			$hints.id | should be 380
+		}
+		It "can get possession with partial match" {
+			$hints = GetPossession "Mysteries" "Whispered"
 			$hints.id | should be 380
 		}
 	}
@@ -279,6 +290,21 @@ function HasActionsToSpare
 	return $true
 }
 
+function Require
+{
+	param( $category, $name, $level )
+	
+	$pos = GetPossession $category $name
+	if( $pos -ne $null -and $pos.level -ge $level )
+	{
+		return $true
+	}
+	
+	#require prerequisites
+	#perform required action
+	
+	return $false
+}
 
 function Writing
 {
@@ -329,6 +355,10 @@ function EnsureTickets
 	return $false
 }
 
+# $script:Aquisition = @{
+	# "Cryptic Clue" = "inventory"
+# }
+
 function LowerNightmares
 {
 	$secrets = GetPossession "Mysteries" "Appalling Secret"
@@ -376,6 +406,18 @@ function HasMenaces
 	return $false
 }
 
+function DoInventoryAction
+{
+	param($category,$name,$action)
+	
+	$item = GetPossession $category $name
+	if( $item -ne $null -and $item.effectiveLevel -ge 1 )
+	{
+		return UseItem $item.id $action
+	}
+	return $false
+}
+
 function DoAction
 {
 	param($location,$storyletname,$branchname,$secondbranch)
@@ -403,7 +445,12 @@ function DoAction
 	
 	if( !(IsInLocation $location) )
 	{
-		if( $location -eq "empresscourt" )
+		if( $location -eq "inventory" )
+		{
+			DoInventoryAction $storyletname $branchname $secondbranch
+			return
+		}
+		elseif( $location -eq "empresscourt" )
 		{
 			DoAction "shutteredpalace,Spend,1"
 		}
