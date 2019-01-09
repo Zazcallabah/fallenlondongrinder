@@ -65,18 +65,18 @@ if($script:runTests)
 	$location = GetUserLocation
 	if( $location -ge 2 -and $location -le 7 )
 	{
-		# sanity check, not in forced location (we're not able to detect all forced locations yet)
-		Describe "IsinforcedStorylet" {
-			It "is false" {
-				IsInForcedStorylet | should be $false
-			}
-		}
-		
 		Describe "MoveTo" {
 			It "can move" {
-				$result = MoveTo "spite"
-				$result.area.name | should be "Spite"
-				GetUserLocation | should be 7
+				if( GetUserLocation -eq "spite" )
+				{
+					$testlocation = "Veilgarden"
+				}
+				else
+				{
+					$testlocation = "Spite"
+				}
+				$result = MoveTo $testlocation
+				$result.area.name | should be $testlocation
 			}
 			It "can move to lodgings" {
 				$result = MoveTo "lodgings"
@@ -199,16 +199,76 @@ function PerformActionFromCurrent
 
 if($script:runTests)
 {
-	Describe "EnterStoryletPerformAction" {
-		It "can perform action" {
-			MoveTo "spite"
-			$result = EnterStoryletAndPerformAction "Alleys" "Cats"
-			$result.isSuccess | should be $true
-			$result.endStorylet | should not be $null
+	# Describe "EnterStoryletPerformAction" {
+		# It "can perform action" {
+			# MoveTo "spite"
+			# $result = EnterStoryletAndPerformAction "Alleys" "Cats"
+			# $result.isSuccess | should be $true
+			# $result.endStorylet | should not be $null
+		# }
+	# }
+}
+
+$script:shopIds = @{
+	"Sell my things" = "null";
+	"Carrow's Steel" = 1;
+	"Maywell's Hattery" = 2;
+	"Dark & Savage" = 3;
+	"Gottery the Outfitter" = 4;
+	"Nassos Zoologicals" = 5;
+	"MERCURY" = 6;
+	"Nikolas Pawnbrokers" = 7;
+	"Merrigans Exchange" = 8;
+	"Redemptions" = 9;
+	"Dauncey's" = 10;
+	"Fadgett & Daughters" = 11;
+	"Crawcase Cryptics" = 12;
+	"Penstock's Land Agency" = 15;
+}
+function GetShopId
+{
+	param($name)
+	
+	$key = $script:shopIds.Keys | ?{ $_ -match $name } | select -first 1
+	if( $key -eq $null )
+	{
+		return $name
+	}
+	return $script:shopIds[$key]
+}
+
+function GetShopItemId
+{
+	#how to know which shop has which item?
+	param($shopname,$itemname)
+	$shopid = GetShopId $shopname
+	$inventory = GetShopInventory $shopid
+	if( IsNumber $itemname )
+	{
+		$item = $inventory | ?{ $_.forSale -and $_.availability.quality.id -eq $itemname } | select -first 1
+	}
+	else
+	{
+		$item = $inventory | ?{ $_.forSale -and $_.availability.quality.name -match $itemname } | select -first 1
+	}
+	return $item.availability.id
+}
+
+function BuyFromShop
+{
+	param($shopid,$itemname,$amount)
+	$shopitemId = GetShopItemId $shopid $itemname
+	Buy $shopitemid $amount
+}
+
+if($script:runTests)
+{
+	Describe "GetShopItemId" {
+		It "can get itemid from shop" {
+			GetShopItemId "Nikolas" "Absolution" | should be 211
 		}
 	}
 }
-
 
 
 function UseItem

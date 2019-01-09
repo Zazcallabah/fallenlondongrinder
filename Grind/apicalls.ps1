@@ -120,23 +120,51 @@ function Post
 	return $result
 }
 
+
+$script:locations = @{
+	"Your Lodgings" = 2;
+	"Ladybones Road" = 4;
+	"Watchmakers Hill" = 5;
+	"Watchmaker's Hill" = 5;
+	"Veilgarden" = 6;
+	"Spite" = 7;
+	"Mrs Plenty's Carnival" = 18;
+	"The Forgotten Quarter" = 9;
+	"ForgottenQuarter" = 9;
+	"The Flit" = -1;
+	"The Shuttered Palace" = 10;
+	"ShutteredPalace" = 10;
+	"The Labyrinth of Tigers" = -1;
+	"The University" = -1;
+	"Mahogany Hall" = -1;
+	"Wilmot's End" = -1;
+	"Bazaar Sidestreets" = -1;
+	"The Empress' Court" = 26;
+	"EmpressCourt" = 26;
+	"Doubt Street" = -1;
+	"A State of Some Confusion" = 13;
+}
 function GetLocationId
 {
 	param($id)
 
-	if($id -eq "lodgings"){ $id = 2 }
-	if($id -eq "ladybones"){ $id = 4 }
-	if($id -eq "watchmakers"){ $id = 5 }
-	if($id -eq "veilgarden"){ $id = 6 }
-	if($id -eq "spite"){ $id = 7 }
-	if($id -eq "carnival"){ $id = 18 }
-	if($id -eq "forgottenquarter"){ $id = 9 }
-	if($id -eq "shutteredpalace"){ $id = 10 }
-	if($id -eq "empresscourt"){ $id = 26 }
-	if($id -eq "confusion"){ $id = 13 }
-	
-	return $id
+	$key = $script:locations.Keys | ?{ $_ -match $id } | select -first 1
+	if( $key -eq $null )
+	{
+		return $id
+	}
+	return $script:locations[$key]
 }
+
+
+function GetShopId
+{
+	param($name)
+	
+	$key = $script:shopIds.Keys | ?{ $_ -match $name } | select -first 1
+	return $script:shopIds[$key]
+}
+
 
 function MoveTo
 {
@@ -158,6 +186,28 @@ if( $script:runTests )
 			ListStorylet | should not be $null
 		}
 	}
+}
+
+
+function GetShopInventory
+{
+	param($shopid)
+	if( $script:shopInventories -eq $null )
+	{
+		$script:shopInventories = @{}
+	}
+	if( !$script:shopInventories.ContainsKey($shopid) )
+	{
+		$script:shopInventories.Add($shopid, (Post -href "exchange/availabilities?shopId=$($shopid)" -method "GET"))
+	}
+	return $script:shopInventories[$shopid]
+}
+
+function Buy
+{
+	param($id,$amount)
+	$script:myself = $null #after buying, inventory is different
+	Post -href "exchange/buy" -paylead @{ "availabilityId" = $id; "amount" = $amount }
 }
 
 function UseQuality
