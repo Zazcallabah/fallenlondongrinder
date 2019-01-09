@@ -26,9 +26,9 @@ $script:actions = @(
 	#"carnival,big,?"
 	#"carnival,sideshows,?"
 	#"empresscourt,Matters,artistically"
-	#"empresscourt,quiet,1"
-	"spite,casing,1"
-	"spite,casing,gather"
+	"empresscourt,quiet,1"
+	#"spite,casing,1"
+	#"spite,casing,gather"
 )
 
 
@@ -43,6 +43,21 @@ function ParseActionString
 		"third" = $spl[3];
 	}
 }
+# grind fascinating by doing workingon 2
+# use fascinating to level empresscourt
+# function WorkingOn
+# {
+	# if working on is 2
+	# "empresscourt,quiet,1" increases "Inspired..." to 34?
+	# action to finish gives fascinating and resets workingon
+	
+	# workingon 31
+	# action to start
+	# require potential 60
+	# action to finish
+	# competent or compelling results
+	# sell result no matter which
+# }
 
 function Get-Action
 {
@@ -85,10 +100,11 @@ function RecordAction
 $script:PreRequisites = @{
 	"Carnival Ticket" = @("Mysteries,Cryptic Clue,20","Route,Route: Mrs plenty,1");
 	"Potential" = @("Curiosity,Manuscript Page,10","Circumstance,Working on...,=31");
-	"Compelling Short Story" = @("Progress,Potential,50");
+	"Compelling Short Story" = @("Progress,Potential,60");
+	"Competent Short Story" = @("Progress,Potential,60");
 	"Appalling Secret" = @("Mysteries,Cryptic Clue,500");
 	"Nightmares" = @("Mysteries,Appalling Secret,10");
-	"Penny" = @(""); # workking on not null, writing doesnt currently end? push for which level?
+	"Penny" = @("Curiosity,Competent Short Story,1"); # workking on not null, writing doesnt currently end? push for which level?
 	"Suspicion" = @("Curiosity,Ablution Absolution,1")
 	"Ablution Absolution" = @("Currency,Penny,150")
 }
@@ -98,19 +114,17 @@ $script:Acquisitions = @{
 	"Carnival Ticket" = "carnival,Buy,clues";
 	"Manuscript Page" = "lodgings,writer,rapidly";
 	"Potential" = "lodgings,writer,rework,daring";
-	"Compelling Short Story" = "";
+	"Compelling Short Story" = "l";
 	"Appalling Secret" = "inventory,Mysteries,Cryptic Clue,great many";
 	"Nightmares" = "inventory,Mysteries,Appalling Secret,1";
 	"Wounds" = "lodgings,wounds,time";
 	"Scandal" = "lodgings,scandal,service";
 	"Suspicion" = "inventory,Curiosity,Ablution Absolution,1";
-	"Penny" = "writing";
+	"Penny" = "sell,Curiosity,Competent Short Story,1";
 	"Ablution Absolution" = "buy,Nikolas,Absolution,1";
 }
-# lower suspicion
-# "ladybones,life,associate,publish"
- # prereq 50 Silk Scrap 25 clues Subtle 4
- 
+
+
 # consumes an action, assumes all possessions neccessary already exists
 function Acquire
 {
