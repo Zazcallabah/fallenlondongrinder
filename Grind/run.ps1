@@ -106,7 +106,9 @@ $script:PreRequisites = @{
 	"Nightmares" = @("Mysteries,Appalling Secret,10");
 	"Penny" = @("Curiosity,Competent Short Story,1"); # workking on not null, writing doesnt currently end? push for which level?
 	"Suspicion" = @("Curiosity,Ablution Absolution,1")
-	"Ablution Absolution" = @("Currency,Penny,150")
+	"Ablution Absolution" = @("Currency,Penny,150");
+	"Fascinating..." = @("Progress,Inspired...,34");
+	"Inspired..." = @(); #todo how do you initialize working on a book in empresscourt?
 }
 
 $script:Acquisitions = @{
@@ -122,8 +124,12 @@ $script:Acquisitions = @{
 	"Suspicion" = "inventory,Curiosity,Ablution Absolution,1";
 	"Penny" = "sell,Curiosity,Competent Short Story,1";
 	"Ablution Absolution" = "buy,Nikolas,Absolution,1";
+	"Fascinating..." = "empresscourt,finishworketc" # todo how to finsh work when inspired 34
+	"Inspired..." = "empresscourt,quiet,1";
 }
 
+# todo figure out an action to do after
+# Require "Progress" "Fascinating..." 10
 
 # consumes an action, assumes all possessions neccessary already exists
 function Acquire
@@ -303,13 +309,13 @@ function EnsureTickets
 
 function CheckMenaces
 {
-	$hasActionsLeft = Require "Menaces" "Scandal" "<3"
+	$hasActionsLeft = Require "Menaces" "Scandal" "<4"
 	if( !$hasActionsLeft )
 	{
 		return $false
 	}
 	
-	$hasActionsLeft = Require "Menaces" "Wounds" "<2"
+	$hasActionsLeft = Require "Menaces" "Wounds" "<4"
 	if( !$hasActionsLeft )
 	{
 		return $false
