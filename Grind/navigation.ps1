@@ -1,13 +1,11 @@
-param([switch]$runTests)
-
 
 if($env:Home -eq $null)
 {
-	. $PSScriptRoot/apicalls.ps1 -runTests:$runTests
+	. $PSScriptRoot/apicalls.ps1
 }
 else
 {
-	. ${env:HOME}/site/wwwroot/Grind/apicalls.ps1 -runTests:$runTests
+	. ${env:HOME}/site/wwwroot/Grind/apicalls.ps1
 }
 
 function GetUserLocation
@@ -56,7 +54,7 @@ function GetStoryletId
 	return $result.storylets | ?{ $_.name -match $name } | select -first 1 -expandproperty id
 }
 
-if($runTests)
+if($script:runTests)
 {
 	Describe "GetUserLocation" {
 		It "can get current location" {
@@ -134,7 +132,7 @@ function GetPossession
 	return $possessions | ?{ $_.name -match $name } | select -first 1
 }
 
-if($runTests)
+if($script:runTests)
 {
 	Describe "GetPossession" {
 		It "can get possession" {
@@ -199,7 +197,7 @@ function PerformActionFromCurrent
 	return PerformAction $result $name
 }
 
-if($runTests)
+if($script:runTests)
 {
 	Describe "EnterStoryletPerformAction" {
 		It "can perform action" {
@@ -246,5 +244,4 @@ function DoInventoryAction
 	{
 		return UseItem $item.id $action
 	}
-	return $false
 }

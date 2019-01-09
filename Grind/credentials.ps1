@@ -1,4 +1,3 @@
-param([switch]$runTests)
 
 function Get-Blob
 {
@@ -13,7 +12,7 @@ function Save-Blob
 	$blob.ICloudBlob.UploadText( ($obj | ConvertTo-Json) )
 }
 
-if($runTests)
+if($script:runTests)
 {
 	Describe "Get-Blob" {
 		It "gets blob object" {
@@ -46,7 +45,7 @@ function Get-CredentialsObject
 	return $script:credentials
 }
 
-if( $runTests )
+if( $script:runTests )
 {
 	Describe "Get-CredentialsObject" {
 		It "sets scriptcredentials if null" {
@@ -69,7 +68,7 @@ function Get-CachedToken
 	return $null
 }
 
-if( $runTests )
+if( $script:runTests )
 {
 	$onesecond = 10000000
 	Describe "Get-CachedToken" {

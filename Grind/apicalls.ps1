@@ -1,14 +1,13 @@
-param([switch]$runTests)
 
 $script:uastring = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
 
 if($env:Home -eq $null)
 {
-	. $PSScriptRoot/credentials.ps1 -runTests:$runTests
+	. $PSScriptRoot/credentials.ps1
 }
 else
 {
-	. ${env:HOME}/site/wwwroot/Grind/credentials.ps1 -runTests:$runTests
+	. ${env:HOME}/site/wwwroot/Grind/credentials.ps1
 }
 
 function Get-BasicHeaders
@@ -31,7 +30,7 @@ function Login
 	return $token
 }
 
-if( $runTests )
+if( $script:runTests )
 {
 	Describe "Login" {
 		It "returns token" {
@@ -56,7 +55,7 @@ function Get-Token
 	return $token
 }
 
-if( $runTests )
+if( $script:runTests )
 {
 	Describe "Get-Token" {
 		It "login with no cached token, caches token" {
@@ -152,7 +151,7 @@ function ListStorylet
 	Post -href "storylet"
 }
 
-if( $runTests )
+if( $script:runTests )
 {
 	Describe "List-Storylet" {
 		It "can get storylets" {
@@ -202,7 +201,7 @@ function ChooseBranch
 	Post -href "storylet/choosebranch" -payload @{"branchId"=$id;"secondChanceIds"=@();}
 }
 
-if( $runTests )
+if( $script:runTests )
 {
 	Describe "User" {
 		It "can get user object" {
