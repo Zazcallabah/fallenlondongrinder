@@ -27,6 +27,7 @@ $script:actions = @(
 	#"empresscourt,Matters,artistically"
 	#"empresscourt,quiet,1"
 	"spite,casing,1"
+	"spite,casing,gather"
 )
 
 
@@ -85,7 +86,10 @@ $script:PreRequisites = @{
 	"Potential" = @("Curiosity,Manuscript Page,10","Circumstance,Working on...,=31");
 	"Compelling Short Story" = @("Progress,Potential,50");
 	"Appalling Secret" = @("Mysteries,Cryptic Clue,500");
-	"Nightmares" = @("Mysteries,Appalling Secret,10")
+	"Nightmares" = @("Mysteries,Appalling Secret,10");
+	"Penny" = @(""); # workking on not null, writing doesnt currently end? push for which level?
+	"Suspicion" = @("Curiosity,Ablution Absolution,1")
+	"Ablution Absolution" = @("Currency,Penny,150")
 }
 
 $script:Acquisitions = @{
@@ -98,8 +102,14 @@ $script:Acquisitions = @{
 	"Nightmares" = "inventory,Mysteries,Appalling Secret,1";
 	"Wounds" = "lodgings,wounds,time";
 	"Scandal" = "lodgings,scandal,service";
+	"Suspicion" = "inventory,Curiosity,Ablution Absolution,1";
+	"Penny" = "writing";
+	"Ablution Absolution" = "buy,Nikolas,Absolution,1";
 }
-
+# lower suspicion
+# "ladybones,life,associate,publish"
+ # prereq 50 Silk Scrap 25 clues Subtle 4
+ 
 # consumes an action, assumes all possessions neccessary already exists
 function Acquire
 {
@@ -275,7 +285,7 @@ function EnsureTickets
 }
 
 
-function HasMenaces
+function CheckMenaces
 {
 	$hasActionsLeft = Require "Menaces" "Scandal" "<3"
 	if( !$hasActionsLeft )
@@ -364,10 +374,14 @@ if(!$script:runTests)
 {
 	if( HasActionsToSpare )
 	{
-		if( (IsInForcedStorylet) -or (HasMenaces) )
+		if( (IsInForcedStorylet) )
 		{
 			return
 		}
-		DoAction (Get-Action ([DateTime]::UtcNow))
+		$hasActionsLeft = CheckMenaces
+		if( $hasActionsLeft )
+		{
+			DoAction (Get-Action ([DateTime]::UtcNow))
+		}
 	}
 }
