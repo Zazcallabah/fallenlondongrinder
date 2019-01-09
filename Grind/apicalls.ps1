@@ -30,7 +30,7 @@ function Login
 	return $token
 }
 
-if( $script:runTests )
+if( $script:runInfraTests )
 {
 	Describe "Login" {
 		It "returns token" {
@@ -55,7 +55,7 @@ function Get-Token
 	return $token
 }
 
-if( $script:runTests )
+if( $script:runInfraTests )
 {
 	Describe "Get-Token" {
 		It "login with no cached token, caches token" {
@@ -207,7 +207,14 @@ function Buy
 {
 	param($id,$amount)
 	$script:myself = $null #after buying, inventory is different
-	Post -href "exchange/buy" -paylead @{ "availabilityId" = $id; "amount" = $amount }
+	Post -href "exchange/buy" -payload @{ "availabilityId" = $id; "amount" = [int]$amount }
+}
+
+function Sell
+{
+	param($id,$amount)
+	$script:myself = $null #after selling, inventory is different
+	Post -href "exchange/sell" -payload @{ "availabilityId" = $id; "amount" = [int]$amount }
 }
 
 function UseQuality

@@ -84,35 +84,35 @@ if($script:runTests)
 				GetUserLocation | should be 2
 			}
 		}
-	}
-	
-	Describe "GetStoryletId" {
-		It "can get storylet id by name" {
-			GetStoryletId "Society" | should be 276092
+		Describe "GetStoryletId" {
+			It "can get storylet id by name" {
+				GetStoryletId "Society" | should be 276092
+			}
+		}
+		
+		Describe "BeginStorylet" {
+			It "can begin storylet" {
+				$result = BeginStorylet 276092
+				$result.isSuccess | should be $true
+				$result.storylet | should not be $null
+				$result.storylet.cangoback | should be $true
+			}
+		}
+		
+		Describe "Exit Storylet" {
+			It "can back out of chosen storylet" {
+				$result = ExitIfInStorylet
+				$result.storylet | should be $null
+				$result.storylets | should not be $null
+			}
+			It "does nothing if exiting and no storylet is chosen" {
+				$result = ExitIfInStorylet
+				$result.storylet | should be $null
+				$result.storylets | should not be $null
+			}
 		}
 	}
 	
-	Describe "BeginStorylet" {
-		It "can begin storylet" {
-			$result = BeginStorylet 276092
-			$result.isSuccess | should be $true
-			$result.storylet | should not be $null
-			$result.storylet.cangoback | should be $true
-		}
-	}
-	
-	Describe "Exit Storylet" {
-		It "can back out of chosen storylet" {
-			$result = ExitIfInStorylet
-			$result.storylet | should be $null
-			$result.storylets | should not be $null
-		}
-		It "does nothing if exiting and no storylet is chosen" {
-			$result = ExitIfInStorylet
-			$result.storylet | should be $null
-			$result.storylets | should not be $null
-		}
-	}
 }
 
 
@@ -245,20 +245,27 @@ function GetShopItemId
 	$inventory = GetShopInventory $shopid
 	if( IsNumber $itemname )
 	{
-		$item = $inventory | ?{ $_.forSale -and $_.availability.quality.id -eq $itemname } | select -first 1
+		$item = $inventory | ?{ $_.availability.quality.id -eq $itemname } | select -first 1
 	}
 	else
 	{
-		$item = $inventory | ?{ $_.forSale -and $_.availability.quality.name -match $itemname } | select -first 1
+		$item = $inventory | ?{ $_.availability.quality.name -match $itemname } | select -first 1
 	}
 	return $item.availability.id
 }
 
-function BuyFromShop
+function BuyPossession
 {
-	param($shopid,$itemname,$amount)
-	$shopitemId = GetShopItemId $shopid $itemname
+	param($shopname,$itemname,$amount)
+	$shopitemId = GetShopItemId $shopname $itemname
 	Buy $shopitemid $amount
+}
+
+function SellPossession
+{
+	param($item,$amount)
+	$shopitemid = GetShopItemId "sell" $item
+	Sell $shopitemid $amount
 }
 
 if($script:runTests)
@@ -266,6 +273,22 @@ if($script:runTests)
 	Describe "GetShopItemId" {
 		It "can get itemid from shop" {
 			GetShopItemId "Nikolas" "Absolution" | should be 211
+		}
+	}
+	Describe "BuyPossession" {
+		It "can buy" {
+			$pennies = GetPossession "Currency" "Penny"
+			$jade = GetPossession "Elder" "Jade"
+			BuyPossession "Merrigans" "Jade" "1"
+			GetPossession "Elder" "Jade" | select -expandproperty effectivelevel | should be ($jade.effectivelevel +1)
+			GetPossession "Currency" "Penny" | select -expandproperty effectiveLevel | should be ($pennies.effectiveLevel -2 )
+		}
+		It "can sell" {
+			$pennies = GetPossession "Currency" "Penny"
+			$jade = GetPossession "Elder" "Jade"
+			SellPossession "Jade" "1"
+			GetPossession "Elder" "Jade" | select -expandproperty effectivelevel | should be ($jade.effectivelevel -1)
+			GetPossession "Currency" "Penny" | select -expandproperty effectiveLevel | should be ($pennies.effectiveLevel +1 )
 		}
 	}
 }

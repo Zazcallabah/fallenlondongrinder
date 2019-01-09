@@ -2,6 +2,7 @@ param([switch]$force)
 
 
 $script:runTests = $false
+$script:runInfraTests = $false
 
 if($env:Home -eq $null)
 {
@@ -126,7 +127,8 @@ function Acquire
 		return $false
 	}
 	
-	return DoAction $actionStr
+	$actionResult = DoAction $actionStr
+	return $false;
 }
 
 if( $script:runTests )
@@ -304,13 +306,16 @@ function CheckMenaces
 	{
 		return $false
 	}
+	
+	$hasActionsLeft = Require "Menaces" "Suspicion" "<6"
+	if( !$hasActionsLeft )
+	{
+		return $false
+	}
+	
 	return $true
 }
 
-function LowerNightmares
-{
-	return Require "Menaces" "Nightmares" "<5"
-}
 
 function DoAction
 {
@@ -333,6 +338,16 @@ function DoAction
 		if( $action.location -eq "inventory" )
 		{
 			DoInventoryAction $action.first $action.second $action.third
+			return
+		}
+		elseif( $action.location -eq "buy" )
+		{
+			BuyPossession $action.first $action.second $action.third
+			return
+		}
+		elseif( $action.location -eq "sell" )
+		{
+			SellPossession $action.first $action.second
 			return
 		}
 		elseif( $action.location -eq "empresscourt" )
