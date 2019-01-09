@@ -171,30 +171,29 @@ function Require
 	param( $category, $name, $level, [switch]$dryRun )
 	
 	$pos = GetPossession $category $name
-	if( $pos -ne $null )
+
+	if( $level[0] -eq "<" )
 	{
-		if( $level[0] -eq "<" )
+		# usually menaces, handle state and continue grinding until it passes threshold?
+		# for menaces, not having possession means less than, so return true
+		if( $pos -eq $null -or $pos.effectivelevel -lt $level.substring(1) )
 		{
-			# usually menaces, handle state and continue grinding until it passes threshold?
-			if( $pos.effectivelevel -lt $level.substring(1) )
-			{
-				return $true
-			}
+			return $true
 		}
-		elseif( $level[0] -eq "=" )
+	}
+	elseif( $level[0] -eq "=" )
+	{
+		# usually "working on...", needs handling of special actions to get specific values
+		if( $pos -ne $null -and $pos.effectivelevel -eq $level.substring(1) )
 		{
-			# usually "working on...", needs handling of special actions to get specific values
-			if( $pos.effectivelevel -eq $level.substring(1) )
-			{
-				return $true
-			}
+			return $true
 		}
-		else
+	}
+	else
+	{
+		if( $pos -ne $null -and $pos.effectivelevel -ge $level )
 		{
-			if( $pos.effectivelevel -ge $level )
-			{
-				return $true
-			}
+			return $true
 		}
 	}
 
