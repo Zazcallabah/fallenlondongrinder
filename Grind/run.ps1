@@ -1,13 +1,15 @@
-param([switch]$runTests,[switch]$force)
+param([switch]$force)
 
+
+$script:runTests = $false
 
 if($env:Home -eq $null)
 {
-	. $PSScriptRoot/navigation.ps1 -runTests:$runTests
+	. $PSScriptRoot/navigation.ps1
 }
 else
 {
-	. ${env:HOME}/site/wwwroot/Grind/navigation.ps1 -runTests:$runTests
+	. ${env:HOME}/site/wwwroot/Grind/navigation.ps1
 }
 
 
@@ -23,8 +25,22 @@ $script:actions = @(
 	#"carnival,big,?"
 	#"carnival,sideshows,?"
 	#"empresscourt,Matters,artistically"
-	"empresscourt,quiet,1"
+	#"empresscourt,quiet,1"
+	"spite,casing,1"
 )
+
+
+function ParseActionString
+{
+	param($actionString)
+	$spl = $actionString -split ","
+	return @{
+		"location" = $spl[0];
+		"first" = $spl[1];
+		"second" = $spl[2];
+		"third" = $spl[3];
+	}
+}
 
 function Get-Action
 {
@@ -33,8 +49,17 @@ function Get-Action
 	return $script:actions[$selector%($script:actions.Length)]
 }
 
-if($runTests)
+if($script:runTests)
 {
+	Describe "ParseActionString" {
+		It "splits string" {
+			$action = ParseActionString "1, aoeu ,tre"
+			$action.location | should be 1
+			$action.first | should be " aoeu "
+			$action.second | should be "tre"
+			$action.third | should be $null
+		}
+	}
 	$script:actions =@( 0,1,2,3,4,5,6 )
 	Describe "Get-Action" {
 		It "selects based on day of year" {
@@ -48,7 +73,179 @@ if($runTests)
 	}
 }
 
+$script:actionHistory = @()
+function RecordAction
+{
+	param($action)
+	$script:actionHistory += $action
+}
 
+$script:PreRequisites = @{
+	"Carnival Ticket" = @("Mysteries,Cryptic Clue,20","Route,Route: Mrs plenty,1");
+	"Potential" = @("Curiosity,Manuscript Page,10","Circumstance,Working on...,=31");
+	"Compelling Short Story" = @("Progress,Potential,50");
+	"Appalling Secret" = @("Mysteries,Cryptic Clue,500");
+	"Nightmares" = @("Mysteries,Appalling Secret,10")
+}
+
+$script:Acquisitions = @{
+	"Cryptic Clue" = "spite,Alleys,Cats,Grey";
+	"Carnival Ticket" = "carnival,Buy,clues";
+	"Manuscript Page" = "lodgings,writer,rapidly";
+	"Potential" = "lodgings,writer,rework,daring";
+	"Compelling Short Story" = "";
+	"Appalling Secret" = "inventory,Mysteries,Cryptic Clue,great many";
+	"Nightmares" = "inventory,Mysteries,Appalling Secret,1";
+	"Wounds" = "lodgings,wounds,time";
+	"Scandal" = "lodgings,scandal,service";
+}
+
+# consumes an action, assumes all possessions neccessary already exists
+function Acquire
+{
+	param( $category, $name, [switch]$dryRun )
+	
+	$actionStr = $script:Acquisitions[$name]
+	if( $actionStr -eq $null )
+	{
+		throw "No aquisition for $category $name"
+	}
+	if( $dryRun )
+	{
+		$result = RecordAction $actionStr
+		return $false
+	}
+	
+	return DoAction $actionStr
+}
+
+if( $script:runTests )
+{
+	Describe "Acquire" {
+		It "performs action to acquire possession" {
+			Acquire "" "Cryptic Clue" -dryRun
+			$script:actionHistory.length | should be 1
+			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"
+			$script:actionHistory = @()
+		}
+	}
+}
+
+
+# returns true if named possession is fullfilled
+# otherwise an action is consumed trying to work towards fullfillment, which returns false
+function Require
+{
+	param( $category, $name, $level, [switch]$dryRun )
+	
+	$pos = GetPossession $category $name
+	if( $pos -ne $null )
+	{
+		if( $level[0] -eq "<" )
+		{
+			# usually menaces, handle state and continue grinding until it passes threshold?
+			if( $pos.effectivelevel -lt $level.substring(1) )
+			{
+				return $true
+			}
+		}
+		elseif( $level[0] -eq "=" )
+		{
+			# usually "working on...", needs handling of special actions to get specific values
+			if( $pos.effectivelevel -eq $level.substring(1) )
+			{
+				return $true
+			}
+		}
+		else
+		{
+			if( $pos.effectivelevel -ge $level )
+			{
+				return $true
+			}
+		}
+	}
+
+	foreach( $prereq in $script:PreRequisites[$name] )
+	{
+		$action = ParseActionString $prereq
+		$hasActionsLeft = Require $action.location $action.first $action.second -dryRun:$dryRun
+		if(!$hasActionsLeft)
+		{
+			return $false
+		}
+	}
+	
+	$result = Acquire $category $name -dryRun:$dryRun
+	
+	return $false
+}
+
+function TestPossessionData
+{
+	param( $category, $name, $level )
+	return new-object psobject -property @{
+		"name" = $category
+		"possessions" = @(@{ "name" = $name; "effectiveLevel" = $level })
+	}
+}
+if( $script:runTests )
+{
+	Describe "Require" {
+	
+		$script:myself = @{
+			"possessions" = @(
+				(TestPossessionData "Mysteries" "Cryptic Clue" 10),
+				(TestPossessionData "Menaces" "Nightmares" 5)
+			)
+		};
+		It "noops if you already have the possession" {
+			
+			$result = Require "Mysteries" "Cryptic Clue" 5 -dryRun
+			$script:actionHistory.length | should be 0
+			$result | should be $true
+		}
+		It "noops if you have exact count" {
+			
+			$result = Require "Mysteries" "Cryptic Clue" "=10" -dryRun
+			$script:actionHistory.length | should be 0
+			$result | should be $true
+		}
+		It "noops if you haven't got enough menaces" {
+			
+			$result = Require "Menaces" "Nightmares" "<8" -dryRun
+			$script:actionHistory.length | should be 0
+			$result | should be $true
+		}
+		It "acquires if you dont have enough of the possession" {
+			
+			$result = Require "Mysteries" "Cryptic Clue" 15 -dryRun
+			$script:actionHistory.length | should be 1
+			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"
+			$result | should be $false
+			$script:actionHistory = @()
+		}
+		It "acquires if you dont have exact count" {
+			
+			$result = Require "Mysteries" "Cryptic Clue" 15 -dryRun
+			$script:actionHistory.length | should be 1
+			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"
+			$result | should be $false
+			$script:actionHistory = @()
+		}
+		
+		It "reduces menaces if you have too much, which cascades to getting clues" {
+			
+			$result = Require "Menaces" "Nightmares" "<5" -dryRun
+			$script:actionHistory.length | should be 1
+			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"
+			$result | should be $false
+			$script:actionHistory = @()
+		}
+		$script:actionHistory = @()
+		$script:myself = $null
+	}
+}
 
 function IsInForcedStorylet
 {
@@ -64,140 +261,56 @@ function IsInForcedStorylet
 }
 
 
-function Require
-{
-	param( $category, $name, $level )
-	
-	$pos = GetPossession $category $name
-	if( $pos -ne $null -and $pos.level -ge $level )
-	{
-		return $true
-	}
-	
-	#require prerequisites
-	#perform required action
-	
-	return $false
-}
-
 function Writing
 {
-	$potential = GetPossession "Progress" "Potential"
-	if( $potential -eq $null )
-	{
-		# start new?
-		return $false
-	}
-	
-	$pages = GetPossession "Curiosity" "Manuscript Page"
-	if($pages -eq $null -or $pages.level -le 10 )
-	{
-		DoAction "lodgings,writer,rapidly"
-		return $true
-	}
-	
-	if( $potential.level -le 60 )
-	{
-		DoAction "lodgings,writer,rework,daring"
-		return $true
-	}
-	
+	# missing aquisition for working on 31, how to increase potential beyond 60, choices for other stories, aborting existing workingon, 
+	Require "Progress" "Potential" 60
+
 	return $false
 }
 
 function EnsureTickets
 {
-	$tickets = GetPossession "Curiosity" "Carnival Ticket"
-	if( $tickets -ne $null -and $tickets.level -ge 2 )
-	{
-		return $true
-	}
-	write-host "need tickets for the carnival"
-	$clues = GetPossession "Mysteries" "Cryptic Clue"
-	
-	if( $clues -ne $null -and $clues.level -ge 20 )
-	{
-		Write-Host "buying tickets using clues"
-		EnterStoryletAndPerformAction "Buy" "clues"
-	}
-	else
-	{
-		Write-host "catch a grey cat for clues"
-		DoAction "spite,Alleys,Cats,Grey"
-	}
-
-	return $false
+	return Require "Curiosity" "Carnival Ticket" 2
 }
 
-# $script:Aquisition = @{
-	# "Cryptic Clue" = "inventory"
-# }
-
-function LowerNightmares
-{
-	$secrets = GetPossession "Mysteries" "Appalling Secret"
-	if( $secrets -ne $null -and $secrets.level -ge 10 )
-	{
-		Write-host "using secret to lower nightmares"
-		UseItem $secrets.id "1"
-		return
-	}
-	# else "spite,Alleys,Cats,Black"? - no, only 1 secret/action instead of 70/21 actions
-	$clues = GetPossession "Mysteries" "Cryptic Clue"
-	if( $clues -ne $null -and $clues.level -ge 500 )
-	{
-		Write-host "converting clues to secrets"
-		UseItem $clues.id "great many"
-		return
-	}
-	Write-host "catch a grey cat for clues"
-	DoAction "spite,Alleys,Cats,Grey"
-}
 
 function HasMenaces
 {
-	$scandal = GetPossession "Menaces" "Scandal"
-	if( $scandal -ne $null -and $scandal.effectiveLevel -ge 3 )
+	$hasActionsLeft = Require "Menaces" "Scandal" "<3"
+	if( !$hasActionsLeft )
 	{
-		write-host "lowering scandal"
-		DoAction "lodgings,scandal,service"
-		return $true
+		return $false
 	}
-	$wounds = GetPossession "Menaces" "Wounds"
-	if( $wounds -ne $null -and $wounds.effectiveLevel -ge 2 )
+	
+	$hasActionsLeft = Require "Menaces" "Wounds" "<2"
+	if( !$hasActionsLeft )
 	{
-		write-host "lowering wounds"
-		DoAction "lodgings,wounds,time"
-		return $true
+		return $false
 	}
-	$nightmares = GetPossession "Menaces" "Nightmares"
-	if( $nightmares -ne $null -and $nightmares.effectiveLevel -ge 5 )
+
+	$hasActionsLeft = Require "Menaces" "Nightmares" "<5"
+	if( !$hasActionsLeft )
 	{
-		write-host "has nightmares"
-		LowerNightmares
-		return $true
+		return $false
 	}
-	return $false
+	return $true
+}
+
+function LowerNightmares
+{
+	return Require "Menaces" "Nightmares" "<5"
 }
 
 function DoAction
 {
-	param($location,$storyletname,$branchname,$secondbranch)
+	param($actionString)
 	
-	if( $storyletname -eq $null )
-	{
-		$spl = $location -split ","
-		$location = $spl[0]
-		$storyletname = $spl[1]
-		$branchname = $spl[2]
-		if($spl.length -gt 3)
-		{
-			$secondbranch = $spl[3]
-		}
-	}
-	Write-host "doing action $location $storyletname $branchname $secondbranch"
+	$action = ParseActionString $actionString
+
+	Write-host "doing action $($action.location) $($action.first) $($action.second) $($action.third)"
 	
-	if( $location -eq "writing" )
+	if( $action.location -eq "writing" )
 	{
 		Writing
 		return
@@ -205,49 +318,49 @@ function DoAction
 	
 	$result = ExitIfInStorylet
 	
-	if( !(IsInLocation $location) )
+	if( !(IsInLocation $action.location) )
 	{
-		if( $location -eq "inventory" )
+		if( $action.location -eq "inventory" )
 		{
-			DoInventoryAction $storyletname $branchname $secondbranch
+			DoInventoryAction $action.first $action.second $action.third
 			return
 		}
-		elseif( $location -eq "empresscourt" )
+		elseif( $action.location -eq "empresscourt" )
 		{
 			DoAction "shutteredpalace,Spend,1"
 		}
 		else
 		{
-			$result = MoveTo $location
+			$result = MoveTo $action.location
 		}
 	}
 
-	if( IsInLocation "carnival" )
-	{
-		if(!(EnsureTickets))
-		{
-			return
-		}
-	}
+	# if( IsInLocation "carnival" -and)
+	# {
+		# if(!(EnsureTickets))
+		# {
+			# return
+		# }
+	# }
 	
-	$result = EnterStoryletAndPerformAction $storyletname $branchname
+	$result = EnterStoryletAndPerformAction $action.first $action.second
 	if( $result -eq $null )
 	{
-		write-warning "$branchname not found"
+		write-warning "$($action.second) not found"
 	}
 
-	if( $secondbranch -ne $null )
+	if( $action.third -ne $null )
 	{
-		$result = PerformActionFromCurrent $secondbranch
+		$result = PerformActionFromCurrent $action.third
 		if( $result -eq $null )
 		{
-			write-warning "second $secondbranch not found"
+			write-warning "second $($action.third) not found"
 		}
 	}
 }
 
 
-if(!$runTests)
+if(!$script:runTests)
 {
 	if( HasActionsToSpare )
 	{
