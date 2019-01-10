@@ -84,7 +84,6 @@ else
 }
 
 
-$script:runtests = $true
 
 function LookupAcquisition
 {
