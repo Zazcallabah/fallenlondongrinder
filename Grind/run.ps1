@@ -26,9 +26,10 @@ $script:actions = @(
 	#"carnival,big,?"
 	#"carnival,sideshows,?"
 	#"empresscourt,Matters,artistically"
-	"empresscourt,quiet,1"
+	#"empresscourt,quiet,1"
 	#"spite,casing,1"
 	#"spite,casing,gather"
+	"writing"
 )
 
 
@@ -43,14 +44,10 @@ function ParseActionString
 		"third" = $spl[3];
 	}
 }
-# grind fascinating by doing workingon 2
-# use fascinating to level empresscourt
+
+
 # function WorkingOn
 # {
-	# if working on is 2
-	# "empresscourt,quiet,1" increases "Inspired..." to 34?
-	# action to finish gives fascinating and resets workingon
-	
 	# workingon 31
 	# action to start
 	# require potential 60
@@ -108,7 +105,7 @@ $script:PreRequisites = @{
 	"Suspicion" = @("Curiosity,Ablution Absolution,1")
 	"Ablution Absolution" = @("Currency,Penny,150");
 	"Fascinating..." = @("Progress,Inspired...,34");
-	"Inspired..." = @(); #todo how do you initialize working on a book in empresscourt?
+	"Inspired..." = @("Circumstance,Working on...,=2");
 }
 
 $script:Acquisitions = @{
@@ -116,7 +113,8 @@ $script:Acquisitions = @{
 	"Carnival Ticket" = "carnival,Buy,clues";
 	"Manuscript Page" = "lodgings,writer,rapidly";
 	"Potential" = "lodgings,writer,rework,daring";
-	"Compelling Short Story" = "l";
+	"Compelling Short Story" = "lodgings,writer,rework,finish?";
+	"Competent Short Story" = "lodgings,writer,rework,finish?";
 	"Appalling Secret" = "inventory,Mysteries,Cryptic Clue,great many";
 	"Nightmares" = "inventory,Mysteries,Appalling Secret,1";
 	"Wounds" = "lodgings,wounds,time";
@@ -124,12 +122,18 @@ $script:Acquisitions = @{
 	"Suspicion" = "inventory,Curiosity,Ablution Absolution,1";
 	"Penny" = "sell,Curiosity,Competent Short Story,1";
 	"Ablution Absolution" = "buy,Nikolas,Absolution,1";
-	"Fascinating..." = "empresscourt,finishworketc" # todo how to finsh work when inspired 34
+	"Fascinating..." = "empresscourt,complete,gothic romance" 
+	#another fascinating is "empresscourt,attend,perform", more random but not quite as grindy
 	"Inspired..." = "empresscourt,quiet,1";
 }
 
-# todo figure out an action to do after
-# Require "Progress" "Fascinating..." 10
+
+# empresscourt,complete,
+# 	gothic romance - 6000 moon pearls, fascinating, making waves
+#	tale of the future - connected benthic, connected summerset,making waves, 6000 brass silver
+# 	patriotic adventure - 6000 moon perals, making waves
+# use fascinating to do romance options in empresscourt, which requires fascinating 11? 10?
+
 
 # consumes an action, assumes all possessions neccessary already exists
 function Acquire
@@ -184,6 +188,12 @@ function Require
 	elseif( $level[0] -eq "=" )
 	{
 		# usually "working on...", needs handling of special actions to get specific values
+		if( $pos -eq $null )
+		{
+			# not occupied, "switch" action?
+			# working on 2 is "empresscourt,next work,novel" [poetry,stage,song,symphony,ballet]
+			# working on 31 is "veilgarden,begin a work,short story"
+		}
 		if( $pos -ne $null -and $pos.effectivelevel -eq $level.substring(1) )
 		{
 			return $true
@@ -294,9 +304,11 @@ function IsInForcedStorylet
 
 function Writing
 {
-	# missing aquisition for working on 31, how to increase potential beyond 60, choices for other stories, aborting existing workingon, 
-	Require "Progress" "Potential" 60
-
+	$hasMoreActions = Require "Progress" "Potential" 62
+	if( $hasMoreActions )
+	{
+		$r=DoAction "veilgarden,literary,1"
+	}
 	return $false
 }
 
@@ -367,6 +379,11 @@ function DoAction
 		elseif( $action.location -eq "sell" )
 		{
 			SellPossession $action.first $action.second
+			return
+		}
+		elseif( $action.location -eq "writing" )
+		{
+			Writing
 			return
 		}
 		elseif( $action.location -eq "empresscourt" )
