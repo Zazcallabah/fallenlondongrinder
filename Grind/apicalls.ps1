@@ -120,6 +120,14 @@ function Post
 	return $result
 }
 
+function GetMap
+{
+	if( $script:mapCache -eq $null )
+	{
+		$script:mapCache = Post -href "map" -method "GET" | select -expandproperty areas
+	}
+	return $script:mapCache
+}
 
 $script:locations = @{
 	"Your Lodgings" = 2;
@@ -131,19 +139,19 @@ $script:locations = @{
 	"Mrs Plenty's Carnival" = 18;
 	"The Forgotten Quarter" = 9;
 	"ForgottenQuarter" = 9;
-	"The Flit" = -1;
 	"The Shuttered Palace" = 10;
 	"ShutteredPalace" = 10;
-	"The Labyrinth of Tigers" = -1;
-	"The University" = -1;
-	"Mahogany Hall" = -1;
-	"Wilmot's End" = -1;
-	"Bazaar Sidestreets" = -1;
+	# "The Labyrinth of Tigers" = -1;
+	# "The University" = -1;
+	# "Mahogany Hall" = -1;
+	# "Wilmot's End" = -1;
+	# "Bazaar Sidestreets" = -1;
 	"The Empress' Court" = 26;
 	"EmpressCourt" = 26;
-	"Doubt Street" = -1;
+	# "Doubt Street" = -1;
 	"A State of Some Confusion" = 13;
 }
+
 function GetLocationId
 {
 	param($id)
@@ -151,6 +159,11 @@ function GetLocationId
 	$key = $script:locations.Keys | ?{ $_ -match $id } | select -first 1
 	if( $key -eq $null )
 	{
+		$area = GetMap | ?{ $_.name -match $id } | select -first 1
+		if( $area -ne $null )
+		{
+			return $area.id
+		}
 		return $id
 	}
 	return $script:locations[$key]
@@ -181,6 +194,11 @@ function ListStorylet
 
 if( $script:runTests )
 {
+	Describe "GetLocationId" {
+		It "can fetch location not in local cache" {
+			GetLocationId "flit" | should be 11
+		}
+	}
 	Describe "List-Storylet" {
 		It "can get storylets" {
 			ListStorylet | should not be $null
