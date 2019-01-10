@@ -27,7 +27,7 @@ $script:actions = @(
 	#"carnival,sideshows,?"
 	#"empresscourt,Matters,artistically"
 	#"empresscourt,quiet,1"
-	"flit,preparing,assistance"
+	"flit,preparing,formulate"
 	#"spite,casing,gather"
 	#"writing"
 )
