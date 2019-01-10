@@ -53,7 +53,6 @@ function Acquire
 		$result = RecordAction $actionStr
 		return $false
 	}
-	
 	$actionResult = DoAction $actionStr
 	return $false;
 }
@@ -62,7 +61,7 @@ if( $script:runTests )
 {
 	Describe "Acquire" {
 		It "performs action to acquire possession" {
-			Acquire "" "Cryptic Clue" -dryRun
+			Acquire "spite,Alleys,Cats,grey" -dryRun
 			$script:actionHistory.length | should be 1
 			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"
 			$script:actionHistory = @()
@@ -83,29 +82,37 @@ else
 	$script:Acquisitions = gc -Raw ${env:HOME}/site/wwwroot/Grind/acquisitions.json | ConvertFrom-Json
 }
 
-
-
 function LookupAcquisition
 {
 	param($name)
+
+	if( $name -eq $null )
+	{
+		return $null
+	}
 	
 	if($script:Acquisitions."$name" -ne $null )
 	{
 		return $script:Acquisitions."$name"
 	}
 	
-	$nameMatches = $script:Acquisitions.PSObject.Properties | ?{ $_.Name -match $name } | select -first 1
+	$nameMatches = $script:Acquisitions.PSObject.Properties | ?{ $_.Name -match $name } | select -first 1 -expandproperty Value
 	if( $nameMatches -ne $null )
 	{
-		return $nameMatches.Value
+		return $nameMatches
 	}
 	
-	return $script:Acquisitions.PSObject.Properties | ?{ $_.Value.Result -match $name } | select -first 1
+	return $script:Acquisitions.PSObject.Properties | ?{ $_.Value.Result -match $name } | select -first 1 -ExpandProperty Value
 }
 
 if( $script:runtests )
 {
 	Describe "LookupAcquisition" {
+		It "can find casing" {
+			$a = LookupAcquisition "Casing..."
+			$a.Action | should not be $null
+			$a.Prerequisites | should be $null
+		}
 		It "can find exact name" {
 			$a = LookupAcquisition "Suspicion"
 			$a.Action | should be "inventory,Curiosity,Ablution Absolution,1"
@@ -116,7 +123,7 @@ if( $script:runtests )
 		}
 		It "can find specific result match" {
 			$a = LookupAcquisition "Working on..."
-			$a.Name | should be "StartShortStory"
+			$a.Name | should be "StartNovel"
 		}
 	}
 }
@@ -173,6 +180,11 @@ function Require
 	param( $category, $name, $level, $tag, [switch]$dryRun )
 	
 	$pos = GetPossession $category $name
+	
+	if( $level -eq $null )
+	{
+		$level = ""
+	}
 
 	if( $level[0] -eq "<" )
 	{
@@ -205,8 +217,13 @@ function Require
 		}
 	}
 	
-	$acq = LookupAcquisition $name
-
+	$acq = LookupAcquisition $tag
+	
+	if( $acq -eq $null )
+	{
+		$acq = LookupAcquisition $name
+	}
+	
 	foreach( $prereq in $acq.Prerequisites )
 	{
 		$action = ParseActionString $prereq
@@ -216,7 +233,7 @@ function Require
 			return $false
 		}
 	}
-	
+
 	$result = Acquire $acq.Action -dryRun:$dryRun
 	
 	return $false
@@ -240,6 +257,18 @@ if( $script:runTests )
 				(TestPossessionData "Menaces" "Nightmares" 5)
 			)
 		};
+		It "performs action regardless if level is null" {
+			$result = Require "Progress" "Casing..." -dryRun
+			$script:actionHistory.Length | should be 1
+			$script:actionHistory[0] | should be "flit,preparing,formulate"
+			$script:actionHistory = @()
+		}
+		It "can tag specific acquisition to run in requirements" {
+			$result = Require "Curiosity" "Manuscript Page" 20 -dryRun
+			$script:actionHistory.Length | should be 1
+			$script:actionHistory[0] | should be "veilgarden,begin a work,short story"
+			$script:actionHistory = @()
+		}
 		It "noops if you already have the possession" {
 			
 			$result = Require "Mysteries" "Cryptic Clue" 5 -dryRun

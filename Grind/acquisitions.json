@@ -1,4 +1,12 @@
 {
+	"StartNovel": {
+		"Name": "StartNovel",
+		"Result": "Working on...",
+		"Prerequisites": [
+			"Circumstance,Working on...,<0"
+		],
+		"Action": "empresscourt,next work,novel"
+	},
 	"StartShortStory": {
 		"Name": "StartShortStory",
 		"Result": "Working on...",
@@ -6,6 +14,13 @@
 			"Circumstance,Working on...,<0"
 		],
 		"Action": "veilgarden,begin a work,short story"
+	},
+	"GrindCasing": {
+		"Name": "GrindCasing",
+		"Result": "Casing...",
+		"Prerequisites": [
+		],
+		"Action": "flit,preparing,formulate"
 	},
 	"Manuscript Page": {
 		"Name": "Manuscript Page",
@@ -42,7 +57,7 @@
 		"Result": "Potential",
 		"Prerequisites": [
 			"Curiosity,Manuscript Page,10",
-			"Circumstance,Working on...,=31"
+			"Circumstance,Working on...,=31,StartShortStory"
 		],
 		"Action": "lodgings,writer,rework,daring"
 	},
