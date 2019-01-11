@@ -15,30 +15,38 @@ else
 
 
 $script:actions = @(
-	#"ladybones,spirifer,1"
-	#"veilgarden,archaeology,1"
-	#"veilgarden,literary,1"
-	#"veilgarden,seamstress,1"
-	#"veilgarden,rescue,publisher"
-	#"ladybones,warehouse,1"
+	#"veilgarden,archaeology,1" persuasive 31 shreik
+	#"veilgarden,literary,1" persuasive 5 gets rusty/glim/jade also
+	#"veilgarden,rescue,publisher" persuasive 47, proscribed material
+	
+	#"ladybones,warehouse,1" - nevercold
+
 	#"carnival,games,high"
-	#"watchmakers,Rowdy,unruly"
+
 	#"carnival,big,?"
 	#"carnival,sideshows,?"
+	
 	#"empresscourt,Matters,artistically"
-	#"empresscourt,quiet,1"
-	"flit,its king,meeting,present"
-	#"flit,preparing,formulate"
 	#"spite,casing,gather"
 	#"writing"
+	"require,Progress,Casing...,5,PrepBaseborn"
+	"require,Basic,Persuasion,100,GrindPersuasion" #95
+	"require,Basic,Dangerous,100,GrindDangerous" # 39
+	"require,Basic,Shadowy,100,GrindShadowy" #63
+	"require,Basic,Watchful,100,GrindWatchful" # 66
 )
+
 
 
 
 function Get-Action
 {
-	param($now)
+	param($now,$index)
 	$selector = $now.DayOfYear
+	if( $index -ne $null )
+	{
+		$selector += $index
+	}
 	return $script:actions[$selector%($script:actions.Length)]
 }
 
@@ -145,7 +153,7 @@ function PerformActions
 
 function DoAction
 {
-	param($actionString)
+	param($actionString,$index = 1)
 	
 	$action = ParseActionString $actionString
 
@@ -204,6 +212,15 @@ function DoAction
 		elseif( $action.location -eq "sell" )
 		{
 			SellPossession $action.first $action.second
+			return
+		}
+		elseif( $action.location -eq "require" )
+		{
+			$hasActionsLeft = Require $action.first $action.second $action.third
+			if($hasActionsLeft)
+			{
+				DoAction (Get-Action ([DateTime]::UtcNow) $index) $index+1
+			}
 			return
 		}
 		elseif( $action.location -eq "writing" )
@@ -321,26 +338,25 @@ if($script:runTests)
 	
 	Describe "PerformAction" {
 		It "can perform one action" {
-			$area = MoveTo "Flit"
-			$event = EnterStorylet $null "preparing for a big score"
-			$result = PerformAction $event "choose your target"
+			$event = EnterStorylet $null "write letters"
+			$result = PerformAction $event "name a pet"
 			$result.Phase | should be "In"
 			$result.actions | should not be $null
 			$result.storylet | should not be $null
 			$result.storylet.canGoBack | should be $true
-			$result.storylet.id | should be 223811
+			$result.storylet.id | should be 204639
 		}
 	}
-	Describe "PerformActions" {
-		It "can perform multiple actions" {
-			$result = PerformActions $null "preparing for your burglary" @("choose your target","preparing for your burglary","choose your target")
-			$result.Phase | should be "In"
-			$result.actions | should not be $null
-			$result.storylet | should not be $null
-			$result.storylet.canGoBack | should be $true
-			$result.storylet.id | should be 223811
-		}
-	}
+	# Describe "PerformActions" {
+		# It "can perform multiple actions" {
+			# $result = PerformActions $null "preparing for your burglary" @("choose your target","preparing for your burglary","choose your target")
+			# $result.Phase | should be "In"
+			# $result.actions | should not be $null
+			# $result.storylet | should not be $null
+			# $result.storylet.canGoBack | should be $true
+			# $result.storylet.id | should be 223811
+		# }
+	# }
 }
 
 

@@ -18,7 +18,7 @@ function ParseActionString
 		"location" = $spl[0];
 		"first" = $spl[1];
 		"second" = $spl[2];
-		"third" = if($spl.length -ge 4){$spl[3..($spl.length-1)]}else{$null};
+		"third" = if($spl.length -ge 4){@(,$spl[3..($spl.length-1)])}else{$null};
 	}
 }
 
@@ -40,6 +40,21 @@ if($script:runTests)
 			$action.third.length | should be 2
 			$action.third[0] | should be 4
 			$action.third[1] | should be 5
+		}
+		It "can return exactly four results" {
+			$action = ParseActionString "a,b,c,de"
+			$action.location | should be "a"
+			$action.first | should be "b"
+			$action.second | should be "c"
+			$action.third | should be "de"
+		}
+		It "returns null if trying to index nonexistent third entry" {
+			$action = ParseActionString "aaa,bbb,ccc,def"
+			$action.location | should be "aaa"
+			$action.first | should be "bbb"
+			$action.second | should be "ccc"
+			$action.third[0] | should be "def"
+			$action.third[1] | should be $null
 		}
 	}
 }
@@ -109,11 +124,6 @@ function LookupAcquisition
 if( $script:runtests )
 {
 	Describe "LookupAcquisition" {
-		It "can find casing" {
-			$a = LookupAcquisition "Casing..."
-			$a.Action | should not be $null
-			$a.Prerequisites | should be $null
-		}
 		It "can find exact name" {
 			$a = LookupAcquisition "Suspicion"
 			$a.Action | should be "inventory,Curiosity,Ablution Absolution,1"
@@ -130,47 +140,6 @@ if( $script:runtests )
 }
 
 
-
-# finishing a short story at "lodgings,writer,finish,[name]
-# leveling progress to 60 is already established, but further:
-# 70 compromising document, darkness (tale of terror)
-# 80 life-lessons ( hard earned lesson)
-# 100 esoteric elements (extraordinary implication)
-
-
-# empresscourt,complete,
-# 	gothic romance - 6000 moon pearls, fascinating, making waves
-#	tale of the future - connected benthic, connected summerset,making waves, 6000 brass silver
-# 	patriotic adventure - 6000 moon perals, making waves
-# use fascinating to do romance options in empresscourt, which requires fascinating 11? 10?
-
-
-# function WorkingOn
-# {
-	# workingon 31
-	# action to start
-	# require potential 60
-	# action to finish
-	# competent or compelling results
-	# sell result no matter which
-# }
-
-#	"Penny" = @("Curiosity,Competent Short Story,1"); # workking on not null, writing doesnt currently end? push for which level?
-
-#	"Fascinating..." = "empresscourt,complete,gothic romance" 
-	#another fascinating is "empresscourt,attend,perform", more random but not quite as grindy
-
-	
-# 70 compromising document, darkness (tale of terror)
-# 80 life-lessons ( hard earned lesson)
-# 100 esoteric elements (extraordinary implication)
-
-
-# empresscourt,complete,
-# 	gothic romance - 6000 moon pearls, fascinating, making waves
-#	tale of the future - connected benthic, connected summerset,making waves, 6000 brass silver
-# 	patriotic adventure - 6000 moon perals, making waves
-# use fascinating to do romance options in empresscourt, which requires fascinating 11? 10?
 
 
 
@@ -191,6 +160,9 @@ function Require
 	{
 		# usually menaces, handle state and continue grinding until it passes threshold?
 		# for menaces, not having possession means less than, so return true
+		
+		# note that if we are in a forced storylet, that would be detected before we get here
+		
 		if( $pos -eq $null -or $pos.effectivelevel -lt $level.substring(1) )
 		{
 			return $true
@@ -244,7 +216,7 @@ function TestPossessionData
 {
 	param( $category, $name, $level )
 	return new-object psobject -property @{
-		"name" = $category
+		"categories" = @($category)
 		"possessions" = @(@{ "name" = $name; "effectiveLevel" = $level })
 	}
 }

@@ -1,4 +1,130 @@
 {
+	"Scandal": {
+		"Name": "Scandal",
+		"Result": "Scandal",
+		"Prerequisites": [],
+		"Action": "lodgings,scandal,service"
+	},
+	"Wounds": {
+		"Name": "Wounds",
+		"Result": "Wounds",
+		"Prerequisites": [],
+		"Action": "lodgings,wounds,time"
+	},
+	"Nightmares": {
+		"Name": "Nightmares",
+		"Result": "Nightmares",
+		"Prerequisites": [
+			"Mysteries,Appalling Secret,10"
+		],
+		"Action": "inventory,Mysteries,Appalling Secret,1"
+	},
+	"Suspicion": {
+		"Name": "Suspicion",
+		"Result": "Suspicion",
+		"Prerequisites": [
+			"Curiosity,Ablution Absolution,1"
+		],
+		"Action": "inventory,Curiosity,Ablution Absolution,1"
+	},
+	"Cryptic Clue": {
+		"Name": "Cryptic Clue",
+		"Result": "Cryptic Clue",
+		"Prerequisites": [],
+		"Action": "spite,Alleys,Cats,Grey"
+	},
+	"Appalling Secret": {
+		"Name": "Appalling Secret",
+		"Result": "Appalling Secret",
+		"Prerequisites": [
+			"Mysteries,Cryptic Clue,500"
+		],
+		"Action": "inventory,Mysteries,Cryptic Clue,great many"
+	},
+	"Nikolas & Sons Instant Ablution Absolutionn": {
+		"Name": "Nikolas & Sons Instant Ablution Absolution",
+		"Result": "Nikolas & Sons Instant Ablution Absolution",
+		"Prerequisites": [
+			"Currency,Penny,150"
+		],
+		"Action": "buy,Nikolas,Absolution,1"
+	},
+	"Carnival Ticket": {
+		"Name": "Carnival Ticket",
+		"Result": "Carnival Ticket",
+		"Prerequisites": [
+			"Mysteries,Cryptic Clue,20",
+			"Route,Route: Mrs plenty,1"
+		],
+		"Action": "carnival,Buy,clues"
+	},
+	"Rat on a String": {
+		"Name": "Rat on a String",
+		"Result": "Rat on a String",
+		"Prerequisites": [],
+		"Action": "flit,its king,meeting,present"
+	},
+	"Whispered Hint": {
+		"Name": "Whispered Hint",
+		"Result": "Whispered Hint",
+		"Prerequisites": [],
+		"Action": "flit,its king,meeting,understand"
+	},
+	
+	"GrindPersuasion": {
+		"Name": "GrindPersuasion",
+		"Result": "Persuasion",
+		"Prerequisites": [],
+		"Action": "empresscourt,attend,perform"
+	},
+	"GrindShadowy": {
+		"Name": "GrindShadowy",
+		"Result": "Shadowy",
+		"Prerequisites": [],
+		"Action": "flit,its king,meeting,present"
+	},
+	"GrindDangerous": {
+		"Name": "GrindDangerous",
+		"Result": "Dangerous",
+		"Prerequisites": ["Stories,An Annoyance to Jack-of-Smiles,<0"],
+		"Action":"Watchmaker,quarry,dibs"
+	},
+	"GrindWatchful": {
+		"Name": "GrindWatchful",
+		"Result": "Watchful",
+		"Prerequisites": [],
+		"Action": "flit,its king,meeting,understand"
+	},
+
+
+	"Penny": {
+		"Name": "Penny",
+		"Result": "Penny",
+		"Prerequisites": [
+			"Curiosity,Competent Short Story,1"
+		],
+		"Action": "sell,Curiosity,Competent Short Story,1"
+	},
+	
+	
+	"HeistBaseborn" : {
+		"Name": "HeistBaseborn",
+		"Result": "Planning a Heist:",
+		"Prerequisites": [
+			"Circumstance,Planning a Heist:,<0"
+		],
+		"Action": "flit,embark,baseborn"
+	},
+	"PrepBaseborn" : {
+		"Name": "PrepBaseborn",
+		"Result": "Casing...",
+		"Prerequisites": [
+			"Circumstance,Planning a Heist:,1,HeistBaseborn"
+		],
+		"Action": "flit,preparing,formulate"
+	},
+
+	
 	"StartNovel": {
 		"Name": "StartNovel",
 		"Result": "Working on...",
@@ -15,13 +141,7 @@
 		],
 		"Action": "veilgarden,begin a work,short story"
 	},
-	"GrindCasing": {
-		"Name": "GrindCasing",
-		"Result": "Casing...",
-		"Prerequisites": [
-		],
-		"Action": "flit,preparing,formulate"
-	},
+	
 	"Manuscript Page": {
 		"Name": "Manuscript Page",
 		"Result": "Manuscript Page",
@@ -29,28 +149,6 @@
 			"Circumstance,Working on...,=31,StartShortStory"
 		],
 		"Action": "lodgings,writer,rapidly"
-	},
-	"Suspicion": {
-		"Name": "Suspicion",
-		"Result": "Suspicion",
-		"Prerequisites": [
-			"Curiosity,Ablution Absolution,1"
-		],
-		"Action": "inventory,Curiosity,Ablution Absolution,1"
-	},
-	"Penny": {
-		"Name": "Penny",
-		"Result": "Penny",
-		"Prerequisites": [
-			"Curiosity,Competent Short Story,1"
-		],
-		"Action": "sell,Curiosity,Competent Short Story,1"
-	},
-	"Cryptic Clue": {
-		"Name": "Cryptic Clue",
-		"Result": "Cryptic Clue",
-		"Prerequisites": [],
-		"Action": "spite,Alleys,Cats,Grey"
 	},
 	"Potential": {
 		"Name": "Potential",
@@ -61,14 +159,7 @@
 		],
 		"Action": "lodgings,writer,rework,daring"
 	},
-	"Nightmares": {
-		"Name": "Nightmares",
-		"Result": "Nightmares",
-		"Prerequisites": [
-			"Mysteries,Appalling Secret,10"
-		],
-		"Action": "inventory,Mysteries,Appalling Secret,1"
-	},
+
 	"Inspired...": {
 		"Name": "Inspired...",
 		"Result": "Inspired...",
@@ -77,37 +168,8 @@
 		],
 		"Action": "empresscourt,quiet,1"
 	},
-	"Appalling Secret": {
-		"Name": "Appalling Secret",
-		"Result": "Appalling Secret",
-		"Prerequisites": [
-			"Mysteries,Cryptic Clue,500"
-		],
-		"Action": "inventory,Mysteries,Cryptic Clue,great many"
-	},
-	"Carnival Ticket": {
-		"Name": "Carnival Ticket",
-		"Result": "Carnival Ticket",
-		"Prerequisites": [
-			"Mysteries,Cryptic Clue,20",
-			"Route,Route: Mrs plenty,1"
-		],
-		"Action": "carnival,Buy,clues"
-	},
-	"Ablution Absolution": {
-		"Name": "Ablution Absolution",
-		"Result": "Nikolas & Sons Instant Ablution Absolution",
-		"Prerequisites": [
-			"Currency,Penny,150"
-		],
-		"Action": "buy,Nikolas,Absolution,1"
-	},
-	"Wounds": {
-		"Name": "Wounds",
-		"Result": "Wounds",
-		"Prerequisites": [],
-		"Action": "lodgings,wounds,time"
-	},
+	
+	
 	"Compelling Short Story": {
 		"Name": "Compelling Short Story",
 		"Result": "Compelling Short Story",
@@ -124,12 +186,6 @@
 			"Progress,Inspired...,34"
 		],
 		"Action": "empresscourt,complete,gothic romance"
-	},
-	"Scandal": {
-		"Name": "Scandal",
-		"Result": "Scandal",
-		"Prerequisites": [],
-		"Action": "lodgings,scandal,service"
 	},
 	"Competent Short Story": {
 		"Name": "Competent Short Story",
