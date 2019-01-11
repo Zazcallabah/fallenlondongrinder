@@ -1,4 +1,15 @@
 
+if($env:Home -eq $null)
+{
+	. $PSScriptRoot/navigation.ps1
+	$script:Acquisitions = gc -Raw $PSScriptRoot/acquisitions.json | ConvertFrom-Json
+}
+else
+{
+	. ${env:HOME}/site/wwwroot/Grind/navigation.ps1
+	$script:Acquisitions = gc -Raw ${env:HOME}/site/wwwroot/Grind/acquisitions.json | ConvertFrom-Json
+}
+
 function ParseActionString
 {
 	param($actionString)
@@ -71,16 +82,6 @@ if( $script:runTests )
 
 
 
-if($env:Home -eq $null)
-{
-	. $PSScriptRoot/navigation.ps1
-	$script:Acquisitions = gc -Raw $PSScriptRoot/acquisitions.json | ConvertFrom-Json
-}
-else
-{
-	. ${env:HOME}/site/wwwroot/Grind/navigation.ps1
-	$script:Acquisitions = gc -Raw ${env:HOME}/site/wwwroot/Grind/acquisitions.json | ConvertFrom-Json
-}
 
 function LookupAcquisition
 {
