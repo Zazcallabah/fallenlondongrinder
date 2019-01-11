@@ -117,6 +117,30 @@ function CheckMenaces
 	return $true
 }
 
+function PerformActions
+{
+	param($event, $action, $actions)
+	
+	$event = PerformAction $event $action
+	if( $event -eq $null )
+	{
+		write-warning "branch $($action) not found"
+		return
+	}
+
+	$actions | %{
+		if( $event -ne $null ) #wait, does return exit the loop, or is this needed?
+		{
+			$event = PerformAction $event $_
+			if( $event -eq $null )
+			{
+				write-warning "action $_ in $actions not found"
+				return
+			}
+		}
+	}
+	return $event
+}
 
 function DoAction
 {
@@ -126,16 +150,41 @@ function DoAction
 
 	Write-host "doing action $($action.location) $($action.first) $($action.second) $($action.third)"
 	
-	if( $action.location -eq "writing" )
+	$list = GoBackIfInStorylet
+	
+	# $canTravel = $list.Phase -eq "Available" # property is storylets
+	# $isInStorylet = $list.Phase -eq "In" -or $list.Phase -eq "InItemUse" # property is storylet
+	# phase "End" probably doesnt happen here?
+	
+	if( $list.storylet -ne $null )
 	{
-		Writing
-		return
+		# cangoback was false
+		# we cant travel or do anything except handle our current situation
+		
+		# add handling for menace grinding areas here?
+		
+		# only allow it if name of storylet matches first action
+		if( $list.storylet.name -match $action.first )
+		{
+			PerformActions $list $action.second $action.third
+			return
+		}
+		else
+		{
+			Write-Warning "In a locked storylet named $($list.storylet.name)"
+			return
+		}
 	}
-	
-	$result = ExitIfInStorylet
-	
-	if( !(IsInLocation $action.location) )
+	elseif( !(IsInLocation $action.location) )
 	{
+		if( $action.location -eq "carnival" -and $action.first -ne "Buy" )
+		{
+			$hasActionsLeft = EnsureTickets
+			if( !$hasActionsLeft )
+			{
+				return
+			}
+		}
 		if( $action.location -eq "inventory" )
 		{
 			DoInventoryAction $action.first $action.second $action.third
@@ -158,46 +207,142 @@ function DoAction
 		}
 		elseif( $action.location -eq "empresscourt" )
 		{
-			DoAction "shutteredpalace,Spend,1"
+			$result = DoAction "shutteredpalace,Spend,1"
+			$list = GoBackIfInStorylet
 		}
 		else
 		{
-			$result = MoveTo $action.location
+			$list = MoveTo $action.location
+		}
+	}
+	
+	$event = EnterStorylet $list $action.first
+	if( $event -eq $null )
+	{
+		write-warning "storylet $($action.first) not found"
+		return
+	}
+	
+	PerformActions $event $action.second $action.third
+}
+
+if($script:runTests)
+{
+	$list = ListStorylet
+	if( $list.Phase -ne "Available"  )
+	{
+		if( $list.storylet.canGoBack )
+		{
+			$b = GoBack
+		}
+		else
+		{
+			write-warning "locked in a storylet, cant run final tests"
+			return
+		}
+	}
+	Describe "MoveTo" {
+		It "can move to well known area" {
+			if( GetUserLocation -eq 7 )
+			{
+				$testlocation = "Veilgarden"
+			}
+			else
+			{
+				$testlocation = "Spite"
+			}
+			$result = MoveTo $testlocation
+			$result.area.name | should be $testlocation
+		}
+		It "can move to lodgings" {
+			$result = MoveTo "lodgings"
+			$result.area.name | should be "Your Lodgings"
+		}
+	}
+	Describe "GetUserLocation" {
+		It "can get current location" {
+			GetUserLocation | should be 2
+		}
+	}
+	
+	Describe "GetStoryletId" {
+		It "can get storylet id by name" {
+			GetStoryletId "Society" | should be 276092
+		}
+	}
+	
+	Describe "GoBackIfInStorylet" {
+		It "returns regular list when not in storylet" {
+			$list = GoBackIfInStorylet
+			$list.Phase | should be "Available"
+			$list.actions | should not be $null
+			$list.storylets | should not be $null
+			$list.isSuccess | should be $true
+		}
+		It "returns same list when in a storylet" {
+			UseQuality 377
+			$list = GoBackIfInStorylet
+			$list.Phase | should be "Available"
+			$list.actions | should not be $null
+			$list.storylets | should not be $null
+			$list.isSuccess | should be $true
+		}
+	}
+	
+	Describe "BeginStorylet" {
+		It "can begin storylet" {
+			$result = BeginStorylet 276092
+			$result.isSuccess | should be $true
+			$result.storylet | should not be $null
+			$result.storylet.cangoback | should be $true
 		}
 	}
 
-	# if( IsInLocation "carnival" -and)
-	# {
-		# if(!(EnsureTickets))
-		# {
-			# return
-		# }
-	# }
-	
-	$result = EnterStoryletAndPerformAction $action.first $action.second
-	if( $result -eq $null )
-	{
-		write-warning "$($action.second) not found"
+	Describe "EnterStorylet" {
+		It "can enter storylet by name" {
+			$list = GoBackIfInStorylet
+			$result = EnterStorylet $list "Society"
+			$result.isSuccess | should be $true
+			$result.storylet | should not be $null
+			$result.storylet.cangoback | should be $true
+		}
+		It "returns null if not valid storylet name" {
+			$list = GoBackIfInStorylet
+			$result = EnterStorylet $list "Not A Storylet Name"
+			$result | should be $null
+		}
 	}
-
-	$action.third | %{
-		$result = PerformActionFromCurrent $_
-		if( $result -eq $null )
-		{
-			write-warning "action $_ in $actionstring not found"
+	
+	Describe "PerformAction" {
+		It "can perform one action" {
+			$area = MoveTo "Flit"
+			$event = EnterStorylet $null "preparing for a big score"
+			$result = PerformAction $event "choose your target"
+			$result.Phase | should be "In"
+			$result.actions | should not be $null
+			$result.storylet | should not be $null
+			$result.storylet.canGoBack | should be $true
+			$result.storylet.id | should be 223811
+		}
+	}
+	Describe "PerformActions" {
+		It "can perform multiple actions" {
+			$result = PerformActions $null "preparing for your burglary" @("choose your target","preparing for your burglary","choose your target")
+			$result.Phase | should be "In"
+			$result.actions | should not be $null
+			$result.storylet | should not be $null
+			$result.storylet.canGoBack | should be $true
+			$result.storylet.id | should be 223811
 		}
 	}
 }
+
 
 
 if(!$script:runTests)
 {
 	if( HasActionsToSpare )
 	{
-		if( (IsInForcedStorylet) )
-		{
-			return
-		}
 		$hasActionsLeft = CheckMenaces
 		if( $hasActionsLeft )
 		{

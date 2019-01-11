@@ -20,20 +20,25 @@ function IsInLocation
 	return (GetUserLocation) -eq $id
 }
 
-function ExitIfInStorylet
+function GoBackIfInStorylet
 {
-	$result	= ListStorylet
+	$list = ListStorylet
 	
-	if( $result.storylet -ne $null )
+	if( $list.Phase -eq "Available" )
 	{
-		if( $result.storylet.canGoBack )
+		return $list
+	}
+	
+	if( $list.storylet -ne $null )
+	{
+		if( $list.storylet.canGoBack )
 		{
 			write-verbose "exiting storylet"
 			return GoBack
 		}
 	}
 	
-	return $result
+	return $list
 }
 
 function IsNumber
@@ -45,77 +50,19 @@ function IsNumber
 
 function GetStoryletId
 {
-	param($name)
-	$result = ListStorylet
-	if( IsNumber $name )
+	param($name,$list)
+	
+	if( $list -eq $null)
 	{
-		return $result.storylets | select -first 1 -skip ($name-1) -expandproperty id
-	}
-	return $result.storylets | ?{ $_.name -match $name } | select -first 1 -expandproperty id
-}
-
-if($script:runTests)
-{
-	Describe "GetUserLocation" {
-		It "can get current location" {
-			ExitIfInStorylet
-			GetUserLocation | should not be $null
-		}
-	}
-	$location = GetUserLocation
-	if( $location -ge 2 -and $location -le 7 )
-	{
-		Describe "MoveTo" {
-			It "can move" {
-				if( GetUserLocation -eq "spite" )
-				{
-					$testlocation = "Veilgarden"
-				}
-				else
-				{
-					$testlocation = "Spite"
-				}
-				$result = MoveTo $testlocation
-				$result.area.name | should be $testlocation
-			}
-			It "can move to lodgings" {
-				$result = MoveTo "lodgings"
-				$result.area.name | should be "Your Lodgings"
-				GetUserLocation | should be 2
-			}
-		}
-		Describe "GetStoryletId" {
-			It "can get storylet id by name" {
-				GetStoryletId "Society" | should be 276092
-			}
-		}
-		
-		Describe "BeginStorylet" {
-			It "can begin storylet" {
-				$result = BeginStorylet 276092
-				$result.isSuccess | should be $true
-				$result.storylet | should not be $null
-				$result.storylet.cangoback | should be $true
-			}
-		}
-		
-		Describe "Exit Storylet" {
-			It "can back out of chosen storylet" {
-				$result = ExitIfInStorylet
-				$result.storylet | should be $null
-				$result.storylets | should not be $null
-			}
-			It "does nothing if exiting and no storylet is chosen" {
-				$result = ExitIfInStorylet
-				$result.storylet | should be $null
-				$result.storylets | should not be $null
-			}
-		}
+		$list = ListStorylet
 	}
 	
+	if( IsNumber $name )
+	{
+		return $list.storylets | select -first 1 -skip ($name-1) -expandproperty id
+	}
+	return $list.storylets | ?{ $_.name -match $name } | select -first 1 -expandproperty id
 }
-
-
 
 function GetPossession
 {
@@ -154,9 +101,19 @@ if($script:runTests)
 
 function PerformAction
 {
-	param($result,$name)
+	param($event,$name)
 	
-	$childBranches = $result.storylet.childBranches | ?{ !$_.isLocked }
+	if( $event -eq $null -or $event.Phase -eq "End" )
+	{
+		$event = ListStorylet
+	}
+	if( $event.Phase -eq "Available" )
+	{
+		Write-Warning "Trying to perform action $name while phase: Available"
+		return $null
+	}
+	
+	$childBranches = $event.storylet.childBranches | ?{ !$_.isLocked }
 	if( $childBranches -eq $null )
 	{
 		return $null
@@ -176,37 +133,23 @@ function PerformAction
 		$branch = $childBranches | ?{ $_.name -match $name } | select -first 1
 	}
 	
-	if( $branch -ne $null )
+	if( $branch -eq $null )
 	{
-		return ChooseBranch $branch.id
+		return $null
 	}
+	
+	return ChooseBranch $branch.id
 }
 
-function EnterStoryletAndPerformAction
+function EnterStorylet
 {
-	param($storyletname, $name)
-	$storyletid = GetStoryletId $storyletname
-	$result = BeginStorylet $storyletid
-	return PerformAction $result $name
-}
-
-function PerformActionFromCurrent
-{
-	param($name)
-	$result = ListStorylet
-	return PerformAction $result $name
-}
-
-if($script:runTests)
-{
-	# Describe "EnterStoryletPerformAction" {
-		# It "can perform action" {
-			# MoveTo "spite"
-			# $result = EnterStoryletAndPerformAction "Alleys" "Cats"
-			# $result.isSuccess | should be $true
-			# $result.endStorylet | should not be $null
-		# }
-	# }
+	param($list,$storyletname)
+	$storyletid = GetStoryletId $storyletname $list
+	if($storyletid -eq $null)
+	{
+		return $null
+	}
+	BeginStorylet $storyletid
 }
 
 $script:shopIds = @{
@@ -296,11 +239,11 @@ if($script:runTests)
 
 function UseItem
 {
-	param($id,$branch)
+	param($id,$action)
 	$result = UseQuality $id
 	if($result.isSuccess)
 	{
-		PerformActionFromCurrent $branch
+		PerformAction $null $action
 	}
 }
 
