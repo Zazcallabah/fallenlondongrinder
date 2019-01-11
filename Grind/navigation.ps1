@@ -64,23 +64,51 @@ function GetStoryletId
 	return $list.storylets | ?{ $_.name -match $name } | select -first 1 -expandproperty id
 }
 
+function GetPossessionCategory
+{
+	param( $category )
+	if( $category -eq "Basic" )
+	{
+		$category = "BasicAbility";
+	}
+	
+	return (Myself).possessions | ?{ $category -eq $null -or $_.categories[0] -eq $category } | select -expandproperty possessions
+}
+
 function GetPossession
 {
 	param( $category, $name )
 	if( $name -eq $null )
 	{
 		$name = $category
-		$possessions = (Myself).possessions | select -expandproperty possessions
+		$category = $null
 	}
-	else
-	{
-		$possessions = (Myself).possessions | ?{ $_.name -eq $category } | select -expandproperty possessions
-	}
+	
+	$possessions = GetPossessionCategory $category
+
 	return $possessions | ?{ $_.name -match $name } | select -first 1
 }
 
 if($script:runTests)
 {
+	Describe "GetPossessionCategory" {
+		It "can get route" {
+			$cat = GetPossessionCategory "Route"
+			$cat | ?{ $_.category -eq "Route" } | measure | select -expandproperty count | should be $cat.length
+			$cat | ?{ $_.name -eq "Route: Lodgings" } | should not be $null
+		}
+		It "can get basicability" {
+			$cat = GetPossessionCategory "Basic"
+			$cat | ?{ $_.category -eq "BasicAbility" } | measure | select -expandproperty count | should be $cat.length
+			$cat | ?{ $_.name -eq "Dangerous" } | should not be $null
+		}
+		It "can get all" {
+			$cat = GetPossessionCategory
+			$cat | ?{ $_.name -eq "Route: Lodgings" } | should not be $null
+			$cat | ?{ $_.name -eq "Dangerous" } | should not be $null
+		}
+	}
+	
 	Describe "GetPossession" {
 		It "can get possession" {
 			$hints = GetPossession "Mysteries" "Whispered Hint"
@@ -93,6 +121,10 @@ if($script:runTests)
 		It "can get possession with partial match" {
 			$hints = GetPossession "Mysteries" "Whispered"
 			$hints.id | should be 380
+		}
+		It "can get basic possession" {
+			$dangerous = GetPossession "Basic" "Dangerous"
+			$dangerous.id = 211
 		}
 	}
 }
