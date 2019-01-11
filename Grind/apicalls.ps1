@@ -184,12 +184,22 @@ function MoveTo
 	param($id)
 	$id = GetLocationId $id
 	$script:user = $null # after move, area is different
-	Post -href "map/move/$id"
+	$area = Post -href "map/move/$id"
+	if($area.isSuccess -ne $true)
+	{
+		throw "bad result when moving to a new area: $area"
+	}
+	return $area
 }
 
 function ListStorylet
 {
-	Post -href "storylet"
+	$list = Post -href "storylet"
+	if($list.isSuccess -ne $true)
+	{
+		throw "bad result when listing storylets: $list"
+	}
+	return $list
 }
 
 if( $script:runTests )
@@ -238,7 +248,12 @@ function Sell
 function UseQuality
 {
 	param($id)
-	Post -href "storylet/usequality/$($id)"
+	$result = Post -href "storylet/usequality/$([int]$id)"
+	if($result.isSuccess -ne $true)
+	{
+		throw "bad result when using quality $($id): $result"
+	}
+	return $result
 }
 
 function User
@@ -261,19 +276,34 @@ function Myself
 
 function GoBack
 {
-	Post -href "storylet/goback"
+	$list = Post -href "storylet/goback"
+	if($list.isSuccess -ne $true)
+	{
+		throw "bad result when going back: $list"
+	}
+	return $list
 }
 
 function BeginStorylet
 {
 	param($id)
-	Post -href "storylet/begin" -payload @{ "eventId" = $id }
+	$event = Post -href "storylet/begin" -payload @{ "eventId" = $id }
+	if($event.isSuccess -ne $true)
+	{
+		throw "bad result at begin storylet $($id): $event"
+	}
+	return $event
 }
 
 function ChooseBranch
 {
 	param($id)
-	Post -href "storylet/choosebranch" -payload @{"branchId"=$id;"secondChanceIds"=@();}
+	$event = Post -href "storylet/choosebranch" -payload @{"branchId"=$id;"secondChanceIds"=@();}
+	if($event.isSuccess -ne $true)
+	{
+		throw "bad result at chosebranch $($id): $event"
+	}
+	return $event
 }
 
 if( $script:runTests )
