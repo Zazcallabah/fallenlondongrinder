@@ -248,6 +248,7 @@ function TestPossessionData
 		"possessions" = @(@{ "name" = $name; "effectiveLevel" = $level })
 	}
 }
+
 if( $script:runTests )
 {
 	Describe "Require" {
@@ -259,15 +260,21 @@ if( $script:runTests )
 			)
 		};
 		It "performs action regardless if level is null" {
-			$result = Require "Progress" "Casing..." -dryRun
+			$result = Require "Menaces" "Wounds" -dryRun
 			$script:actionHistory.Length | should be 1
-			$script:actionHistory[0] | should be "flit,preparing,formulate"
+			$script:actionHistory[0] | should be "lodgings,wounds,time"
 			$script:actionHistory = @()
 		}
 		It "can tag specific acquisition to run in requirements" {
-			$result = Require "Curiosity" "Manuscript Page" 20 -dryRun
+			$result = Require "Circumstance" "Working on..." 100 "StartShortStory" -dryRun
 			$script:actionHistory.Length | should be 1
 			$script:actionHistory[0] | should be "veilgarden,begin a work,short story"
+			$script:actionHistory = @()
+		}
+		It "can tag another specific acquisition to run in requirements" {
+			$result = Require "Circumstance" "Working on..." 100 "StartNovel" -dryRun
+			$script:actionHistory.Length | should be 1
+			$script:actionHistory[0] | should be "empresscourt,next work,novel"
 			$script:actionHistory = @()
 		}
 		It "noops if you already have the possession" {
@@ -293,6 +300,14 @@ if( $script:runTests )
 			$result = Require "Mysteries" "Cryptic Clue" 15 -dryRun
 			$script:actionHistory.length | should be 1
 			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"
+			$result | should be $false
+			$script:actionHistory = @()
+		}
+		It "acquires if possession not found" {
+			
+			$result = Require "Menaces" "Scandal" 15 -dryRun
+			$script:actionHistory.length | should be 1
+			$script:actionHistory[0] | should be "lodgings,scandal,service"
 			$result | should be $false
 			$script:actionHistory = @()
 		}
