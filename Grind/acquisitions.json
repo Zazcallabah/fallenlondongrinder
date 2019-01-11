@@ -71,9 +71,9 @@
 		"Action": "flit,its king,meeting,understand"
 	},
 	
-	"GrindPersuasion": {
-		"Name": "GrindPersuasion",
-		"Result": "Persuasion",
+	"GrindPersuasive": {
+		"Name": "GrindPersuasive",
+		"Result": "Persuasive",
 		"Prerequisites": [],
 		"Action": "empresscourt,attend,perform"
 	},

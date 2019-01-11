@@ -150,7 +150,7 @@ function Require
 	param( $category, $name, $level, $tag, [switch]$dryRun )
 	
 	$pos = GetPossession $category $name
-	
+
 	if( $level -eq $null )
 	{
 		$level = ""
@@ -216,7 +216,7 @@ function TestPossessionData
 {
 	param( $category, $name, $level )
 	return new-object psobject -property @{
-		"categories" = @($category)
+		"name" = $category
 		"possessions" = @(@{ "name" = $name; "effectiveLevel" = $level })
 	}
 }
@@ -227,6 +227,7 @@ if( $script:runTests )
 	
 		$script:myself = @{
 			"possessions" = @(
+				(TestPossessionData "" "Dangerous" 100),
 				(TestPossessionData "Mysteries" "Cryptic Clue" 10),
 				(TestPossessionData "Menaces" "Nightmares" 5)
 			)

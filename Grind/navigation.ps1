@@ -67,12 +67,12 @@ function GetStoryletId
 function GetPossessionCategory
 {
 	param( $category )
-	if( $category -eq "Basic" )
+	if( $category -eq "Basic" -or $category -eq "BasicAbility" )
 	{
-		$category = "BasicAbility";
+		return (Myself).possessions[0].possessions;
 	}
 	
-	return (Myself).possessions | ?{ $category -eq $null -or $_.categories[0] -eq $category } | select -expandproperty possessions
+	return (Myself).possessions | ?{ $category -eq $null -or $_.name -eq $category } | select -expandproperty possessions
 }
 
 function GetPossession

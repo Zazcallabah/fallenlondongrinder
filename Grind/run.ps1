@@ -30,7 +30,7 @@ $script:actions = @(
 	#"spite,casing,gather"
 	#"writing"
 	"require,Progress,Casing...,5,PrepBaseborn"
-	"require,Basic,Persuasion,100,GrindPersuasion" #95
+	"require,Basic,Persuasive,100,GrindPersuasive" #95
 	"require,Basic,Dangerous,100,GrindDangerous" # 39
 	"require,Basic,Shadowy,100,GrindShadowy" #63
 	"require,Basic,Watchful,100,GrindWatchful" # 66
@@ -137,14 +137,22 @@ function PerformActions
 		return
 	}
 
+	if( $actions -eq $null )
+	{
+		return
+	}
+
 	$actions | %{
-		if( $event -ne $null ) #wait, does return exit the loop, or is this needed?
+		if( $event -ne $null ) #return here only exits the loop
 		{
+			if( $event.Phase -eq "End" )
+			{
+				$event = ListStorylet
+			}
 			$event = PerformAction $event $_
 			if( $event -eq $null )
 			{
 				write-warning "action $_ in $actions not found"
-				return
 			}
 		}
 	}
@@ -216,7 +224,7 @@ function DoAction
 		}
 		elseif( $action.location -eq "require" )
 		{
-			$hasActionsLeft = Require $action.first $action.second $action.third
+			$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
 			if($hasActionsLeft)
 			{
 				DoAction (Get-Action ([DateTime]::UtcNow) $index) $index+1
@@ -235,7 +243,8 @@ function DoAction
 		}
 		else
 		{
-			$list = MoveTo $action.location
+			$area = MoveTo $action.location;
+			$list = ListStorylet
 		}
 	}
 	
