@@ -150,6 +150,11 @@ function DoAction
 
 	Write-host "doing action $($action.location) $($action.first) $($action.second) $($action.third)"
 	
+	if( (User).setting -ne $null -and !(User).setting.canTravel )
+	{
+		# also user.setting.itemsUsableHere
+		return
+	}
 	$list = GoBackIfInStorylet
 	
 	# $canTravel = $list.Phase -eq "Available" # property is storylets
