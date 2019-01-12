@@ -70,6 +70,31 @@
 		"Prerequisites": [],
 		"Action": "flit,its king,meeting,understand"
 	},
+	"Extraordinary Implication": {
+		"Name": "Extraordinary Implication",
+		"Result": "Extraordinary Implication",
+		"Prerequisites": [
+			"Elder,Presbyterate Passphrase,3"
+		],
+		"Action": "watchmakers,fighting ring,painted,2"
+	},
+	"Presbyterate Passphrase": {
+		"Name": "Presbyterate Passphrase",
+		"Result": "Presbyterate Passphrase",
+		"Prerequisites": [
+			"Mysteries,Tale of Terror,5"
+		],
+		"Action": "watchmakers,fighting ring,roses,fight"
+	},
+	"Tale of Terror!!": {
+		"Name": "Tale of Terror!!",
+		"Result": "Tale of Terror!!",
+		"Prerequisites": [
+			"Goods,Piece of Rostygold,100",
+			"Story,A Name Scrawled in Blood,3"
+		],
+		"Action": "watchmakers,fighting ring,meat,clean"
+	},
 	
 	"GrindPersuasive": {
 		"Name": "GrindPersuasive",
@@ -95,6 +120,8 @@
 		"Prerequisites": [],
 		"Action": "flit,its king,meeting,understand"
 	},
+	
+	
 
 
 	"Penny": {
