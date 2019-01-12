@@ -18,28 +18,35 @@ dont 'require' a circumstance without a named tag
 do special handling for circumstance, ignoring it if already "wrong" value?
 
 
-# finishing a short story at "lodgings,writer,finish,[name]
-# leveling progress to 60 is already established, but further:
-# 70 compromising document, darkness (tale of terror)
-# 80 life-lessons ( hard earned lesson)
-# 100 esoteric elements (extraordinary implication)
+* finishing a short story at "lodgings,writer,finish,[name]
+* leveling progress to 60 is already established, but further:
+* 70 compromising document, darkness (tale of terror)
+* 80 life-lessons ( hard earned lesson)
+* 100 esoteric elements (extraordinary implication)
 
 
-# empresscourt,complete,
-# 	gothic romance - 6000 moon pearls, fascinating, making waves
-#	tale of the future - connected benthic, connected summerset,making waves, 6000 brass silver
-# 	patriotic adventure - 6000 moon perals, making waves
-# use fascinating to do romance options in empresscourt, which requires fascinating 11? 10?
+* empresscourt,complete,
+* gothic romance - 6000 moon pearls, fascinating, making waves
+* tale of the future - connected benthic, connected summerset,making waves, 6000 brass silver
+* patriotic adventure - 6000 moon perals, making waves
+* use fascinating to do romance options in empresscourt, which requires fascinating 11? 10?
 
 
-# function WorkingOn
-# {
-	# workingon 31
-	# action to start
-	# require potential 60
-	# action to finish
-	# competent or compelling results
-	# sell result no matter which
-# }
+	function WorkingOn {
+		# workingon 31
+		# action to start
+		# require potential 60
+		# action to finish
+		# competent or compelling results
+		# sell result no matter which
+	}
 
-#	"Penny" = @("Curiosity,Competent Short Story,1"); # workking on not null, writing doesnt currently end? push for which level?
+"Penny" = @("Curiosity,Competent Short Story,1"); # workking on not null, writing doesnt currently end? push for which level?
+
+maybe a flag for prerequisites that marks or/and?
+sell & inventory should take arbitrary number of items, and try them in order until one is found in inventory
+
+set up the upconvert routes and such
+go through areas, enter good actions to take for generic items
+start including amount of item/action
+	we could automate that through the tree cascade if it has a separate property
