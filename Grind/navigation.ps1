@@ -23,12 +23,12 @@ function IsInLocation
 function GoBackIfInStorylet
 {
 	$list = ListStorylet
-	
+
 	if( $list.Phase -eq "Available" )
 	{
 		return $list
 	}
-	
+
 	if( $list.storylet -ne $null )
 	{
 		if( $list.storylet.canGoBack )
@@ -37,26 +37,26 @@ function GoBackIfInStorylet
 			return GoBack
 		}
 	}
-	
+
 	return $list
 }
 
 function IsNumber
 {
 	param($str)
-	
+
 	return $str -match "^\d+$"
 }
 
 function GetStoryletId
 {
-	param($name,$list)
-	
+	param($name, $list)
+
 	if( $list -eq $null)
 	{
 		$list = ListStorylet
 	}
-	
+
 	if( IsNumber $name )
 	{
 		return $list.storylets | select -first 1 -skip ($name-1) -expandproperty id
@@ -71,7 +71,7 @@ function GetPossessionCategory
 	{
 		return (Myself).possessions[0].possessions;
 	}
-	
+
 	return (Myself).possessions | ?{ $category -eq $null -or $_.name -eq $category } | select -expandproperty possessions
 }
 
@@ -83,7 +83,7 @@ function GetPossession
 		$name = $category
 		$category = $null
 	}
-	
+
 	$possessions = GetPossessionCategory $category
 
 	return $possessions | ?{ $_.name -match $name } | select -first 1
@@ -108,7 +108,7 @@ if($script:runTests)
 			$cat | ?{ $_.name -eq "Dangerous" } | should not be $null
 		}
 	}
-	
+
 	Describe "GetPossession" {
 		It "can get possession" {
 			$hints = GetPossession "Mysteries" "Whispered Hint"
@@ -133,8 +133,8 @@ if($script:runTests)
 
 function PerformAction
 {
-	param($event,$name)
-	
+	param($event, $name)
+
 	if( $event -eq $null -or $event.Phase -eq "End" )
 	{
 		$event = ListStorylet
@@ -144,18 +144,18 @@ function PerformAction
 		Write-Warning "Trying to perform action $name while phase: Available"
 		return $null
 	}
-	
+
 	$childBranches = $event.storylet.childBranches | ?{ !$_.isLocked }
 	if( $childBranches -eq $null )
 	{
 		return $null
 	}
-	
+
 	if( $name -eq "?" )
 	{
 		$name = (random $childBranches.length)+1
 	}
-	
+
 	if( IsNumber $name )
 	{
 		$branch = $childBranches[$name-1]
@@ -164,18 +164,18 @@ function PerformAction
 	{
 		$branch = $childBranches | ?{ $_.name -match $name } | select -first 1
 	}
-	
+
 	if( $branch -eq $null )
 	{
 		return $null
 	}
-	
+
 	return ChooseBranch $branch.id
 }
 
 function EnterStorylet
 {
-	param($list,$storyletname)
+	param($list, $storyletname)
 	$storyletid = GetStoryletId $storyletname $list
 	if($storyletid -eq $null)
 	{
@@ -203,7 +203,7 @@ $script:shopIds = @{
 function GetShopId
 {
 	param($name)
-	
+
 	$key = $script:shopIds.Keys | ?{ $_ -match $name } | select -first 1
 	if( $key -eq $null )
 	{
@@ -215,7 +215,7 @@ function GetShopId
 function GetShopItemId
 {
 	#how to know which shop has which item?
-	param($shopname,$itemname)
+	param($shopname, $itemname)
 	$shopid = GetShopId $shopname
 	$inventory = GetShopInventory $shopid
 	if( IsNumber $itemname )
@@ -231,14 +231,14 @@ function GetShopItemId
 
 function BuyPossession
 {
-	param($shopname,$itemname,$amount)
+	param($shopname, $itemname, $amount)
 	$shopitemId = GetShopItemId $shopname $itemname
 	Buy $shopitemid $amount
 }
 
 function SellPossession
 {
-	param($item,$amount)
+	param($item, $amount)
 	$shopitemid = GetShopItemId "sell" $item
 	Sell $shopitemid $amount
 }
@@ -271,7 +271,7 @@ if($script:runTests)
 
 function UseItem
 {
-	param($id,$action)
+	param($id, $action)
 	$result = UseQuality $id
 	if($result.isSuccess)
 	{
@@ -295,8 +295,8 @@ function HasActionsToSpare
 
 function DoInventoryAction
 {
-	param($category,$name,$action)
-	
+	param($category, $name, $action)
+
 	$item = GetPossession $category $name
 	if( $item -ne $null -and $item.effectiveLevel -ge 1 )
 	{

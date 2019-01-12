@@ -18,7 +18,7 @@ function ParseActionString
 		"location" = $spl[0];
 		"first" = $spl[1];
 		"second" = $spl[2];
-		"third" = if($spl.length -ge 4){@(,$spl[3..($spl.length-1)])}else{$null};
+		"third" = if($spl.length -ge 4){@(, $spl[3..($spl.length-1)])}else{$null};
 	}
 }
 
@@ -73,7 +73,7 @@ function RecordAction
 function Acquire
 {
 	param( $actionStr, [switch]$dryRun )
-	
+
 	if( $dryRun )
 	{
 		$result = RecordAction $actionStr
@@ -106,18 +106,18 @@ function LookupAcquisition
 	{
 		return $null
 	}
-	
+
 	if($script:Acquisitions."$name" -ne $null )
 	{
 		return $script:Acquisitions."$name"
 	}
-	
+
 	$nameMatches = $script:Acquisitions.PSObject.Properties | ?{ $_.Name -match $name } | select -first 1 -expandproperty Value
 	if( $nameMatches -ne $null )
 	{
 		return $nameMatches
 	}
-	
+
 	return $script:Acquisitions.PSObject.Properties | ?{ $_.Value.Result -match $name } | select -first 1 -ExpandProperty Value
 }
 
@@ -148,7 +148,7 @@ if( $script:runtests )
 function Require
 {
 	param( $category, $name, $level, $tag, [switch]$dryRun )
-	
+
 	$pos = GetPossession $category $name
 
 	if( $level -eq $null )
@@ -160,9 +160,9 @@ function Require
 	{
 		# usually menaces, handle state and continue grinding until it passes threshold?
 		# for menaces, not having possession means less than, so return true
-		
+
 		# note that if we are in a forced storylet, that would be detected before we get here
-		
+
 		if( $pos -eq $null -or $pos.effectivelevel -lt $level.substring(1) )
 		{
 			return $true
@@ -189,14 +189,14 @@ function Require
 			return $true
 		}
 	}
-	
+
 	$acq = LookupAcquisition $tag
-	
+
 	if( $acq -eq $null )
 	{
 		$acq = LookupAcquisition $name
 	}
-	
+
 	foreach( $prereq in $acq.Prerequisites )
 	{
 		$action = ParseActionString $prereq
@@ -208,7 +208,7 @@ function Require
 	}
 
 	$result = Acquire $acq.Action -dryRun:$dryRun
-	
+
 	return $false
 }
 
@@ -224,7 +224,7 @@ function TestPossessionData
 if( $script:runTests )
 {
 	Describe "Require" {
-	
+
 		$script:myself = @{
 			"possessions" = @(
 				(TestPossessionData "" "Dangerous" 100),
@@ -251,25 +251,25 @@ if( $script:runTests )
 			$script:actionHistory = @()
 		}
 		It "noops if you already have the possession" {
-			
+
 			$result = Require "Mysteries" "Cryptic Clue" 5 -dryRun
 			$script:actionHistory.length | should be 0
 			$result | should be $true
 		}
 		It "noops if you have exact count" {
-			
+
 			$result = Require "Mysteries" "Cryptic Clue" "=10" -dryRun
 			$script:actionHistory.length | should be 0
 			$result | should be $true
 		}
 		It "noops if you haven't got enough menaces" {
-			
+
 			$result = Require "Menaces" "Nightmares" "<8" -dryRun
 			$script:actionHistory.length | should be 0
 			$result | should be $true
 		}
 		It "acquires if you dont have enough of the possession" {
-			
+
 			$result = Require "Mysteries" "Cryptic Clue" 15 -dryRun
 			$script:actionHistory.length | should be 1
 			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"
@@ -277,7 +277,7 @@ if( $script:runTests )
 			$script:actionHistory = @()
 		}
 		It "acquires if possession not found" {
-			
+
 			$result = Require "Menaces" "Scandal" 15 -dryRun
 			$script:actionHistory.length | should be 1
 			$script:actionHistory[0] | should be "lodgings,scandal,service"
@@ -285,16 +285,16 @@ if( $script:runTests )
 			$script:actionHistory = @()
 		}
 		It "acquires if you dont have exact count" {
-			
+
 			$result = Require "Mysteries" "Cryptic Clue" 15 -dryRun
 			$script:actionHistory.length | should be 1
 			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"
 			$result | should be $false
 			$script:actionHistory = @()
 		}
-		
+
 		It "reduces menaces if you have too much, which cascades to getting clues" {
-			
+
 			$result = Require "Menaces" "Nightmares" "<5" -dryRun
 			$script:actionHistory.length | should be 1
 			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"

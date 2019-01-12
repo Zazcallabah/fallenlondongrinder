@@ -1,4 +1,5 @@
-if( $env:LOGIN_EMAIL -eq $null -or $env:LOGIN_PASS -eq $null ) {
+if( $env:LOGIN_EMAIL -eq $null -or $env:LOGIN_PASS -eq $null )
+{
 	throw "missing login information"
 }
 
@@ -108,7 +109,7 @@ function Get-Headers
 
 function Post
 {
-	param($href,$payload,$method="POST")
+	param($href, $payload, $method="POST")
 	$headers = Get-Headers
 	$uri = "https://api.fallenlondon.com/api/$href"
 	if($payload -ne $null )
@@ -236,14 +237,14 @@ function GetShopInventory
 
 function Buy
 {
-	param($id,$amount)
+	param($id, $amount)
 	$script:myself = $null #after buying, inventory is different
 	Post -href "exchange/buy" -payload @{ "availabilityId" = $id; "amount" = [int]$amount }
 }
 
 function Sell
 {
-	param($id,$amount)
+	param($id, $amount)
 	$script:myself = $null #after selling, inventory is different
 	Post -href "exchange/sell" -payload @{ "availabilityId" = $id; "amount" = [int]$amount }
 }
@@ -301,7 +302,7 @@ function BeginStorylet
 function ChooseBranch
 {
 	param($id)
-	$event = Post -href "storylet/choosebranch" -payload @{"branchId"=$id;"secondChanceIds"=@();}
+	$event = Post -href "storylet/choosebranch" -payload @{"branchId"=$id; "secondChanceIds"=@(); }
 	if($event.isSuccess -ne $true)
 	{
 		throw "bad result at chosebranch $($id): $event"

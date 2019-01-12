@@ -42,7 +42,7 @@ $script:actions = @(
 
 function Get-Action
 {
-	param($now,$index)
+	param($now, $index)
 	$selector = $now.DayOfYear
 	if( $index -ne $null )
 	{
@@ -53,15 +53,15 @@ function Get-Action
 
 if($script:runTests)
 {
-	$script:actions =@( 0,1,2,3,4,5,6 )
+	$script:actions =@( 0, 1, 2, 3, 4, 5, 6 )
 	Describe "Get-Action" {
 		It "selects based on day of year" {
-			Get-Action (new-object datetime 2018,1,1,0,0,0) | should be 1
-			Get-Action (new-object datetime 2018,1,1,0,10,0) | should be 1
+			Get-Action (new-object datetime 2018, 1, 1, 0, 0, 0) | should be 1
+			Get-Action (new-object datetime 2018, 1, 1, 0, 10, 0) | should be 1
 		}
 		It "cycles" {
-			Get-Action (new-object datetime 2018,1,6,2,0,0) | should be 6
-			Get-Action (new-object datetime 2018,1,7,2,0,0) | should be 0
+			Get-Action (new-object datetime 2018, 1, 6, 2, 0, 0) | should be 6
+			Get-Action (new-object datetime 2018, 1, 7, 2, 0, 0) | should be 0
 		}
 	}
 }
@@ -162,7 +162,7 @@ function PerformActions
 
 function DoAction
 {
-	param($actionString,$index = 1)
+	param($actionString, $index = 1)
 
 	$action = ParseActionString $actionString
 
@@ -358,14 +358,14 @@ if($script:runTests)
 		}
 	}
 	# Describe "PerformActions" {
-		# It "can perform multiple actions" {
-			# $result = PerformActions $null "preparing for your burglary" @("choose your target","preparing for your burglary","choose your target")
-			# $result.Phase | should be "In"
-			# $result.actions | should not be $null
-			# $result.storylet | should not be $null
-			# $result.storylet.canGoBack | should be $true
-			# $result.storylet.id | should be 223811
-		# }
+	# It "can perform multiple actions" {
+	# $result = PerformActions $null "preparing for your burglary" @("choose your target","preparing for your burglary","choose your target")
+	# $result.Phase | should be "In"
+	# $result.actions | should not be $null
+	# $result.storylet | should not be $null
+	# $result.storylet.canGoBack | should be $true
+	# $result.storylet.id | should be 223811
+	# }
 	# }
 }
 
