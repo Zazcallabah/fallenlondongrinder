@@ -67,12 +67,12 @@ if( $script:runInfraTests )
 			$token = Get-Token
 			$token | should not be $null
 			$token | should not be ""
-			$cc = Download-CredentialsCache
+			$cc = DownloadCredentialsCache
 			$cc | should not be $null
 			$cc.token | should be $script:credentials.token
 			$cc.timeout | should be $script:credentials.timeout
 			$cc.token | should be $token
-			
+
 		}
 		It "calling twice returns same token" {
 			$token = Get-Token
@@ -176,7 +176,7 @@ function GetLocationId
 function GetShopId
 {
 	param($name)
-	
+
 	$key = $script:shopIds.Keys | ?{ $_ -match $name } | select -first 1
 	return $script:shopIds[$key]
 }

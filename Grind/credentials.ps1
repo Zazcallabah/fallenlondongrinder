@@ -27,7 +27,7 @@ if($script:runInfraTests)
 }
 
 
-function Download-CredentialsCache
+function DownloadCredentialsCache
 {
 	$blob = Get-Blob
 	$blobcontent = $blob.ICloudBlob.DownloadText()
@@ -43,7 +43,7 @@ function Get-CredentialsObject
 {
 	if( $script:credentials -eq $null )
 	{
-		$script:credentials = Download-CredentialsCache
+		$script:credentials = DownloadCredentialsCache
 	}
 	return $script:credentials
 }
