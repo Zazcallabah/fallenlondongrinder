@@ -18,18 +18,19 @@ $script:actions = @(
 	#"veilgarden,archaeology,1" persuasive 31 shreik
 	#"veilgarden,literary,1" persuasive 5 gets rusty/glim/jade also
 	#"veilgarden,rescue,publisher" persuasive 47, proscribed material
-	
+
 	#"ladybones,warehouse,1" - nevercold
 
 	#"carnival,games,high"
 
 	#"carnival,big,?"
 	#"carnival,sideshows,?"
-	
+
 	#"empresscourt,Matters,artistically"
 	#"spite,casing,gather"
 	#"writing"
 	"require,Progress,Casing...,5,PrepBaseborn"
+	"require,Elder,Presbyterate Passphrase,9"
 	"require,Basic,Persuasive,100,GrindPersuasive" #95
 	"require,Basic,Dangerous,100,GrindDangerous" # 39
 	"require,Basic,Shadowy,100,GrindShadowy" #63
@@ -104,7 +105,7 @@ function CheckMenaces
 	{
 		return $false
 	}
-	
+
 	$hasActionsLeft = Require "Menaces" "Wounds" "<4"
 	if( !$hasActionsLeft )
 	{
@@ -116,20 +117,20 @@ function CheckMenaces
 	{
 		return $false
 	}
-	
+
 	$hasActionsLeft = Require "Menaces" "Suspicion" "<6"
 	if( !$hasActionsLeft )
 	{
 		return $false
 	}
-	
+
 	return $true
 }
 
 function PerformActions
 {
 	param($event, $action, $actions)
-	
+
 	$event = PerformAction $event $action
 	if( $event -eq $null )
 	{
@@ -162,29 +163,29 @@ function PerformActions
 function DoAction
 {
 	param($actionString,$index = 1)
-	
+
 	$action = ParseActionString $actionString
 
 	Write-host "doing action $($action.location) $($action.first) $($action.second) $($action.third)"
-	
+
 	if( (User).setting -ne $null -and !(User).setting.canTravel )
 	{
 		# also user.setting.itemsUsableHere
 		return
 	}
 	$list = GoBackIfInStorylet
-	
+
 	# $canTravel = $list.Phase -eq "Available" # property is storylets
 	# $isInStorylet = $list.Phase -eq "In" -or $list.Phase -eq "InItemUse" # property is storylet
 	# phase "End" probably doesnt happen here?
-	
+
 	if( $list.storylet -ne $null )
 	{
 		# cangoback was false
 		# we cant travel or do anything except handle our current situation
-		
+
 		# add handling for menace grinding areas here?
-		
+
 		# only allow it if name of storylet matches first action
 		if( $list.storylet.name -match $action.first )
 		{
@@ -247,14 +248,14 @@ function DoAction
 			$list = ListStorylet
 		}
 	}
-	
+
 	$event = EnterStorylet $list $action.first
 	if( $event -eq $null )
 	{
 		write-warning "storylet $($action.first) not found"
 		return
 	}
-	
+
 	PerformActions $event $action.second $action.third
 }
 
@@ -296,13 +297,13 @@ if($script:runTests)
 			GetUserLocation | should be 2
 		}
 	}
-	
+
 	Describe "GetStoryletId" {
 		It "can get storylet id by name" {
 			GetStoryletId "Society" | should be 276092
 		}
 	}
-	
+
 	Describe "GoBackIfInStorylet" {
 		It "returns regular list when not in storylet" {
 			$list = GoBackIfInStorylet
@@ -320,7 +321,7 @@ if($script:runTests)
 			$list.isSuccess | should be $true
 		}
 	}
-	
+
 	Describe "BeginStorylet" {
 		It "can begin storylet" {
 			$result = BeginStorylet 276092
@@ -344,7 +345,7 @@ if($script:runTests)
 			$result | should be $null
 		}
 	}
-	
+
 	Describe "PerformAction" {
 		It "can perform one action" {
 			$event = EnterStorylet $null "write letters"
