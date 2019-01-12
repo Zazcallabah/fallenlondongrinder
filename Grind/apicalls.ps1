@@ -1,3 +1,6 @@
+if( $env:LOGIN_EMAIL -eq $null -or $env:LOGIN_PASS -eq $null ) {
+	throw "missing login information"
+}
 
 $script:uastring = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
 
