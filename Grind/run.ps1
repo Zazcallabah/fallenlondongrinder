@@ -42,7 +42,7 @@ $script:actions = @(
 
 function Get-Action
 {
-	param($now, $index)
+	param($now, [int]$index)
 	$selector = $now.DayOfYear
 	if( $index -ne $null )
 	{
@@ -162,7 +162,7 @@ function PerformActions
 
 function DoAction
 {
-	param($actionString, $index = 1)
+	param($actionString, [int]$index = 1)
 
 	$action = ParseActionString $actionString
 
@@ -228,7 +228,7 @@ function DoAction
 			$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
 			if($hasActionsLeft)
 			{
-				DoAction (Get-Action ([DateTime]::UtcNow) $index) $index+1
+				DoAction (Get-Action ([DateTime]::UtcNow) $index) ($index+1)
 			}
 			return
 		}
