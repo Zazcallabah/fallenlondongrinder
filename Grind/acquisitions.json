@@ -9,7 +9,7 @@
 		"Name": "Wounds",
 		"Result": "Wounds",
 		"Prerequisites": [],
-		"Action": "lodgings,wounds,time"
+		"Action": "lodgings,wounds,time,1"
 	},
 	"Nightmares": {
 		"Name": "Nightmares",
