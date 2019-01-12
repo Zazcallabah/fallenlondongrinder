@@ -95,7 +95,7 @@
 		],
 		"Action": "watchmakers,fighting ring,meat,clean"
 	},
-	
+
 	"GrindPersuasive": {
 		"Name": "GrindPersuasive",
 		"Result": "Persuasive",
@@ -111,8 +111,8 @@
 	"GrindDangerous": {
 		"Name": "GrindDangerous",
 		"Result": "Dangerous",
-		"Prerequisites": ["Stories,An Annoyance to Jack-of-Smiles,<0"],
-		"Action":"Watchmaker,quarry,dibs"
+		"Prerequisites": [],
+		"Action":"wolfstack,conspiracy,patrol,wait"
 	},
 	"GrindWatchful": {
 		"Name": "GrindWatchful",
@@ -120,8 +120,8 @@
 		"Prerequisites": [],
 		"Action": "flit,its king,meeting,understand"
 	},
-	
-	
+
+
 
 
 	"Penny": {
@@ -132,8 +132,8 @@
 		],
 		"Action": "sell,Curiosity,Competent Short Story,1"
 	},
-	
-	
+
+
 	"HeistBaseborn" : {
 		"Name": "HeistBaseborn",
 		"Result": "Planning a Heist:",
@@ -151,7 +151,7 @@
 		"Action": "flit,preparing,formulate"
 	},
 
-	
+
 	"StartNovel": {
 		"Name": "StartNovel",
 		"Result": "Working on...",
@@ -168,7 +168,7 @@
 		],
 		"Action": "veilgarden,begin a work,short story"
 	},
-	
+
 	"Manuscript Page": {
 		"Name": "Manuscript Page",
 		"Result": "Manuscript Page",
@@ -195,8 +195,8 @@
 		],
 		"Action": "empresscourt,quiet,1"
 	},
-	
-	
+
+
 	"Compelling Short Story": {
 		"Name": "Compelling Short Story",
 		"Result": "Compelling Short Story",
