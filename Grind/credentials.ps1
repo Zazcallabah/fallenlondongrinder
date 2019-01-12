@@ -1,3 +1,6 @@
+if( $env:BLOB_SAS -eq $null ) {
+	throw "missing blob token"
+}
 
 function Get-Blob
 {
