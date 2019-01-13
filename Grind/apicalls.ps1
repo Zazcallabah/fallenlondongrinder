@@ -269,6 +269,22 @@ function User
 	return $script:user
 }
 
+function Plans
+{
+	if( $script:plans -eq $null )
+	{
+		$script:plans = Post -href "plan" -method "GET"
+	}
+	return $script:plans
+}
+
+function Get-Plan
+{
+	param( $name )
+	$plans = Plans
+	return $plans.active+$plans.complete | ?{ $_.branch.name -eq $name } | select -first 1
+}
+
 function Myself
 {
 	if( $script:myself -eq $null )
@@ -330,5 +346,28 @@ if( $script:runTests )
 		It "has inventory" {
 			(Myself).possessions | should not be $null
 		}
+	}
+}
+# post plan/update {"branchId":204598,"notes":"do this","refresh":false} to save note
+# post plan/update {"branchId":204598,"refresh":true} to restart plan
+function CreatePlan
+{
+	param( $id, $planKey )
+	$plan = Post -href "plan/create" -payload @{ "branchId" = $id; "planKey" = $planKey }
+	if($plan.isSuccess -ne $true)
+	{
+		throw "bad result creating plan $($id): $plan"
+	}
+	$script:plans = $null
+	return $plan
+}
+
+function DeletePlan
+{
+	param( $id )
+	$plan = Post -href "plan/delete/$($id)"
+	if($plan.isSuccess -ne $true)
+	{
+		throw "bad result deleting plan $($id): $plan"
 	}
 }
