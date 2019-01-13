@@ -285,6 +285,15 @@ function Get-Plan
 	return $plans.active+$plans.complete | ?{ $_.branch.name -eq $name } | select -first 1
 }
 
+
+function ExistsPlan
+{
+	param( $id, $plankey )
+	$plans = Plans
+	$hit = $plans.active+$plans.complete | ?{ $_.branch.id -eq $id -and $_.branch.planKey -eq $planKey } | measure
+	return $hit.Count -gt 0
+}
+
 function Myself
 {
 	if( $script:myself -eq $null )
