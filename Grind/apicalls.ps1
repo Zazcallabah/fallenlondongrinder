@@ -365,6 +365,7 @@ function CreatePlan
 function DeletePlan
 {
 	param( $id )
+	$script:plans = $null
 	$plan = Post -href "plan/delete/$($id)"
 	if($plan.isSuccess -ne $true)
 	{
