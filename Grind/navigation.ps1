@@ -38,6 +38,7 @@ function GoBackIfInStorylet
 		}
 	}
 
+	# move handle edge case handle undetected locked area to here?
 	return $list
 }
 
@@ -171,6 +172,33 @@ function PerformAction
 	}
 
 	return ChooseBranch $branch.id
+}
+
+function PerformActions
+{
+	param($event, $actions)
+
+
+	if( $actions -eq $null )
+	{
+		return $event
+	}
+
+	foreach( $action in $actions )
+	{
+		if( $event.Phase -eq "End" )
+		{
+			$event = ListStorylet
+		}
+		$event = PerformAction $event $action
+		if( $event -eq $null )
+		{
+			write-warning "branch $($action) in $actions not found"
+			return
+		}
+	}
+
+	return $event
 }
 
 function EnterStorylet
@@ -322,6 +350,7 @@ function HasActionsToSpare
 function DoInventoryAction
 {
 	param($category, $name, $action)
+	$list = GoBackIfInStorylet
 
 	$item = GetPossession $category $name
 	if( $item -ne $null -and $item.effectiveLevel -ge 1 )

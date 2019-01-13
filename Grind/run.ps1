@@ -12,26 +12,6 @@ else
 {
 	. ${env:HOME}/site/wwwroot/Grind/acquisitions.ps1
 }
-# $marker = "lodgings,Wounds,Time in Bed"
-# $action = "lodgings,Wounds,Time in Bed,1"
-# $woundsplan = Get-Plan "Time in Bed"
-# if( $woundsplan -ne $null )
-# {
-# 	if( menaces wounds < threshold )
-# 	{
-# 		delete wonudspland.branch.id
-# 	}
-# 	else
-# 	{
-# 		require wounds < trheshold
-# 	}
-# }
-# else if menace > maxthreshold
-# {
-# 	use marker to get plan id and key
-# 	createplan plan.branch.id plan.branch.planKey
-# 	doaction action
-# }
 
 $script:actions = @(
 	#"veilgarden,archaeology,1" persuasive 31 shreik
@@ -86,6 +66,26 @@ if($script:runTests)
 }
 
 
+function MoveIfNeeded
+{
+	param( $list, $location )
+
+	if( IsInLocation $location )
+	{
+		return $list;
+	}
+
+	if( $location -eq "empresscourt" )
+	{
+		$result = DoAction "shutteredpalace,Spend,1"
+		return ListStorylet
+	}
+
+	$area = MoveTo $location;
+	return ListStorylet
+}
+
+
 
 function IsInForcedStorylet
 {
@@ -116,7 +116,88 @@ function EnsureTickets
 	return Require "Curiosity" "Carnival Ticket" 2
 }
 
+function CreatePlanFromAction
+{
+	param($location, $storyletname, $branches, $name)
 
+	$list = GoBackIfInStorylet
+	$list = MoveIfNeeded $list $location
+
+	$event = EnterStorylet $list $storyletname
+	if( $event -eq $null )
+	{
+		write-warning "cant create plan, storylet $($storyletname) not found"
+		return
+	}
+
+	$event = PerformActions $event $branches
+
+	$branch = $event.storylet.childBranches | ?{ $_.name -match $name } | select -first 1
+	$branchId = $branch.id
+	$plankey = $branch.plankey
+	if(!(ExistsPlan $branch.id $branch.planKey))
+	{
+		$result = CreatePlan $branch.id $branch.planKey
+	}
+	return $true
+}
+
+function DeleteExistingPlan
+{
+	param( $name )
+	$plan = Get-Plan $name
+	DeletePlan $plan.branch.id
+}
+
+
+function LowerWounds
+{
+	$upperbound = 5
+	$lowerbound = 2
+	$plan = Get-Plan "Time in Bed"
+
+
+	if( $plan -ne $null )
+	{
+		$result = DoAction "lodgings,Wounds,Time in Bed,1"
+		$pos = GetPossession "Menaces" "Wounds"
+		if($pos.effectiveLevel -le $lowerbound)
+		{
+			DeleteExistingPlan "Time in Bed"
+		}
+		return $false
+	}
+
+	$pos = GetPossession "Menaces" "Wounds"
+	if($pos.effectiveLevel -ge $upperbound )
+	{
+		$result = CreatePlanFromAction "lodgings" "Wounds" $null "Time in Bed"
+		$result = DoAction "lodgings,Wounds,Time in Bed,1"
+		return $false
+	}
+	return $true
+}
+
+
+# $action =
+# $woundsplan = Get-Plan "Time in Bed"
+# if( $woundsplan -ne $null )
+# {
+# 	if( menaces wounds < threshold )
+# 	{
+# 		delete wonudspland.branch.id
+# 	}
+# 	else
+# 	{
+# 		require wounds < trheshold
+# 	}
+# }
+# else if menace > maxthreshold
+# {
+# 	use marker to get plan id and key
+# 	createplan plan.branch.id plan.branch.planKey
+# 	doaction action
+# }
 function CheckMenaces
 {
 	$hasActionsLeft = Require "Menaces" "Scandal" "<4"
@@ -146,38 +227,7 @@ function CheckMenaces
 	return $true
 }
 
-function PerformActions
-{
-	param($event, $action, $actions)
 
-	$event = PerformAction $event $action
-	if( $event -eq $null )
-	{
-		write-warning "branch $($action) not found"
-		return
-	}
-
-	if( $actions -eq $null )
-	{
-		return
-	}
-
-	$actions | %{
-		if( $event -ne $null ) #return here only exits the loop
-		{
-			if( $event.Phase -eq "End" )
-			{
-				$event = ListStorylet
-			}
-			$event = PerformAction $event $_
-			if( $event -eq $null )
-			{
-				write-warning "action $_ in $actions not found"
-			}
-		}
-	}
-	return $event
-}
 
 function DoAction
 {
@@ -194,8 +244,9 @@ function DoAction
 		return
 	}
 
-	# bazaar can usually be done even in storylet
+	# bazaar can usually be done even in storylet, i think?
 	# require is best done doing its inventory checks before doing goback and move, to aviod extra liststorylet calls
+	# inventory just needs to make sure we do gobackifinstorylet first
 	if( $action.location -eq "buy" )
 	{
 		BuyPossession $action.first $action.second $action.third
@@ -215,6 +266,16 @@ function DoAction
 		}
 		return
 	}
+	elseif( $action.location -eq "inventory" )
+	{
+		DoInventoryAction $action.first $action.second $action.third
+		return
+	}
+	elseif( $action.location -eq "writing" )
+	{
+		Writing
+		return
+	}
 
 	$list = GoBackIfInStorylet
 
@@ -232,7 +293,7 @@ function DoAction
 		# only allow it if name of storylet matches first action
 		if( $list.storylet.name -match $action.first )
 		{
-			PerformActions $list $action.second $action.third
+			PerformActions $list (@($action.second)+$action.third)
 			return
 		}
 		else
@@ -241,29 +302,8 @@ function DoAction
 			return
 		}
 	}
-	elseif( !(IsInLocation $action.location) )
-	{
-		if( $action.location -eq "inventory" )
-		{
-			DoInventoryAction $action.first $action.second $action.third
-			return
-		}
-		elseif( $action.location -eq "writing" )
-		{
-			Writing
-			return
-		}
-		elseif( $action.location -eq "empresscourt" )
-		{
-			$result = DoAction "shutteredpalace,Spend,1"
-			$list = GoBackIfInStorylet
-		}
-		else
-		{
-			$area = MoveTo $action.location;
-			$list = ListStorylet
-		}
-	}
+
+	$list = MoveIfNeeded $list $action.location
 
 	if( $action.location -eq "carnival" -and $action.first -ne "Buy" )
 	{
@@ -281,7 +321,7 @@ function DoAction
 		return
 	}
 
-	PerformActions $event $action.second $action.third
+	PerformActions $event (@($action.second)+$action.third)
 }
 
 if($script:runTests)
@@ -371,17 +411,16 @@ if($script:runTests)
 		}
 	}
 
+
 	Describe "PerformAction" {
 		It "can perform one action" {
 			$event = EnterStorylet $null "write letters"
-			$result = PerformAction $event "name a pet"
-			$result.Phase | should be "In"
+			$result = PerformAction $event "arrange"
+			$result.Phase | should be "End"
 			$result.actions | should not be $null
-			$result.storylet | should not be $null
-			$result.storylet.canGoBack | should be $true
-			$result.storylet.id | should be 204639
 		}
 	}
+
 	# Describe "PerformActions" {
 	# It "can perform multiple actions" {
 	# $result = PerformActions $null "preparing for your burglary" @("choose your target","preparing for your burglary","choose your target")
@@ -393,8 +432,6 @@ if($script:runTests)
 	# }
 	# }
 }
-
-
 
 if(!$script:runTests)
 {
