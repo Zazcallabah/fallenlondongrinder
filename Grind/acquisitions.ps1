@@ -235,7 +235,7 @@ if( $script:runTests )
 		It "performs action regardless if level is null" {
 			$result = Require "Menaces" "Wounds" -dryRun
 			$script:actionHistory.Length | should be 1
-			$script:actionHistory[0] | should be "lodgings,wounds,time"
+			$script:actionHistory[0] | should be "lodgings,wounds,time,1"
 			$script:actionHistory = @()
 		}
 		It "can tag specific acquisition to run in requirements" {
