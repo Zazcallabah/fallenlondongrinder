@@ -12,7 +12,26 @@ else
 {
 	. ${env:HOME}/site/wwwroot/Grind/acquisitions.ps1
 }
-
+# $marker = "lodgings,Wounds,Time in Bed"
+# $action = "lodgings,Wounds,Time in Bed,1"
+# $woundsplan = Get-Plan "Time in Bed"
+# if( $woundsplan -ne $null )
+# {
+# 	if( menaces wounds < threshold )
+# 	{
+# 		delete wonudspland.branch.id
+# 	}
+# 	else
+# 	{
+# 		require wounds < trheshold
+# 	}
+# }
+# else if menace > maxthreshold
+# {
+# 	use marker to get plan id and key
+# 	createplan plan.branch.id plan.branch.planKey
+# 	doaction action
+# }
 
 $script:actions = @(
 	#"veilgarden,archaeology,1" persuasive 31 shreik
@@ -170,9 +189,33 @@ function DoAction
 
 	if( (User).setting -ne $null -and !(User).setting.canTravel )
 	{
+		# canTravel false means you are in a locked storylet
 		# also user.setting.itemsUsableHere
 		return
 	}
+
+	# bazaar can usually be done even in storylet
+	# require is best done doing its inventory checks before doing goback and move, to aviod extra liststorylet calls
+	if( $action.location -eq "buy" )
+	{
+		BuyPossession $action.first $action.second $action.third
+		return
+	}
+	elseif( $action.location -eq "sell" )
+	{
+		SellPossession $action.first $action.second
+		return
+	}
+	elseif( $action.location -eq "require" )
+	{
+		$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
+		if($hasActionsLeft)
+		{
+			DoAction (Get-Action ([DateTime]::UtcNow) $index) ($index+1)
+		}
+		return
+	}
+
 	$list = GoBackIfInStorylet
 
 	# $canTravel = $list.Phase -eq "Available" # property is storylets
@@ -200,36 +243,9 @@ function DoAction
 	}
 	elseif( !(IsInLocation $action.location) )
 	{
-		if( $action.location -eq "carnival" -and $action.first -ne "Buy" )
-		{
-			$hasActionsLeft = EnsureTickets
-			if( !$hasActionsLeft )
-			{
-				return
-			}
-		}
 		if( $action.location -eq "inventory" )
 		{
 			DoInventoryAction $action.first $action.second $action.third
-			return
-		}
-		elseif( $action.location -eq "buy" )
-		{
-			BuyPossession $action.first $action.second $action.third
-			return
-		}
-		elseif( $action.location -eq "sell" )
-		{
-			SellPossession $action.first $action.second
-			return
-		}
-		elseif( $action.location -eq "require" )
-		{
-			$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
-			if($hasActionsLeft)
-			{
-				DoAction (Get-Action ([DateTime]::UtcNow) $index) ($index+1)
-			}
 			return
 		}
 		elseif( $action.location -eq "writing" )
@@ -246,6 +262,15 @@ function DoAction
 		{
 			$area = MoveTo $action.location;
 			$list = ListStorylet
+		}
+	}
+
+	if( $action.location -eq "carnival" -and $action.first -ne "Buy" )
+	{
+		$hasActionsLeft = EnsureTickets
+		if( !$hasActionsLeft )
+		{
+			return
 		}
 	}
 
