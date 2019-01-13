@@ -268,6 +268,32 @@ if($script:runTests)
 	}
 }
 
+function Airs
+{
+	# this could give outdated value, if we perform an action that changes airs without discarding cached value for plans
+	$plans = Plans
+	$airsmessage =  $plans.active+$plans.completed | %{ $_.branch.qualityRequirements | ?{ $_.qualityName -eq "The Airs of London" } | select -first 1 -expandProperty tooltip } | select -first 1
+	if( $airsmessage -ne $null )
+	{
+		$r = [regex]"\(you have (\d+)\)"
+		$result = $r.Match($airsmessage)
+		if($result.Success)
+		{
+			return [int]$result.Groups[1].Value
+		}
+	}
+	return $null
+}
+
+
+if($script:runTests)
+{
+	Describe "Airs" {
+		It "can read airs from plan" {
+			Airs | should not be $null
+		}
+	}
+}
 
 function UseItem
 {
