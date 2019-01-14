@@ -111,6 +111,11 @@ function Writing
 	return $false
 }
 
+function EarnestPayment
+{
+	return Require "Curiosity" "An Earnest of Payment" "<1" "Payment"
+}
+
 function EnsureTickets
 {
 	return Require "Curiosity" "Carnival Ticket" 2
