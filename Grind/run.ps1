@@ -445,7 +445,7 @@ function FilterFor
 
 	if( $o.isInAStorylet )
 	{
-		GoBack
+		$result = GoBack
 	}
 	
 	if($o.displayCards.length -ge 2 )
@@ -456,11 +456,11 @@ function FilterFor
 		}
 	}
 	$o = Opportunity
-	if( $o.eligibleForCardsCount -ge 1 )
+	if( $o.eligibleForCardsCount -ge 6 )
 	{
 		write-host "Drawing card"
 		$result = DrawOpportunity
-		write-host "found: $($result.displayCards)"
+		write-host "found: $($result.displayCards.name)"
 	}
 }
 
@@ -472,7 +472,7 @@ if(!$script:runTests)
 		$hasActionsLeft = CheckMenaces
 		if( $hasActionsLeft )
 		{
-			#DoAction (Get-Action ([DateTime]::UtcNow))
+			DoAction (Get-Action ([DateTime]::UtcNow))
 		}
 	}
 }
