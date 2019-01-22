@@ -437,10 +437,19 @@ if(!$script:runTests)
 {
 	if( HasActionsToSpare )
 	{
-		$hasActionsLeft = CheckMenaces
-		if( $hasActionsLeft )
+		$hasActionsLeft = Require "Curiosity" "An Earnest of Payment" "<1" "Payment"
+		
+		if( !$hasActionsLeft )
 		{
-			DoAction (Get-Action ([DateTime]::UtcNow))
+			return
 		}
+
+		$hasActionsLeft = CheckMenaces
+		if( !$hasActionsLeft )
+		{
+			return
+		}
+
+		DoAction (Get-Action ([DateTime]::UtcNow))
 	}
 }

@@ -95,6 +95,12 @@
 		],
 		"Action": "watchmakers,fighting ring,meat,clean"
 	},
+	"Payment": {
+		"Name": "Payment",
+		"Result": "An Earnest of Payment",
+		"Prerequisites": [],
+		"Action": "lodgings,A Professional Reward,1"
+	},
 
 	"GrindPersuasive": {
 		"Name": "GrindPersuasive",
