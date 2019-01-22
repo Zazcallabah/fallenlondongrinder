@@ -466,10 +466,10 @@ function FilterFor
 
 if(!$script:runTests)
 {
-	FilterFor "The Demi-Monde: Bohemians"
+#	FilterFor "The Demi-Monde: Bohemians"
 	if( HasActionsToSpare )
 	{
-		$hasActionsLeft = Require "Curiosity" "An Earnest of Payment" "<1" "Payment"
+		$hasActionsLeft = EarnestPayment
 		
 		if( !$hasActionsLeft )
 		{
