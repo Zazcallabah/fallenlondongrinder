@@ -438,14 +438,41 @@ if($script:runTests)
 	# }
 }
 
+function FilterFor
+{
+	param($name)
+	$o = Opportunity
+
+	if( $o.isInAStorylet )
+	{
+		GoBack
+	}
+	
+	if($o.displayCards.length -ge 2 )
+	{
+		$o.displayCards | ?{ $_.stickiness -eq "Discardable" -and $_.name -ne $name } | %{
+			write-host "discarding $($_.name)"
+			$result = DiscardOpportunity $_.eventId
+		}
+	}
+	$o = Opportunity
+	if( $o.eligibleForCardsCount -ge 1 )
+	{
+		write-host "Drawing card"
+		$result = DrawOpportunity
+		write-host "found: $($result.displayCards)"
+	}
+}
+
 if(!$script:runTests)
 {
+	FilterFor "The Demi-Monde: Bohemians"
 	if( HasActionsToSpare )
 	{
 		$hasActionsLeft = CheckMenaces
 		if( $hasActionsLeft )
 		{
-			DoAction (Get-Action ([DateTime]::UtcNow))
+			#DoAction (Get-Action ([DateTime]::UtcNow))
 		}
 	}
 }
