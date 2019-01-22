@@ -303,6 +303,22 @@ function Myself
 	return $script:myself
 }
 
+function Opportunity
+{
+	Post -href "opportunity" -method "GET"
+}
+
+function DrawOpportunity
+{
+	Post -href "opportunity/draw"
+}
+
+function DiscardOpportunity
+{
+	param([int]$id)
+	Post -href "opportunity/discard/$id"
+}
+
 function GoBack
 {
 	$list = Post -href "storylet/goback"
