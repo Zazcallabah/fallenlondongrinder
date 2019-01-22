@@ -98,8 +98,10 @@
 	"Payment": {
 		"Name": "Payment",
 		"Result": "An Earnest of Payment",
-		"Prerequisites": [],
-		"Action": "lodgings,A Professional Reward,1"
+		"Prerequisites": [
+			"Major Laterals,Profession,1"
+		],
+		"Action": "lodgings,Professional Reward,1"
 	},
 
 	"GrindPersuasive": {

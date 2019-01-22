@@ -111,6 +111,11 @@ function Writing
 	return $false
 }
 
+function EarnestPayment
+{
+	return Require "Curiosity" "An Earnest of Payment" "<1" "Payment"
+}
+
 function EnsureTickets
 {
 	return Require "Curiosity" "Carnival Ticket" 2
@@ -433,8 +438,35 @@ if($script:runTests)
 	# }
 }
 
+function FilterFor
+{
+	param($name)
+	$o = Opportunity
+
+	if( $o.isInAStorylet )
+	{
+		$result = GoBack
+	}
+	
+	if($o.displayCards.length -ge 2 )
+	{
+		$o.displayCards | ?{ $_.stickiness -eq "Discardable" -and $_.name -ne $name } | %{
+			write-host "discarding $($_.name)"
+			$result = DiscardOpportunity $_.eventId
+		}
+	}
+	$o = Opportunity
+	if( $o.eligibleForCardsCount -ge 6 )
+	{
+		write-host "Drawing card"
+		$result = DrawOpportunity
+		write-host "found: $($result.displayCards.name)"
+	}
+}
+
 if(!$script:runTests)
 {
+	FilterFor "The Demi-Monde: Bohemians"
 	if( HasActionsToSpare )
 	{
 		$hasActionsLeft = Require "Curiosity" "An Earnest of Payment" "<1" "Payment"

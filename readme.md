@@ -50,3 +50,5 @@ set up the upconvert routes and such
 go through areas, enter good actions to take for generic items
 start including amount of item/action
 	we could automate that through the tree cascade if it has a separate property
+	
+add tag for when a prereq cant be fullfilled, just skip it instead of error
