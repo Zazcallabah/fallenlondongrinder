@@ -66,27 +66,6 @@ if($script:runTests)
 }
 
 
-function MoveIfNeeded
-{
-	param( $list, $location )
-
-	if( IsInLocation $location )
-	{
-		return $list;
-	}
-
-	if( $location -eq "empresscourt" )
-	{
-		$result = DoAction "shutteredpalace,Spend,1"
-		return ListStorylet
-	}
-
-	$area = MoveTo $location;
-	return ListStorylet
-}
-
-
-
 function IsInForcedStorylet
 {
 	if( IsInLocation "confusion" )
@@ -121,109 +100,77 @@ function EnsureTickets
 	return Require "Curiosity" "Carnival Ticket" 2
 }
 
-function CreatePlanFromAction
-{
-	param($location, $storyletname, $branches, $name)
-
-	$list = GoBackIfInStorylet
-	$list = MoveIfNeeded $list $location
-
-	$event = EnterStorylet $list $storyletname
-	if( $event -eq $null )
-	{
-		write-warning "cant create plan, storylet $($storyletname) not found"
-		return
-	}
-
-	$event = PerformActions $event $branches
-
-	$branch = $event.storylet.childBranches | ?{ $_.name -match $name } | select -first 1
-	$branchId = $branch.id
-	$plankey = $branch.plankey
-	if(!(ExistsPlan $branch.id $branch.planKey))
-	{
-		$result = CreatePlan $branch.id $branch.planKey
-	}
-	return $true
-}
-
-function DeleteExistingPlan
-{
-	param( $name )
-	$plan = Get-Plan $name
-	DeletePlan $plan.branch.id
-}
-
-
 function LowerWounds
 {
-	$upperbound = 5
-	$lowerbound = 2
-	$plan = Get-Plan "Time in Bed"
+	HandleMenaces -upperbound 5 -lowerbound 2 -actionstr "require,Menaces,Wounds,<6" -marker "Invite someone to a Sparring Bout" -menace "Wounds"
+}
 
+function LowerSuspicion
+{
+	HandleMenaces -upperbound 6 -lowerbound 2 -actionstr "require,Menaces,Suspicion,<7" -marker "Invite someone to a spot of Suspicious Loitering" -menace "Suspicion"
+}
+
+function LowerNightmares
+{
+	HandleMenaces -upperbound 5 -lowerbound 2 -actionstr "require,Menaces,Nightmares,<6" -marker "Invite someone to a Game of Chess" -menace "Nightmares"
+}
+
+function LowerScandal
+{
+	HandleMenaces -upperbound 5 -lowerbound 2 -actionstr "require,Menaces,Scandal,<6" -marker "Meet someone for a Coffee at Caligula's" -menace "Scandal"
+}
+
+function HandleMenaces
+{
+	param( $upperbound, $lowerbound, $actionstr, $marker, $menace )
+
+	$planstr = "lodgings,$($menace),$marker"
+	$planname = $marker
+	$plan = Get-Plan $planname
 
 	if( $plan -ne $null )
 	{
-		$result = DoAction "lodgings,Wounds,Time in Bed,1"
-		$pos = GetPossession "Menaces" "Wounds"
+		$result = DoAction $actionstr
+		$script:myself = $null
+		$pos = GetPossession "Menaces" $menace
 		if($pos.effectiveLevel -le $lowerbound)
 		{
-			DeleteExistingPlan "Time in Bed"
+			DeleteExistingPlan $planName
 		}
 		return $false
 	}
 
-	$pos = GetPossession "Menaces" "Wounds"
+	$pos = GetPossession "Menaces" $menace
 	if($pos.effectiveLevel -ge $upperbound )
 	{
-		$result = CreatePlanFromAction "lodgings" "Wounds" $null "Time in Bed"
-		$result = DoAction "lodgings,Wounds,Time in Bed,1"
+		$result = CreatePlanFromActionString $planstr
+		$result = DoAction $actionstr
 		return $false
 	}
 	return $true
 }
 
-
-# $action =
-# $woundsplan = Get-Plan "Time in Bed"
-# if( $woundsplan -ne $null )
-# {
-# 	if( menaces wounds < threshold )
-# 	{
-# 		delete wonudspland.branch.id
-# 	}
-# 	else
-# 	{
-# 		require wounds < trheshold
-# 	}
-# }
-# else if menace > maxthreshold
-# {
-# 	use marker to get plan id and key
-# 	createplan plan.branch.id plan.branch.planKey
-# 	doaction action
-# }
 function CheckMenaces
 {
-	$hasActionsLeft = Require "Menaces" "Scandal" "<4"
+	$hasActionsLeft = HandleScandal
 	if( !$hasActionsLeft )
 	{
 		return $false
 	}
 
-	$hasActionsLeft = Require "Menaces" "Wounds" "<4"
+	$hasActionsLeft = HandleWounds
 	if( !$hasActionsLeft )
 	{
 		return $false
 	}
 
-	$hasActionsLeft = Require "Menaces" "Nightmares" "<5"
+	$hasActionsLeft = HandleNightmares
 	if( !$hasActionsLeft )
 	{
 		return $false
 	}
 
-	$hasActionsLeft = Require "Menaces" "Suspicion" "<6"
+	$hasActionsLeft = HandleSuspicion
 	if( !$hasActionsLeft )
 	{
 		return $false
@@ -447,7 +394,7 @@ function FilterFor
 	{
 		$result = GoBack
 	}
-	
+
 	if($o.displayCards.length -ge 2 )
 	{
 		$o.displayCards | ?{ $_.stickiness -eq "Discardable" -and $_.name -ne $name } | %{
@@ -470,7 +417,7 @@ if(!$script:runTests)
 	if( HasActionsToSpare )
 	{
 		$hasActionsLeft = EarnestPayment
-		
+
 		if( !$hasActionsLeft )
 		{
 			return

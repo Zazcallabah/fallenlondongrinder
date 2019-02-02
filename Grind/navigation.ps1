@@ -130,7 +130,31 @@ if($script:runTests)
 	}
 }
 
+function GetChildBranch
+{
+	param($childBranches, $name)
 
+	$childBranches = $childBranches | ?{ !$_.isLocked }
+
+	if( $childBranches -eq $null )
+	{
+		return $null
+	}
+
+	if( $name -eq "?" )
+	{
+		$name = (random $childBranches.length)+1
+	}
+
+	if( IsNumber $name )
+	{
+		return $childBranches[$name-1]
+	}
+	else
+	{
+		return $childBranches | ?{ $_.name -match $name } | select -first 1
+	}
+}
 
 function PerformAction
 {
@@ -146,26 +170,7 @@ function PerformAction
 		return $null
 	}
 
-	$childBranches = $event.storylet.childBranches | ?{ !$_.isLocked }
-	if( $childBranches -eq $null )
-	{
-		return $null
-	}
-
-	if( $name -eq "?" )
-	{
-		$name = (random $childBranches.length)+1
-	}
-
-	if( IsNumber $name )
-	{
-		$branch = $childBranches[$name-1]
-	}
-	else
-	{
-		$branch = $childBranches | ?{ $_.name -match $name } | select -first 1
-	}
-
+	$branch = GetChildBranch $event.storylet.childBranches $name
 	if( $branch -eq $null )
 	{
 		return $null
@@ -358,3 +363,108 @@ function DoInventoryAction
 		return UseItem $item.id $action
 	}
 }
+
+function MoveIfNeeded
+{
+	param( $list, $location )
+
+	if( IsInLocation $location )
+	{
+		return $list;
+	}
+
+	if( $location -eq "empresscourt" )
+	{
+		$result = DoAction "shutteredpalace,Spend,1"
+		return ListStorylet
+	}
+
+	$area = MoveTo $location;
+	return ListStorylet
+}
+
+
+
+function CreatePlanFromAction
+{
+	param($location, $storyletname, $branches, $name)
+
+	$list = GoBackIfInStorylet
+	$list = MoveIfNeeded $list $location
+
+	$event = EnterStorylet $list $storyletname
+	if( $event -eq $null )
+	{
+		write-warning "cant create plan, storylet $($storyletname) not found"
+		return
+	}
+
+	if( $branches -ne $null )
+	{
+		$event = PerformActions $event $branches
+	}
+
+	$branch = GetChildBranch $event.storylet.childBranches $name
+	if( $branch -eq $null )
+	{
+		write-warning "no childbranch named $name"
+	}
+	$branchId = $branch.id
+	$plankey = $branch.plankey
+	if(!(ExistsPlan $branch.id $branch.planKey))
+	{
+		return CreatePlan $branch.id $branch.planKey
+	}
+	return $null
+}
+
+function CreatePlanFromActionString
+{
+	param($actionstring)
+	$str = $actionstring -split ","
+
+	if( $str.length -gt 0 )
+	{
+		$location = $str[0]
+	}
+	if( $str.length -gt 1 )
+	{
+		$storyletname = $str[1]
+	}
+	if( $str.length -gt 2 )
+	{
+		$name = $str[-1]
+	}
+	if( $str.length -gt 3 )
+	{
+		$branches = $str[2,($str.length-2)]
+	}
+
+	return CreatePlanFromAction -location $location -storyletname $storyletname -branches $branches -name $name
+}
+
+function DeleteExistingPlan
+{
+	param( $name )
+	$plan = Get-Plan $name
+	DeletePlan $plan.branch.id
+}
+
+if($script:runTests)
+{
+	Describe "CreatePlan" {
+		It "can create plan" {
+			$result = CreatePlanFromActionString "lodgings,nightmares,1"
+			$result.isSuccess | should be $true
+		}
+		It "can find plan" {
+			$plan = Get-Plan "Invite someone to a Game of Chess"
+			$plan | should not be null
+			$plan.branch.name | should be "Invite someone to a Game of Chess"
+		}
+		It "can delete plan" {
+			$result = DeleteExistingPlan "Invite someone to a Game of Chess"
+		}
+	}
+}
+
