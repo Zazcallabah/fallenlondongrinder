@@ -120,7 +120,7 @@
 		"Name": "GrindDangerous",
 		"Result": "Dangerous",
 		"Prerequisites": [],
-		"Action":"wolfstack,conspiracy,patrol,wait"
+		"Action":"wolfstack,conspiracy,patrol,find"
 	},
 	"GrindWatchful": {
 		"Name": "GrindWatchful",
