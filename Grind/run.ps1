@@ -152,25 +152,25 @@ function HandleMenaces
 
 function CheckMenaces
 {
-	$hasActionsLeft = HandleScandal
+	$hasActionsLeft = LowerScandal
 	if( !$hasActionsLeft )
 	{
 		return $false
 	}
 
-	$hasActionsLeft = HandleWounds
+	$hasActionsLeft = LowerWounds
 	if( !$hasActionsLeft )
 	{
 		return $false
 	}
 
-	$hasActionsLeft = HandleNightmares
+	$hasActionsLeft = LowerNightmares
 	if( !$hasActionsLeft )
 	{
 		return $false
 	}
 
-	$hasActionsLeft = HandleSuspicion
+	$hasActionsLeft = LowerSuspicion
 	if( !$hasActionsLeft )
 	{
 		return $false
