@@ -28,12 +28,12 @@ $script:actions = @(
 	#"empresscourt,Matters,artistically"
 	#"spite,casing,gather"
 	#"writing"
-	"require,Progress,Casing...,5,PrepBaseborn"
-	"require,Elder,Presbyterate Passphrase,9"
-	"require,Basic,Persuasive,100,GrindPersuasive" #95
-	"require,Basic,Dangerous,100,GrindDangerous" # 39
-	"require,Basic,Shadowy,100,GrindShadowy" #63
-	"require,Basic,Watchful,100,GrindWatchful" # 66
+	"cascade,Progress,Casing...,5,PrepBaseborn"
+	"cascade,Elder,Presbyterate Passphrase,9"
+	"cascade,Basic,Persuasive,100,GrindPersuasive" #95
+	"cascade,Basic,Dangerous,100,GrindDangerous" # 39
+	"cascade,Basic,Shadowy,100,GrindShadowy" #63
+	"cascade,Basic,Watchful,100,GrindWatchful" # 66
 )
 
 
@@ -102,22 +102,22 @@ function EnsureTickets
 
 function LowerWounds
 {
-	HandleMenaces -upperbound 5 -lowerbound 2 -actionstr "require,Menaces,Wounds,<6" -marker "Invite someone to a Sparring Bout" -menace "Wounds"
+	HandleMenaces -upperbound 5 -lowerbound 2 -actionstr "require,Menaces,Wounds,<3" -marker "Invite someone to a Sparring Bout" -menace "Wounds"
 }
 
 function LowerSuspicion
 {
-	HandleMenaces -upperbound 6 -lowerbound 2 -actionstr "require,Menaces,Suspicion,<7" -marker "Invite someone to a spot of Suspicious Loitering" -menace "Suspicion"
+	HandleMenaces -upperbound 6 -lowerbound 2 -actionstr "require,Menaces,Suspicion,<3" -marker "Invite someone to a spot of Suspicious Loitering" -menace "Suspicion"
 }
 
 function LowerNightmares
 {
-	HandleMenaces -upperbound 5 -lowerbound 2 -actionstr "require,Menaces,Nightmares,<6" -marker "Invite someone to a Game of Chess" -menace "Nightmares"
+	HandleMenaces -upperbound 5 -lowerbound 2 -actionstr "require,Menaces,Nightmares,<3" -marker "Invite someone to a Game of Chess" -menace "Nightmares"
 }
 
 function LowerScandal
 {
-	HandleMenaces -upperbound 5 -lowerbound 2 -actionstr "require,Menaces,Scandal,<6" -marker "Meet someone for a Coffee at Caligula's" -menace "Scandal"
+	HandleMenaces -upperbound 5 -lowerbound 2 -actionstr "require,Menaces,Scandal,<3" -marker "Meet someone for a Coffee at Caligula's" -menace "Scandal"
 }
 
 function HandleMenaces
@@ -209,7 +209,7 @@ function DoAction
 		SellPossession $action.first $action.second
 		return
 	}
-	elseif( $action.location -eq "require" )
+	elseif( $action.location -eq "cascade" )
 	{
 		$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
 		if($hasActionsLeft)
@@ -220,6 +220,11 @@ function DoAction
 			}
 			DoAction (Get-Action ([DateTime]::UtcNow) $index) ($index+1)
 		}
+		return
+	}
+	elseif( $action.location -eq "require" )
+	{
+		$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
 		return
 	}
 	elseif( $action.location -eq "inventory" )
