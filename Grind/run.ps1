@@ -214,6 +214,10 @@ function DoAction
 		$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
 		if($hasActionsLeft)
 		{
+			if( $index -ge $script:actions.Length )
+			{
+				return
+			}
 			DoAction (Get-Action ([DateTime]::UtcNow) $index) ($index+1)
 		}
 		return
