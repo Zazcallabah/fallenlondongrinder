@@ -158,7 +158,7 @@ function GetChildBranch
 
 function PerformAction
 {
-	param($event, $name)
+	param($event, [string]$name)
 
 	if( $event -eq $null -or $event.Phase -eq "End" )
 	{
@@ -354,7 +354,7 @@ function HasActionsToSpare
 
 function DoInventoryAction
 {
-	param($category, $name, $action)
+	param($category, $name, [string]$action)
 	$list = GoBackIfInStorylet
 
 	$item = GetPossession $category $name
