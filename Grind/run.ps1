@@ -28,6 +28,7 @@ $script:actions = @(
 	#"empresscourt,Matters,artistically"
 	#"spite,casing,gather"
 	#"writing"
+	"cascade,Goods,Supplies,80"
 	"cascade,Progress,Casing...,5,PrepBaseborn"
 	"cascade,Elder,Presbyterate Passphrase,9"
 	"cascade,Basic,Persuasive,100,GrindPersuasive" #95

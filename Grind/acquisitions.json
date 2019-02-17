@@ -95,6 +95,22 @@
 		],
 		"Action": "watchmakers,fighting ring,meat,clean"
 	},
+	"Archaeologist's Progress": {
+		"Name": "Archaeologist's Progress",
+		"Result": "Archaeologist's Progress",
+		"Prerequisites": [
+		],
+		"Action": "forgotten quarter,Archaeological Expedition,1"
+	},
+	"Crate of Expedition Supplies": {
+		"Name": "Crate of Expedition Supplies",
+		"Result": "Crate of Expedition Supplies",
+		"Prerequisites": [
+			"Progress,Archaeologist's Progress,<1",
+			"Mysteries,Whispered Hint,200"
+		],
+		"Action": "forgotten quarter,Prepare,Rumours"
+	},
 	"Payment": {
 		"Name": "Payment",
 		"Result": "An Earnest of Payment",
