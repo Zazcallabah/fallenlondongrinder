@@ -46,6 +46,7 @@ function GoBackIfInStorylet
 				throw "stuck in forced action named $($list.storylet.name), can't proceed without manual interaction"
 			}
 
+			write-verbose "forced action $($list.storylet.name), choosing $action"
 			$result = PerformAction $list $action
 			return $null
 		}
