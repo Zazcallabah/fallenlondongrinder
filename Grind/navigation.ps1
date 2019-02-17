@@ -2,10 +2,12 @@
 if($env:Home -eq $null)
 {
 	. $PSScriptRoot/apicalls.ps1
+	$script:ForcedActions = gc -Raw $PSScriptRoot/forcedactions.json | ConvertFrom-Json
 }
 else
 {
 	. ${env:HOME}/site/wwwroot/Grind/apicalls.ps1
+	$script:ForcedActions = gc -Raw ${env:HOME}/site/wwwroot/Grind/forcedactions.json | ConvertFrom-Json
 }
 
 function GetUserLocation
@@ -36,9 +38,19 @@ function GoBackIfInStorylet
 			write-verbose "exiting storylet"
 			return GoBack
 		}
+		else
+		{
+			$action = $script:ForcedActions."$($list.storylet.name)"
+			if($action -eq $null)
+			{
+				throw "stuck in forced action named $($list.storylet.name), can't proceed without manual interaction"
+			}
+
+			$result = PerformAction $list $action
+			return $null
+		}
 	}
 
-	# move handle edge case handle undetected locked area to here?
 	return $list
 }
 
@@ -356,7 +368,10 @@ function DoInventoryAction
 {
 	param($category, $name, [string]$action)
 	$list = GoBackIfInStorylet
-
+	if( $list -eq $null )
+	{
+		return
+	}
 	$item = GetPossession $category $name
 	if( $item -ne $null -and $item.effectiveLevel -ge 1 )
 	{
@@ -390,6 +405,10 @@ function CreatePlanFromAction
 	param($location, $storyletname, $branches, $name)
 
 	$list = GoBackIfInStorylet
+	if( $list -eq $null )
+	{
+		return
+	}
 	$list = MoveIfNeeded $list $location
 
 	$event = EnterStorylet $list $storyletname
@@ -467,4 +486,3 @@ if($script:runTests)
 		}
 	}
 }
-

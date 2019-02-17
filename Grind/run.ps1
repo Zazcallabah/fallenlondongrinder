@@ -240,7 +240,10 @@ function DoAction
 	}
 
 	$list = GoBackIfInStorylet
-
+	if( $list -eq $null )
+	{
+		return
+	}
 	# $canTravel = $list.Phase -eq "Available" # property is storylets
 	# $isInStorylet = $list.Phase -eq "In" -or $list.Phase -eq "InItemUse" # property is storylet
 	# phase "End" probably doesnt happen here?
