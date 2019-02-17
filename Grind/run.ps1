@@ -31,10 +31,10 @@ $script:actions = @(
 	"cascade,Goods,Supplies,80"
 	"cascade,Progress,Casing...,5,PrepBaseborn"
 	"cascade,Elder,Presbyterate Passphrase,9"
-	"cascade,Basic,Persuasive,100,GrindPersuasive" #95
-	"cascade,Basic,Dangerous,100,GrindDangerous" # 39
-	"cascade,Basic,Shadowy,100,GrindShadowy" #63
-	"cascade,Basic,Watchful,100,GrindWatchful" # 66
+	"cascade,Basic,Persuasive,110,GrindPersuasive" #95
+	"cascade,Basic,Dangerous,110,GrindDangerous" # 39
+	"cascade,Basic,Shadowy,110,GrindShadowy" #63
+	"cascade,Basic,Watchful,110,GrindWatchful" # 66
 )
 
 
