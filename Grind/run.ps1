@@ -35,6 +35,7 @@ $script:actions = @(
 	"cascade,Basic,Dangerous,105,GrindDangerous" # 39
 	"cascade,Basic,Shadowy,100,GrindShadowy" #63
 	"cascade,Basic,Watchful,110,GrindWatchful" # 66
+	"cascade,Progress,Casing...,13"
 )
 
 
