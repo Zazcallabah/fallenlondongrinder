@@ -174,8 +174,41 @@
 		],
 		"Action": "flit,preparing,formulate"
 	},
-
-
+	"Running Battle..." : {
+		"Name": "Running Battle...",
+		"Result": "Running Battle...",
+		"Prerequisites": [
+		],
+		"Action": "wolfstack,Duelling the Black Ribbon,1"
+	},
+	"Duel Priest" : {
+		"Name": "Duel Priest",
+		"Result": "A Fearsome Duellist",
+		"Prerequisites": [
+			"Progress,Running Battle,7"
+		],
+		"Action": "wolfstack,Challenge,Priest,1"
+	},
+	"Duel Inch" : {
+		"Name": "Duel Inch",
+		"Result": "A Fearsome Duellist",
+		"Prerequisites": [
+			"Progress,Running Battle,9",
+			"Stories,A Fearsome Duelist,1"
+		],
+		"Action": "wolfstack,Challenge,Inch,1"
+	},
+	"Duel Vendrick" : {
+		"Name": "Duel Vendrick",
+		"Result": "A Fearsome Duellist",
+		"Prerequisites": [
+			"Progress,Running Battle,11",
+			"Menaces,Wounds,<4",
+			"Stories,A Fearsome Duelist,2"
+		],
+		"Action": "wolfstack,Challenge,Vendrick,1"
+	},
+	
 	"StartNovel": {
 		"Name": "StartNovel",
 		"Result": "Working on...",
