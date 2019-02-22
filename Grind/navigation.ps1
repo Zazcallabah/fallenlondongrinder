@@ -147,6 +147,23 @@ function GetChildBranch
 {
 	param($childBranches, $name)
 
+	$names = $name -split "/"
+
+	foreach( $n in $names )
+	{
+		$r = InnerGetChildBranch $childBranches $n
+		if( $r -ne $null )
+		{
+			return $r
+		}
+	}
+	return $null
+}
+
+function InnerGetChildBranch
+{
+	param($childBranches,$name)
+
 	$childBranches = $childBranches | ?{ !$_.isLocked }
 
 	if( $childBranches -eq $null )
@@ -166,6 +183,45 @@ function GetChildBranch
 	else
 	{
 		return $childBranches | ?{ $_.name -match $name } | select -first 1
+	}
+}
+
+if($script:runTests)
+{
+	Describe "GetChildBranch" {
+		It "can get branch by name" {
+			$cat = GetChildBranch @(@{"name"="wronngname"},@{"name"="aoeu"}) "aoeu"
+			$cat.name | should be "aoeu"
+		}
+		It "can get branch by number" {
+			$cat = GetChildBranch @(@{"name"="wronngname"},@{"name"="aoeu"}) 2
+			$cat.name | should be "aoeu"
+		}
+		It "can get branch by string number" {
+			$cat = GetChildBranch @(@{"name"="1234"},@{"name"="aoeu"}) "1"
+			$cat.name | should be "1234"
+		}
+		It "returns null if not found" {
+			$cat = GetChildBranch @(@{"name"="wronngname"},@{"name"="aoeu"}) "asdf"
+			$cat.name | should be $null
+		}
+		It "returns null if locked" {
+			$cat = GetChildBranch @(@{"name"="wronngname"},@{"name"="aoeu";"isLocked"=$true}) "aoeu"
+			$cat.name | should be $null
+		}
+		It "separates choices by slash, prioritizes first choice" {
+			$cat = GetChildBranch @(@{"name"="wrongname"},@{"name"="first"},@{"name"="second"}) "first/second"
+			$cat.name | should be "first"
+		}
+		It "separates choices by slash, still ignoring locked" {
+			$cat = GetChildBranch @(@{"name"="second";"isLocked"=$true},@{"name"="third"}) "second/third"
+			$cat.name | should be "third"
+		}
+		It "separates choices by slash, only returns one result" {
+			$cat = GetChildBranch @(@{"name"="second"},@{"name"="third"}) "second/third"
+			$cat.name | should be "second"
+		}
+
 	}
 }
 
