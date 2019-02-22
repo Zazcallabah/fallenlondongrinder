@@ -3,9 +3,9 @@ if( $env:BLOB_SAS -eq $null )
 	throw "missing blob token"
 }
 
-if( !(gc New-AzureStorageContext -ErrorAction SilentlyContinue))
+if( !(get-command New-AzureStorageContext -ErrorAction SilentlyContinue))
 {
-	throw "az ps cmdlets missing"
+	throw "az ps cmdlets missing, please run 'Install-Module AzureRM -AllowClobber' from an admin powershell cmdline"
 }
 function Get-Blob
 {
