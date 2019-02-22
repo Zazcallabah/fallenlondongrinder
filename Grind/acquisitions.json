@@ -202,7 +202,7 @@
 		"Name": "Duel Vendrick",
 		"Result": "A Fearsome Duellist",
 		"Prerequisites": [
-			"Progress,Running Battle,15",
+			"Progress,Running Battle,12",
 			"Menaces,Wounds,<4",
 			"Stories,A Fearsome Duelist,2"
 		],
