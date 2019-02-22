@@ -260,15 +260,18 @@ function PerformActions
 
 	foreach( $action in $actions )
 	{
-		if( $event.Phase -eq "End" )
+		if( $action -ne $null )
 		{
-			$event = ListStorylet
-		}
-		$event = PerformAction $event $action
-		if( $event -eq $null )
-		{
-			write-warning "branch $($action) in $actions not found"
-			return
+			if( $event.Phase -eq "End" )
+			{
+				$event = ListStorylet
+			}
+			$event = PerformAction $event $action
+			if( $event -eq $null )
+			{
+				write-warning "branch $($action) in $actions not found"
+				return
+			}
 		}
 	}
 
