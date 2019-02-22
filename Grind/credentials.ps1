@@ -3,6 +3,10 @@ if( $env:BLOB_SAS -eq $null )
 	throw "missing blob token"
 }
 
+if( !(gc New-AzureStorageContext -ErrorAction SilentlyContinue))
+{
+	throw "az ps cmdlets missing"
+}
 function Get-Blob
 {
 	$accountContext = New-AzureStorageContext -SasToken $env:BLOB_SAS -storageaccountname "fallenlondongrinder"
