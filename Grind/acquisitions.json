@@ -194,7 +194,7 @@
 		"Result": "A Fearsome Duellist",
 		"Prerequisites": [
 			"Progress,Running Battle,9",
-			"Stories,A Fearsome Duelist,1"
+			"Stories,A Fearsome Duellist,1"
 		],
 		"Action": "wolfstack,Challenge,Inch,1"
 	},
@@ -204,7 +204,7 @@
 		"Prerequisites": [
 			"Progress,Running Battle,12",
 			"Menaces,Wounds,<4",
-			"Stories,A Fearsome Duelist,2"
+			"Stories,A Fearsome Duellist,2"
 		],
 		"Action": "wolfstack,Challenge,Vendrick,1"
 	},

@@ -197,6 +197,11 @@ function Require
 		$acq = LookupAcquisition $name
 	}
 
+	if( $acq -eq $null )
+	{
+		throw "no way to get $category $name found in acquisitions.json"
+	}
+
 	foreach( $prereq in $acq.Prerequisites )
 	{
 		$action = ParseActionString $prereq

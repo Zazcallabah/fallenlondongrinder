@@ -28,6 +28,7 @@ $script:actions = @(
 	#"empresscourt,Matters,artistically"
 	#"spite,casing,gather"
 	#"writing"
+	"cascade,Stories,A Fearsome Duelist,5,Duel Vendrick"
 	"cascade,Goods,Supplies,80"
 	"cascade,Progress,Casing...,5,PrepBaseborn"
 	"cascade,Elder,Presbyterate Passphrase,9"
@@ -36,7 +37,6 @@ $script:actions = @(
 	"cascade,Basic,Shadowy,100,GrindShadowy" #63
 	"cascade,Basic,Watchful,110,GrindWatchful" # 66
 	"cascade,Progress,Casing...,13"
-	"cascade,Stories,A Fearsome Duelist,5,Duel Vendrick"
 )
 
 
