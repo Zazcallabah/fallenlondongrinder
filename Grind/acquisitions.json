@@ -208,6 +208,48 @@
 		],
 		"Action": "wolfstack,Challenge,Vendrick,1"
 	},
+	"Velocipede": {
+		"Name": "Velocipede",
+		"Result": "Velocipede",
+		"Prerequisites": [
+			"Curiosity,Strong-Backed Labour,1",
+			"Nostalgia,Bazaar Permit,1"
+		],
+		"Action": "bazaar,velocipede"
+	},
+	"Bazaar Permit": {
+		"Name": "Bazaar Permit",
+		"Result": "Bazaar Permit",
+		"Prerequisites": [
+			"Nostalgia,Vision of the Surface,10",
+			"Nostalgia,Romantic Notion,100"
+		],
+		"Action": "bazaar,fowlingpiece,permit"
+	},
+	"Vision of the Surface": {
+		"Name": "Vision of the Surface",
+		"Result": "Vision of the Surface",
+		"Prerequisites": [
+			"Nostalgia,Romantic Notion,500"
+		],
+		"Action": "inventory,Nostalgia,Romantic Notion,salon"
+	},
+	"Romantic Notion": {
+		"Name": "Romantic Notion",
+		"Result": "Romantic Notion",
+		"Prerequisites": [
+			"Nostalgia,Drop of Prisoner's Honey,500"
+		],
+		"Action": "inventory,Nostalgia,Drop of Prisoner's Honey,sponsor"
+	},
+	"Drop of Prisoner's Honey": {
+		"Name": "Drop of Prisoner's Honey",
+		"Result": "Drop of Prisoner's Honey",
+		"Prerequisites": [
+			"Currency,Penny,10000"
+		],
+		"Action": "buy,Merrigans,Drop of Prisoner's Honey,2500"
+	},
 
 	"StartNovel": {
 		"Name": "StartNovel",
