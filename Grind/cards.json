@@ -1,0 +1,15 @@
+{
+	"use":[
+		{
+			"name": "A new Piece in the Game",
+			"action": "help out"
+		},
+		{
+			"name": "Spy on the Black Ribbon",
+			"action": "Feducci"
+		}
+	],
+	"keep":[
+		"The Demi-Monde: Bohemians"
+	]
+}

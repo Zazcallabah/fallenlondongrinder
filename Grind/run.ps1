@@ -7,10 +7,12 @@ $script:runInfraTests = $false
 if($env:Home -eq $null)
 {
 	. $PSScriptRoot/acquisitions.ps1
+	$script:CardActions = gc -Raw $PSScriptRoot/cards.json | ConvertFrom-Json
 }
 else
 {
 	. ${env:HOME}/site/wwwroot/Grind/acquisitions.ps1
+	$script:CardActions = gc -Raw ${env:HOME}/site/wwwroot/Grind/card.json | ConvertFrom-Json
 }
 
 $script:actions = @(
@@ -28,7 +30,7 @@ $script:actions = @(
 	#"empresscourt,Matters,artistically"
 	#"spite,casing,gather"
 	#"writing"
-	"cascade,Stories,A Fearsome Duelist,5,Duel Vendrick"
+	"cascade,Stories,A Fearsome Duelist,5,Duel Fencing"
 	"cascade,Goods,Supplies,80"
 	"cascade,Progress,Casing...,5,PrepBaseborn"
 	"cascade,Elder,Presbyterate Passphrase,9"
@@ -91,6 +93,85 @@ function Writing
 		$r=DoAction "veilgarden,literary,1"
 	}
 	return $false
+}
+
+function GetCardInUseList
+{
+	param( $opportunity )
+
+	foreach( $cardobj in $opportunity.displayCards )
+	{
+		$result = $script:CardActions.use | ?{ $cardobj.eventId -eq $_.name -or $cardobj.name -eq $_.name }
+		if($result -ne $null)
+		{
+			$result | Add-Member -Membertype NoteProperty -name "eventId" -value $cardobj.eventid
+			return $result
+		}
+	}
+}
+
+if($script:runTests)
+{
+	Describe "GetCardInUseList" {
+		It "returns a single card" {
+			$script:CardActions = @{"use"=@( @{"name"=3},@{"name"=4})}
+			$r = GetCardInUseList @{"displayCards"=@(@{"eventid"=3},@{"eventid"=14})}
+			$r.name | should be 3
+		}
+		It "returns one card even if two matches" {
+			$script:CardActions = @{"use"=@( @{"name"=3},@{"name"=4})}
+			$r = GetCardInUseList @{"displayCards"=@(@{"eventid"=3},@{"eventid"=4})}
+			$r.name | should be 3
+		}
+		It "returns no cards if none matches" {
+			$script:CardActions = @{"use"=@( @{"name"=3},@{"name"=4})}
+			$r = GetCardInUseList @{"displayCards"=@(@{"eventid"=13},@{"eventid"=14})}
+			$r | should be $null
+		}
+		It "returns eventid as well as name cards" {
+			$script:CardActions = new-object psobject -property @{"use"=@(@{"name"="hej";"action"="one"})}
+			$r = GetCardInUseList (new-object psobject -property @{"displayCards"=@(@{"eventid"=13;"name"="hej"})})
+			$r.name | should be "hej"
+			$r.eventid | should be 13
+			$r.action | should be "one"
+		}
+	}
+}
+
+function DiscardUnlessKeep
+{
+	param($opportunity)
+
+	foreach( $cardobj in $opportunity.displayCards )
+	{
+		$shouldkeep = $script:CardActions.keep | ?{ $_ -eq $cardobj.name -or $_ -eq $cardobj.eventId }
+		if( $shouldkeep -eq $null )
+		{
+			$result = DiscardOpportunity $cardobj.eventId
+		}
+	}
+}
+
+function Cards
+{
+	$o = DrawOpportunity
+
+	$card = GetCardInUseList $o
+	if( $card -ne $null )
+	{
+		if( $o.isInAStorylet )
+		{
+			$result = GoBack
+		}
+		Write-Host "doing card $($card.name) action $($card.action)"
+		$storylet = BeginStorylet $card.eventId
+		$branch = GetChildBranch $storylet.storylet.childBranches $card.action
+		$result = ChooseBranch $branch.id
+		return $false
+	}
+
+	DiscardUnlessKeep $o
+	return $true
 }
 
 function EarnestPayment
@@ -400,35 +481,8 @@ if($script:runTests)
 	# }
 }
 
-function FilterFor
-{
-	param($name)
-	$o = Opportunity
-
-	if( $o.isInAStorylet )
-	{
-		$result = GoBack
-	}
-
-	if($o.displayCards.length -ge 2 )
-	{
-		$o.displayCards | ?{ $_.stickiness -eq "Discardable" -and $_.name -ne $name } | %{
-			write-host "discarding $($_.name)"
-			$result = DiscardOpportunity $_.eventId
-		}
-	}
-	$o = Opportunity
-	if( $o.eligibleForCardsCount -ge 6 )
-	{
-		write-host "Drawing card"
-		$result = DrawOpportunity
-		write-host "found: $($result.displayCards.name)"
-	}
-}
-
 if(!$script:runTests)
 {
-#	FilterFor "The Demi-Monde: Bohemians"
 	if( HasActionsToSpare )
 	{
 		$hasActionsLeft = EarnestPayment
@@ -439,6 +493,12 @@ if(!$script:runTests)
 		}
 
 		$hasActionsLeft = CheckMenaces
+		if( !$hasActionsLeft )
+		{
+			return
+		}
+
+		$hasActionsLeft = Cards
 		if( !$hasActionsLeft )
 		{
 			return
