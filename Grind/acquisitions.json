@@ -208,6 +208,16 @@
 		],
 		"Action": "wolfstack,Challenge,Vendrick,1"
 	},
+	"Duel Fencing" : {
+		"Name": "Duel Fencing",
+		"Result": "A Fearsome Duellist",
+		"Prerequisites": [
+			"Progress,Running Battle,15",
+			"Menaces,Wounds,<4",
+			"Stories,A Fearsome Duellist,3"
+		],
+		"Action": "wolfstack,Challenge,Fencing,1"
+	},
 	"Velocipede": {
 		"Name": "Velocipede",
 		"Result": "Velocipede",
