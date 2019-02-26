@@ -30,15 +30,16 @@ $script:actions = @(
 	#"empresscourt,Matters,artistically"
 	#"spite,casing,gather"
 	#"writing"
-	"cascade,Stories,A Fearsome Duelist,5,Duel Fencing"
-	"cascade,Goods,Supplies,80"
-	"cascade,Progress,Casing...,5,PrepBaseborn"
+#	"cascade,Stories,A Fearsome Duelist,5,Duel Fencing"
+#	"cascade,Goods,Supplies,80"
+#	"cascade,Progress,Casing...,5,PrepBaseborn"
 	"cascade,Elder,Presbyterate Passphrase,9"
-	"cascade,Basic,Persuasive,110,GrindPersuasive" #95
-	"cascade,Basic,Dangerous,105,GrindDangerous" # 39
-	"cascade,Basic,Shadowy,100,GrindShadowy" #63
-	"cascade,Basic,Watchful,110,GrindWatchful" # 66
-	"cascade,Progress,Casing...,13"
+	"cascade,Basic,Persuasive,115,GrindPersuasive"
+	"cascade,Basic,Dangerous,115,GrindDangerous"
+	"cascade,Basic,Watchful,115,GrindWatchful"
+	"cascade,Stories,Embroiled in the Wars of Illusion,3"
+	"cascade,Basic,Shadowy,115,GrindShadowy"
+#	"cascade,Progress,Casing...,13"
 )
 
 

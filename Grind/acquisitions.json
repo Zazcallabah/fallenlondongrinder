@@ -129,7 +129,9 @@
 	"GrindShadowy": {
 		"Name": "GrindShadowy",
 		"Result": "Shadowy",
-		"Prerequisites": [],
+		"Prerequisites": [
+			"Stories,Embroiled in the Wars of Illusion,8"
+		],
 		"Action": "flit,its king,meeting,present"
 	},
 	"GrindDangerous": {
@@ -226,6 +228,31 @@
 			"Nostalgia,Bazaar Permit,1"
 		],
 		"Action": "bazaar,velocipede"
+	},
+	"Embroiled in the Wars of Illusion": {
+		"Name": "Embroiled in the Wars of Illusion",
+		"Result": "Embroiled in the Wars of Illusion",
+		"Prerequisites": [
+			"Progress,Seeking,5",
+			"Progress,Investgating,5"
+		],
+		"Action": "flit,Chicanery,Dropping"
+	},
+	"Seeking...": {
+		"Name": "Seeking...",
+		"Result": "Seeking...",
+		"Prerequisites": [
+			"Stories,A Name Whispered in Darkness,=6"
+		],
+		"Action": "flit,Chicanery,Shadowing,Disguise"
+	},
+	"Investigating...": {
+		"Name": "Investigating...",
+		"Result": "Investigating...",
+		"Prerequisites": [
+			"Stories,A Name Whispered in Darkness,=6"
+		],
+		"Action": "flit,Chicanery,Tricks,Topsy"
 	},
 	"Bazaar Permit": {
 		"Name": "Bazaar Permit",
