@@ -234,7 +234,7 @@
 		"Result": "Embroiled in the Wars of Illusion",
 		"Prerequisites": [
 			"Progress,Seeking,5",
-			"Progress,Investgating,5"
+			"Progress,Investigating,5"
 		],
 		"Action": "flit,Chicanery,Dropping"
 	},
