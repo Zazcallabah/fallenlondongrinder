@@ -336,14 +336,14 @@ function GetShopItemId
 
 function BuyPossession
 {
-	param($shopname, $itemname, $amount)
+	param($shopname, $itemname, [int]$amount)
 	$shopitemId = GetShopItemId $shopname $itemname
 	Buy $shopitemid $amount
 }
 
 function SellPossession
 {
-	param($item, $amount)
+	param($item, [int]$amount)
 	$shopitemid = GetShopItemId "sell" $item
 	Sell $shopitemid $amount
 }

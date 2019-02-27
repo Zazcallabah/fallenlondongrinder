@@ -286,7 +286,7 @@ function DoAction
 	# inventory just needs to make sure we do gobackifinstorylet first
 	if( $action.location -eq "buy" )
 	{
-		BuyPossession $action.first $action.second $action.third
+		BuyPossession $action.first $action.second $action.third[0]
 		return
 	}
 	elseif( $action.location -eq "sell" )
