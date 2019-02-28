@@ -220,6 +220,39 @@
 		],
 		"Action": "wolfstack,Challenge,Fencing,1"
 	},
+	"First City Coin": {
+		"Name": "First City Coin",
+		"Result": "First City Coin",
+		"Prerequisites": [
+			"Elder,Mysteries of the Elder Continent,2"
+		],
+		"Action": "lodgings,Ambition: Heart's Desire,First City Coin"
+	},
+	"Mysteries of the Elder Continent": {
+		"Name": "Mysteries of the Elder Continent",
+		"Result": "Mysteries of the Elder Continent",
+		"Prerequisites": [
+			"Elder,Relic of the First City,500"
+		],
+		"Action": "inventory,Elder,Relic of the First City,Feducci"
+	},
+	"Relic of the First City": {
+		"Name": "Relic of the First City",
+		"Result": "Relic of the First City",
+		"Prerequisites": [
+			"Elder,Jade Fragment,1000"
+		],
+		"Action": "inventory,Elder,Jade Fragment,Buy out"
+	},
+	"Jade Fragment": {
+		"Name": "Jade Fragment",
+		"Result": "Jade Fragment",
+		"Prerequisites": [
+			"Mysteries,Cryptic Clue,15"
+		],
+		"Action": "shuttered palace,green fingers,Design something"
+	},
+	
 	"Velocipede": {
 		"Name": "Velocipede",
 		"Result": "Velocipede",
