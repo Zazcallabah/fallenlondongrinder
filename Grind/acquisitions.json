@@ -224,13 +224,13 @@
 		"Name": "First City Coin",
 		"Result": "First City Coin",
 		"Prerequisites": [
-			"Elder,Mysteries of the Elder Continent,2"
+			"Elder,Mystery of the Elder Continent,2"
 		],
-		"Action": "lodgings,Ambition: Heart's Desire,First City Coin"
+		"Action": "lodgings,Ambition: Heart's Desire,Gamble for silver!"
 	},
-	"Mysteries of the Elder Continent": {
-		"Name": "Mysteries of the Elder Continent",
-		"Result": "Mysteries of the Elder Continent",
+	"Mystery of the Elder Continent": {
+		"Name": "Mystery of the Elder Continent",
+		"Result": "Mystery of the Elder Continent",
 		"Prerequisites": [
 			"Elder,Relic of the First City,500"
 		],
