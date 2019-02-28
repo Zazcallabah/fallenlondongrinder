@@ -159,6 +159,13 @@
 		"Action": "sell,Curiosity,Competent Short Story,1"
 	},
 
+	"Tales of Mahogany Hall" : {
+		"Name": "Tales of Mahogany Hall",
+		"Result": "Tales of Mahogany Hall",
+		"Prerequisites": [
+		],
+		"Action": "mahogany,cutthroat,sabotage"
+	},
 
 	"HeistBaseborn" : {
 		"Name": "HeistBaseborn",
