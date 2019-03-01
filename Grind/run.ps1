@@ -37,6 +37,7 @@ $script:actions = @(
 	"cascade,Basic,Persuasive,115,GrindPersuasive"
 	"cascade,Basic,Dangerous,115,GrindDangerous"
 	"cascade,Basic,Watchful,115,GrindWatchful"
+	"cascade,Nostalgia,Bazaar Permit,1"
 	#"cascade,Stories,Embroiled in the Wars of Illusion,3"
 #	"cascade,Basic,Shadowy,115,GrindShadowy"
 	"cascade,Stories,Tales of Mahogany Hall,10"
