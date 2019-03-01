@@ -162,14 +162,25 @@ function Cards
 	$card = GetCardInUseList $o
 	if( $card -ne $null )
 	{
+		$card.require | %{
+			$action = ParseActionString $_
+			$hasActionsLeft = Require $action.location $action.first $action.second $action.third
+			if(!$hasActionsLeft)
+			{
+				return $false
+			}
+		}
 		if( $o.isInAStorylet )
 		{
 			$result = GoBack
 		}
 		Write-Host "doing card $($card.name) action $($card.action)"
 		$storylet = BeginStorylet $card.eventId
-		$branch = GetChildBranch $storylet.storylet.childBranches $card.action
-		$result = ChooseBranch $branch.id
+		if( $card.action )
+		{
+			$branch = GetChildBranch $storylet.storylet.childBranches $card.action
+			$result = ChooseBranch $branch.id
+		}
 		return $false
 	}
 
