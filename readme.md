@@ -5,12 +5,28 @@ Azure function set up to run every 10 minutes. Will cycle through a given set of
 
 ## todo
 
-* fulfill money grinding loop, add intro and exit actions
-* grind menaces - suspicion primarily - in their locked locations
-* how to bulk lower menaces
+mahogani
+	Master-Classes in Etiquette loop
+flit
+	heist loop with casing.. and specific handling of locked area
+	chicanery progression
+	stealing painting for flit king
+
+lodgings
+	corrected story grind
+
+grind for favors?
+grind for money?
+(affair of the box grind loop, after mahogany hall done to sunday)
+
+sell & inventory should take arbitrary number of items, and try them in order until one is found in inventory
+
 * is it viable to lower suspicion through # "ladybones,life,associate,publish" # prereq 50 Silk Scrap 25 clues Subtle 4
-* how to avoid recursion loop for carnival tickets
 * opportunity cards during heist or other locked storylets
+* add get first city coin through compromising documents + favours great game
+* add grind for all lower caste economy items
+* Add opportunity cards for favours etc?
+* add both upconvert and sideconvert mechanic - used as a fallback if no acq is available directly, add estimates for how many actions are needed and figure out pathing
 
 ### data on workingon/writing
 
@@ -31,24 +47,6 @@ do special handling for circumstance, ignoring it if already "wrong" value?
 * patriotic adventure - 6000 moon perals, making waves
 * use fascinating to do romance options in empresscourt, which requires fascinating 11? 10?
 
+* go through areas, enter good actions to take for generic items
 
-	function WorkingOn {
-		# workingon 31
-		# action to start
-		# require potential 60
-		# action to finish
-		# competent or compelling results
-		# sell result no matter which
-	}
-
-"Penny" = @("Curiosity,Competent Short Story,1"); # workking on not null, writing doesnt currently end? push for which level?
-
-maybe a flag for prerequisites that marks or/and?
-sell & inventory should take arbitrary number of items, and try them in order until one is found in inventory
-
-set up the upconvert routes and such
-go through areas, enter good actions to take for generic items
-start including amount of item/action
-	we could automate that through the tree cascade if it has a separate property
-	
-add tag for when a prereq cant be fullfilled, just skip it instead of error
+* add tag for when a prereq cant be fullfilled, just skip it instead of error
