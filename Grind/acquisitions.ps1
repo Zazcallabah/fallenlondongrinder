@@ -3,12 +3,41 @@ if($env:Home -eq $null)
 {
 	. $PSScriptRoot/navigation.ps1
 	$script:Acquisitions = gc -Raw $PSScriptRoot/acquisitions.json | ConvertFrom-Json
+	$script:ItemData = gc $PSScriptRoot/items.csv | ConvertFrom-Csv
 }
 else
 {
 	. ${env:HOME}/site/wwwroot/Grind/navigation.ps1
 	$script:Acquisitions = gc -Raw ${env:HOME}/site/wwwroot/Grind/acquisitions.json | ConvertFrom-Json
+	$script:ItemData = gc ${env:HOME}/site/wwwroot/Grind/items.csv | ConvertFrom-Csv
 }
+
+
+function AddAcquisition
+{
+	param($name,$result,$action,[int]$reward,$prereq=@())
+	$obj = new-object psobject -Property @{
+		"Name" = $name;
+		"Result" = $result;
+		"Prerequisites" = $prereq;
+		"Action" = $action;
+		"Reward" = $reward;
+	}
+	$script:Acquisitions | Add-Member -MemberType NoteProperty -Name $name -Value $obj
+}
+
+$script:ItemData | %{
+	$name = "Default$($_.Economy)$($_.Level)$($_.BoughtItem)"
+	$result = $_.BoughtItem
+	$p = "$($_.Economy),$($_.Item),$($_.Cost)"
+	$action = "inventory,$($_.Economy),$($_.Item),$($_.action)"
+	$reward = $_.Gain
+	$done = AddAcquisition $name $result $action $reward @($p)
+}
+
+$done = AddAcquisition "DefaultMysteries3bJournals" "Journal of Infamy" "inventory,Mysteries,Appalling Secret,duchess" 105 @("Mysteries,Appalling Secret,333","Contacts,Connected: The Duchess,5")
+$done = AddAcquisition "DefaultMysteries4bCorrespondance" "Correspondence Plaque" "inventory,Mysteries,Journal of Infamy,Blackmail" 51 @("Mysteries,Journal of Infamy,50")
+
 
 function ParseActionString
 {
@@ -100,7 +129,7 @@ if( $script:runTests )
 
 function LookupAcquisition
 {
-	param($name)
+	param( $name )
 
 	if( $name -eq $null )
 	{
@@ -140,7 +169,97 @@ if( $script:runtests )
 }
 
 
+function Sources
+{
+	param( $name )
 
+	return $script:Acquisitions.PSObject.Properties | ?{ $_.Value.Result -match $name } | select -ExpandProperty Value
+}
+
+function GetPossessionLevel
+{
+	param( $category, $name )
+	return GetPossession $category $name | select -ExpandProperty effectiveLevel
+}
+
+function GetCostForSource
+{
+	param( $source, $amount, [switch]$force )
+	if( !$source.Reward )
+	{
+		write-warning "no reward for $($source.name)"
+		return $null
+	}
+
+	$basecost = [Math]::Ceiling( $amount / $source.Reward )
+
+	if( !$source.Prerequisites )
+	{
+		return $basecost
+	}
+
+	$prereqCost = $source.Prerequisites | %{
+		$split = ParseActionString $_
+		ActionCost $split.location $split.first $split.second -force:$force | select -expandProperty Cost
+	} | measure -sum | select -expandproperty sum
+
+	return $basecost * ($prereqCost+1)
+}
+
+function GetAcquisitionByCost
+{
+	param( $category, $name, $amount, [switch]$force )
+	if( !(IsNumber $amount) )
+	{
+		return LookupAcquisition $name
+	}
+
+	$sources = Sources $name
+
+	if( !$sources )
+	{
+		write-warning "no sources for $name"
+		return LookupAcquisition $name
+	}
+
+	$level = GetPossessionLevel $category $name
+
+	$sources | %{
+		if($_.Cost -eq $null -or $force )
+		{
+			[int]$cost = GetCostForSource $_ ($amount-$level)
+			$_ | Add-Member -MemberType NoteProperty -Name Cost -Value $cost -Force
+		}
+	}
+	return $sources | Sort-Object -Property Cost | Select -First 1
+}
+
+function ActionCost
+{
+	param( $category, $name, $amount, [switch]$force )
+	$level = GetPossessionLevel $category $name
+
+	if( $level -ge $amount )
+	{
+		return new-object psobject -Property @{"Cost"=0}
+	}
+
+	$sources = Sources $name
+
+	if( !$sources )
+	{
+		write-warning "no sources for $name"
+		return
+	}
+	$sources | %{
+		if( $_.Cost -eq $null -or $force )
+		{
+			[int]$cost = GetCostForSource $_ ($amount-$level)
+			$_ | Add-Member -MemberType NoteProperty -Name Cost -Value $cost -Force
+		}
+	}
+	$sources | Sort-Object -Property Cost | Select -First 1
+}
 
 
 # returns true if named possession is fullfilled
@@ -194,7 +313,7 @@ function Require
 
 	if( $acq -eq $null )
 	{
-		$acq = LookupAcquisition $name
+		$acq = GetAcquisitionByCost $category $name $level
 	}
 
 	if( $acq -eq $null )
@@ -222,11 +341,11 @@ function TestPossessionData
 	param( $category, $name, $level )
 	return new-object psobject -property @{
 		"name" = $category
-		"possessions" = @(@{ "name" = $name; "effectiveLevel" = $level })
+		"possessions" = @(new-object psobject -property @{ "name" = $name; "effectiveLevel" = $level })
 	}
 }
 
-if( $script:runTests )
+if( $script:runtests )
 {
 	Describe "Require" {
 
@@ -290,7 +409,6 @@ if( $script:runTests )
 			$script:actionHistory = @()
 		}
 		It "acquires if you dont have exact count" {
-
 			$result = Require "Mysteries" "Cryptic Clue" 15 -dryRun
 			$script:actionHistory.length | should be 1
 			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"
@@ -299,7 +417,6 @@ if( $script:runTests )
 		}
 
 		It "reduces menaces if you have too much, which cascades to getting clues" {
-
 			$result = Require "Menaces" "Nightmares" "<5" -dryRun
 			$script:actionHistory.length | should be 1
 			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"
@@ -308,5 +425,87 @@ if( $script:runTests )
 		}
 		$script:actionHistory = @()
 		$script:myself = $null
+	}
+}
+
+
+function SetPossessionLevel
+{
+	param( $category, $name, [int]$level )
+	$p = GetPossession $category $name
+	$p.effectiveLevel = $level
+}
+
+if($script:runTests)
+{
+	Describe "GetCostforSource" {
+		It "knows how to get 1000 romantic notions" {
+			SetPossessionLevel "Nostalgia" "Romantic Notion" 0
+			$sources = Sources "Romantic Notion"
+			GetCostForSource $sources[0] 1000 -force | should be 60
+		}
+		It "knows how to get 500 hints" {
+			SetPossessionLevel "Mysteries" "Whispered hint" 0
+			$sources = Sources "Whispered Hint"
+			GetCostForSource $sources[0] 500 -force | should be 8
+		}
+		It "includes prereq cost" {
+			SetPossessionLevel "Mysteries" "Whispered hint" 0
+			$sources = Sources "Cryptic Clue"
+			GetCostForSource $sources[0] 1 -force | should be 1
+			GetCostForSource $sources[1] 1 -force | should be 9
+		}
+		It "accounts for existing inventory" {
+			SetPossessionLevel "Mysteries" "Whispered hint" 499
+			$sources = Sources "Cryptic Clue"
+			GetCostForSource $sources[0] 1 -force | should be 1
+			GetCostForSource $sources[1] 1 -force | should be 2
+		}
+	}
+}
+
+if($script:runTests)
+{
+	Describe "ActionCost" {
+		It "returns 1 if not in inventory and missing exactly reward" {
+			SetPossessionLevel "Mysteries" "Whispered hint" 0
+			$c = ActionCost "Mysteries" "Whispered Hint" 66 -force
+			$c.Cost | should be 1
+			$c.Action | should be "flit,its king,meeting,understand"
+		}
+		It "returns 2 if not in inventory and requesting exactly one more than reward" {
+			SetPossessionLevel "Mysteries" "Whispered hint" 0
+			$c = ActionCost "Mysteries" "Whispered Hint" 67 -force
+			$c.Cost | should be 2
+			$c.Action | should be "flit,its king,meeting,understand"
+		}
+		It "returns 1 if one in inventory and requesting exactly one more than reward" {
+			SetPossessionLevel "Mysteries" "Whispered hint" 1
+			$c = ActionCost "Mysteries" "Whispered Hint" 67 -force
+			$c.Cost | should be 1
+			$c.Action | should be "flit,its king,meeting,understand"
+		}
+	}
+	Describe "Sources" {
+		It "can get sources for item" {
+			$sources = Sources "Cryptic Clue"
+			$sources.Count | should be 2
+			$sources[0].Name | should be "Cryptic Clue"
+			$sources[1].Name | should be "DefaultMysteries1Cryptic Clue"
+		}
+	}
+
+	Describe "ActionCost with Sources" {
+		It "uses the fastest source to get answer" {
+			SetPossessionLevel "Mysteries" "Cryptic Clue" 0
+			SetPossessionLevel "Mysteries" "Whispered hint" 499
+			$c = ActionCost "Mysteries" "Cryptic Clue" 1 -force
+			$c.Cost | should be 1
+			$c.Action | should be "spite,Alleys,Cats,Grey"
+
+			$c = ActionCost "Mysteries" "Cryptic Clue" 200 -force
+			$c.Cost | should be 2
+			$c.Action | should be "inventory,Mysteries,Whispered Hint,combine"
+		}
 	}
 }

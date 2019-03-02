@@ -31,15 +31,8 @@
 		"Name": "Cryptic Clue",
 		"Result": "Cryptic Clue",
 		"Prerequisites": [],
-		"Action": "spite,Alleys,Cats,Grey"
-	},
-	"Appalling Secret": {
-		"Name": "Appalling Secret",
-		"Result": "Appalling Secret",
-		"Prerequisites": [
-			"Mysteries,Cryptic Clue,500"
-		],
-		"Action": "inventory,Mysteries,Cryptic Clue,great many"
+		"Action": "spite,Alleys,Cats,Grey",
+		"Reward": 24
 	},
 	"Nikolas & Sons Instant Ablution Absolutionn": {
 		"Name": "Nikolas & Sons Instant Ablution Absolution",
@@ -68,7 +61,8 @@
 		"Name": "Whispered Hint",
 		"Result": "Whispered Hint",
 		"Prerequisites": [],
-		"Action": "flit,its king,meeting,understand"
+		"Action": "flit,its king,meeting,understand",
+		"Reward": 66
 	},
 	"Extraordinary Implication": {
 		"Name": "Extraordinary Implication",
@@ -156,7 +150,8 @@
 		"Prerequisites": [
 			"Curiosity,Competent Short Story,1"
 		],
-		"Action": "sell,Curiosity,Competent Short Story,1"
+		"Action": "sell,Curiosity,Competent Short Story,1",
+		"Reward": 3000
 	},
 
 	"Tales of Mahogany Hall" : {
@@ -235,22 +230,6 @@
 		],
 		"Action": "lodgings,Ambition: Heart's Desire,Gamble for silver!"
 	},
-	"Mystery of the Elder Continent": {
-		"Name": "Mystery of the Elder Continent",
-		"Result": "Mystery of the Elder Continent",
-		"Prerequisites": [
-			"Elder,Relic of the First City,500"
-		],
-		"Action": "inventory,Elder,Relic of the First City,Feducci"
-	},
-	"Relic of the First City": {
-		"Name": "Relic of the First City",
-		"Result": "Relic of the First City",
-		"Prerequisites": [
-			"Elder,Jade Fragment,1000"
-		],
-		"Action": "inventory,Elder,Jade Fragment,Buy out"
-	},
 	"Jade Fragment": {
 		"Name": "Jade Fragment",
 		"Result": "Jade Fragment",
@@ -259,7 +238,7 @@
 		],
 		"Action": "shuttered palace,green fingers,Design something"
 	},
-	
+
 	"Velocipede": {
 		"Name": "Velocipede",
 		"Result": "Velocipede",
@@ -303,29 +282,14 @@
 		],
 		"Action": "bazaar,fowlingpiece,permit"
 	},
-	"Vision of the Surface": {
-		"Name": "Vision of the Surface",
-		"Result": "Vision of the Surface",
-		"Prerequisites": [
-			"Nostalgia,Romantic Notion,500"
-		],
-		"Action": "inventory,Nostalgia,Romantic Notion,salon"
-	},
-	"Romantic Notion": {
-		"Name": "Romantic Notion",
-		"Result": "Romantic Notion",
-		"Prerequisites": [
-			"Nostalgia,Drop of Prisoner's Honey,500"
-		],
-		"Action": "inventory,Nostalgia,Drop of Prisoner's Honey,sponsor"
-	},
 	"Drop of Prisoner's Honey": {
 		"Name": "Drop of Prisoner's Honey",
 		"Result": "Drop of Prisoner's Honey",
 		"Prerequisites": [
 			"Currency,Penny,10000"
 		],
-		"Action": "buy,Merrigans,Drop of Prisoner's Honey,2500"
+		"Action": "buy,Merrigans,Drop of Prisoner's Honey,2500",
+		"Reward": 2500
 	},
 
 	"StartNovel": {
