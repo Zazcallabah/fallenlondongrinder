@@ -9,10 +9,24 @@
 			"action": "Feducci"
 		},
 		{
-			"name": "A dream about the mist"
+			"name": "An Old Acquaintance",
+			"action": "Will she remember you"
+		},
+		{
+			"name": "What will you do with your Hungover Terrier",
+			"action": "party/dispensary"
+		},
+		{
+			"name": "Altars and Alms-Houses: the Church",
+			"action": "south bank"
+		},
+		{
+			"name": "An unusual wager",
+			"action": "look"
 		}
 	],
 	"keep":[
-		"The Demi-Monde: Bohemians"
+		"The Demi-Monde: Bohemians",
+		"The_Roof-Tops:_Urchins"
 	]
 }
