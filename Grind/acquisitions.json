@@ -150,7 +150,7 @@
 		"Prerequisites": [
 			"Curiosity,Competent Short Story,1"
 		],
-		"Action": "sell,Curiosity,Competent Short Story,1",
+		"Action": "sell,Competent Short Story,1",
 		"Reward": 3000
 	},
 
