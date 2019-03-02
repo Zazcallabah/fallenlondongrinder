@@ -23,10 +23,27 @@
 		{
 			"name": "An unusual wager",
 			"action": "look"
+		},
+		{
+			"name": "Reeducating Lyme",
+			"action": "challenge"
+		},
+		{
+			"name": "The Northbound Parliamentarian",
+			"action": "advise"
+		},
+		{
+			"name": "The Cities that Fell",
+			"action": "pages/gatecrash/lordship/ancient/whispers"
+		},
+		{
+			"name": "Cheesemonger",
+			"action": "Eavesdrop/Start the gang war/Look into the matter/Take the shipment/venal/a forthright approach/Private investigations/Steal the manuscript/Listen to him"
 		}
 	],
 	"keep":[
 		"The Demi-Monde: Bohemians",
-		"The_Roof-Tops:_Urchins"
+		"The Roof-Tops: Urchins",
+		"Taking matters into your own hands"
 	]
 }
