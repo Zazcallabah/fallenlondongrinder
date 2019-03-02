@@ -104,17 +104,17 @@ function GrindMoney
 	SellIfMoreThan "Curiosity" "Compelling Short Story" 1
 	SellIfMoreThan "Curiosity" "Exceptional Short Story" 1
 
-	$hasMoreActions = Require "Curiosity" "Potential" 61 "Daring Edit"
+	$hasMoreActions = Require "Progress" "Potential" 61 "Daring Edit"
 	if( !$hasMoreActions )
 	{
 		return $false
 	}
-	$hasMoreActions = Require "Curiosity" "Potential" 71 "Touch of darkness"
+	$hasMoreActions = Require "Progress" "Potential" 71 "Touch of darkness"
 	if( !$hasMoreActions )
 	{
 		return $false
 	}
-	$hasMoreActions = Require "Curiosity" "Potential" 81 "something exotic"
+	$hasMoreActions = Require "Progress" "Potential" 81 "something exotic"
 	if( !$hasMoreActions )
 	{
 		return $false
