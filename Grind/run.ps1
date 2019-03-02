@@ -33,16 +33,16 @@ $script:actions = @(
 #	"cascade,Stories,A Fearsome Duelist,5,Duel Fencing"
 #	"cascade,Goods,Supplies,80"
 #	"cascade,Progress,Casing...,5,PrepBaseborn"
+	#"cascade,Stories,Embroiled in the Wars of Illusion,3"
+#	"cascade,Basic,Shadowy,115,GrindShadowy"
+#	"cascade,Progress,Casing...,13"
+	"cascade,Stories,Tales of Mahogany Hall,10"
 	"cascade,Elder,Presbyterate Passphrase,9"
 	"cascade,Basic,Persuasive,115,GrindPersuasive"
 	"cascade,Basic,Dangerous,115,GrindDangerous"
 	"cascade,Basic,Watchful,115,GrindWatchful"
 	"cascade,Nostalgia,Bazaar Permit,1"
-	#"cascade,Stories,Embroiled in the Wars of Illusion,3"
-#	"cascade,Basic,Shadowy,115,GrindShadowy"
-	"cascade,Stories,Tales of Mahogany Hall,10"
 	"cascade,Curiosity,First City Coin,77"
-#	"cascade,Progress,Casing...,13"
 )
 
 
