@@ -12,9 +12,6 @@ flit
 	chicanery progression
 	stealing painting for flit king
 
-lodgings
-	corrected story grind
-
 grind for favors?
 grind for money?
 (affair of the box grind loop, after mahogany hall done to sunday)
@@ -27,18 +24,12 @@ sell & inventory should take arbitrary number of items, and try them in order un
 * add grind for all lower caste economy items
 * Add opportunity cards for favours etc?
 * add both upconvert and sideconvert mechanic - used as a fallback if no acq is available directly, add estimates for how many actions are needed and figure out pathing
+* how to get rubbery?
 
 ### data on workingon/writing
 
 dont 'require' a circumstance without a named tag
 do special handling for circumstance, ignoring it if already "wrong" value?
-
-
-* finishing a short story at "lodgings,writer,finish,[name]
-* leveling progress to 60 is already established, but further:
-* 70 compromising document, darkness (tale of terror)
-* 80 life-lessons ( hard earned lesson)
-* 100 esoteric elements (extraordinary implication)
 
 
 * empresscourt,complete,

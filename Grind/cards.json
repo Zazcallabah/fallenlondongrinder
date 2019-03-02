@@ -38,7 +38,15 @@
 		},
 		{
 			"name": "Cheesemonger",
-			"action": "Eavesdrop/Start the gang war/Look into the matter/Take the shipment/venal/a forthright approach/Private investigations/Steal the manuscript/Listen to him"
+			"action": "Eavesdrop/Start the gang war/Open it up/Look into the matter/Take the shipment/venal/a forthright approach/Private investigations/Steal the manuscript/Listen to him"
+		},
+		{
+			"name": "Attend a society funeral",
+			"action": "eulogy"
+		},
+		{
+			"name": "All fear the Overgoat!",
+			"action": "learn"
 		}
 	],
 	"keep":[

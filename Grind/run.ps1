@@ -119,7 +119,10 @@ function GrindMoney
 	{
 		return $false
 	}
-	$hasMoreActions = Require "Curiosity" "Exceptional Short Story" 1
+	$hasMoreActions = Require "Curiosity" "Exceptional Short Story" 2
+	SellIfMoreThan "Curiosity" "Competent Short Story" 0
+	SellIfMoreThan "Curiosity" "Compelling Short Story" 1
+	SellIfMoreThan "Curiosity" "Exceptional Short Story" 1
 	return $false
 }
 
