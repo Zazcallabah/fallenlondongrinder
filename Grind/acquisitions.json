@@ -148,9 +148,8 @@
 		"Name": "Penny",
 		"Result": "Penny",
 		"Prerequisites": [
-			"Curiosity,Competent Short Story,1"
 		],
-		"Action": "sell,Competent Short Story,1",
+		"Action": "grind_money",
 		"Reward": 3000
 	},
 
@@ -236,7 +235,8 @@
 		"Prerequisites": [
 			"Mysteries,Cryptic Clue,15"
 		],
-		"Action": "shuttered palace,green fingers,Design something"
+		"Action": "shuttered palace,green fingers,Design something",
+		"Reward": 116
 	},
 
 	"Velocipede": {
@@ -317,16 +317,38 @@
 		],
 		"Action": "lodgings,writer,rapidly"
 	},
-	"Potential": {
-		"Name": "Potential",
+	"Daring edit": {
+		"Name": "Daring edit",
 		"Result": "Potential",
 		"Prerequisites": [
-			"Curiosity,Manuscript Page,10",
+			"Curiosity,Manuscript Page,3",
 			"Circumstance,Working on...,=31,StartShortStory"
 		],
-		"Action": "lodgings,writer,rework,daring"
+		"Action": "lodgings,writer,rework,daring",
+		"Reward": 2
 	},
-
+	"touch of darkness": {
+		"Name": "touch of darkness",
+		"Result": "Potential",
+		"Prerequisites": [
+			"Curiosity,Manuscript Page,4",
+			"Mysteries,Tale of Terror!!,1",
+			"Circumstance,Working on...,=31,StartShortStory"
+		],
+		"Action": "lodgings,writer,rework,touch of darkness",
+		"Reward": 2
+	},
+	"something exotic": {
+		"Name": "something exotic",
+		"Result": "Potential",
+		"Prerequisites": [
+			"Curiosity,Manuscript Page,4",
+			"Academic,Memory of Distant Shores,1",
+			"Circumstance,Working on...,=31,StartShortStory"
+		],
+		"Action": "lodgings,writer,rework,something exotic",
+		"Reward": 2
+	},
 	"Inspired...": {
 		"Name": "Inspired...",
 		"Result": "Inspired...",
@@ -337,14 +359,15 @@
 	},
 
 
-	"Compelling Short Story": {
-		"Name": "Compelling Short Story",
-		"Result": "Compelling Short Story",
+	"Exceptional Short Story": {
+		"Name": "Exceptional Short Story",
+		"Result": "Exceptional Short Story",
 		"Prerequisites": [
-			"Progress,Potential,60",
+			"Progress,Potential,80",
 			"Curiosity,Manuscript Page,10"
 		],
-		"Action": "lodgings,writer,rework,finish,compelling"
+		"Action": "lodgings,writer,rework,finish,exceptional",
+		"Reward": 1
 	},
 	"Fascinating...": {
 		"Name": "Fascinating...",
@@ -353,14 +376,5 @@
 			"Progress,Inspired...,34"
 		],
 		"Action": "empresscourt,complete,gothic romance"
-	},
-	"Competent Short Story": {
-		"Name": "Competent Short Story",
-		"Result": "Competent Short Story",
-		"Prerequisites": [
-			"Progress,Potential,60",
-			"Curiosity,Manuscript Page,10"
-		],
-		"Action": "lodgings,writer,rework,finish,competent"
 	}
 }

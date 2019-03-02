@@ -88,14 +88,38 @@ function IsInForcedStorylet
 	return $false
 }
 
-
-function Writing
+function SellIfMoreThan
 {
-	$hasMoreActions = Require "Progress" "Potential" 62
-	if( $hasMoreActions )
+	param( $category, $name, $amount )
+	$pos = GetPossession $category $name
+	if($pos -ne $null -and $pos.effectiveLevel -gt $amount)
 	{
-		$r=DoAction "veilgarden,literary,1"
+		SellPossession $name ($pos.effectiveLevel - $amount)
 	}
+}
+
+function GrindMoney
+{
+	SellIfMoreThan "Curiosity" "Competent Short Story" 0
+	SellIfMoreThan "Curiosity" "Compelling Short Story" 1
+	SellIfMoreThan "Curiosity" "Exceptional Short Story" 1
+
+	$hasMoreActions = Require "Curiosity" "Potential" 62 "Daring Edit"
+	if( !$hasMoreActions )
+	{
+		return $false
+	}
+	$hasMoreActions = Require "Curiosity" "Potential" 72 "Touch of darkness"
+	if( !$hasMoreActions )
+	{
+		return $false
+	}
+	$hasMoreActions = Require "Curiosity" "Potential" 82 "something exotic"
+	if( !$hasMoreActions )
+	{
+		return $false
+	}
+	$hasMoreActions = Require "Curiosity" "Exceptional Short Story" 1
 	return $false
 }
 
@@ -105,7 +129,7 @@ function GetCardInUseList
 
 	foreach( $cardobj in $opportunity.displayCards )
 	{
-		$result = $script:CardActions.use | ?{ $cardobj.eventId -eq $_.name -or $cardobj.name -eq $_.name }
+		$result = $script:CardActions.use | ?{ $cardobj.eventId -eq $_.name -or $cardobj.name -match $_.name }
 		if($result -ne $null)
 		{
 			$result | Add-Member -Membertype NoteProperty -name "eventId" -value $cardobj.eventid
@@ -148,7 +172,7 @@ function DiscardUnlessKeep
 
 	foreach( $cardobj in $opportunity.displayCards )
 	{
-		$shouldkeep = $script:CardActions.keep | ?{ $_ -eq $cardobj.name -or $_ -eq $cardobj.eventId }
+		$shouldkeep = $script:CardActions.keep | ?{ $cardobj.name -match $_ -or $_ -eq $cardobj.eventId }
 		if( $shouldkeep -eq $null )
 		{
 			$result = DiscardOpportunity $cardobj.eventId
@@ -331,9 +355,9 @@ function DoAction
 		DoInventoryAction $action.first $action.second $action.third
 		return
 	}
-	elseif( $action.location -eq "writing" )
+	elseif( $action.location -eq "grind_money" )
 	{
-		Writing
+		GrindMoney
 		return
 	}
 
