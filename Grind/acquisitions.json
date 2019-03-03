@@ -228,7 +228,8 @@
 		"Prerequisites": [
 			"Elder,Mystery of the Elder Continent,2"
 		],
-		"Action": "lodgings,Ambition: Heart's Desire,Gamble for silver!"
+		"Action": "lodgings,Ambition: Heart's Desire,Gamble for silver!",
+		"Reward": 1
 	},
 	"Jade Fragment": {
 		"Name": "Jade Fragment",

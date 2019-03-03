@@ -47,6 +47,10 @@
 		{
 			"name": "All fear the Overgoat!",
 			"action": "learn"
+		},
+		{
+			"name": "Investigating the Affluent Photographer",
+			"action": "Going alone"
 		}
 	],
 	"keep":[
