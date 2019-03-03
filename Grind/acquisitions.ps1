@@ -12,10 +12,9 @@ else
 	$script:ItemData = gc ${env:HOME}/site/wwwroot/Grind/items.csv | ConvertFrom-Csv
 }
 
-
 function AddAcquisition
 {
-	param($name,$result,$action,[int]$reward,$prereq=@())
+	param($name, $result, $action, [int]$reward, $prereq=@())
 	$obj = new-object psobject -Property @{
 		"Name" = $name;
 		"Result" = $result;
@@ -35,7 +34,7 @@ $script:ItemData | %{
 	$done = AddAcquisition $name $result $action $reward @($p)
 }
 
-$done = AddAcquisition "DefaultMysteries3bJournals" "Journal of Infamy" "inventory,Mysteries,Appalling Secret,duchess" 105 @("Mysteries,Appalling Secret,333","Contacts,Connected: The Duchess,5")
+$done = AddAcquisition "DefaultMysteries3bJournals" "Journal of Infamy" "inventory,Mysteries,Appalling Secret,duchess" 105 @("Mysteries,Appalling Secret,333", "Contacts,Connected: The Duchess,5")
 $done = AddAcquisition "DefaultMysteries4bCorrespondance" "Correspondence Plaque" "inventory,Mysteries,Journal of Infamy,Blackmail" 51 @("Mysteries,Journal of Infamy,50")
 
 
@@ -184,26 +183,76 @@ function GetPossessionLevel
 
 function GetCostForSource
 {
-	param( $source, $amount, [switch]$force )
+	param( $source, $amountNeeded, [switch]$force )
+	if( $amountNeeded -le 0 )
+	{
+		return 0
+	}
 	if( !$source.Reward )
 	{
 		write-warning "no reward for $($source.name)"
-		return 100000
+		return 10000
 	}
 
-	$basecost = [Math]::Ceiling( $amount / $source.Reward )
+	$actionsRequired = [Math]::Ceiling( $amountNeeded / $source.Reward )
 
 	if( !$source.Prerequisites )
 	{
-		return $basecost
+		return $actionsRequired
 	}
 
 	$prereqCost = $source.Prerequisites | %{
 		$split = ParseActionString $_
-		ActionCost $split.location $split.first $split.second -force:$force | select -expandProperty Cost
+		$preReqCategory = $split.location
+		$preReqItem = $split.first
+		$amountPerAction = $split.second
+		if( !(IsNumber $amountPerAction) )
+		{
+			return 0
+		}
+
+		$totalAmount = [int]$amountPerAction * $actionsRequired
+
+		$pos = GetPossession $preReqCategory $preReqItem
+		$level = $pos.effectiveLevel
+		$nature = $pos.nature
+
+		if( $nature -eq "Status" )
+		{
+			if( $level -ge [int]$amountPerAction )
+			{
+				return 0
+			}
+			else
+			{
+				return 1
+			}
+		}
+
+		if( $level -ge $totalAmount )
+		{
+			return 0
+		}
+
+		$preReqSources = Sources $preReqItem
+
+		if( !$preReqSources )
+		{
+			write-warning "no sources for $name"
+			return 10000
+		}
+		$preReqSources | %{
+			if( $_.Cost -eq $null -or $force )
+			{
+				[int]$cost = GetCostForSource $_ ($totalAmount-$level)
+				$_ | Add-Member -MemberType NoteProperty -Name Cost -Value $cost -Force
+			}
+		}
+		$preferredSource = $preReqSources | Sort-Object -Property Cost | Select -First 1
+		return $preferredSource.Cost
 	} | measure -sum | select -expandproperty sum
 
-	return $basecost * ($prereqCost+1)
+	return $actionsRequired + $prereqCost
 }
 
 function GetAcquisitionByCost
@@ -223,11 +272,12 @@ function GetAcquisitionByCost
 	}
 
 	$level = GetPossessionLevel $category $name
+	$amountNeeded = $amount-$level
 
 	$sources | %{
 		if($_.Cost -eq $null -or $force )
 		{
-			[int]$cost = GetCostForSource $_ ($amount-$level)
+			[int]$cost = GetCostForSource $_ $amountNeeded
 			$_ | Add-Member -MemberType NoteProperty -Name Cost -Value $cost -Force
 		}
 	}
@@ -238,33 +288,7 @@ function ActionCost
 {
 	param( $category, $name, $amount, [switch]$force )
 
-	if( !(IsNumber $amount) )
-	{
-		return new-object psobject -Property @{"Cost"=0}
-	}
-
-	$level = GetPossessionLevel $category $name
-
-	if( $level -ge $amount )
-	{
-		return new-object psobject -Property @{"Cost"=0}
-	}
-
-	$sources = Sources $name
-
-	if( !$sources )
-	{
-		write-warning "no sources for $name"
-		return
-	}
-	$sources | %{
-		if( $_.Cost -eq $null -or $force )
-		{
-			[int]$cost = GetCostForSource $_ ($amount-$level)
-			$_ | Add-Member -MemberType NoteProperty -Name Cost -Value $cost -Force
-		}
-	}
-	$sources | Sort-Object -Property Cost | Select -First 1
+	return GetAcquisitionByCost $category $name $amount -force:$force
 }
 
 # returns true if named possession is fullfilled
@@ -438,7 +462,21 @@ function SetPossessionLevel
 {
 	param( $category, $name, [int]$level )
 	$p = GetPossession $category $name
-	$p.effectiveLevel = $level
+	if( $p )
+	{
+		$p.effectiveLevel = $level
+		return
+	}
+	$category = $script:myself.possessions | ?{ $_.name -match $category } | select -first 1
+	if( $category )
+	{
+		$category.possessions += new-object psobject -Property @{
+			"name" = $name;
+			"category" = $category;
+			"effectiveLevel" = $level;
+			"level" = $level;
+		}
+	}
 }
 
 if($script:runTests)
@@ -446,8 +484,9 @@ if($script:runTests)
 	Describe "GetCostforSource" {
 		It "knows how to get 1000 romantic notions" {
 			SetPossessionLevel "Nostalgia" "Romantic Notion" 0
+			SetPossessionLevel "Nostalgia" "Drop of Prisoner's Honey" 0
 			$sources = Sources "Romantic Notion"
-			GetCostForSource $sources[0] 1000 -force | should be 60
+			GetCostForSource $sources[0] 1000 -force | should be 110
 		}
 		It "knows how to get 500 hints" {
 			SetPossessionLevel "Mysteries" "Whispered hint" 0
@@ -511,6 +550,13 @@ if($script:runTests)
 			$c = ActionCost "Mysteries" "Cryptic Clue" 200 -force
 			$c.Cost | should be 2
 			$c.Action | should be "inventory,Mysteries,Whispered Hint,combine"
+		}
+		It "gives correct cost when prereq is partially fulfilled" {
+			AddAcquisition "Hand" "Hand" "get hand" 1 @("Curiosity,Finger,5")
+			AddAcquisition "Finger" "Finger" "get finger" 1
+			SetPossessionLevel "Curiosity" "Finger" 3
+			$c = ActionCost "Curiosity" "Hand" 2 -force
+			$c.Cost | should be 9
 		}
 	}
 }
