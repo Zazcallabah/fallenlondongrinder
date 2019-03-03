@@ -105,6 +105,7 @@
 		],
 		"Action": "forgotten quarter,Prepare,Rumours"
 	},
+
 	"Payment": {
 		"Name": "Payment",
 		"Result": "An Earnest of Payment",
@@ -239,6 +240,61 @@
 		"Reward": 116
 	},
 
+	"Drop of Prisoner's Honey": {
+		"Name": "Honey",
+		"Result": "Drop of Prisoner's Honey",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "veilgarden,unfinished business,Doing the decent thing",
+		"Reward": 50
+	},
+	"Foxfire Candle Stub": {
+		"Name": "Foxfire Candle Stub",
+		"Result": "Foxfire Candle Stub",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "veilgarden,unfinished business,An admirer among the clergy",
+		"Reward": 100
+	},
+	"Nodule of Deep Amber": {
+		"Name": "Nodule of Deep Amber",
+		"Result": "Nodule of Deep Amber",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "veilgarden,unfinished business,card game",
+		"Reward": 100
+	},
+	"Fistful of Surface Currency": {
+		"Name": "Fistful of Surface Currency",
+		"Result": "Fistful of Surface Currency",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "veilgarden,unfinished business,shake down",
+		"Reward": 200
+	},
+	"Bottle of Greyfields 1879": {
+		"Name": "Bottle of Greyfields 1879",
+		"Result": "Bottle of Greyfields 1879",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "veilgarden,unfinished business,crowd",
+		"Reward": 300
+	},
+	"Relic of the Second City": {
+		"Name": "Relic of the Second City",
+		"Result": "Relic of the Second City",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "veilgarden,unfinished business,consignment",
+		"Reward": 6
+	},
+
 	"Velocipede": {
 		"Name": "Velocipede",
 		"Result": "Velocipede",
@@ -282,16 +338,6 @@
 		],
 		"Action": "bazaar,fowlingpiece,permit"
 	},
-	"Drop of Prisoner's Honey": {
-		"Name": "Drop of Prisoner's Honey",
-		"Result": "Drop of Prisoner's Honey",
-		"Prerequisites": [
-			"Currency,Penny,10000"
-		],
-		"Action": "buy,Merrigans,Drop of Prisoner's Honey,2500",
-		"Reward": 2500
-	},
-
 	"StartNovel": {
 		"Name": "StartNovel",
 		"Result": "Working on...",
@@ -306,7 +352,8 @@
 		"Prerequisites": [
 			"Circumstance,Working on...,<0"
 		],
-		"Action": "veilgarden,begin a work,short story"
+		"Action": "veilgarden,begin a work,short story",
+		"Reward": 31
 	},
 
 	"Manuscript Page": {
@@ -315,7 +362,8 @@
 		"Prerequisites": [
 			"Circumstance,Working on...,=31,StartShortStory"
 		],
-		"Action": "lodgings,writer,rapidly"
+		"Action": "lodgings,writer,rapidly",
+		"Reward": 1
 	},
 	"Daring edit": {
 		"Name": "Daring edit",

@@ -188,7 +188,7 @@ function GetCostForSource
 	if( !$source.Reward )
 	{
 		write-warning "no reward for $($source.name)"
-		return $null
+		return 100000
 	}
 
 	$basecost = [Math]::Ceiling( $amount / $source.Reward )
@@ -237,6 +237,12 @@ function GetAcquisitionByCost
 function ActionCost
 {
 	param( $category, $name, $amount, [switch]$force )
+
+	if( !(IsNumber $amount) )
+	{
+		return new-object psobject -Property @{"Cost"=0}
+	}
+
 	$level = GetPossessionLevel $category $name
 
 	if( $level -ge $amount )
@@ -260,7 +266,6 @@ function ActionCost
 	}
 	$sources | Sort-Object -Property Cost | Select -First 1
 }
-
 
 # returns true if named possession is fullfilled
 # otherwise an action is consumed trying to work towards fullfillment, which returns false
