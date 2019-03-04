@@ -169,6 +169,22 @@ if($script:runTests)
 	}
 }
 
+function IsCommonCard
+{
+	param( $card )
+
+	# categories
+	#  Gold
+	#  Unspecialized
+	#  (im guessing bronze, silver, red)
+
+	# distribution
+	#  Standard
+	# (not sure if used)
+
+	return $card.category -eq "Unspecialized" -and $card.distribution -eq "Standard"
+}
+
 function DiscardUnlessKeep
 {
 	param($opportunity)
@@ -176,7 +192,7 @@ function DiscardUnlessKeep
 	foreach( $cardobj in $opportunity.displayCards )
 	{
 		$shouldkeep = $script:CardActions.keep | ?{ $cardobj.name -match $_ -or $_ -eq $cardobj.eventId }
-		if( $shouldkeep -eq $null )
+		if( $shouldkeep -eq $null -and (IsCommonCard $cardobj) )
 		{
 			$result = DiscardOpportunity $cardobj.eventId
 		}

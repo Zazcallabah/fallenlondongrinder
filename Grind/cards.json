@@ -45,10 +45,6 @@
 			"action": "eulogy"
 		},
 		{
-			"name": "All fear the Overgoat!",
-			"action": "learn"
-		},
-		{
 			"name": "Investigating the Affluent Photographer",
 			"action": "Going alone"
 		}
@@ -56,6 +52,29 @@
 	"keep":[
 		"The Demi-Monde: Bohemians",
 		"The Roof-Tops: Urchins",
-		"Taking matters into your own hands"
+		"Taking matters into your own hands",
+		"A Raggedy Creature",
+		"A flash of white",
+		"A commotion above!",
+		"The mournful rubbery instrument",
+		"A disgraceful spectacle 2",
+		"More Larks with the Young Stags",
+		"What will you do with your Grubby Kitten?",
+		"A day out in your Clay Sedan Chair",
+		"The Lofty Tower: the Potential of Premises at the Bazaar",
+		"Once upon a time in a carriage",
+		"One's public",
+		"All fear the Overgoat!",
+		"Call in favours in the Flit",
+		"The High Castle: What Occurs in a Rooftop Shack",
+		"The mechanics of progress",
+		"Promenade with the Celebrated Artist's Model",
+		"Wolfstack in the fog",
+		"A Polite Invitation",
+		"The Listing Tower: Intrigue in a Half-Abandoned Mansion",
+		"The Bonfire of the Decencies",
+		"A Visit",
+		"The Neath's Mysteries",
+		"City Vices: ask the Sardonic Music-Hall Singer to help you"
 	]
 }
