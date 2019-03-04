@@ -51,6 +51,14 @@
 		{
 			"name": "Investigating the Affluent Photographer",
 			"action": "Going alone"
+		},
+		{
+			"name": "The Charming of F. F. Gebrandt",
+			"action": "charm"
+		},
+		{
+			"name": "Return to the Palace cellars",
+			"action": "depths"
 		}
 	],
 	"keep":[
