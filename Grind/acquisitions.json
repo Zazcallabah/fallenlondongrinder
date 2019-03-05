@@ -27,13 +27,6 @@
 		],
 		"Action": "inventory,Curiosity,Ablution Absolution,1"
 	},
-	"Cryptic Clue": {
-		"Name": "Cryptic Clue",
-		"Result": "Cryptic Clue",
-		"Prerequisites": [],
-		"Action": "spite,Alleys,Cats,Grey",
-		"Reward": 24
-	},
 	"Nikolas & Sons Instant Ablution Absolutionn": {
 		"Name": "Nikolas & Sons Instant Ablution Absolution",
 		"Result": "Nikolas & Sons Instant Ablution Absolution",
@@ -50,12 +43,6 @@
 			"Route,Route: Mrs plenty,1"
 		],
 		"Action": "carnival,Buy,clues"
-	},
-	"Rat on a String": {
-		"Name": "Rat on a String",
-		"Result": "Rat on a String",
-		"Prerequisites": [],
-		"Action": "flit,its king,meeting,present"
 	},
 	"Whispered Hint": {
 		"Name": "Whispered Hint",
@@ -231,16 +218,6 @@
 		"Action": "lodgings,Ambition: Heart's Desire,Gamble for silver!",
 		"Reward": 1
 	},
-	"Jade Fragment": {
-		"Name": "Jade Fragment",
-		"Result": "Jade Fragment",
-		"Prerequisites": [
-			"Mysteries,Cryptic Clue,15"
-		],
-		"Action": "shuttered palace,green fingers,Design something",
-		"Reward": 116
-	},
-
 	"Drop of Prisoner's Honey": {
 		"Name": "Honey",
 		"Result": "Drop of Prisoner's Honey",
@@ -295,6 +272,125 @@
 		"Action": "veilgarden,unfinished business,consignment",
 		"Reward": 6
 	},
+	"Shard of Glim": {
+		"Name": "Shard of Glim",
+		"Result": "Shard of Glim",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "spite,unfinished business,Rob a glim shipment",
+		"Reward": 100
+	},
+	"Stolen Correspondence": {
+		"Name": "Stolen Correspondence",
+		"Result": "Stolen Correspondence",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "spite,unfinished business,Ambush a few couriers for old times' sake",
+		"Reward": 20
+	},
+	"Rat on a String": {
+		"Name": "Rat on a String",
+		"Result": "Rat on a String",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "spite,unfinished business,Keep your hands quick",
+		"Reward": 100
+	},
+	"more Cryptic Clue": {
+		"Name": "more Cryptic Clue",
+		"Result": "Cryptic Clue",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "spite,unfinished business,Eavesdropping",
+		"Reward": 40
+	},
+	"Relic of the Third City": {
+		"Name": "Relic of the Third City",
+		"Result": "Relic of the Third City",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "spite,unfinished business,The fellow in the corner",
+		"Reward": 11
+	},
+	"Relic of the Fourth City": {
+		"Name": "Relic of the Fourth City",
+		"Result": "Relic of the Fourth City",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "ladybones,unfinished business,antiquities ",
+		"Reward": 20
+	},
+	"Lamplighter Beeswax": {
+		"Name": "Lamplighter Beeswax",
+		"Result": "Lamplighter Beeswax",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "ladybones,unfinished business,A lovely thought",
+		"Reward": 70
+	},
+	"Primordial Shriek": {
+		"Name": "Primordial Shriek",
+		"Result": "Primordial Shriek",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "ladybones,unfinished business,Debate the nature",
+		"Reward": 50
+	},
+	"Moon-pearl": {
+		"Name": "Moon-pearl",
+		"Result": "Moon-pearl",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "watchmakers,unfinished business,A spot of footpadry",
+		"Reward": 60
+	},
+	"Jade Fragment": {
+		"Name": "Jade Fragment",
+		"Result": "Jade Fragment",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "watchmakers,unfinished business,A sure bet",
+		"Reward": 100
+	},
+	"Piece of Rostygold": {
+		"Name": "Piece of Rostygold",
+		"Result": "Piece of Rostygold",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "watchmakers,unfinished business,Wade into the Ring Fights",
+		"Reward": 100
+	},
+	"Proscribed Material": {
+		"Name": "Proscribed Material",
+		"Result": "Proscribed Material",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "watchmakers,unfinished business,A literary sort of fist-fight",
+		"Reward": 25
+	},
+	"Infernal Contract": {
+		"Name": "Infernal Contract",
+		"Result": "Infernal Contract",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "watchmakers,unfinished business,Contracts and legs",
+		"Reward": 5
+	},
+
+
 
 	"Velocipede": {
 		"Name": "Velocipede",
