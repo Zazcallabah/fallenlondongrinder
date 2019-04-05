@@ -12,7 +12,7 @@ if($env:Home -eq $null)
 else
 {
 	. ${env:HOME}/site/wwwroot/Grind/acquisitions.ps1
-	$script:CardActions = gc -Raw ${env:HOME}/site/wwwroot/Grind/card.json | ConvertFrom-Json
+	$script:CardActions = gc -Raw ${env:HOME}/site/wwwroot/Grind/cards.json | ConvertFrom-Json
 }
 
 $script:actions = @(
@@ -177,11 +177,14 @@ function IsCommonCard
 	#  Gold
 	#  Unspecialized
 	#  (im guessing bronze, silver, red)
+	# Episodic
 
 	# distribution
 	#  Standard
 	# (not sure if used)
+	# VeryInfrequent
 
+	#urgency	Normal
 	return $card.category -eq "Unspecialised" -and $card.distribution -eq "Standard"
 }
 
@@ -210,6 +213,7 @@ function DiscardUnlessKeep
 		{
 			if( (IsUnCommonTrash $cardobj) -or (IsCommonCard $cardobj) )
 			{
+				write-host "discarding $($cardobj.name)"
 				$result = DiscardOpportunity $cardobj.eventId
 			}
 		}
