@@ -55,6 +55,10 @@
 		{
 			"name": "Return to the Palace cellars",
 			"action": "depths"
+		},
+		{
+			"name": "Who is this Smuggler?",
+			"action": "Ask him"
 		}
 	],
 	"keep":[
