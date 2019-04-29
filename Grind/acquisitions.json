@@ -119,8 +119,12 @@
 	"GrindDangerous": {
 		"Name": "GrindDangerous",
 		"Result": "Dangerous",
-		"Prerequisites": [],
-		"Action":"wolfstack,conspiracy,patrol,find"
+		"Prerequisites": [
+			"Progress,Running Battle,15",
+			"Menaces,Wounds,<4",
+			"Stories,A Fearsome Duellist,3"
+		],
+		"Action": "wolfstack,Challenge,Fencing,1"
 	},
 	"GrindWatchful": {
 		"Name": "GrindWatchful",
