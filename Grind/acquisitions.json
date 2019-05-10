@@ -121,7 +121,7 @@
 		"Result": "Dangerous",
 		"Prerequisites": [
 			"Progress,Running Battle,15",
-			"Menaces,Wounds,<4",
+			"Menaces,Wounds,<3",
 			"Stories,A Fearsome Duellist,3"
 		],
 		"Action": "wolfstack,Challenge,Fencing,1"

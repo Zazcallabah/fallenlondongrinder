@@ -59,6 +59,10 @@
 		{
 			"name": "Who is this Smuggler?",
 			"action": "Ask him"
+		},
+		{
+			"name": "All fear the Overgoat!",
+			"action": "Learn"
 		}
 	],
 	"keep":[
