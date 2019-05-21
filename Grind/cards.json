@@ -61,6 +61,11 @@
 			"action": "Ask him"
 		},
 		{
+			"name":"Investigating St Dunstan's",
+			"require": ["Rumour,Inkling of Identity,10", "Mysteries,Cryptic Clue,10"],
+			"action": "1"
+		},
+		{
 			"name": "All fear the Overgoat!",
 			"action": "Learn"
 		}
