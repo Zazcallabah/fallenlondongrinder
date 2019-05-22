@@ -3,21 +3,29 @@ if( $env:BLOB_SAS -eq $null )
 	throw "missing blob token"
 }
 
-if( !(get-command New-AzureStorageContext -ErrorAction SilentlyContinue))
+
+if( $env:SkipCloudCache -eq $null -and !(get-command New-AzureStorageContext -ErrorAction SilentlyContinue))
 {
 	throw "az ps cmdlets missing, please run 'Install-Module AzureRM -AllowClobber' from an admin powershell cmdline"
 }
+
 function Get-Blob
 {
-	$accountContext = New-AzureStorageContext -SasToken $env:BLOB_SAS -storageaccountname "fallenlondongrinder"
-	return Get-AzureStorageBlob -Context $accountContext -Container persist -blob "credentials.json"
+	if( $env:SkipCloudCache -eq $null )
+	{
+		$accountContext = New-AzureStorageContext -SasToken $env:BLOB_SAS -storageaccountname "fallenlondongrinder"
+		return Get-AzureStorageBlob -Context $accountContext -Container persist -blob "credentials.json"
+	}
 }
 
 function Save-Blob
 {
 	param($obj)
-	$blob = Get-Blob
-	$blob.ICloudBlob.UploadText( ($obj | ConvertTo-Json) )
+	if( $env:SkipCloudCache -eq $null )
+	{
+		$blob = Get-Blob
+		$blob.ICloudBlob.UploadText( ($obj | ConvertTo-Json) )
+	}
 }
 
 if($script:runInfraTests)
@@ -34,14 +42,17 @@ if($script:runInfraTests)
 
 function DownloadCredentialsCache
 {
-	$blob = Get-Blob
-	$blobcontent = $blob.ICloudBlob.DownloadText()
-	if( [string]::isNullOrWhitespace( $blobcontent ) )
+	if( $env:SkipCloudCache -eq $null )
 	{
-		Write-Error "invalid blob"
-		return $null
+		$blob = Get-Blob
+		$blobcontent = $blob.ICloudBlob.DownloadText()
+		if( [string]::isNullOrWhitespace( $blobcontent ) )
+		{
+			Write-Error "invalid blob"
+			return $null
+		}
+		return $blobcontent | ConvertFrom-Json
 	}
-	return $blobcontent | ConvertFrom-Json
 }
 
 function Get-CredentialsObject
