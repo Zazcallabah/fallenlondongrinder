@@ -66,6 +66,10 @@
 			"action": "1"
 		},
 		{
+			"name":"Remember the Honey-sipping Jewel Thief?",
+			"action":"ignore"
+		},
+		{
 			"name": "All fear the Overgoat!",
 			"action": "Learn"
 		}
