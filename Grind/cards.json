@@ -70,6 +70,11 @@
 			"action":"ignore"
 		},
 		{
+			"name":"",
+			"require":["Influence,Intriguing Snippet,3"],
+			"action":"1"
+		},
+		{
 			"name": "All fear the Overgoat!",
 			"action": "Learn"
 		}
@@ -103,6 +108,7 @@
 		"City Vices: ask the Sardonic Music-Hall Singer to help you"
 	],
 	"trash":[
+		"A fair sized job for the right cracksman",
 		"Make Friends with a Young Stag"
 	]
 }
