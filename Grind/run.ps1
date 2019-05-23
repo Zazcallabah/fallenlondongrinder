@@ -132,7 +132,7 @@ function GetCardInUseList
 
 	foreach( $cardobj in $opportunity.displayCards )
 	{
-		$result = $script:CardActions.use | ?{ $cardobj.eventId -eq $_.name -or $cardobj.name -match $_.name }
+		$result = $script:CardActions.use | ?{ ![string]::IsNullOrWhitespace($_.name) -and ($cardobj.eventId -eq $_.name -or $cardobj.name -match $_.name )}
 		if($result -ne $null)
 		{
 			$result | Add-Member -Membertype NoteProperty -name "eventId" -value $cardobj.eventid
