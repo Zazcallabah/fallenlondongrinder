@@ -70,8 +70,8 @@
 			"action":"ignore"
 		},
 		{
-			"name":"",
-			"require":["Influence,Intriguing Snippet,3"],
+			"name":"Don't you know her?",
+			"require":["Influence,Intriguing Snippet,5"],
 			"action":"1"
 		},
 		{
