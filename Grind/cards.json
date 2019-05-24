@@ -75,6 +75,10 @@
 			"action":"1"
 		},
 		{
+			"name":"Breaking and Entering on Behalf of Mr Pages",
+			"action":"sneak"
+		},
+		{
 			"name": "All fear the Overgoat!",
 			"action": "Learn"
 		}
