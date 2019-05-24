@@ -34,6 +34,7 @@ $script:actions = @(
 #	"cascade,Goods,Supplies,80"
 #	"cascade,Progress,Casing...,5,PrepBaseborn"
 	#"cascade,Stories,Embroiled in the Wars of Illusion,3"
+	"cascade,Currency,Penny,10000,Penny",
 	"cascade,Basic,Shadowy,200,GrindShadowy"
 #	"cascade,Progress,Casing...,13"
 	"cascade,Stories,Tales of Mahogany Hall,10"
