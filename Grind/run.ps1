@@ -37,12 +37,13 @@ $script:actions = @(
 	"cascade,Currency,Penny,10000,Penny",
 	"cascade,Basic,Shadowy,200,GrindShadowy"
 #	"cascade,Progress,Casing...,13"
-	"cascade,Stories,Tales of Mahogany Hall,10"
+	"cascade,Stories,Tales of Mahogany Hall,12"
 	"cascade,Elder,Presbyterate Passphrase,9"
 	"cascade,Basic,Persuasive,200,GrindPersuasive"
-	"cascade,Basic,Dangerous,200,GrindDangerous"
+#	"cascade,Basic,Dangerous,200,GrindDangerous"
+	"cascade,Progress,Running Battle,20",
 	"cascade,Basic,Watchful,200,GrindWatchful"
-#	"cascade,Nostalgia,Bazaar Permit,1"
+	"cascade,Nostalgia,Bazaar Permit,1"
 	"cascade,Curiosity,First City Coin,77"
 )
 
