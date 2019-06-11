@@ -1,4 +1,4 @@
-if( $env:BLOB_SAS -eq $null )
+if( $env:SkipCloudCache -eq $null -and $env:BLOB_SAS -eq $null )
 {
 	throw "missing blob token"
 }
