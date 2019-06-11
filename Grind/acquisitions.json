@@ -80,9 +80,21 @@
 		"Name": "Archaeologist's Progress",
 		"Result": "Archaeologist's Progress",
 		"Prerequisites": [
+			"Circumstance,An Expedition,=11,Silk adventure"
 		],
-		"Action": "forgotten quarter,Archaeological Expedition,1"
+		"Action": "forgotten quarter,Archaeological Expedition,silken thread/confront/sign/bold"
 	},
+
+	"Silk adventure": {
+		"Name": "Silk adventure",
+		"Result": "An Expedition",
+		"Prerequisites": [
+			"Goods,Crate of Expedition Supplies,99"
+		],
+		"Action": "forgotten quarter,prepare,begin,tomb"
+	},
+
+
 	"Crate of Expedition Supplies": {
 		"Name": "Crate of Expedition Supplies",
 		"Result": "Crate of Expedition Supplies",
