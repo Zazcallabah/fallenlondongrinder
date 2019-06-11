@@ -79,6 +79,10 @@
 			"action":"sneak"
 		},
 		{
+			"name":"An evening's zailing",
+			"action":"glim"
+		},
+		{
 			"name": "All fear the Overgoat!",
 			"action": "Learn"
 		}
