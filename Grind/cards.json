@@ -66,6 +66,11 @@
 			"action": "1"
 		},
 		{
+			"name":"Your green companion",
+			"require": ["Elder,Jade Fragment,50"],
+			"action": "expert"
+		},
+		{
 			"name":"Remember the Honey-sipping Jewel Thief?",
 			"action":"ignore"
 		},
@@ -121,6 +126,7 @@
 	"trash":[
 		"A fair sized job for the right cracksman",
 		"A letter from your aunt",
+		"Gold frame, black painting",
 		"Make Friends with a Young Stag"
 	]
 }
