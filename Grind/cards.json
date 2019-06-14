@@ -71,6 +71,11 @@
 			"action": "expert"
 		},
 		{
+			"name":"Your house-plant",
+			"require": ["Zee-Treasures,Moon Pearl,50"],
+			"action": "assemble"
+		},
+		{
 			"name":"Remember the Honey-sipping Jewel Thief?",
 			"action":"ignore"
 		},
