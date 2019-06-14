@@ -345,6 +345,23 @@ function CheckMenaces
 	return $true
 }
 
+function HandleLockedArea
+{
+	if( (User).setting -ne $null -and !(User).setting.canTravel )
+	{
+		# canTravel false means you are in a locked area i think
+		# also user.setting.itemsUsableHere
+		# $canTravel = $list.Phase -eq "Available" # property is storylets
+# $isInStorylet = $list.Phase -eq "In" -or $list.Phase -eq "InItemUse" # property is storylet
+# phase "End" probably doesnt happen here?
+
+		# todo add handling of special circumstances here
+		# like tomb colonies, prison, sailing, etc
+
+	}
+	return $true
+}
+
 
 
 function DoAction
@@ -354,13 +371,6 @@ function DoAction
 	$action = ParseActionString $actionString
 
 	Write-host "doing action $($action.location) $($action.first) $($action.second) $($action.third)"
-
-	if( (User).setting -ne $null -and !(User).setting.canTravel )
-	{
-		# canTravel false means you are in a locked storylet
-		# also user.setting.itemsUsableHere
-		return
-	}
 
 	# bazaar can usually be done even in storylet, i think?
 	# require is best done doing its inventory checks before doing goback and move, to aviod extra liststorylet calls
@@ -405,32 +415,10 @@ function DoAction
 	}
 
 	$list = GoBackIfInStorylet
+
 	if( $list -eq $null )
 	{
 		return
-	}
-	# $canTravel = $list.Phase -eq "Available" # property is storylets
-	# $isInStorylet = $list.Phase -eq "In" -or $list.Phase -eq "InItemUse" # property is storylet
-	# phase "End" probably doesnt happen here?
-
-	if( $list.storylet -ne $null )
-	{
-		# cangoback was false
-		# we cant travel or do anything except handle our current situation
-
-		# add handling for menace grinding areas here?
-
-		# only allow it if name of storylet matches first action
-		if( $list.storylet.name -match $action.first )
-		{
-			PerformActions $list (@($action.second)+$action.third)
-			return
-		}
-		else
-		{
-			Write-Warning "In a locked storylet named $($list.storylet.name)"
-			return
-		}
 	}
 
 	$list = MoveIfNeeded $list $action.location
@@ -567,8 +555,13 @@ if(!$script:runTests)
 {
 	if( HasActionsToSpare )
 	{
-		$hasActionsLeft = EarnestPayment
+		$hasActionsLeft = HandleLockedArea
+		if( !$hasActionsLeft )
+		{
+			return
+		}
 
+		$hasActionsLeft = EarnestPayment
 		if( !$hasActionsLeft )
 		{
 			return
