@@ -153,8 +153,10 @@
 	"GrindWatchful": {
 		"Name": "GrindWatchful",
 		"Result": "Watchful",
-		"Prerequisites": [],
-		"Action": "flit,its king,meeting,understand"
+		"Prerequisites": [
+			"Progress,Archaeologist's Progress,31"
+		],
+		"Action": "forgotten quarter,prepare,rumours"
 	},
 
 
