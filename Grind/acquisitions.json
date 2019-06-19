@@ -136,9 +136,9 @@
 		"Name": "GrindShadowy",
 		"Result": "Shadowy",
 		"Prerequisites": [
-			"Stories,Embroiled in the Wars of Illusion,8"
+			"Goods,Piece of Rostygold,10"
 		],
-		"Action": "flit,its king,meeting,present"
+		"Action": "spite,unfinished Business,?"
 	},
 	"GrindDangerous": {
 		"Name": "GrindDangerous",
