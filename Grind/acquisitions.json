@@ -92,7 +92,8 @@
 		"Result": "Archaeologist's Progress",
 		"Prerequisites": [
 			"Circumstance,An Expedition,=11,Silk adventure",
-			"Stories,Rivals' Progress,<10,Lugubrious Seamstress Rivals' Progress"
+			"Stories,Rivals' Progress,<10,Lugubrious Seamstress Rivals' Progress",
+			"Academic,Judgements' Egg,<1,SellJudgementsEgg"
 		],
 		"Action": "forgotten quarter,Archaeological Expedition,silken thread/sign/bold"
 	},
@@ -115,6 +116,14 @@
 			"Mysteries,Whispered Hint,200"
 		],
 		"Action": "forgotten quarter,Prepare,Rumours"
+	},
+
+	"SellJudgementsEgg": {
+		"Name": "SellJudgementsEgg",
+		"Result": "SellJudgementsEgg",
+		"Prerequisites": [
+		],
+		"Action": "sell,Judgements' Egg,1"
 	},
 
 	"Payment": {
