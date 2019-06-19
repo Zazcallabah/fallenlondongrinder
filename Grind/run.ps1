@@ -38,7 +38,7 @@ $script:actions = @(
 	"cascade,Basic,Shadowy,200,GrindShadowy"
 #	"cascade,Progress,Casing...,13"
 	"cascade,Progress,Archaeologist's Progress,31"
-	"cascade,Stories,Tales of Mahogany Hall,13"
+	"cascade,Stories,Tales of Mahogany Hall,22"
 	"cascade,Elder,Presbyterate Passphrase,9"
 	"cascade,Basic,Persuasive,200,GrindPersuasive"
 #	"cascade,Basic,Dangerous,200,GrindDangerous"
