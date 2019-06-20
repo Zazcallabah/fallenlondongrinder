@@ -54,19 +54,6 @@
 
 
 
-	"The Hunt is On!": {
-		"Name": "The Hunt is On!",
-		"Result": "The Hunt is On!",
-		"Prerequisites": [
-			"Stories,Acquiring Exhibits for the Labyrinth of Tigers,1"
-		],
-		"Action": "wolfstack,Hunting Dangerous Prey,stalk your prey/go for the throat/prepare the ground"
-	},
-
-
-
-
-
 
 	"Penny": {
 		"Name": "Penny",
