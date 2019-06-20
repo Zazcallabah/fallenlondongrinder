@@ -64,3 +64,24 @@ If you prefix a less-than sign to the amount, the grind will continue as long as
 * is it viable to lower suspicion through # "ladybones,life,associate,publish" # prereq 50 Silk Scrap 25 clues Subtle 4
 * Add opportunity cards for favours etc?
 * how to get rubbery?
+
+* four different making your name stories
+* newspaper progress https://fallenlondon.fandom.com/wiki/An_Editor_of_Newspapers
+* add acq for favour in high places, comprehensive bribe, personal reccommendation
+* https://fallenlondon.fandom.com/wiki/Attending_a_Party_(Guide)
+* bizarre, dreaded, ?
+
+* ambition, hearts desire, go to ... hunters keep? by boat, get stone key
+
+
+A Name in Seven Secret Alphabets
+-> progress in the university
+
+A Name Scrawled in Blood
+-> fix a hunt is on, starts in wolfstack https://fallenlondon.fandom.com/wiki/The_Hunt_is_On!_(Guide)
+
+A Name Signed with a Flourish https://fallenlondon.fandom.com/wiki/Shaping_a_Masterpiece_for_the_Empress
+-> empress court make  Inspired... 24, Working on... an Opera, Carving out a Reputation at Court exactly 6
+
+A Name Whispered in Darkness
+-> something about bats and cats in flit, embroiled in wars of illusion

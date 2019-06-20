@@ -31,21 +31,25 @@ $script:actions = @(
 	#"spite,casing,gather"
 	#"writing"
 #	"cascade,Stories,A Fearsome Duelist,5,Duel Fencing"
-#	"cascade,Goods,Supplies,80"
+
 #	"cascade,Progress,Casing...,5,PrepBaseborn"
-	#"cascade,Stories,Embroiled in the Wars of Illusion,3"
-	"cascade,Currency,Penny,10000,Penny",
+#	"cascade,Basic,Persuasive,200,GrindPersuasive"
 	"cascade,Basic,Shadowy,200,GrindShadowy"
+	"cascade,Basic,Watchful,200,GrindWatchful"
+	"cascade,Basic,Dangerous,200,GrindDangerous"
+
+	"cascade,Progress,Seeking...,5"
+	"cascade,Progress,Investigating...,5"
+	"cascade,Progress,Making use of bats,5"
+	"cascade,Progress,Making use of cats,5"
 #	"cascade,Progress,Casing...,13"
 	"cascade,Progress,Archaeologist's Progress,31"
 	"cascade,Stories,Tales of Mahogany Hall,22"
 	"cascade,Elder,Presbyterate Passphrase,9"
-	"cascade,Basic,Persuasive,200,GrindPersuasive"
-#	"cascade,Basic,Dangerous,200,GrindDangerous"
-	"cascade,Progress,Running Battle,20",
-	"cascade,Basic,Watchful,200,GrindWatchful"
+	"cascade,Progress,Running Battle,20"
 	"cascade,Nostalgia,Bazaar Permit,1"
 	"cascade,Curiosity,First City Coin,77"
+	"cascade,Currency,Penny,10000,Penny"
 )
 
 

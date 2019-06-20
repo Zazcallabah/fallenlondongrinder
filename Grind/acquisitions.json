@@ -465,6 +465,31 @@
 		],
 		"Action": "flit,Chicanery,Tricks,Topsy"
 	},
+	"Making use of cats": {
+		"Name": "Making use of cats",
+		"Result": "Making use of cats",
+		"Prerequisites": [
+			"Stories,A Name Whispered in Darkness,=6"
+		],
+		"Action": "flit,Bats and cats,Cats...,allegiances"
+	},
+	"Making use of bats": {
+		"Name": "Making use of bats",
+		"Result": "Making use of bats",
+		"Prerequisites": [
+			"Stories,A Name Whispered in Darkness,=6",
+			"Companion,Reprehensible Lizard,1"
+		],
+		"Action": "flit,Bats and cats,Bats...,intercepting"
+	},
+	"Reprehensible Lizard": {
+		"Name": "Reprehensible Lizard",
+		"Result": "Reprehensible Lizard",
+		"Prerequisites": [
+			"Currency,Penny,100"
+		],
+		"Action": "buy,Nassos Zoologicals,Reprehensible Lizard,2"
+	},
 	"Bazaar Permit": {
 		"Name": "Bazaar Permit",
 		"Result": "Bazaar Permit",
