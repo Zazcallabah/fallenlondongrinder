@@ -79,12 +79,15 @@
 			"action":"sneak"
 		},
 		{
+			"name":"F.F. Gebrandt and you",
+			"action":"bidding"
+		},
+		{
 			"name": "All fear the Overgoat!",
 			"action": "Learn"
 		}
 	],
 	"keep":[
-		"What will you do with your Hungover Terrier?",
 		"Secrets and Spending",
 		"The Demi-Monde: Bohemians",
 		"The Roof-Tops: Urchins",
