@@ -66,6 +66,16 @@
 			"action": "1"
 		},
 		{
+			"name":"Your green companion",
+			"require": ["Elder,Jade Fragment,50"],
+			"action": "expert"
+		},
+		{
+			"name":"Your house-plant",
+			"require": ["Zee-Treasures,Moon Pearl,50"],
+			"action": "assemble"
+		},
+		{
 			"name":"Remember the Honey-sipping Jewel Thief?",
 			"action":"ignore"
 		},
@@ -83,11 +93,16 @@
 			"action":"bidding"
 		},
 		{
+			"name":"An evening's zailing",
+			"action":"glim"
+		},
+		{
 			"name": "All fear the Overgoat!",
 			"action": "Learn"
 		}
 	],
 	"keep":[
+		"City Vices: a Rather Decadent Evening",
 		"Secrets and Spending",
 		"The Demi-Monde: Bohemians",
 		"The Roof-Tops: Urchins",
@@ -118,6 +133,8 @@
 	],
 	"trash":[
 		"A fair sized job for the right cracksman",
+		"A letter from your aunt",
+		"Gold frame, black painting",
 		"Make Friends with a Young Stag"
 	]
 }

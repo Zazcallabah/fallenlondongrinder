@@ -76,13 +76,38 @@
 		],
 		"Action": "watchmakers,fighting ring,meat,clean"
 	},
+
+	"Lugubrious Seamstress Rivals' Progress": {
+		"Name": "Lugubrious Seamstress Rivals' Progress",
+		"Result": "Rivals' Progress",
+		"Prerequisites": [
+			"Wines,Bottle of Strangling Willow Absinthe,10",
+			"Goods,Crate of Expedition Supplies"
+		],
+		"Action": "forgotten quarter,Archaeological Expedition,confront,distract"
+	},
+
 	"Archaeologist's Progress": {
 		"Name": "Archaeologist's Progress",
 		"Result": "Archaeologist's Progress",
 		"Prerequisites": [
+			"Circumstance,An Expedition,=11,Silk adventure",
+			"Stories,Rivals' Progress,<10,Lugubrious Seamstress Rivals' Progress",
+			"Academic,Judgements' Egg,<1,SellJudgementsEgg"
 		],
-		"Action": "forgotten quarter,Archaeological Expedition,1"
+		"Action": "forgotten quarter,Archaeological Expedition,silken thread/sign/bold"
 	},
+
+	"Silk adventure": {
+		"Name": "Silk adventure",
+		"Result": "An Expedition",
+		"Prerequisites": [
+			"Goods,Crate of Expedition Supplies,99"
+		],
+		"Action": "forgotten quarter,prepare,begin,tomb"
+	},
+
+
 	"Crate of Expedition Supplies": {
 		"Name": "Crate of Expedition Supplies",
 		"Result": "Crate of Expedition Supplies",
@@ -91,6 +116,14 @@
 			"Mysteries,Whispered Hint,200"
 		],
 		"Action": "forgotten quarter,Prepare,Rumours"
+	},
+
+	"SellJudgementsEgg": {
+		"Name": "SellJudgementsEgg",
+		"Result": "SellJudgementsEgg",
+		"Prerequisites": [
+		],
+		"Action": "sell,Judgements' Egg,1"
 	},
 
 	"Payment": {
@@ -112,9 +145,9 @@
 		"Name": "GrindShadowy",
 		"Result": "Shadowy",
 		"Prerequisites": [
-			"Stories,Embroiled in the Wars of Illusion,8"
+			"Goods,Piece of Rostygold,10"
 		],
-		"Action": "flit,its king,meeting,present"
+		"Action": "spite,unfinished Business,?"
 	},
 	"GrindDangerous": {
 		"Name": "GrindDangerous",
@@ -129,8 +162,10 @@
 	"GrindWatchful": {
 		"Name": "GrindWatchful",
 		"Result": "Watchful",
-		"Prerequisites": [],
-		"Action": "flit,its king,meeting,understand"
+		"Prerequisites": [
+			"Progress,Archaeologist's Progress,31"
+		],
+		"Action": "forgotten quarter,prepare,rumours"
 	},
 
 
@@ -150,7 +185,7 @@
 		"Result": "Tales of Mahogany Hall",
 		"Prerequisites": [
 		],
-		"Action": "mahogany,cutthroat,sabotage"
+		"Action": "mahogany,variety,props"
 	},
 
 	"HeistBaseborn" : {
@@ -429,6 +464,31 @@
 			"Stories,A Name Whispered in Darkness,=6"
 		],
 		"Action": "flit,Chicanery,Tricks,Topsy"
+	},
+	"Making use of cats": {
+		"Name": "Making use of cats",
+		"Result": "Making use of cats",
+		"Prerequisites": [
+			"Stories,A Name Whispered in Darkness,=6"
+		],
+		"Action": "flit,Bats and cats,Cats...,allegiances"
+	},
+	"Making use of bats": {
+		"Name": "Making use of bats",
+		"Result": "Making use of bats",
+		"Prerequisites": [
+			"Stories,A Name Whispered in Darkness,=6",
+			"Companion,Reprehensible Lizard,1"
+		],
+		"Action": "flit,Bats and cats,Bats...,intercepting"
+	},
+	"Reprehensible Lizard": {
+		"Name": "Reprehensible Lizard",
+		"Result": "Reprehensible Lizard",
+		"Prerequisites": [
+			"Currency,Penny,100"
+		],
+		"Action": "buy,Nassos Zoologicals,Reprehensible Lizard,2"
 	},
 	"Bazaar Permit": {
 		"Name": "Bazaar Permit",

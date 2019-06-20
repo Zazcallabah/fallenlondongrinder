@@ -22,6 +22,22 @@ function IsInLocation
 	return (GetUserLocation) -eq $id
 }
 
+
+function HandleLockedStorylet
+{
+	param($list)
+
+	$action = $script:ForcedActions."$($list.storylet.name)"
+	if($action -eq $null)
+	{
+		throw "stuck in forced action named $($list.storylet.name), can't proceed without manual interaction"
+	}
+
+	write-verbose "forced action $($list.storylet.name), choosing $action"
+	$result = PerformAction $list $action
+	return $false
+}
+
 function GoBackIfInStorylet
 {
 	$list = ListStorylet
@@ -40,14 +56,7 @@ function GoBackIfInStorylet
 		}
 		else
 		{
-			$action = $script:ForcedActions."$($list.storylet.name)"
-			if($action -eq $null)
-			{
-				throw "stuck in forced action named $($list.storylet.name), can't proceed without manual interaction"
-			}
-
-			write-verbose "forced action $($list.storylet.name), choosing $action"
-			$result = PerformAction $list $action
+			$done = HandleLockedStorylet $list
 			return $null
 		}
 	}
