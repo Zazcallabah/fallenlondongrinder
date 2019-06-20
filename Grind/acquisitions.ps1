@@ -1,15 +1,41 @@
+function MergeAcquisitionsObject
+{
+	param([parameter(ValueFromPipelineByPropertyName)]$FullName)
+
+	process {
+		$inputobject = gc -Raw $FullName | ConvertFrom-Json
+		$inputobject.psobject.Properties | %{
+			$script:Acquisitions | Add-Member -Membertype NoteProperty -Name $_.Name -Value $_.Value -Force
+		}
+	}
+}
+
+$script:Acquisitions = new-object PSObject
 
 if($env:Home -eq $null)
 {
 	. $PSScriptRoot/navigation.ps1
-	$script:Acquisitions = gc -Raw $PSScriptRoot/acquisitions.json | ConvertFrom-Json
+	Get-ChildItem "$PSScriptRoot/acquisitions" | MergeAcquisitionsObject
 	$script:ItemData = gc $PSScriptRoot/items.csv | ConvertFrom-Csv
 }
 else
 {
 	. ${env:HOME}/site/wwwroot/Grind/navigation.ps1
-	$script:Acquisitions = gc -Raw ${env:HOME}/site/wwwroot/Grind/acquisitions.json | ConvertFrom-Json
+	Get-ChildItem ${env:HOME}/site/wwwroot/Grind/acquisitions | MergeAcquisitionsObject
 	$script:ItemData = gc ${env:HOME}/site/wwwroot/Grind/items.csv | ConvertFrom-Csv
+}
+
+if($script:runTests)
+{
+	Describe "Basic acquisitions" {
+		It "has grindpersuasive" {
+			$script:Acquisitions.GrindPersuasive | should not be $null
+			$script:Acquisitions.GrindPersuasive.Action| should be "empresscourt,attend,perform"
+		}
+		It "has menaces " {
+			$script:Acquisitions.Scandal | should not be $null
+		}
+	}
 }
 
 function AddAcquisition

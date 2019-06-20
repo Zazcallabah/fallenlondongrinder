@@ -1,0 +1,50 @@
+{
+	"Lugubrious Seamstress Rivals' Progress": {
+		"Name": "Lugubrious Seamstress Rivals' Progress",
+		"Result": "Rivals' Progress",
+		"Prerequisites": [
+			"Wines,Bottle of Strangling Willow Absinthe,10",
+			"Goods,Crate of Expedition Supplies"
+		],
+		"Action": "forgotten quarter,Archaeological Expedition,confront,distract"
+	},
+
+	"Archaeologist's Progress": {
+		"Name": "Archaeologist's Progress",
+		"Result": "Archaeologist's Progress",
+		"Prerequisites": [
+			"Circumstance,An Expedition,=11,Silk adventure",
+			"Stories,Rivals' Progress,<10,Lugubrious Seamstress Rivals' Progress",
+			"Academic,Judgements' Egg,<1,SellJudgementsEgg"
+		],
+		"Action": "forgotten quarter,Archaeological Expedition,silken thread/sign/bold"
+	},
+
+	"Silk adventure": {
+		"Name": "Silk adventure",
+		"Result": "An Expedition",
+		"Prerequisites": [
+			"Goods,Crate of Expedition Supplies,99"
+		],
+		"Action": "forgotten quarter,prepare,begin,tomb"
+	},
+
+
+	"Crate of Expedition Supplies": {
+		"Name": "Crate of Expedition Supplies",
+		"Result": "Crate of Expedition Supplies",
+		"Prerequisites": [
+			"Progress,Archaeologist's Progress,<1",
+			"Mysteries,Whispered Hint,200"
+		],
+		"Action": "forgotten quarter,Prepare,Rumours"
+	},
+
+	"SellJudgementsEgg": {
+		"Name": "SellJudgementsEgg",
+		"Result": "SellJudgementsEgg",
+		"Prerequisites": [
+		],
+		"Action": "sell,Judgements' Egg,1"
+	}
+}

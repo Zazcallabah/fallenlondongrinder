@@ -1,0 +1,53 @@
+{
+	"StartShortStory": {
+		"Name": "StartShortStory",
+		"Result": "Working on...",
+		"Prerequisites": [
+			"Circumstance,Working on...,<0"
+		],
+		"Action": "veilgarden,begin a work,short story",
+		"Reward": 31
+	},
+
+	"Manuscript Page": {
+		"Name": "Manuscript Page",
+		"Result": "Manuscript Page",
+		"Prerequisites": [
+			"Circumstance,Working on...,=31,StartShortStory"
+		],
+		"Action": "lodgings,writer,rapidly",
+		"Reward": 1
+	},
+	"Daring edit": {
+		"Name": "Daring edit",
+		"Result": "Potential",
+		"Prerequisites": [
+			"Curiosity,Manuscript Page,3",
+			"Circumstance,Working on...,=31,StartShortStory"
+		],
+		"Action": "lodgings,writer,rework,daring",
+		"Reward": 2
+	},
+	"touch of darkness": {
+		"Name": "touch of darkness",
+		"Result": "Potential",
+		"Prerequisites": [
+			"Curiosity,Manuscript Page,4",
+			"Mysteries,Tale of Terror!!,1",
+			"Circumstance,Working on...,=31,StartShortStory"
+		],
+		"Action": "lodgings,writer,rework,touch of darkness",
+		"Reward": 2
+	},
+	"something exotic": {
+		"Name": "something exotic",
+		"Result": "Potential",
+		"Prerequisites": [
+			"Curiosity,Manuscript Page,4",
+			"Academic,Memory of Distant Shores,1",
+			"Circumstance,Working on...,=31,StartShortStory"
+		],
+		"Action": "lodgings,writer,rework,something exotic",
+		"Reward": 2
+	}
+}

@@ -1,40 +1,5 @@
 {
-	"Scandal": {
-		"Name": "Scandal",
-		"Result": "Scandal",
-		"Prerequisites": [],
-		"Action": "lodgings,scandal,service"
-	},
-	"Wounds": {
-		"Name": "Wounds",
-		"Result": "Wounds",
-		"Prerequisites": [],
-		"Action": "lodgings,wounds,time,1"
-	},
-	"Nightmares": {
-		"Name": "Nightmares",
-		"Result": "Nightmares",
-		"Prerequisites": [
-			"Mysteries,Appalling Secret,10"
-		],
-		"Action": "inventory,Mysteries,Appalling Secret,1"
-	},
-	"Suspicion": {
-		"Name": "Suspicion",
-		"Result": "Suspicion",
-		"Prerequisites": [
-			"Curiosity,Ablution Absolution,1"
-		],
-		"Action": "inventory,Curiosity,Ablution Absolution,1"
-	},
-	"Nikolas & Sons Instant Ablution Absolutionn": {
-		"Name": "Nikolas & Sons Instant Ablution Absolution",
-		"Result": "Nikolas & Sons Instant Ablution Absolution",
-		"Prerequisites": [
-			"Currency,Penny,150"
-		],
-		"Action": "buy,Nikolas,Absolution,1"
-	},
+
 	"Carnival Ticket": {
 		"Name": "Carnival Ticket",
 		"Result": "Carnival Ticket",
@@ -77,54 +42,6 @@
 		"Action": "watchmakers,fighting ring,meat,clean"
 	},
 
-	"Lugubrious Seamstress Rivals' Progress": {
-		"Name": "Lugubrious Seamstress Rivals' Progress",
-		"Result": "Rivals' Progress",
-		"Prerequisites": [
-			"Wines,Bottle of Strangling Willow Absinthe,10",
-			"Goods,Crate of Expedition Supplies"
-		],
-		"Action": "forgotten quarter,Archaeological Expedition,confront,distract"
-	},
-
-	"Archaeologist's Progress": {
-		"Name": "Archaeologist's Progress",
-		"Result": "Archaeologist's Progress",
-		"Prerequisites": [
-			"Circumstance,An Expedition,=11,Silk adventure",
-			"Stories,Rivals' Progress,<10,Lugubrious Seamstress Rivals' Progress",
-			"Academic,Judgements' Egg,<1,SellJudgementsEgg"
-		],
-		"Action": "forgotten quarter,Archaeological Expedition,silken thread/sign/bold"
-	},
-
-	"Silk adventure": {
-		"Name": "Silk adventure",
-		"Result": "An Expedition",
-		"Prerequisites": [
-			"Goods,Crate of Expedition Supplies,99"
-		],
-		"Action": "forgotten quarter,prepare,begin,tomb"
-	},
-
-
-	"Crate of Expedition Supplies": {
-		"Name": "Crate of Expedition Supplies",
-		"Result": "Crate of Expedition Supplies",
-		"Prerequisites": [
-			"Progress,Archaeologist's Progress,<1",
-			"Mysteries,Whispered Hint,200"
-		],
-		"Action": "forgotten quarter,Prepare,Rumours"
-	},
-
-	"SellJudgementsEgg": {
-		"Name": "SellJudgementsEgg",
-		"Result": "SellJudgementsEgg",
-		"Prerequisites": [
-		],
-		"Action": "sell,Judgements' Egg,1"
-	},
 
 	"Payment": {
 		"Name": "Payment",
@@ -135,38 +52,18 @@
 		"Action": "lodgings,Professional Reward,1"
 	},
 
-	"GrindPersuasive": {
-		"Name": "GrindPersuasive",
-		"Result": "Persuasive",
-		"Prerequisites": [],
-		"Action": "empresscourt,attend,perform"
-	},
-	"GrindShadowy": {
-		"Name": "GrindShadowy",
-		"Result": "Shadowy",
+
+
+	"The Hunt is On!": {
+		"Name": "The Hunt is On!",
+		"Result": "The Hunt is On!",
 		"Prerequisites": [
-			"Goods,Piece of Rostygold,10"
+			"Stories,Acquiring Exhibits for the Labyrinth of Tigers,1"
 		],
-		"Action": "spite,unfinished Business,?"
+		"Action": "wolfstack,Hunting Dangerous Prey,stalk your prey/go for the throat/prepare the ground"
 	},
-	"GrindDangerous": {
-		"Name": "GrindDangerous",
-		"Result": "Dangerous",
-		"Prerequisites": [
-			"Progress,Running Battle,15",
-			"Menaces,Wounds,<3",
-			"Stories,A Fearsome Duellist,3"
-		],
-		"Action": "wolfstack,Challenge,Fencing,1"
-	},
-	"GrindWatchful": {
-		"Name": "GrindWatchful",
-		"Result": "Watchful",
-		"Prerequisites": [
-			"Progress,Archaeologist's Progress,31"
-		],
-		"Action": "forgotten quarter,prepare,rumours"
-	},
+
+
 
 
 
@@ -203,50 +100,6 @@
 			"Circumstance,Planning a Heist:,1,HeistBaseborn"
 		],
 		"Action": "flit,preparing,formulate"
-	},
-	"Running Battle..." : {
-		"Name": "Running Battle...",
-		"Result": "Running Battle...",
-		"Prerequisites": [
-		],
-		"Action": "wolfstack,Duelling the Black Ribbon,sparring/scout/find out/arrange"
-	},
-	"Duel Priest" : {
-		"Name": "Duel Priest",
-		"Result": "A Fearsome Duellist",
-		"Prerequisites": [
-			"Progress,Running Battle,7"
-		],
-		"Action": "wolfstack,Challenge,Priest,1"
-	},
-	"Duel Inch" : {
-		"Name": "Duel Inch",
-		"Result": "A Fearsome Duellist",
-		"Prerequisites": [
-			"Progress,Running Battle,9",
-			"Stories,A Fearsome Duellist,1"
-		],
-		"Action": "wolfstack,Challenge,Inch,1"
-	},
-	"Duel Vendrick" : {
-		"Name": "Duel Vendrick",
-		"Result": "A Fearsome Duellist",
-		"Prerequisites": [
-			"Progress,Running Battle,12",
-			"Menaces,Wounds,<4",
-			"Stories,A Fearsome Duellist,2"
-		],
-		"Action": "wolfstack,Challenge,Vendrick,1"
-	},
-	"Duel Fencing" : {
-		"Name": "Duel Fencing",
-		"Result": "A Fearsome Duellist",
-		"Prerequisites": [
-			"Progress,Running Battle,15",
-			"Menaces,Wounds,<4",
-			"Stories,A Fearsome Duellist,3"
-		],
-		"Action": "wolfstack,Challenge,Fencing,1"
 	},
 	"First City Coin": {
 		"Name": "First City Coin",
@@ -440,56 +293,6 @@
 		],
 		"Action": "bazaar,velocipede"
 	},
-	"Embroiled in the Wars of Illusion": {
-		"Name": "Embroiled in the Wars of Illusion",
-		"Result": "Embroiled in the Wars of Illusion",
-		"Prerequisites": [
-			"Progress,Seeking,5",
-			"Progress,Investigating,5"
-		],
-		"Action": "flit,Chicanery,Dropping"
-	},
-	"Seeking...": {
-		"Name": "Seeking...",
-		"Result": "Seeking...",
-		"Prerequisites": [
-			"Stories,A Name Whispered in Darkness,=6"
-		],
-		"Action": "flit,Chicanery,Shadowing,Disguise"
-	},
-	"Investigating...": {
-		"Name": "Investigating...",
-		"Result": "Investigating...",
-		"Prerequisites": [
-			"Stories,A Name Whispered in Darkness,=6"
-		],
-		"Action": "flit,Chicanery,Tricks,Topsy"
-	},
-	"Making use of cats": {
-		"Name": "Making use of cats",
-		"Result": "Making use of cats",
-		"Prerequisites": [
-			"Stories,A Name Whispered in Darkness,=6"
-		],
-		"Action": "flit,Bats and cats,Cats...,allegiances"
-	},
-	"Making use of bats": {
-		"Name": "Making use of bats",
-		"Result": "Making use of bats",
-		"Prerequisites": [
-			"Stories,A Name Whispered in Darkness,=6",
-			"Companion,Reprehensible Lizard,1"
-		],
-		"Action": "flit,Bats and cats,Bats...,intercepting"
-	},
-	"Reprehensible Lizard": {
-		"Name": "Reprehensible Lizard",
-		"Result": "Reprehensible Lizard",
-		"Prerequisites": [
-			"Currency,Penny,100"
-		],
-		"Action": "buy,Nassos Zoologicals,Reprehensible Lizard,2"
-	},
 	"Bazaar Permit": {
 		"Name": "Bazaar Permit",
 		"Result": "Bazaar Permit",
@@ -506,57 +309,6 @@
 			"Circumstance,Working on...,<0"
 		],
 		"Action": "empresscourt,next work,novel"
-	},
-	"StartShortStory": {
-		"Name": "StartShortStory",
-		"Result": "Working on...",
-		"Prerequisites": [
-			"Circumstance,Working on...,<0"
-		],
-		"Action": "veilgarden,begin a work,short story",
-		"Reward": 31
-	},
-
-	"Manuscript Page": {
-		"Name": "Manuscript Page",
-		"Result": "Manuscript Page",
-		"Prerequisites": [
-			"Circumstance,Working on...,=31,StartShortStory"
-		],
-		"Action": "lodgings,writer,rapidly",
-		"Reward": 1
-	},
-	"Daring edit": {
-		"Name": "Daring edit",
-		"Result": "Potential",
-		"Prerequisites": [
-			"Curiosity,Manuscript Page,3",
-			"Circumstance,Working on...,=31,StartShortStory"
-		],
-		"Action": "lodgings,writer,rework,daring",
-		"Reward": 2
-	},
-	"touch of darkness": {
-		"Name": "touch of darkness",
-		"Result": "Potential",
-		"Prerequisites": [
-			"Curiosity,Manuscript Page,4",
-			"Mysteries,Tale of Terror!!,1",
-			"Circumstance,Working on...,=31,StartShortStory"
-		],
-		"Action": "lodgings,writer,rework,touch of darkness",
-		"Reward": 2
-	},
-	"something exotic": {
-		"Name": "something exotic",
-		"Result": "Potential",
-		"Prerequisites": [
-			"Curiosity,Manuscript Page,4",
-			"Academic,Memory of Distant Shores,1",
-			"Circumstance,Working on...,=31,StartShortStory"
-		],
-		"Action": "lodgings,writer,rework,something exotic",
-		"Reward": 2
 	},
 	"Inspired...": {
 		"Name": "Inspired...",
