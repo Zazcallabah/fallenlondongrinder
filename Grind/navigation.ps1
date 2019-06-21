@@ -439,12 +439,13 @@ function DoInventoryAction
 	$list = GoBackIfInStorylet
 	if( $list -eq $null )
 	{
-		return
+		return $true
 	}
 	$item = GetPossession $category $name
 	if( $item -ne $null -and $item.effectiveLevel -ge 1 )
 	{
-		return UseItem $item.id $action
+		$result = UseItem $item.id $action
+		return $false
 	}
 }
 

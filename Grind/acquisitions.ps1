@@ -184,7 +184,7 @@ if( $script:runtests )
 		}
 		It "can find partial name match" {
 			$a = LookupAcquisition "clue"
-			$a.Name | should be "Cryptic Clue"
+			$a.Result | should be "Cryptic Clue"
 		}
 		It "can find specific result match" {
 			$a = LookupAcquisition "Working on..."
@@ -449,7 +449,7 @@ if( $script:runtests )
 		}
 		It "acquires if you dont have enough of the possession" {
 
-			$result = Require "Mysteries" "Cryptic Clue" 15 -dryRun
+			$result = Require "Mysteries" "Cryptic Clue" 15 "Cryptic Clue" -dryRun
 			$script:actionHistory.length | should be 1
 			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"
 			$result | should be $false

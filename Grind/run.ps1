@@ -97,15 +97,16 @@ function SellIfMoreThan
 	$pos = GetPossession $category $name
 	if($pos -ne $null -and $pos.effectiveLevel -gt $amount)
 	{
-		SellPossession $name ($pos.effectiveLevel - $amount)
+		$result = SellPossession $name ($pos.effectiveLevel - $amount)
 	}
+	return $true
 }
 
 function GrindMoney
 {
-	SellIfMoreThan "Curiosity" "Competent Short Story" 0
-	SellIfMoreThan "Curiosity" "Compelling Short Story" 1
-	SellIfMoreThan "Curiosity" "Exceptional Short Story" 1
+	$result = SellIfMoreThan "Curiosity" "Competent Short Story" 0
+	$result = SellIfMoreThan "Curiosity" "Compelling Short Story" 1
+	$result = SellIfMoreThan "Curiosity" "Exceptional Short Story" 1
 
 	$hasMoreActions = Require "Progress" "Potential" 61 "Daring Edit"
 	if( !$hasMoreActions )
@@ -123,9 +124,9 @@ function GrindMoney
 		return $false
 	}
 	$hasMoreActions = Require "Curiosity" "Exceptional Short Story" 2
-	SellIfMoreThan "Curiosity" "Competent Short Story" 0
-	SellIfMoreThan "Curiosity" "Compelling Short Story" 1
-	SellIfMoreThan "Curiosity" "Exceptional Short Story" 1
+	$result = SellIfMoreThan "Curiosity" "Competent Short Story" 0
+	$result = SellIfMoreThan "Curiosity" "Compelling Short Story" 1
+	$result = SellIfMoreThan "Curiosity" "Exceptional Short Story" 1
 	return $false
 }
 
@@ -377,13 +378,13 @@ function DoAction
 	# inventory just needs to make sure we do gobackifinstorylet first
 	if( $action.location -eq "buy" )
 	{
-		BuyPossession $action.first $action.second $action.third[0]
-		return
+		$result = BuyPossession $action.first $action.second $action.third[0]
+		return $true
 	}
 	elseif( $action.location -eq "sell" )
 	{
-		SellPossession $action.first $action.second
-		return
+		$result = SellPossession $action.first $action.second
+		return $true
 	}
 	elseif( $action.location -eq "cascade" )
 	{
@@ -392,26 +393,27 @@ function DoAction
 		{
 			if( $index -ge $script:actions.Length )
 			{
-				return
+				return $false
 			}
-			DoAction (Get-Action ([DateTime]::UtcNow) $index) ($index+1)
+			$result = DoAction (Get-Action ([DateTime]::UtcNow) $index) ($index+1)
+			return $result
 		}
-		return
+		return $false
 	}
 	elseif( $action.location -eq "require" )
 	{
 		$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
-		return
+		return $hasactionsleft
 	}
 	elseif( $action.location -eq "inventory" )
 	{
-		DoInventoryAction $action.first $action.second $action.third
-		return
+		$result = DoInventoryAction $action.first $action.second $action.third
+		return $false
 	}
 	elseif( $action.location -eq "grind_money" )
 	{
-		GrindMoney
-		return
+		$result = GrindMoney
+		return $false
 	}
 
 	$list = GoBackIfInStorylet
@@ -428,7 +430,7 @@ function DoAction
 		$hasActionsLeft = EnsureTickets
 		if( !$hasActionsLeft )
 		{
-			return
+			return $false
 		}
 	}
 
@@ -436,10 +438,11 @@ function DoAction
 	if( $event -eq $null )
 	{
 		write-warning "storylet $($action.first) not found"
-		return
+		return $false
 	}
 
-	PerformActions $event (@($action.second)+$action.third)
+	$result = PerformActions $event (@($action.second)+$action.third)
+	return $false
 }
 
 if($script:runTests)
