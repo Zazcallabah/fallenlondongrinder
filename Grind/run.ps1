@@ -40,7 +40,7 @@ $script:actions = @(
 #	"cascade,Progress,Casing...,13"
 	"cascade,Progress,Archaeologist's Progress,31"
 	"cascade,Stories,A Procurer of Savage Beasts,4,HuntGoat"
-	"cascade,Progress,The Hunt is on,15"
+	"cascade,Progress,The Hunt is on,19"
 	"cascade,Stories,Tales of Mahogany Hall,22"
 	"cascade,Elder,Presbyterate Passphrase,9"
 	"cascade,Progress,Running Battle,20"
