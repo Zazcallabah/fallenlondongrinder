@@ -21,8 +21,13 @@ function Login
 	$password = $env:LOGIN_PASS
 	$payload = @{ "email" = $email; "password" = $password; }
 	$uri = "https://api.fallenlondon.com/api/login"
-	$token = $payload | ConvertTo-Json | Invoke-WebRequest -UseBasicParsing -Uri $uri -Method POST -UserAgent $script:uastring -Headers $headers | Select -Expandproperty Content | convertfrom-json | select -expandproperty jwt
-	return $token
+	$result = $payload | ConvertTo-Json | Invoke-WebRequest -UseBasicParsing -Uri $uri -Method POST -UserAgent $script:uastring -Headers $headers
+	if($result.StatusCode -ne 200)
+	{
+		throw "login error for $email"
+	}
+	return $result.Content | convertfrom-json | select -expandproperty jwt
+
 }
 
 function Get-Token
