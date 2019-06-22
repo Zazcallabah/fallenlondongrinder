@@ -118,7 +118,7 @@ function Post
 	}
 	else
 	{
-		$content = Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -Method $method | select -ExpandProperty Content
+		$content = Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method | select -ExpandProperty Content
 	}
 	$result = $content | ConvertFrom-Json
 	return $result
