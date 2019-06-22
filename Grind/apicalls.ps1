@@ -173,16 +173,6 @@ function GetLocationId
 	return $script:locations[$key]
 }
 
-
-function GetShopId
-{
-	param($name)
-
-	$key = $script:shopIds.Keys | ?{ $_ -match $name } | select -first 1
-	return $script:shopIds[$key]
-}
-
-
 function MoveTo
 {
 	param($id)
