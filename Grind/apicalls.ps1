@@ -34,17 +34,6 @@ function Login
 	return $token
 }
 
-if( $script:runInfraTests )
-{
-	Describe "Login" {
-		It "returns token" {
-			$token = Login
-			$token | should not be $null
-		}
-	}
-}
-
-
 function Get-Token
 {
 	$token = Get-CachedToken
@@ -57,45 +46,6 @@ function Get-Token
 	$script:credentials = @{"timeout" = $timeout; "token" = $token}
 	Save-Blob $script:credentials
 	return $token
-}
-
-if( $script:runInfraTests )
-{
-	Describe "Get-Token" {
-		It "login with no cached token, caches token" {
-			Save-Blob @{}
-			$script:credentials = $null
-			$token = Get-Token
-			$token | should not be $null
-			$token | should not be ""
-			$cc = DownloadCredentialsCache
-			$cc | should not be $null
-			$cc.token | should be $script:credentials.token
-			$cc.timeout | should be $script:credentials.timeout
-			$cc.token | should be $token
-
-		}
-		It "calling twice returns same token" {
-			$token = Get-Token
-			Get-Token | should be $token
-		}
-		It "calling twice clearing cache between each returns same token" {
-			$token = Get-Token
-			$script:credentials = $null
-			Get-Token | should be $token
-		}
-		It "calling twice clearing cache and blob between each returns different tokens" {
-			$token = Get-Token
-			$token | should not be $null
-			$token | should not be ""
-			Save-Blob @{}
-			$script:credentials = $null
-			$token2 = Get-Token
-			$token2 | should not be $token
-			$token2 | should not be $null
-			$token2 | should not be ""
-		}
-	}
 }
 
 
