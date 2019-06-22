@@ -5,15 +5,6 @@ if( $env:LOGIN_EMAIL -eq $null -or $env:LOGIN_PASS -eq $null )
 
 $script:uastring = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
 
-if($env:Home -eq $null)
-{
-	. $PSScriptRoot/credentials.ps1
-}
-else
-{
-	. ${env:HOME}/site/wwwroot/Grind/credentials.ps1
-}
-
 function Get-BasicHeaders
 {
 	return @{
@@ -36,18 +27,14 @@ function Login
 
 function Get-Token
 {
-	$token = Get-CachedToken
+	$token = $script:cachedToken
 	if($token -ne $null )
 	{
 		return $token
 	}
-	$token = Login
-	$timeout = ([datetime]::UtcNow).addhours(47).Ticks
-	$script:credentials = @{"timeout" = $timeout; "token" = $token}
-	Save-Blob $script:credentials
-	return $token
+	$script:cachedToken = Login
+	return $script:cachedToken
 }
-
 
 function Get-Headers
 {
