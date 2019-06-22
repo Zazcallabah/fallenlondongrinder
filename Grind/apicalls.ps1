@@ -1,7 +1,3 @@
-if( $env:LOGIN_EMAIL -eq $null -or $env:LOGIN_PASS -eq $null )
-{
-	throw "missing login information"
-}
 
 $script:uastring = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:67.0) Gecko/20100101 Firefox/67.0"
 
@@ -14,12 +10,24 @@ function Get-BasicHeaders
 	}
 }
 
+$script:RegisteredTokens = @{}
+
+function Register
+{
+	param($email,$pass)
+
+	if( !($script:RegisteredTokens.ContainsKey($email)) )
+	{
+		$script:RegisteredTokens.Add($email,(Login $email $pass))
+	}
+	$script:cachedToken = $script:RegisteredTokens[$email]
+}
+
 function Login
 {
+	param($email,$pass)
 	$headers = Get-BasicHeaders
-	$email = $env:LOGIN_EMAIL
-	$password = $env:LOGIN_PASS
-	$payload = @{ "email" = $email; "password" = $password; }
+	$payload = @{ "email" = $email; "password" = $pass; }
 	$uri = "https://api.fallenlondon.com/api/login"
 	$result = $payload | ConvertTo-Json | Invoke-WebRequest -UseBasicParsing -Uri $uri -Method POST -UserAgent $script:uastring -Headers $headers
 	if($result.StatusCode -ne 200)
@@ -27,17 +35,14 @@ function Login
 		throw "login error for $email"
 	}
 	return $result.Content | convertfrom-json | select -expandproperty jwt
-
 }
 
 function Get-Token
 {
-	$token = $script:cachedToken
-	if($token -ne $null )
+	if($script:cachedToken -eq $null )
 	{
-		return $token
+		throw "login required"
 	}
-	$script:cachedToken = Login
 	return $script:cachedToken
 }
 
