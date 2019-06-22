@@ -1,8 +1,4 @@
-param([switch]$force)
-
-
-$script:runTests = $false
-$script:runInfraTests = $false
+param([switch]$force,[switch]$noaction)
 
 if($env:Home -eq $null)
 {
@@ -62,22 +58,6 @@ function Get-Action
 	}
 	return $script:actions[$selector%($script:actions.Length)]
 }
-
-if($script:runTests)
-{
-	$script:actions =@( 0, 1, 2, 3, 4, 5, 6 )
-	Describe "Get-Action" {
-		It "selects based on day of year" {
-			Get-Action (new-object datetime 2018, 1, 1, 0, 0, 0) | should be 1
-			Get-Action (new-object datetime 2018, 1, 1, 0, 10, 0) | should be 1
-		}
-		It "cycles" {
-			Get-Action (new-object datetime 2018, 1, 6, 2, 0, 0) | should be 6
-			Get-Action (new-object datetime 2018, 1, 7, 2, 0, 0) | should be 0
-		}
-	}
-}
-
 
 function IsInForcedStorylet
 {
@@ -142,34 +122,6 @@ function GetCardInUseList
 		{
 			$result | Add-Member -Membertype NoteProperty -name "eventId" -value $cardobj.eventid
 			return $result
-		}
-	}
-}
-
-if($script:runTests)
-{
-	Describe "GetCardInUseList" {
-		It "returns a single card" {
-			$script:CardActions = @{"use"=@( @{"name"=3},@{"name"=4})}
-			$r = GetCardInUseList @{"displayCards"=@(@{"eventid"=3},@{"eventid"=14})}
-			$r.name | should be 3
-		}
-		It "returns one card even if two matches" {
-			$script:CardActions = @{"use"=@( @{"name"=3},@{"name"=4})}
-			$r = GetCardInUseList @{"displayCards"=@(@{"eventid"=3},@{"eventid"=4})}
-			$r.name | should be 3
-		}
-		It "returns no cards if none matches" {
-			$script:CardActions = @{"use"=@( @{"name"=3},@{"name"=4})}
-			$r = GetCardInUseList @{"displayCards"=@(@{"eventid"=13},@{"eventid"=14})}
-			$r | should be $null
-		}
-		It "returns eventid as well as name cards" {
-			$script:CardActions = new-object psobject -property @{"use"=@(@{"name"="hej";"action"="one"})}
-			$r = GetCardInUseList (new-object psobject -property @{"displayCards"=@(@{"eventid"=13;"name"="hej"})})
-			$r.name | should be "hej"
-			$r.eventid | should be 13
-			$r.action | should be "one"
 		}
 	}
 }
@@ -446,116 +398,7 @@ function DoAction
 	return $false
 }
 
-if($script:runTests)
-{
-	$list = ListStorylet
-	if( $list.Phase -ne "Available"  )
-	{
-		if( $list.storylet.canGoBack )
-		{
-			$b = GoBack
-		}
-		else
-		{
-			write-warning "locked in a storylet, cant run final tests"
-			return
-		}
-	}
-	Describe "MoveTo" {
-		It "can move to well known area" {
-			if( GetUserLocation -eq 7 )
-			{
-				$testlocation = "Veilgarden"
-			}
-			else
-			{
-				$testlocation = "Spite"
-			}
-			$result = MoveTo $testlocation
-			$result.area.name | should be $testlocation
-		}
-		It "can move to lodgings" {
-			$result = MoveTo "lodgings"
-			$result.area.name | should be "Your Lodgings"
-		}
-	}
-	Describe "GetUserLocation" {
-		It "can get current location" {
-			GetUserLocation | should be 2
-		}
-	}
-
-	Describe "GetStoryletId" {
-		It "can get storylet id by name" {
-			GetStoryletId "Society" | should be 276092
-		}
-	}
-
-	Describe "GoBackIfInStorylet" {
-		It "returns regular list when not in storylet" {
-			$list = GoBackIfInStorylet
-			$list.Phase | should be "Available"
-			$list.actions | should not be $null
-			$list.storylets | should not be $null
-			$list.isSuccess | should be $true
-		}
-		It "returns same list when in a storylet" {
-			UseQuality 377
-			$list = GoBackIfInStorylet
-			$list.Phase | should be "Available"
-			$list.actions | should not be $null
-			$list.storylets | should not be $null
-			$list.isSuccess | should be $true
-		}
-	}
-
-	Describe "BeginStorylet" {
-		It "can begin storylet" {
-			$result = BeginStorylet 276092
-			$result.isSuccess | should be $true
-			$result.storylet | should not be $null
-			$result.storylet.cangoback | should be $true
-		}
-	}
-
-	Describe "EnterStorylet" {
-		It "can enter storylet by name" {
-			$list = GoBackIfInStorylet
-			$result = EnterStorylet $list "Society"
-			$result.isSuccess | should be $true
-			$result.storylet | should not be $null
-			$result.storylet.cangoback | should be $true
-		}
-		It "returns null if not valid storylet name" {
-			$list = GoBackIfInStorylet
-			$result = EnterStorylet $list "Not A Storylet Name"
-			$result | should be $null
-		}
-	}
-
-
-	# Describe "PerformAction" {
-	# 	It "can perform one action" {
-	# 		$event = EnterStorylet $null "write letters"
-	# 		$result = PerformAction $event "arrange"
-	# 		$result.Phase | should be "End"
-	# 		$result.actions | should not be $null
-	# 	}
-	# }
-
-	# Describe "PerformActions" {
-	# It "can perform multiple actions" {
-	# $result = PerformActions $null "preparing for your burglary" @("choose your target","preparing for your burglary","choose your target")
-	# $result.Phase | should be "In"
-	# $result.actions | should not be $null
-	# $result.storylet | should not be $null
-	# $result.storylet.canGoBack | should be $true
-	# $result.storylet.id | should be 223811
-	# }
-	# }
-}
-
-if(!$script:runTests)
+if(!$noAction)
 {
 	if( HasActionsToSpare )
 	{

@@ -112,46 +112,6 @@ function GetPossession
 	return $possessions | ?{ $_.name -match $name } | select -first 1
 }
 
-if($script:runTests)
-{
-	Describe "GetPossessionCategory" {
-		It "can get route" {
-			$cat = GetPossessionCategory "Route"
-			$cat | ?{ $_.category -eq "Route" } | measure | select -expandproperty count | should be $cat.length
-			$cat | ?{ $_.name -eq "Route: Lodgings" } | should not be $null
-		}
-		It "can get basicability" {
-			$cat = GetPossessionCategory "Basic"
-			$cat | ?{ $_.category -eq "BasicAbility" } | measure | select -expandproperty count | should be $cat.length
-			$cat | ?{ $_.name -eq "Dangerous" } | should not be $null
-		}
-		It "can get all" {
-			$cat = GetPossessionCategory
-			$cat | ?{ $_.name -eq "Route: Lodgings" } | should not be $null
-			$cat | ?{ $_.name -eq "Dangerous" } | should not be $null
-		}
-	}
-
-	Describe "GetPossession" {
-		It "can get possession" {
-			$hints = GetPossession "Mysteries" "Whispered Hint"
-			$hints.id | should be 380
-		}
-		It "can get possession without giving category" {
-			$hints = GetPossession "Whispered Hint"
-			$hints.id | should be 380
-		}
-		It "can get possession with partial match" {
-			$hints = GetPossession "Mysteries" "Whispered"
-			$hints.id | should be 380
-		}
-		It "can get basic possession" {
-			$dangerous = GetPossession "Basic" "Dangerous"
-			$dangerous.id = 211
-		}
-	}
-}
-
 function GetChildBranch
 {
 	param($childBranches, $name)
@@ -192,45 +152,6 @@ function InnerGetChildBranch
 	else
 	{
 		return $childBranches | ?{ $_.name -match $name } | select -first 1
-	}
-}
-
-if($script:runTests)
-{
-	Describe "GetChildBranch" {
-		It "can get branch by name" {
-			$cat = GetChildBranch @(@{"name"="wronngname"},@{"name"="aoeu"}) "aoeu"
-			$cat.name | should be "aoeu"
-		}
-		It "can get branch by number" {
-			$cat = GetChildBranch @(@{"name"="wronngname"},@{"name"="aoeu"}) 2
-			$cat.name | should be "aoeu"
-		}
-		It "can get branch by string number" {
-			$cat = GetChildBranch @(@{"name"="1234"},@{"name"="aoeu"}) "1"
-			$cat.name | should be "1234"
-		}
-		It "returns null if not found" {
-			$cat = GetChildBranch @(@{"name"="wronngname"},@{"name"="aoeu"}) "asdf"
-			$cat.name | should be $null
-		}
-		It "returns null if locked" {
-			$cat = GetChildBranch @(@{"name"="wronngname"},@{"name"="aoeu";"isLocked"=$true}) "aoeu"
-			$cat.name | should be $null
-		}
-		It "separates choices by slash, prioritizes first choice" {
-			$cat = GetChildBranch @(@{"name"="wrongname"},@{"name"="first"},@{"name"="second"}) "first/second"
-			$cat.name | should be "first"
-		}
-		It "separates choices by slash, still ignoring locked" {
-			$cat = GetChildBranch @(@{"name"="second";"isLocked"=$true},@{"name"="third"}) "second/third"
-			$cat.name | should be "third"
-		}
-		It "separates choices by slash, only returns one result" {
-			$cat = GetChildBranch @(@{"name"="second"},@{"name"="third"}) "second/third"
-			$cat.name | should be "second"
-		}
-
 	}
 }
 
@@ -357,31 +278,6 @@ function SellPossession
 	Sell $shopitemid $amount
 }
 
-if($script:runTests)
-{
-	Describe "GetShopItemId" {
-		It "can get itemid from shop" {
-			GetShopItemId "Nikolas" "Absolution" | should be 211
-		}
-	}
-	Describe "BuyPossession" {
-		It "can buy" {
-			$pennies = GetPossession "Currency" "Penny"
-			$jade = GetPossession "Elder" "Jade"
-			BuyPossession "Merrigans" "Jade" "1"
-			GetPossession "Elder" "Jade" | select -expandproperty effectivelevel | should be ($jade.effectivelevel +1)
-			GetPossession "Currency" "Penny" | select -expandproperty effectiveLevel | should be ($pennies.effectiveLevel -2 )
-		}
-		It "can sell" {
-			$pennies = GetPossession "Currency" "Penny"
-			$jade = GetPossession "Elder" "Jade"
-			SellPossession "Jade" "1"
-			GetPossession "Elder" "Jade" | select -expandproperty effectivelevel | should be ($jade.effectivelevel -1)
-			GetPossession "Currency" "Penny" | select -expandproperty effectiveLevel | should be ($pennies.effectiveLevel +1 )
-		}
-	}
-}
-
 function Airs
 {
 	# this could give outdated value, if we perform an action that changes airs without discarding cached value for plans
@@ -399,15 +295,6 @@ function Airs
 	return $null
 }
 
-
-if($script:runTests)
-{
-	Describe "Airs" {
-		It "can read airs from plan" {
-			Airs | should not be $null
-		}
-	}
-}
 
 function UseItem
 {
@@ -537,22 +424,4 @@ function DeleteExistingPlan
 	param( $name )
 	$plan = Get-Plan $name
 	DeletePlan $plan.branch.id
-}
-
-if($script:runTests)
-{
-	Describe "CreatePlan" {
-		It "can create plan" {
-			$result = CreatePlanFromActionString "lodgings,nightmares,1"
-			$result.isSuccess | should be $true
-		}
-		It "can find plan" {
-			$plan = Get-Plan "Invite someone to a Game of Chess"
-			$plan | should not be null
-			$plan.branch.name | should be "Invite someone to a Game of Chess"
-		}
-		It "can delete plan" {
-			$result = DeleteExistingPlan "Invite someone to a Game of Chess"
-		}
-	}
 }

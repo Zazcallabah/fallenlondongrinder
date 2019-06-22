@@ -138,21 +138,6 @@ function ListStorylet
 	return $list
 }
 
-if( $script:runTests )
-{
-	Describe "GetLocationId" {
-		It "can fetch location not in local cache" {
-			GetLocationId "flit" | should be 11
-		}
-	}
-	Describe "List-Storylet" {
-		It "can get storylets" {
-			ListStorylet | should not be $null
-		}
-	}
-}
-
-
 function GetShopInventory
 {
 	param($shopid)
@@ -283,28 +268,6 @@ function ChooseBranch
 	return $event
 }
 
-if( $script:runTests )
-{
-	Describe "User" {
-		It "can get user object" {
-			User | should not be $null
-		}
-		It "has location" {
-			(User).area.id | should not be $null
-		}
-	}
-	Describe "Myself" {
-		It "can get character object" {
-			Myself | should not be $null
-		}
-		It "has actions" {
-			(Myself).character.actions | should not be $null
-		}
-		It "has inventory" {
-			(Myself).possessions | should not be $null
-		}
-	}
-}
 # post plan/update {"branchId":204598,"notes":"do this","refresh":false} to save note
 # post plan/update {"branchId":204598,"refresh":true} to restart plan
 function CreatePlan

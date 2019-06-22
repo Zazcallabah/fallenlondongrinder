@@ -25,19 +25,6 @@ else
 	$script:ItemData = gc ${env:HOME}/site/wwwroot/Grind/items.csv | ConvertFrom-Csv
 }
 
-if($script:runTests)
-{
-	Describe "Basic acquisitions" {
-		It "has grindpersuasive" {
-			$script:Acquisitions.GrindPersuasive | should not be $null
-			$script:Acquisitions.GrindPersuasive.Action| should be "empresscourt,attend,perform"
-		}
-		It "has menaces " {
-			$script:Acquisitions.Scandal | should not be $null
-		}
-	}
-}
-
 function AddAcquisition
 {
 	param($name, $result, $action, [int]$reward, $prereq=@())
@@ -76,45 +63,6 @@ function ParseActionString
 	}
 }
 
-if($script:runTests)
-{
-	Describe "ParseActionString" {
-		It "splits string" {
-			$action = ParseActionString "1, aoeu ,tre"
-			$action.location | should be 1
-			$action.first | should be " aoeu "
-			$action.second | should be "tre"
-			$action.third | should be $null
-		}
-		It "leaves tail if longer than 4" {
-			$action = ParseActionString "1,2,3,4,5"
-			$action.location | should be 1
-			$action.first | should be 2
-			$action.second | should be 3
-			$action.third.length | should be 2
-			$action.third[0] | should be 4
-			$action.third[1] | should be 5
-		}
-		It "can return exactly four results" {
-			$action = ParseActionString "a,b,c,de"
-			$action.location | should be "a"
-			$action.first | should be "b"
-			$action.second | should be "c"
-			$action.third | should be "de"
-		}
-		It "returns null if trying to index nonexistent third entry" {
-			$action = ParseActionString "aaa,bbb,ccc,def"
-			$action.location | should be "aaa"
-			$action.first | should be "bbb"
-			$action.second | should be "ccc"
-			$action.third[0] | should be "def"
-			$action.third[1] | should be $null
-		}
-	}
-}
-
-
-
 $script:actionHistory = @()
 
 function RecordAction
@@ -136,21 +84,6 @@ function Acquire
 	$actionResult = DoAction $actionStr
 	return $false;
 }
-
-if( $script:runTests )
-{
-	Describe "Acquire" {
-		It "performs action to acquire possession" {
-			Acquire "spite,Alleys,Cats,grey" -dryRun
-			$script:actionHistory.length | should be 1
-			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"
-			$script:actionHistory = @()
-		}
-	}
-}
-
-
-
 
 function LookupAcquisition
 {
@@ -174,25 +107,6 @@ function LookupAcquisition
 
 	return $script:Acquisitions.PSObject.Properties | ?{ $_.Value.Result -match $name } | select -first 1 -ExpandProperty Value
 }
-
-if( $script:runtests )
-{
-	Describe "LookupAcquisition" {
-		It "can find exact name" {
-			$a = LookupAcquisition "Suspicion"
-			$a.Action | should be "inventory,Curiosity,Ablution Absolution,1"
-		}
-		It "can find partial name match" {
-			$a = LookupAcquisition "clue"
-			$a.Result | should be "Cryptic Clue"
-		}
-		It "can find specific result match" {
-			$a = LookupAcquisition "Working on..."
-			$a.Name | should be "StartNovel"
-		}
-	}
-}
-
 
 function Sources
 {
@@ -400,90 +314,6 @@ function TestPossessionData
 	}
 }
 
-if( $script:runtests )
-{
-	Describe "Require" {
-
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "" "Dangerous" 100),
-				(TestPossessionData "Mysteries" "Cryptic Clue" 10),
-				(TestPossessionData "Menaces" "Nightmares" 5)
-			)
-		};
-		It "performs action regardless if level is null" {
-			$result = Require "Menaces" "Wounds" -dryRun
-			$script:actionHistory.Length | should be 1
-			$script:actionHistory[0] | should be "lodgings,wounds,time,1"
-			$script:actionHistory = @()
-		}
-		It "can tag specific acquisition to run in requirements" {
-			$result = Require "Circumstance" "Working on..." 100 "StartShortStory" -dryRun
-			$script:actionHistory.Length | should be 1
-			$script:actionHistory[0] | should be "veilgarden,begin a work,short story"
-			$script:actionHistory = @()
-		}
-		It "can tag another specific acquisition to run in requirements" {
-			$result = Require "Circumstance" "Working on..." 100 "StartNovel" -dryRun
-			$script:actionHistory.Length | should be 1
-			$script:actionHistory[0] | should be "empresscourt,next work,novel"
-			$script:actionHistory = @()
-		}
-		It "noops if you already have the possession" {
-
-			$result = Require "Mysteries" "Cryptic Clue" 5 -dryRun
-			$script:actionHistory.length | should be 0
-			$result | should be $true
-		}
-		It "noops if you have exact count" {
-
-			$result = Require "Mysteries" "Cryptic Clue" "=10" -dryRun
-			$script:actionHistory.length | should be 0
-			$result | should be $true
-		}
-		It "noops if you haven't got enough menaces" {
-
-			$result = Require "Menaces" "Nightmares" "<8" -dryRun
-			$script:actionHistory.length | should be 0
-			$result | should be $true
-		}
-		It "acquires if you dont have enough of the possession" {
-
-			$result = Require "Mysteries" "Cryptic Clue" 15 "Cryptic Clue" -dryRun
-			$script:actionHistory.length | should be 1
-			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"
-			$result | should be $false
-			$script:actionHistory = @()
-		}
-		It "acquires if possession not found" {
-
-			$result = Require "Menaces" "Scandal" 15 -dryRun
-			$script:actionHistory.length | should be 1
-			$script:actionHistory[0] | should be "lodgings,scandal,service"
-			$result | should be $false
-			$script:actionHistory = @()
-		}
-		It "acquires if you dont have exact count" {
-			$result = Require "Mysteries" "Cryptic Clue" 15 -dryRun
-			$script:actionHistory.length | should be 1
-			$script:actionHistory[0] | should be "flit,its king,meeting,understand"
-			$result | should be $false
-			$script:actionHistory = @()
-		}
-
-		It "reduces menaces if you have too much, which cascades to getting clues" {
-			$script:actionHistory = @()
-			$result = Require "Menaces" "Nightmares" "<5" -dryRun
-			$script:actionHistory.length | should be 1
-			$script:actionHistory[0] | should be "flit,its king,meeting,understand"
-			$result | should be $false
-		}
-		$script:actionHistory = @()
-		$script:myself = $null
-	}
-}
-
-
 function SetPossessionLevel
 {
 	param( $category, $name, [int]$level )
@@ -501,88 +331,6 @@ function SetPossessionLevel
 			"category" = $category;
 			"effectiveLevel" = $level;
 			"level" = $level;
-		}
-	}
-}
-
-if($script:runTests)
-{
-	Describe "GetCostforSource" {
-		It "knows how to get 1000 romantic notions" {
-			SetPossessionLevel "Nostalgia" "Romantic Notion" 0
-			SetPossessionLevel "Nostalgia" "Drop of Prisoner's Honey" 0
-			$sources = Sources "Romantic Notion"
-			GetCostForSource $sources[0] 1000 -force | should be 110
-		}
-		It "knows how to get 500 hints" {
-			SetPossessionLevel "Mysteries" "Whispered hint" 0
-			$sources = Sources "Whispered Hint"
-			GetCostForSource $sources[0] 500 -force | should be 8
-		}
-		It "includes prereq cost" {
-			SetPossessionLevel "Mysteries" "Whispered hint" 0
-			$sources = Sources "Cryptic Clue"
-			GetCostForSource $sources[0] 1 -force | should be 1
-			GetCostForSource $sources[1] 1 -force | should be 9
-		}
-		It "accounts for existing inventory" {
-			SetPossessionLevel "Mysteries" "Whispered hint" 499
-			$sources = Sources "Cryptic Clue"
-			GetCostForSource $sources[0] 1 -force | should be 1
-			GetCostForSource $sources[1] 1 -force | should be 2
-		}
-	}
-}
-
-if($script:runTests)
-{
-	Describe "ActionCost" {
-		It "returns 1 if not in inventory and missing exactly reward" {
-			SetPossessionLevel "Mysteries" "Whispered hint" 0
-			$c = ActionCost "Mysteries" "Whispered Hint" 66 -force
-			$c.Cost | should be 1
-			$c.Action | should be "flit,its king,meeting,understand"
-		}
-		It "returns 2 if not in inventory and requesting exactly one more than reward" {
-			SetPossessionLevel "Mysteries" "Whispered hint" 0
-			$c = ActionCost "Mysteries" "Whispered Hint" 67 -force
-			$c.Cost | should be 2
-			$c.Action | should be "flit,its king,meeting,understand"
-		}
-		It "returns 1 if one in inventory and requesting exactly one more than reward" {
-			SetPossessionLevel "Mysteries" "Whispered hint" 1
-			$c = ActionCost "Mysteries" "Whispered Hint" 67 -force
-			$c.Cost | should be 1
-			$c.Action | should be "flit,its king,meeting,understand"
-		}
-	}
-	Describe "Sources" {
-		It "can get sources for item" {
-			$sources = Sources "Cryptic Clue" | sort-object Name
-			$sources.Count | should be 2
-			$sources[0].Name | should be "DefaultMysteries1Cryptic Clue"
-			$sources[1].Name | should be "more Cryptic Clue"
-		}
-	}
-
-	Describe "ActionCost with Sources" {
-		It "uses the fastest source to get answer" {
-			SetPossessionLevel "Mysteries" "Cryptic Clue" 0
-			SetPossessionLevel "Mysteries" "Whispered hint" 499
-			$c = ActionCost "Mysteries" "Cryptic Clue" 1 -force
-			$c.Cost | should be 1
-			$c.Action | should be "spite,unfinished business,Eavesdropping"
-
-			$c = ActionCost "Mysteries" "Cryptic Clue" 200 -force
-			$c.Cost | should be 2
-			$c.Action | should be "inventory,Mysteries,Whispered Hint,combine"
-		}
-		It "gives correct cost when prereq is partially fulfilled" {
-			AddAcquisition "Hand" "Hand" "get hand" 1 @("Curiosity,Finger,5")
-			AddAcquisition "Finger" "Finger" "get finger" 1
-			SetPossessionLevel "Curiosity" "Finger" 3
-			$c = ActionCost "Curiosity" "Hand" 2 -force
-			$c.Cost | should be 9
 		}
 	}
 }
