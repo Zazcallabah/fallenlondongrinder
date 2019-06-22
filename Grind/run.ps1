@@ -534,14 +534,14 @@ if($script:runTests)
 	}
 
 
-	Describe "PerformAction" {
-		It "can perform one action" {
-			$event = EnterStorylet $null "write letters"
-			$result = PerformAction $event "arrange"
-			$result.Phase | should be "End"
-			$result.actions | should not be $null
-		}
-	}
+	# Describe "PerformAction" {
+	# 	It "can perform one action" {
+	# 		$event = EnterStorylet $null "write letters"
+	# 		$result = PerformAction $event "arrange"
+	# 		$result.Phase | should be "End"
+	# 		$result.actions | should not be $null
+	# 	}
+	# }
 
 	# Describe "PerformActions" {
 	# It "can perform multiple actions" {

@@ -466,17 +466,17 @@ if( $script:runtests )
 		It "acquires if you dont have exact count" {
 			$result = Require "Mysteries" "Cryptic Clue" 15 -dryRun
 			$script:actionHistory.length | should be 1
-			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"
+			$script:actionHistory[0] | should be "flit,its king,meeting,understand"
 			$result | should be $false
 			$script:actionHistory = @()
 		}
 
 		It "reduces menaces if you have too much, which cascades to getting clues" {
+			$script:actionHistory = @()
 			$result = Require "Menaces" "Nightmares" "<5" -dryRun
 			$script:actionHistory.length | should be 1
-			$script:actionHistory[0] | should be "spite,Alleys,Cats,grey"
+			$script:actionHistory[0] | should be "flit,its king,meeting,understand"
 			$result | should be $false
-			$script:actionHistory = @()
 		}
 		$script:actionHistory = @()
 		$script:myself = $null
@@ -558,10 +558,10 @@ if($script:runTests)
 	}
 	Describe "Sources" {
 		It "can get sources for item" {
-			$sources = Sources "Cryptic Clue"
+			$sources = Sources "Cryptic Clue" | sort-object Name
 			$sources.Count | should be 2
-			$sources[0].Name | should be "Cryptic Clue"
-			$sources[1].Name | should be "DefaultMysteries1Cryptic Clue"
+			$sources[0].Name | should be "DefaultMysteries1Cryptic Clue"
+			$sources[1].Name | should be "more Cryptic Clue"
 		}
 	}
 
@@ -571,7 +571,7 @@ if($script:runTests)
 			SetPossessionLevel "Mysteries" "Whispered hint" 499
 			$c = ActionCost "Mysteries" "Cryptic Clue" 1 -force
 			$c.Cost | should be 1
-			$c.Action | should be "spite,Alleys,Cats,Grey"
+			$c.Action | should be "spite,unfinished business,Eavesdropping"
 
 			$c = ActionCost "Mysteries" "Cryptic Clue" 200 -force
 			$c.Cost | should be 2
