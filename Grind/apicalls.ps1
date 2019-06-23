@@ -71,6 +71,7 @@ function Post
 	return $result
 }
 
+$script:mapCache = $null
 function GetMap
 {
 	if( $script:mapCache -eq $null )
@@ -81,6 +82,7 @@ function GetMap
 }
 
 $script:locations = @{
+	"New Newgate Prison" = 1;
 	"Your Lodgings" = 2;
 	"Ladybones Road" = 4;
 	"Watchmakers Hill" = 5;
@@ -182,6 +184,7 @@ function UseQuality
 	return $result
 }
 
+$script:user = $null
 function User
 {
 	if( $script:user -eq $null )
@@ -191,6 +194,7 @@ function User
 	return $script:user
 }
 
+$script:plans = $null
 function Plans
 {
 	if( $script:plans -eq $null )
@@ -216,6 +220,7 @@ function ExistsPlan
 	return $hit.Count -gt 0
 }
 
+$script:myself = $null
 function Myself
 {
 	if( $script:myself -eq $null )
