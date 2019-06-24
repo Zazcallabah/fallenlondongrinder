@@ -21,6 +21,11 @@ function Register
 		$script:RegisteredTokens.Add($email,(Login $email $pass))
 	}
 	$script:cachedToken = $script:RegisteredTokens[$email]
+	$script:mapCache = $null
+	$script:user = $null
+	$script:shopInventories = $null
+	$script:plans = $null
+	$script:myself = $null
 }
 
 function Login
@@ -301,4 +306,16 @@ function DeletePlan
 	{
 		throw "bad result deleting plan $($id): $plan"
 	}
+}
+
+function EquipOutfit
+{
+	param( [int]$id )
+	Post -href "outfit/equip/$($id)"
+}
+
+function UnequipOutfit
+{
+	param( [int]$id )
+	Post -href "outfit/unequip/$($id)"
 }
