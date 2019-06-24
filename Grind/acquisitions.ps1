@@ -82,7 +82,7 @@ function Acquire
 		return $false
 	}
 	$actionResult = DoAction $actionStr
-	return $false;
+	return $actionResult;
 }
 
 function LookupAcquisition
@@ -302,7 +302,7 @@ function Require
 
 	$result = Acquire $acq.Action -dryRun:$dryRun
 
-	return $false
+	return $result
 }
 
 function TestPossessionData

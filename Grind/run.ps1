@@ -408,7 +408,7 @@ function DoAction
 
 	if( $list -eq $null )
 	{
-		return
+		return $false
 	}
 
 	$list = MoveIfNeeded $list $action.location
@@ -472,6 +472,7 @@ function RunActions
 			ForEach( $action in $actions )
 			{
 				$hasActionsLeft = DoAction $action
+				write-host "has actions left: $hasactionsleft"
 				if( !$hasActionsLeft )
 				{
 					return
