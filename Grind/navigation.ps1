@@ -112,6 +112,20 @@ function GetPossession
 	return $possessions | ?{ $_.name -match $name } | select -first 1
 }
 
+function Equip
+{
+	param( $name )
+	$item = GetPossession $name
+	EquipOutfit $item.id
+}
+
+function Unequip
+{
+	param( $name )
+	$item = GetPossession $name
+	UnequipOutfit $item.id
+}
+
 function GetChildBranch
 {
 	param($childBranches, $name)
