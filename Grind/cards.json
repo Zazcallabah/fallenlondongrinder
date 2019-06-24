@@ -97,6 +97,14 @@
 			"action":"glim"
 		},
 		{
+			"name":"-SUNLESS SEA- Intruding upon Ratty Larceny",
+			"action":"Constables"
+		},
+		{
+			"name":"A Small Hint",
+			"action":"1"
+		},
+		{
 			"name": "All fear the Overgoat!",
 			"action": "Learn"
 		}
@@ -135,6 +143,7 @@
 		"A fair sized job for the right cracksman",
 		"A letter from your aunt",
 		"Gold frame, black painting",
-		"Make Friends with a Young Stag"
+		"Make Friends with a Young Stag",
+		"A Sporting Sort"
 	]
 }

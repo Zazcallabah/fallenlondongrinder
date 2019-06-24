@@ -1,0 +1,6 @@
+require,Route,Route: Lodgings,1,RentLodgings
+require,Goods,Piece of Rostygold,100,RostygoldMedusa
+require,Clothing,Bundle of Ragged Clothing,<1,SellRaggedClothing
+require,Hat,Prisoner's Mask,<1,SellPrisonersMask
+require,Gloves,Pair of Iron Manacles,<1,SellManacles
+require,Boots,Pair of Leg Irons,<1,SellLegIrons

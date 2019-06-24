@@ -1,4 +1,4 @@
-param([switch]$force,[switch]$noaction)
+param([switch]$force)
 
 if( $env:LOGIN_EMAIL -eq $null -or $env:LOGIN_PASS -eq $null )
 {
@@ -9,15 +9,16 @@ if($env:Home -eq $null)
 {
 	. $PSScriptRoot/acquisitions.ps1
 	$script:CardActions = gc -Raw $PSScriptRoot/cards.json | ConvertFrom-Json
+	$script:LockedAreas = gc -Raw $PSScriptRoot/lockedareas.json | ConvertFrom-Json
+	$automaton = gc $PSScriptRoot/automaton.csv
 }
 else
 {
 	. ${env:HOME}/site/wwwroot/Grind/acquisitions.ps1
 	$script:CardActions = gc -Raw ${env:HOME}/site/wwwroot/Grind/cards.json | ConvertFrom-Json
+	$script:LockedAreas = gc -Raw ${env:HOME}/site/wwwroot/Grind/lockedareas.json | ConvertFrom-Json
+	$automaton = gc ${env:HOME}/site/wwwroot/Grind//automaton.csv
 }
-
-
-Register $env:LOGIN_EMAIL $env:LOGIN_PASS
 
 $script:actions = @(
 	#"veilgarden,archaeology,1" persuasive 31 shreik
@@ -320,6 +321,22 @@ function HandleLockedArea
 		# todo add handling of special circumstances here
 		# like tomb colonies, prison, sailing, etc
 
+		# user.area.id/name or user.setting.name?
+		# Imprisoned - New Newgate Prison
+
+		$areaData = $script:LockedAreas."$((User).setting.name)"
+
+		ForEach( $actionstr in $areaData.require )
+		{
+			$action = ParseActionString $actionstr
+			$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
+			if( !$hasActionsLeft )
+			{
+				return $false
+			}
+		}
+
+		return $true
 	}
 	return $true
 }
@@ -345,6 +362,16 @@ function DoAction
 	elseif( $action.location -eq "sell" )
 	{
 		$result = SellPossession $action.first $action.second
+		return $true
+	}
+	elseif( $action.location -eq "equip" )
+	{
+		$result = Equip $action.first
+		return $true
+	}
+	elseif( $action.location -eq "unequip" )
+	{
+		$result = Unequip $action.first
 		return $true
 	}
 	elseif( $action.location -eq "cascade" )
@@ -406,8 +433,10 @@ function DoAction
 	return $false
 }
 
-if(!$noAction)
+function RunActions
 {
+	param($actions)
+
 	if( HasActionsToSpare )
 	{
 		$hasActionsLeft = HandleLockedArea
@@ -434,6 +463,39 @@ if(!$noAction)
 			return
 		}
 
-		DoAction (Get-Action ([DateTime]::UtcNow))
+		if( $actions -eq $null )
+		{
+			DoAction (Get-Action ([DateTime]::UtcNow))
+		}
+		else
+		{
+			ForEach( $action in $actions )
+			{
+				$hasActionsLeft = DoAction $action
+				if( !$hasActionsLeft )
+				{
+					return
+				}
+			}
+		}
 	}
 }
+
+Register $env:LOGIN_EMAIL $env:LOGIN_PASS
+RunActions
+
+if( $env:SECOND_EMAIL -ne $null -and $env:SECOND_PASS -ne $null )
+{
+
+# equip blemmigan
+# grind to what, 10? in each stat
+# handle payment, get a job - this probably needs to be a separate function
+# find carneval, unlock all renown possible, avoid unlocking favours yet?
+# start adding grinds for all making your name stuff
+# make sure menaces grinding is available
+# find early money grind, make sure menaces are covered
+
+	Register $env:SECOND_EMAIL $env:SECOND_PASS
+	RunActions $automaton
+}
+
