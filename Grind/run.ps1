@@ -1,4 +1,4 @@
-param([switch]$force)
+param([switch]$force,[switch]$noaction)
 
 if( $env:LOGIN_EMAIL -eq $null -or $env:LOGIN_PASS -eq $null )
 {
@@ -504,6 +504,11 @@ function RunActions
 			}
 		}
 	}
+}
+
+if( $noaction )
+{
+	return
 }
 
 Register $env:LOGIN_EMAIL $env:LOGIN_PASS
