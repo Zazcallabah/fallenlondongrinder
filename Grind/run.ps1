@@ -17,7 +17,7 @@ else
 	. ${env:HOME}/site/wwwroot/Grind/acquisitions.ps1
 	$script:CardActions = gc -Raw ${env:HOME}/site/wwwroot/Grind/cards.json | ConvertFrom-Json
 	$script:LockedAreas = gc -Raw ${env:HOME}/site/wwwroot/Grind/lockedareas.json | ConvertFrom-Json
-	$automaton = gc ${env:HOME}/site/wwwroot/Grind//automaton.csv
+	$automaton = gc ${env:HOME}/site/wwwroot/Grind/automaton.csv
 }
 
 $script:actions = @(
@@ -433,9 +433,31 @@ function DoAction
 	return $false
 }
 
+function CycleArray
+{
+	param($arr,[int]$ix)
+	if( $arr -eq $null)
+	{
+		return @()
+	}
+	$length = $arr.length
+	if( $length -eq 0 )
+	{
+		return $arr
+	}
+	$ix = $ix % $length
+	if( $ix -eq 0 )
+	{
+		return $arr
+	}
+	$tail = $arr[(-1*($length-$ix))..-1]
+	$head = $arr[0..($ix-1)]
+	return @($tail)+@($head)
+}
+
 function RunActions
 {
-	param($actions)
+	param($actions,$startIndex)
 
 	if( HasActionsToSpare )
 	{
@@ -469,7 +491,9 @@ function RunActions
 		}
 		else
 		{
-			ForEach( $action in $actions )
+
+			$actionsOrder = CycleArray $actions $startIndex
+			ForEach( $action in $actionsOrder )
 			{
 				$hasActionsLeft = DoAction $action
 				write-host "has actions left: $hasactionsleft"
@@ -483,7 +507,7 @@ function RunActions
 }
 
 Register $env:LOGIN_EMAIL $env:LOGIN_PASS
-RunActions
+RunActions $script:actions ([DateTime]::UtcNow.DayOfYear)
 
 if( $env:SECOND_EMAIL -ne $null -and $env:SECOND_PASS -ne $null )
 {
