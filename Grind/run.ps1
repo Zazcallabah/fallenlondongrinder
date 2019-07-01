@@ -374,20 +374,6 @@ function DoAction
 		$result = Unequip $action.first
 		return $true
 	}
-	elseif( $action.location -eq "cascade" )
-	{
-		$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
-		if($hasActionsLeft)
-		{
-			if( $index -ge $script:actions.Length )
-			{
-				return $false
-			}
-			$result = DoAction (Get-Action ([DateTime]::UtcNow) $index) ($index+1)
-			return $result
-		}
-		return $false
-	}
 	elseif( $action.location -eq "require" )
 	{
 		$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
@@ -485,22 +471,14 @@ function RunActions
 			return
 		}
 
-		if( $actions -eq $null )
+		$actionsOrder = CycleArray $actions $startIndex
+		ForEach( $action in $actionsOrder )
 		{
-			DoAction (Get-Action ([DateTime]::UtcNow))
-		}
-		else
-		{
-
-			$actionsOrder = CycleArray $actions $startIndex
-			ForEach( $action in $actionsOrder )
+			$hasActionsLeft = DoAction $action
+			write-host "has actions left: $hasactionsleft"
+			if( !$hasActionsLeft )
 			{
-				$hasActionsLeft = DoAction $action
-				write-host "has actions left: $hasactionsleft"
-				if( !$hasActionsLeft )
-				{
-					return
-				}
+				return
 			}
 		}
 	}
