@@ -76,7 +76,10 @@ function Post
 		$content = Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method | select -ExpandProperty Content
 	}
 
-	Write-Debug "result: $content"
+	if( $href -ne "login/user" )
+	{
+		Write-Debug "result: $content"
+	}
 
 	$result = $content | ConvertFrom-Json
 	return $result
@@ -293,6 +296,13 @@ function ChooseBranch
 	if( $event.endStorylet )
 	{
 		Write-Verbose "EndStorylet: $($event.endStorylet.event.name) -> $($event.endStorylet.event.description)"
+	}
+	if( $event.messages )
+	{
+		if( $event.messages.defaultMessages )
+		{
+			$event.messages.defaultMessages | %{ Write-Verbose "message: $($_.message)" }
+		}
 	}
 	return $event
 }
