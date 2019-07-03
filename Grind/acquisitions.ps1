@@ -287,7 +287,7 @@ function Require
 
 	if( $acq -eq $null )
 	{
-		throw "no way to get $category $name found in acquisitions.json"
+		throw "no way to get $category $name found in acquisitions list"
 	}
 
 	foreach( $prereq in $acq.Prerequisites )
