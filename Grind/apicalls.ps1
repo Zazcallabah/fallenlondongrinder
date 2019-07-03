@@ -66,12 +66,27 @@ function Post
 	$uri = "https://api.fallenlondon.com/api/$href"
 	if($payload -ne $null )
 	{
-		$content = $payload | ConvertTo-Json -Depth 99 | Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method | select -ExpandProperty Content
+		$postdata = $payload | ConvertTo-Json -Depth 99 -Compress
+		if( $env:FL_VERBOSE )
+		{
+			Write-Host "$method $href : $postdata"
+		}
+		$content = $postdata | Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method | select -ExpandProperty Content
 	}
 	else
 	{
+		if( $env:FL_VERBOSE )
+		{
+			Write-Host "$method $href"
+		}
 		$content = Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method | select -ExpandProperty Content
 	}
+
+	if( $env:FL_VERBOSE )
+	{
+		Write-Host "result: $content"
+	}
+
 	$result = $content | ConvertFrom-Json
 	return $result
 }
