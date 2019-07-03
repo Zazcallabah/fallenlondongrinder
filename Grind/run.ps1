@@ -221,6 +221,11 @@ function Cards
 
 function EarnestPayment
 {
+	$hasActionsLeft = HandleProfession
+	if( !$hasActionsLeft )
+	{
+		return $false
+	}
 	return Require "Curiosity" "An Earnest of Payment" "<1" "Payment"
 }
 
@@ -308,6 +313,54 @@ function CheckMenaces
 	return $true
 }
 
+
+function HandleProfession
+{
+	$profession = GetPossession "Major Laterals" "Profession"
+
+	if( $profession -ne $null -and ($profession.level -lt 7 -or $profession.level -gt 10) )
+	{
+		return $true
+	}
+
+	$filterLevels = @{
+		7 = "Dangerous";
+		8 = "Persuasive";
+		9 = "Shadowy";
+		10 = "Watchful";
+	}
+
+	if( $profession -ne $null )
+	{
+		$basicAbility = GetPossession "Basic" $filterLevels[$profession.level]
+		if( $basicAbility.effectiveLevel -le 70 )
+		{
+			return $true
+		}
+		$result = DoAction "lodgings,Write Letters,Choose a new Profession"
+	}
+
+	$professions = @{
+		"Dangerous" = "Tough";
+		"Persuasive" = "Minor Poet";
+		"Shadowy" = "Pickpocket";
+		"Watchful" = "Enquirer";
+	}
+
+	ForEach( $statName in $professions.Keys )
+	{
+		$basic = GetPossession "Basic" $statName
+		if( $basic.effectiveLevel -le 70 )
+		{
+			$jobname = $professions[$statName]
+			$result = DoAction "lodgings,Adopt a Training Profession,$($jobname)"
+			return $false
+		}
+	}
+
+	return $true
+}
+
 function HandleLockedArea
 {
 	if( (User).setting -ne $null -and !(User).setting.canTravel )
@@ -388,6 +441,11 @@ function DoAction
 	{
 		$result = GrindMoney
 		return $false
+	}
+	elseif( $action.location -eq "handle_profession" )
+	{
+		$result = HandleProfession
+		return $result
 	}
 
 	$list = GoBackIfInStorylet
