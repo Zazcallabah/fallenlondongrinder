@@ -67,25 +67,16 @@ function Post
 	if($payload -ne $null )
 	{
 		$postdata = $payload | ConvertTo-Json -Depth 99 -Compress
-		if( $env:FL_VERBOSE )
-		{
-			Write-Host "$method $href : $postdata"
-		}
+		Write-Debug "$method $href : $postdata"
 		$content = $postdata | Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method | select -ExpandProperty Content
 	}
 	else
 	{
-		if( $env:FL_VERBOSE )
-		{
-			Write-Host "$method $href"
-		}
+		Write-Debug "$method $href"
 		$content = Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method | select -ExpandProperty Content
 	}
 
-	if( $env:FL_VERBOSE )
-	{
-		Write-Host "result: $content"
-	}
+	Write-Debug "result: $content"
 
 	$result = $content | ConvertFrom-Json
 	return $result
@@ -284,6 +275,10 @@ function BeginStorylet
 	{
 		throw "bad result at begin storylet $($id): $event"
 	}
+	if( $event.storylet )
+	{
+		Write-Verbose "BeginStorylet: $($event.storylet.name) -> $($event.storylet.description)"
+	}
 	return $event
 }
 
@@ -294,6 +289,10 @@ function ChooseBranch
 	if($event.isSuccess -ne $true)
 	{
 		throw "bad result at chosebranch $($id): $event"
+	}
+	if( $event.endStorylet )
+	{
+		Write-Verbose "EndStorylet: $($event.endStorylet.event.name) -> $($event.endStorylet.event.description)"
 	}
 	return $event
 }
