@@ -13,9 +13,9 @@
 		"Name": "Archaeologist's Progress",
 		"Result": "Archaeologist's Progress",
 		"Prerequisites": [
+			"Academic,Judgements' Egg,<1,SellJudgementsEgg",
 			"Circumstance,An Expedition,=11,Silk adventure",
-			"Stories,Rivals' Progress,<10,Lugubrious Seamstress Rivals' Progress",
-			"Academic,Judgements' Egg,<1,SellJudgementsEgg"
+			"Stories,Rivals' Progress,<10,Lugubrious Seamstress Rivals' Progress"
 		],
 		"Action": "forgotten quarter,Archaeological Expedition,silken thread/sign/bold"
 	},

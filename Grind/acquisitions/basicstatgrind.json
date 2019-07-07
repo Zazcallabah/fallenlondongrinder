@@ -28,7 +28,7 @@
 		"Name": "GrindWatchful",
 		"Result": "Watchful",
 		"Prerequisites": [
-			"Progress,Archaeologist's Progress,31"
+			"Progress,Archaeologist's Progress,99"
 		],
 		"Action": "forgotten quarter,prepare,rumours"
 	}
