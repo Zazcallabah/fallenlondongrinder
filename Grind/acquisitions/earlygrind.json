@@ -43,6 +43,42 @@
 		"Action": "sell,Pair of Leg Irons,1"
 	},
 
+	"Courierjob": {
+		"Name": "Courierjob",
+		"Result": "Moon-pearl",
+		"Reward": 20,
+		"Prerequisites": [
+		],
+		"Action":"spite,alleys,Courier's work,Attempt a short cut"
+	},
+
+	"MakeNameWhisperedInDarkness1": {
+		"Name": "MakeNameWhisperedInDarkness1",
+		"Result": "MakeNameWhisperedInDarkness1",
+		"Prerequisites": [
+			"Basic,Shadowy,6,Courierjob",
+			"Stories,A Name Whispered in Darkness,<1"
+		],
+		"Action":"spite,alleys,intercept,Making your name"
+	},
+
+	"CatCatcher": {
+		"Name": "CatCatcher",
+		"Result": "CatCatcher",
+		"Prerequisites": [
+			"Stories,A Name Whispered in Darkness,=1,MakeNameWhisperedInDarkness1",
+			"Mysteries,Whispered Hint,250,MakeNameHints"
+		],
+		"Action": "spite,alleys,cats of spite,making your name"
+	},
+
+	"MakeNameHints": {
+		"Name": "MakeNameHints",
+		"Result": "Whispered Hint",
+		"Prerequisites": [
+		],
+		"Action": "ladybones,study the secrets,listen to gossip"
+	},
 
 	"RostygoldMedusa": {
 		"Name": "RostygoldMedusa",

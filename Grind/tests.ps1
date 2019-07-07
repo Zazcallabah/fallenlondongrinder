@@ -1,5 +1,44 @@
 . ./run.ps1 -noaction
 
+Describe "CycleArray" {
+	It "handles array is null" {
+		CycleArray $null 0 | should be @()
+	}
+	It "handles empty array" {
+		CycleArray @() 0 | should be @()
+	}
+	It "handles size 1 array" {
+		CycleArray @("a") 0 | should be @("a")
+	}
+	It "handles index is null" {
+		CycleArray @("a","b") $null | should be @("a","b")
+	}
+	It "handles 2 size array index is 0" {
+		CycleArray @("a","b") 0 | should be @("a","b")
+	}
+	It "handles 2 size array index is 1" {
+		CycleArray @("a","b") 1 | should be @("b","a")
+	}
+	$arr = @(
+		"action,1"
+		"action,2"
+		"action,3"
+		"action,4"
+	)
+	It "handles array index is 2" {
+		CycleArray $arr 2 | should be @("action,3","action,4","action,1","action,2")
+	}
+	It "handles array index is 3" {
+		CycleArray $arr 3 | should be @("action,4","action,1","action,2","action,3")
+	}
+	It "handles array index is 4" {
+		CycleArray $arr 4 | should be @("action,1","action,2","action,3","action,4")
+	}
+	It "handles array index is 5" {
+		CycleArray $arr 5 | should be @("action,2","action,3","action,4","action,1")
+	}
+}
+
 Describe "GetLocationId" {
 	It "can fetch location not in local cache" {
 		GetLocationId "flit" | should be 11

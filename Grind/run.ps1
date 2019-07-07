@@ -1,4 +1,4 @@
-param([switch]$force)
+param([switch]$force,[switch]$noaction)
 
 if( $env:LOGIN_EMAIL -eq $null -or $env:LOGIN_PASS -eq $null )
 {
@@ -17,7 +17,7 @@ else
 	. ${env:HOME}/site/wwwroot/Grind/acquisitions.ps1
 	$script:CardActions = gc -Raw ${env:HOME}/site/wwwroot/Grind/cards.json | ConvertFrom-Json
 	$script:LockedAreas = gc -Raw ${env:HOME}/site/wwwroot/Grind/lockedareas.json | ConvertFrom-Json
-	$automaton = gc ${env:HOME}/site/wwwroot/Grind//automaton.csv
+	$automaton = gc ${env:HOME}/site/wwwroot/Grind/automaton.csv
 }
 
 $script:actions = @(
@@ -35,23 +35,23 @@ $script:actions = @(
 	#"empresscourt,Matters,artistically"
 	#"spite,casing,gather"
 	#"writing"
-#	"cascade,Stories,A Fearsome Duelist,5,Duel Fencing"
+#	"require,Stories,A Fearsome Duelist,5,Duel Fencing"
 
-#	"cascade,Progress,Casing...,5,PrepBaseborn"
-#	"cascade,Basic,Persuasive,200,GrindPersuasive"
-	"cascade,Basic,Shadowy,200,GrindShadowy"
-	"cascade,Basic,Watchful,200,GrindWatchful"
-	"cascade,Basic,Dangerous,200,GrindDangerous"
-#	"cascade,Progress,Casing...,13"
-	"cascade,Progress,Archaeologist's Progress,31"
-	"cascade,Stories,A Procurer of Savage Beasts,4,HuntGoat"
-#	"cascade,Progress,The Hunt is on,19"
-	"cascade,Stories,Tales of Mahogany Hall,22"
-	"cascade,Elder,Presbyterate Passphrase,9"
-	"cascade,Progress,Running Battle,20"
-	"cascade,Nostalgia,Bazaar Permit,1"
-	"cascade,Curiosity,First City Coin,77"
-	"cascade,Currency,Penny,10000,Penny"
+#	"require,Progress,Casing...,5,PrepBaseborn"
+#	"require,Basic,Persuasive,200,GrindPersuasive"
+	"require,Basic,Shadowy,200,GrindShadowy"
+	"require,Basic,Watchful,200,GrindWatchful"
+	"require,Basic,Dangerous,200,GrindDangerous"
+#	"require,Progress,Casing...,13"
+	"require,Progress,Archaeologist's Progress,31"
+	"require,Stories,A Procurer of Savage Beasts,4,HuntGoat"
+#	"require,Progress,The Hunt is on,19"
+	"require,Stories,Tales of Mahogany Hall,22"
+	"require,Elder,Presbyterate Passphrase,9"
+	"require,Progress,Running Battle,20"
+	"require,Nostalgia,Bazaar Permit,1"
+	"require,Curiosity,First City Coin,77"
+	"require,Currency,Penny,10000,Penny"
 )
 
 
@@ -221,6 +221,11 @@ function Cards
 
 function EarnestPayment
 {
+	$hasActionsLeft = HandleProfession
+	if( !$hasActionsLeft )
+	{
+		return $false
+	}
 	return Require "Curiosity" "An Earnest of Payment" "<1" "Payment"
 }
 
@@ -308,6 +313,54 @@ function CheckMenaces
 	return $true
 }
 
+
+function HandleProfession
+{
+	$profession = GetPossession "Major Laterals" "Profession"
+
+	if( $profession -ne $null -and ($profession.level -lt 7 -or $profession.level -gt 10) )
+	{
+		return $true
+	}
+
+	$filterLevels = @{
+		7 = "Dangerous";
+		8 = "Persuasive";
+		9 = "Shadowy";
+		10 = "Watchful";
+	}
+
+	if( $profession -ne $null )
+	{
+		$basicAbility = GetPossession "Basic" $filterLevels[$profession.level]
+		if( $basicAbility.effectiveLevel -le 70 )
+		{
+			return $true
+		}
+		$result = DoAction "lodgings,Write Letters,Choose a new Profession"
+	}
+
+	$professions = @{
+		"Dangerous" = "Tough";
+		"Persuasive" = "Minor Poet";
+		"Shadowy" = "Pickpocket";
+		"Watchful" = "Enquirer";
+	}
+
+	ForEach( $statName in $professions.Keys )
+	{
+		$basic = GetPossession "Basic" $statName
+		if( $basic.effectiveLevel -le 70 )
+		{
+			$jobname = $professions[$statName]
+			$result = DoAction "lodgings,Adopt a Training Profession,$($jobname)"
+			return $false
+		}
+	}
+
+	return $true
+}
+
 function HandleLockedArea
 {
 	if( (User).setting -ne $null -and !(User).setting.canTravel )
@@ -374,20 +427,6 @@ function DoAction
 		$result = Unequip $action.first
 		return $true
 	}
-	elseif( $action.location -eq "cascade" )
-	{
-		$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
-		if($hasActionsLeft)
-		{
-			if( $index -ge $script:actions.Length )
-			{
-				return $false
-			}
-			$result = DoAction (Get-Action ([DateTime]::UtcNow) $index) ($index+1)
-			return $result
-		}
-		return $false
-	}
 	elseif( $action.location -eq "require" )
 	{
 		$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
@@ -402,6 +441,11 @@ function DoAction
 	{
 		$result = GrindMoney
 		return $false
+	}
+	elseif( $action.location -eq "handle_profession" )
+	{
+		$result = HandleProfession
+		return $result
 	}
 
 	$list = GoBackIfInStorylet
@@ -433,9 +477,31 @@ function DoAction
 	return $false
 }
 
+function CycleArray
+{
+	param($arr,[int]$ix)
+	if( $arr -eq $null)
+	{
+		return @()
+	}
+	$length = $arr.length
+	if( $length -eq 0 )
+	{
+		return $arr
+	}
+	$ix = $ix % $length
+	if( $ix -eq 0 )
+	{
+		return $arr
+	}
+	$tail = $arr[(-1*($length-$ix))..-1]
+	$head = $arr[0..($ix-1)]
+	return @($tail)+@($head)
+}
+
 function RunActions
 {
-	param($actions)
+	param($actions,$startIndex)
 
 	if( HasActionsToSpare )
 	{
@@ -463,27 +529,26 @@ function RunActions
 			return
 		}
 
-		if( $actions -eq $null )
+		$actionsOrder = CycleArray $actions $startIndex
+		ForEach( $action in $actionsOrder )
 		{
-			DoAction (Get-Action ([DateTime]::UtcNow))
-		}
-		else
-		{
-			ForEach( $action in $actions )
+			$hasActionsLeft = DoAction $action
+			write-host "has actions left: $hasactionsleft"
+			if( !$hasActionsLeft )
 			{
-				$hasActionsLeft = DoAction $action
-				write-host "has actions left: $hasactionsleft"
-				if( !$hasActionsLeft )
-				{
-					return
-				}
+				return
 			}
 		}
 	}
 }
 
+if( $noaction )
+{
+	return
+}
+
 Register $env:LOGIN_EMAIL $env:LOGIN_PASS
-RunActions
+RunActions $script:actions ([DateTime]::UtcNow.DayOfYear)
 
 if( $env:SECOND_EMAIL -ne $null -and $env:SECOND_PASS -ne $null )
 {

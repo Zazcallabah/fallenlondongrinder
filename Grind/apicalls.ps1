@@ -66,12 +66,21 @@ function Post
 	$uri = "https://api.fallenlondon.com/api/$href"
 	if($payload -ne $null )
 	{
-		$content = $payload | ConvertTo-Json -Depth 99 | Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method | select -ExpandProperty Content
+		$postdata = $payload | ConvertTo-Json -Depth 99 -Compress
+		Write-Debug "$method $href : $postdata"
+		$content = $postdata | Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method | select -ExpandProperty Content
 	}
 	else
 	{
+		Write-Debug "$method $href"
 		$content = Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method | select -ExpandProperty Content
 	}
+
+	if( $href -ne "login/user" )
+	{
+		Write-Debug "result: $content"
+	}
+
 	$result = $content | ConvertFrom-Json
 	return $result
 }
@@ -269,6 +278,10 @@ function BeginStorylet
 	{
 		throw "bad result at begin storylet $($id): $event"
 	}
+	if( $event.storylet )
+	{
+		Write-Verbose "BeginStorylet: $($event.storylet.name) -> $($event.storylet.description)"
+	}
 	return $event
 }
 
@@ -279,6 +292,17 @@ function ChooseBranch
 	if($event.isSuccess -ne $true)
 	{
 		throw "bad result at chosebranch $($id): $event"
+	}
+	if( $event.endStorylet )
+	{
+		Write-Verbose "EndStorylet: $($event.endStorylet.event.name) -> $($event.endStorylet.event.description)"
+	}
+	if( $event.messages )
+	{
+		if( $event.messages.defaultMessages )
+		{
+			$event.messages.defaultMessages | %{ Write-Verbose "message: $($_.message)" }
+		}
 	}
 	return $event
 }

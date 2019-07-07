@@ -22,21 +22,13 @@ Storylet and branch name lookup is done using the `-match` operator. You can als
 
 Most of the time you don't want to do a specific action, rather you want to gain and grind inventory items and stats. Fortunately we have the aquisitions engine to take care of more complicated actions. In it you can specify that an action has prerequisite inventory or stats, and in turn give instructions on how to fulfill those before proceeding. The prerequisites can in turn have their own prerequisites and so on.
 
-For legacy reasons, the `require` action is reserved for internal use, since it doesn't define what to do in case the requirement is fullfilled.
-
-In the actions list, it is instead suggested that you use the almost identical action `cascade`.
-
-#### cascade
-
-Cascade is like require, except when the requirement is fullfilled, the script will just try the next action in the action list.
-
-The format is `cascade,<possession category>,<possession name>,<amount>[,<named action>]`. Remember that even stats are possessions in this game, so you could for example require "Accomplishments,A Person of Some Importance,1" if you need PoSI for something.
+The format is `require,<possession category>,<possession name>,<amount>[,<named action>]`. Remember that even stats are possessions in this game, so you could for example require "Accomplishments,A Person of Some Importance,1" if you need PoSI for something.
 
 The named action is optional, but helpful if you need to specify exactly which acquisition to use to grind something. There may, for example, be different actions to raise and lower specific qualities. If no action is named, the acquisitions engine will make a best effort to find the shortest grind to your requested items, based on your existing inventory.
 
-The amount when given as a regular number will grind until that number or greater is reached. You can also prefix the amount with an equals sign, in which case the grind will continue until the exact value is reached - very useful for story requirements but fragile if you do not also give a named action. Example `cascade,Circumstance,An Expedition,=11,Silk adventure` will only progress when your chosen expedition is 11, which is the value for Tomb of the Silken Thread. The acquisition "Silk adventure" tries to select that adventure, but has its own prerequisites that quits existing expeditions and makes sure you're stocked up on supply.
+The amount when given as a regular number will grind until that number or greater is reached. You can also prefix the amount with an equals sign, in which case the grind will continue until the exact value is reached - very useful for story requirements but fragile if you do not also give a named action. Example `require,Circumstance,An Expedition,=11,Silk adventure` will only progress when your chosen expedition is 11, which is the value for Tomb of the Silken Thread. The acquisition "Silk adventure" tries to select that adventure, but has its own prerequisites that quits existing expeditions and makes sure you're stocked up on supply.
 
-If you prefix a less-than sign to the amount, the grind will continue as long as the amount is less than the given limit. A "cascade,Menaces,Nightmares,<5" action will keep grinding until your nightmares are 4 or lower.
+If you prefix a less-than sign to the amount, the grind will continue as long as the amount is less than the given limit. A "require,Menaces,Nightmares,<5" action will keep grinding until your nightmares are 4 or lower.
 
 #### others
 
