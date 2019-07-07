@@ -105,6 +105,22 @@
 			"action":"1"
 		},
 		{
+			"name":"A New Arrival: A Grubby Inquiry",
+			"action":"unnecessary"
+		},
+		{
+			"name":"The Awful Temptation of Money",
+			"action":"1"
+		},
+		{
+			"name":"Exploring Fallen London",
+			"action":"1"
+		},
+		{
+			"name":"Adopt a Profession",
+			"action":"1"
+		},
+		{
 			"name": "All fear the Overgoat!",
 			"action": "Learn"
 		}
