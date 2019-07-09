@@ -5,20 +5,10 @@ if( $env:LOGIN_EMAIL -eq $null -or $env:LOGIN_PASS -eq $null )
 	throw "missing login information"
 }
 
-if($env:Home -eq $null)
-{
-	. $PSScriptRoot/acquisitions.ps1
-	$script:CardActions = gc -Raw $PSScriptRoot/cards.json | ConvertFrom-Json
-	$script:LockedAreas = gc -Raw $PSScriptRoot/lockedareas.json | ConvertFrom-Json
-	$automaton = gc $PSScriptRoot/automaton.csv
-}
-else
-{
-	. ${env:HOME}/site/wwwroot/Grind/acquisitions.ps1
-	$script:CardActions = gc -Raw ${env:HOME}/site/wwwroot/Grind/cards.json | ConvertFrom-Json
-	$script:LockedAreas = gc -Raw ${env:HOME}/site/wwwroot/Grind/lockedareas.json | ConvertFrom-Json
-	$automaton = gc ${env:HOME}/site/wwwroot/Grind/automaton.csv
-}
+. $PSScriptRoot/acquisitions.ps1
+$script:CardActions = gc -Raw $PSScriptRoot/cards.json | ConvertFrom-Json
+$script:LockedAreas = gc -Raw $PSScriptRoot/lockedareas.json | ConvertFrom-Json
+$automaton = gc $PSScriptRoot/automaton.csv
 
 $script:actions = @(
 	#"veilgarden,archaeology,1" persuasive 31 shreik
