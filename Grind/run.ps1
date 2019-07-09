@@ -1,4 +1,4 @@
-param([switch]$force,[switch]$noaction)
+param($Timer)
 
 if( $env:LOGIN_EMAIL -eq $null -or $env:LOGIN_PASS -eq $null )
 {
