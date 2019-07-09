@@ -36,7 +36,7 @@
 		"Result": "",
 		"Prerequisites": [
 			"Stories,A Survivor of the Affair of the Box,15",
-			"Zee-Treasures,Moon Pearl,1",
+			"Zee Treasures,Moon-Pearl,1",
 			"Stories,A Boxful of Intrigue,13,BoxGrindPart4"
 		],
 		"Action": "spite,A Key At Last,Gracious Widow"
