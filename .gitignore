@@ -1,2 +1,9 @@
 env.ps1
 .vscode
+
+
+# Azure Functions artifacts
+bin
+obj
+appsettings.json
+local.settings.json
