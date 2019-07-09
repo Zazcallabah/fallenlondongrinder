@@ -52,6 +52,7 @@ $script:actions = @(
 	"require,Nostalgia,Bazaar Permit,1"
 	"require,Curiosity,First City Coin,77"
 	"require,Currency,Penny,10000,Penny"
+	"require,Stories,A Survivor of the Affair of the Box,16,KeyAtLast"
 )
 
 
@@ -561,7 +562,7 @@ if( $env:SECOND_EMAIL -ne $null -and $env:SECOND_PASS -ne $null )
 # make sure menaces grinding is available
 # find early money grind, make sure menaces are covered
 
-	Register $env:SECOND_EMAIL $env:SECOND_PASS
-	RunActions $automaton
+	#Register $env:SECOND_EMAIL $env:SECOND_PASS
+	#RunActions $automaton
 }
 
