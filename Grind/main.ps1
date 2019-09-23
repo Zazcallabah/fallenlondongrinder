@@ -30,6 +30,7 @@ $script:actions = @(
 #	"require,Progress,Casing...,5,PrepBaseborn"
 #	"require,Basic,Persuasive,200,GrindPersuasive"
 	"require,Basic,Shadowy,200,GrindShadowy"
+	"require,Nostalgia,Bazaar Permit,50"
 	"require,Basic,Watchful,200,GrindWatchful"
 	"require,Basic,Dangerous,200,GrindDangerous"
 #	"require,Progress,Casing...,13"
