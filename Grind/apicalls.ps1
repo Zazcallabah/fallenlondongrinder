@@ -343,3 +343,15 @@ function UnequipOutfit
 	param( [int]$id )
 	Post -href "outfit/unequip/$($id)"
 }
+
+function AddContact
+{
+	param( $name )
+	$encoded = [uri]::EscapeDataString($name)
+	Post -href "contact/addcontact/$($encoded)"
+}
+
+function Contacts
+{
+	Post -href "contact" -method "GET"
+}
