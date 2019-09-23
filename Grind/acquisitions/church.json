@@ -1,0 +1,34 @@
+{
+	"Tiny Jewelled Reliquary": {
+		"Name": "Tiny Jewelled Reliquary",
+		"Result": "Tiny Jewelled Reliquary",
+		"Prerequisites": [
+			"Currency,Penny,4000"
+		],
+		"Action": "buy,Pawnbrokers,Tiny Jewelled Reliquary,1",
+		"Reward": 1
+	},
+
+	"Renown: The Church up to 8": {
+		"Name": "Renown: The Church up to 8",
+		"Result": "Renown: The Church",
+		"Prerequisites": [
+			"Curiosity,Tiny Jewelled Reliquary,1",
+			"Contacts,Favours: The Church,3"
+		],
+		"Action": "inventory,Curiosity,Tiny Jewelled Reliquary,Distribute edits",
+		"Reward": 3
+	},
+
+	"Renown: The Church up to 14": {
+		"Name": "Renown: The Church up to 14",
+		"Result": "Renown: The Church",
+		"Prerequisites": [
+			"Curiosity,Tiny Jewelled Reliquary,1",
+			"Infernal,Soul,125",
+			"Contacts,Favours: The Church,5"
+		],
+		"Action": "inventory,Tiny Jewelled Reliquary,Return souls to their owners",
+		"Reward": 3
+	}
+}

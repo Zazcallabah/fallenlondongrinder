@@ -275,7 +275,17 @@
 		"Action": "watchmakers,unfinished business,Contracts and legs",
 		"Reward": 5
 	},
-
+	"Volume of Collated Research": {
+		"Name": "Volume of Collated Research",
+		"Result": "Volume of Collated Research",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1",
+			"Mysteries,Appalling Secret,12",
+			"Mysteries,Tale of Terror!!,2"
+		],
+		"Action": "bazaar,Walk Down Blackfinger Street,collate some research",
+		"Reward": 1
+	},
 
 
 	"Velocipede": {
