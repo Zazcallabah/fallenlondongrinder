@@ -121,6 +121,10 @@
 			"action":"1"
 		},
 		{
+			"name": "One's public",
+			"action":"Put on a fine show for them"
+		},
+		{
 			"name": "All fear the Overgoat!",
 			"action": "Learn"
 		}
