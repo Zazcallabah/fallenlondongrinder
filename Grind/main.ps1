@@ -324,6 +324,13 @@ function HandleProfession
 		10 = "Watchful";
 	}
 
+	$levelsBelow70 = 7..10 | %{ $filterLevels[$_] } | %{ GetPossession "Basic" $_ } | ?{ $_.effectiveLevel -le 70 }
+
+	if( $levelsBelow70.length -eq 0 )
+	{
+		return $true
+	}
+
 	if( $profession -ne $null )
 	{
 		$basicAbility = GetPossession "Basic" $filterLevels[$profession.level]
