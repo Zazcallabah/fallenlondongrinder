@@ -9,7 +9,7 @@
 			"action": "Feducci"
 		},
 		{
-			"name": "An Old Acquaintance\?",
+			"name": "An Old Acquaintance\\?",
 			"action": "Will she remember you"
 		},
 		{
@@ -19,6 +19,23 @@
 		{
 			"name": "Altars and Alms-Houses: the Church",
 			"action": "south bank"
+		},
+		{
+			"name": "The Fallen Angel",
+			"action": "tackle"
+		},
+		{
+			"name": "2000 Foxfire Candles wanted! Will pay handsomely!",
+			"require": ["Academic,Foxfire Candle Stub,2000,BuyCandles"],
+			"action": "exchange"
+		},
+		{
+			"name": "The Lord Mayor of London",
+			"action": "protest"
+		},
+		{
+			"name": "The Departed",
+			"action": "ripe"
 		},
 		{
 			"name": "An unusual wager",
