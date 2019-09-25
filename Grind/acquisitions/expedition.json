@@ -35,9 +35,18 @@
 		"Result": "Crate of Expedition Supplies",
 		"Prerequisites": [
 			"Progress,Archaeologist's Progress,<1",
-			"Mysteries,Whispered Hint,200"
+			"Mysteries,Whispered Hint,2000,Tea at court"
 		],
 		"Action": "forgotten quarter,Prepare,Rumours"
+	},
+
+	"Tea at court": {
+		"Name":"Tea at Court",
+		"Result":"Whispered Hint",
+		"Prerequisites": [
+		],
+		"Action": "empresscourt,Tea at Court,1",
+		"Reward": 50
 	},
 
 	"SellJudgementsEgg": {
