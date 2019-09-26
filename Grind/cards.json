@@ -142,6 +142,10 @@
 			"action":"Put on a fine show for them"
 		},
 		{
+			"name": "The Eater-of-Chains has Returned",
+			"action":"Ask someone you know well"
+		},
+		{
 			"name": "All fear the Overgoat!",
 			"action": "Learn"
 		}
