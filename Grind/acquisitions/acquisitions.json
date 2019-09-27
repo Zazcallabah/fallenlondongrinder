@@ -131,6 +131,15 @@
 		"Action": "buy,Merrigans,Foxfire Candle Stub,2000",
 		"Reward": 2000
 	},
+	"BuyLuckyWeasel": {
+		"Name": "BuyLuckyWeasel",
+		"Result": "Lucky Weasel",
+		"Prerequisites": [
+			"Currency,Penny,40"
+		],
+		"Action": "buy,Nassos Zoologicals,Lucky Weasel,1",
+		"Reward": 1
+	},
 	"Nodule of Deep Amber": {
 		"Name": "Nodule of Deep Amber",
 		"Result": "Nodule of Deep Amber",
@@ -156,7 +165,16 @@
 			"Accomplishments,A Person of Some Importance,1"
 		],
 		"Action": "veilgarden,unfinished business,crowd",
-		"Reward": 300
+		"Reward": 100
+	},
+	"Bottle of Greyfields 1882": {
+		"Name": "Bottle of Greyfields 1882",
+		"Result": "Bottle of Greyfields 1882",
+		"Prerequisites": [
+			"Currency,Penny,400"
+		],
+		"Action": "buy,Merrigans,Bottle of Greyfields 1882,100",
+		"Reward": 100
 	},
 	"Relic of the Second City": {
 		"Name": "Relic of the Second City",
