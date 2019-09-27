@@ -1,14 +1,4 @@
 {
-	"Tiny Jewelled Reliquary": {
-		"Name": "Tiny Jewelled Reliquary",
-		"Result": "Tiny Jewelled Reliquary",
-		"Prerequisites": [
-			"Currency,Penny,4000"
-		],
-		"Action": "buy,Pawnbrokers,Tiny Jewelled Reliquary,1",
-		"Reward": 1
-	},
-
 	"Renown: The Church up to 8": {
 		"Name": "Renown: The Church up to 8",
 		"Result": "Renown: The Church",

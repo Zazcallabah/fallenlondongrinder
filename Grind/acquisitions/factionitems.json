@@ -1,0 +1,122 @@
+{
+	"Rookery Password": {
+		"Name": "Rookery Password",
+		"Result": "Rookery Password",
+		"Prerequisites": [
+			"Currency,Penny,6250"
+		],
+		"Action": "buy,Crawcase,Rookery Password,1",
+		"Reward": 1
+	},
+	"Diary of the Dead": {
+		"Name": "Diary of the Dead",
+		"Result": "Diary of the Dead",
+		"Prerequisites": [
+			"Currency,Penny,6250"
+		],
+		"Action": "buy,Crawcase,Diary of the Dead,1",
+		"Reward": 1
+	},
+	"Entry in Slowcake's Exceptionals": {
+		"Name": "Entry in Slowcake's Exceptionals",
+		"Result": "Entry in Slowcake's Exceptionals",
+		"Prerequisites": [
+			"Currency,Penny,3000"
+		],
+		"Action": "buy,Pawnbrokers,Entry in Slowcake's Exceptionals,1",
+		"Reward": 1
+	},
+	"Nodule of Pulsating Amber": {
+		"Name": "Nodule of Pulsating Amber",
+		"Result": "Nodule of Pulsating Amber",
+		"Prerequisites": [
+			"Currency,Penny,10000"
+		],
+		"Action": "buy,Merrigans,Nodule of Pulsating Amber,1",
+		"Reward": 1
+	},
+
+
+	"Red-Feathered Pin": {
+		"Name": "Red-Feathered Pin",
+		"Result": "Red-Feathered Pin",
+		"Prerequisites": [
+			"Currency,Penny,4000"
+		],
+		"Action": "buy,Pawnbrokers,Red-Feathered Pin,1",
+		"Reward": 1
+	},
+
+
+	"Bright Brass Skull": {
+		"Name": "Bright Brass Skull",
+		"Result": "Bright Brass Skull",
+		"Prerequisites": [
+			"Currency,Penny,6250"
+		],
+		"Action": "buy,Merrigans,Bright Brass Skull,1",
+		"Reward": 1
+	},
+
+
+
+	"Engraved Pewter Tankard": {
+		"Name": "Engraved Pewter Tankard",
+		"Result": "Engraved Pewter Tankard",
+		"Prerequisites": [
+			"Currency,Penny,5000"
+		],
+		"Action": "buy,Pawnbrokers,Engraved Pewter Tankard,1",
+		"Reward": 1
+	},
+
+	"Copper Cipher Ring": {
+		"Name": "Copper Cipher Ring",
+		"Result": "Copper Cipher Ring",
+		"Prerequisites": [
+			"Currency,Penny,4000"
+		],
+		"Action": "buy,Pawnbrokers,Copper Cipher Ring,1",
+		"Reward": 1
+	},
+
+	"Old Bone Skeleton Key": {
+		"Name": "Old Bone Skeleton Key",
+		"Result": "Old Bone Skeleton Key",
+		"Prerequisites": [
+			"Currency,Penny,6250"
+		],
+		"Action": "buy,Pawnbrokers,Old Bone Skeleton Key,1",
+		"Reward": 1
+	},
+
+	"Antique Constable's Badge": {
+		"Name": "Antique Constable's Badge",
+		"Result": "Antique Constable's Badge",
+		"Prerequisites": [
+			"Currency,Penny,3000"
+		],
+		"Action": "buy,Pawnbrokers,Antique Constable's Badge,1",
+		"Reward": 1
+	},
+
+	"Ornate Typewriter": {
+		"Name": "Ornate Typewriter",
+		"Result": "Ornate Typewriter",
+		"Prerequisites": [
+			"Currency,Penny,6000"
+		],
+		"Action": "buy,Pawnbrokers,Ornate Typewriter,1",
+		"Reward": 1
+	},
+
+	"Tiny Jewelled Reliquary": {
+		"Name": "Tiny Jewelled Reliquary",
+		"Result": "Tiny Jewelled Reliquary",
+		"Prerequisites": [
+			"Currency,Penny,4000"
+		],
+		"Action": "buy,Pawnbrokers,Tiny Jewelled Reliquary,1",
+		"Reward": 1
+	}
+}
