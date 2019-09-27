@@ -99,10 +99,6 @@
 			"action": "assemble"
 		},
 		{
-			"name":"Remember the Honey-sipping Jewel Thief?",
-			"action":"ignore"
-		},
-		{
 			"name":"Don't you know her?",
 			"require":["Influence,Intriguing Snippet,5"],
 			"action":"1"
@@ -252,6 +248,7 @@
 		"Make Friends with a Young Stag",
 		"A Sporting Sort",
 		"The troublesome suitor",
-		"The Secular Missionary: a Package Arrives"
+		"The Secular Missionary: a Package Arrives",
+		"Remember the Honey-sipping Jewel Thief"
 	]
 }
