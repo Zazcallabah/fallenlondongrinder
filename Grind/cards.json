@@ -83,6 +83,11 @@
 			"action": "1"
 		},
 		{
+			"name":"Entertainers for the revels",
+			"require": ["Influence,Compromising Document,15"],
+			"action": "1"
+		},
+		{
 			"name":"Your green companion",
 			"require": ["Elder,Jade Fragment,50"],
 			"action": "expert"
@@ -164,6 +169,7 @@
 		"A flash of white",
 		"A Dream of Roses",
 		"A commotion above!",
+		"Park and Palace: Society",
 		"The mournful rubbery instrument",
 		"A disgraceful spectacle 2",
 		"More Larks with the Young Stags",
