@@ -1,4 +1,22 @@
-. ./run.ps1 -noaction
+. ./main.ps1 -noaction
+
+Register $env:SECOND_EMAIL $env:SECOND_PASS
+
+
+Describe "CollectionHasCard function" {
+	It "can detect card" {
+		CollectionHasCard @("a","b") @{"name"="b"} | should be $true
+	}
+	It "can detect no card" {
+		CollectionHasCard @("a","b") @{"name"="c"} | should be $false
+	}
+	It "collection is regex" {
+		CollectionHasCard @("$a") @{"name"="abcd"} | should be $true
+	}
+	It "collection can be objects" {
+		CollectionHasCard @(@{"name"="$a"}) @{"name"="abcd"} | should be $true
+	}
+}
 
 Describe "CycleArray" {
 	It "handles array is null" {
@@ -41,7 +59,7 @@ Describe "CycleArray" {
 
 Describe "GetLocationId" {
 	It "can fetch location not in local cache" {
-		GetLocationId "flit" | should be 11
+		GetLocationId "veilgarden" | should be 6
 	}
 }
 Describe "List-Storylet" {
@@ -72,7 +90,7 @@ Describe "Myself" {
 Describe "GetPossessionCategory" {
 	It "can get route" {
 		$cat = GetPossessionCategory "Route"
-		$cat | ?{ $_.category -eq "Route" } | measure | select -expandproperty count | should be $cat.length
+		$cat | ?{ $_.category -eq "Route" } | measure | select -expandproperty count | should be @($cat).length
 		$cat | ?{ $_.name -eq "Route: Lodgings" } | should not be $null
 	}
 	It "can get basicability" {
