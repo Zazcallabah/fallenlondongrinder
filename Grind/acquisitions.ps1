@@ -224,6 +224,7 @@ function ActionCost
 
 # returns true if named possession is fullfilled
 # otherwise an action is consumed trying to work towards fullfillment, which returns false
+# returns null if requirement is impossile - e.g. no acquisition can be found
 function Require
 {
 	param( $category, $name, $level, $tag, [switch]$dryRun )
@@ -278,13 +279,18 @@ function Require
 
 	if( $acq -eq $null )
 	{
-		throw "no way to get $category $name found in acquisitions list"
+		Write-Warning "no way to get $category $name found in acquisitions list"
+		return $null
 	}
 
 	foreach( $prereq in $acq.Prerequisites )
 	{
 		$action = ParseActionString $prereq
 		$hasActionsLeft = Require $action.location $action.first $action.second $action.third -dryRun:$dryRun
+		if( $hasActionsLeft -eq $null )
+		{
+			return $null
+		}
 		if(!$hasActionsLeft)
 		{
 			return $false

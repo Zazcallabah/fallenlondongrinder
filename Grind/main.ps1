@@ -270,6 +270,10 @@ function TryOpportunity
 		$card.require | %{
 			$action = ParseActionString $_
 			$hasActionsLeft = Require $action.location $action.first $action.second $action.third
+			if( $hasActionsLeft -eq $null )
+			{
+				return $true
+			}
 			if(!$hasActionsLeft)
 			{
 				return $false
@@ -298,7 +302,7 @@ function EarnestPayment
 
 function EnsureTickets
 {
-	return Require "Curiosity" "Carnival Ticket" 2
+	return Require "Curiosity" "Carnival Ticket" 2 "Carnival Ticket Pearl"
 }
 
 function LowerWounds
@@ -462,7 +466,7 @@ function HandleLockedArea
 		{
 			$action = ParseActionString $actionstr
 			$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
-			if( !$hasActionsLeft )
+			if( $hasActionsLeft -ne $null -and !$hasActionsLeft )
 			{
 				return $false
 			}
