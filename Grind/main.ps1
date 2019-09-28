@@ -6,9 +6,33 @@ if( $env:LOGIN_EMAIL -eq $null -or $env:LOGIN_PASS -eq $null )
 }
 
 . $PSScriptRoot/acquisitions.ps1
-$script:CardActions = gc -Raw $PSScriptRoot/cards.json | ConvertFrom-Json
 $script:LockedAreas = gc -Raw $PSScriptRoot/lockedareas.json | ConvertFrom-Json
 $automaton = gc $PSScriptRoot/automaton.csv
+
+function MergeCardActionsObject
+{
+	param([parameter(ValueFromPipelineByPropertyName)]$FullName)
+
+	process {
+		$inputobject = gc -Raw $FullName | ConvertFrom-Json
+		if( $inputobject.use )
+		{
+			$script:CardActions.use += $inputobject.use
+		}
+		if( $inputobject.keep )
+		{
+			$script:CardActions.keep += $inputobject.keep
+		}
+		if( $inputobject.trash )
+		{
+			$script:CardActions.trash += $inputobject.trash
+		}
+	}
+}
+
+$script:CardActions = new-object PSObject -Property @{"use"=@();"keep"=@();"trash"=@()}
+Get-ChildItem "$PSScriptRoot/cards" | MergeCardActionsObject
+
 
 $script:actions = @(
 	#"veilgarden,archaeology,1" persuasive 31 shreik
@@ -233,7 +257,7 @@ function ActivateOpportunityCard
 	return $false
 }
 
-function TryOpportunity
+function TryOpportunity§
 {
 	if( IsLockedArea )
 	{
@@ -253,7 +277,11 @@ function TryOpportunity
 			}
 		}
 
-		return ActivateOpportunityCard $o $card $card.action
+		$result = ActivateOpportunityCard $o $card $card.action
+		if( $result -ne $null )
+		{
+			return $false
+		}
 	}
 
 	return $true
