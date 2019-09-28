@@ -1,13 +1,23 @@
 {
 
-	"Carnival Ticket": {
-		"Name": "Carnival Ticket",
+	"Carnival Ticket Clues": {
+		"Name": "Carnival Ticket Clues",
 		"Result": "Carnival Ticket",
 		"Prerequisites": [
 			"Mysteries,Cryptic Clue,20",
-			"Route,Route: Mrs plenty,1"
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1"
 		],
-		"Action": "carnival,Buy,clues"
+		"Action": "carnival,Buy,cryptic",
+		"Reward": 10
+	},
+	"BuySouls":{
+		"Result": "BuySouls",
+		"Name": "Soul",
+		"Action": "buy,Merrigans,Soul,500",
+		"Prerequisites": [
+			"Currency,Penny,2000"
+		],
+		"Reward": 500
 	},
 	"Whispered Hint": {
 		"Name": "Whispered Hint",
