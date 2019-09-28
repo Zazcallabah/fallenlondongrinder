@@ -8,6 +8,10 @@
 			"action":"Loamsprach/I OFFER JADE/Statues/Stories/Unfinished"
 		},
 		{
+			"name":"Break through the Revolutionary Firebrand's reserve",
+			"action":"?"
+		},
+		{
 			"name": "A new Piece in the Game",
 			"action": "help out"
 		},
@@ -151,10 +155,6 @@
 		{
 			"name":"A visit",
 			"action":"sardonic,drop in"
-		},
-		{
-			"name": "All fear the Overgoat!",
-			"action": "Learn"
 		}
 	],
 	"keep":[
@@ -174,7 +174,6 @@
 		"The Lofty Tower: the Potential of Premises at the Bazaar",
 		"Once upon a time in a carriage",
 		"One's public",
-		"All fear the Overgoat!",
 		"Call in favours in the Flit",
 		"The High Castle: What Occurs in a Rooftop Shack",
 		"The mechanics of progress",
@@ -189,6 +188,7 @@
 	],
 	"trash":[
 		"A fair sized job for the right cracksman",
+		"All fear the Overgoat!",
 		"A letter from your aunt",
 		"Gold frame, black painting",
 		"Make Friends with a Young Stag",
