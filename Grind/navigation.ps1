@@ -1,14 +1,6 @@
 
-if($env:Home -eq $null)
-{
-	. $PSScriptRoot/apicalls.ps1
-	$script:ForcedActions = gc -Raw $PSScriptRoot/forcedactions.json | ConvertFrom-Json
-}
-else
-{
-	. ${env:HOME}/site/wwwroot/Grind/apicalls.ps1
-	$script:ForcedActions = gc -Raw ${env:HOME}/site/wwwroot/Grind/forcedactions.json | ConvertFrom-Json
-}
+. $PSScriptRoot/apicalls.ps1
+$script:ForcedActions = gc -Raw $PSScriptRoot/forcedactions.json | ConvertFrom-Json
 
 function GetUserLocation
 {

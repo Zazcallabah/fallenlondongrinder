@@ -12,18 +12,9 @@ function MergeAcquisitionsObject
 
 $script:Acquisitions = new-object PSObject
 
-if($env:Home -eq $null)
-{
-	. $PSScriptRoot/navigation.ps1
-	Get-ChildItem "$PSScriptRoot/acquisitions" | MergeAcquisitionsObject
-	$script:ItemData = gc $PSScriptRoot/items.csv | ConvertFrom-Csv
-}
-else
-{
-	. ${env:HOME}/site/wwwroot/Grind/navigation.ps1
-	Get-ChildItem ${env:HOME}/site/wwwroot/Grind/acquisitions | MergeAcquisitionsObject
-	$script:ItemData = gc ${env:HOME}/site/wwwroot/Grind/items.csv | ConvertFrom-Csv
-}
+. $PSScriptRoot/navigation.ps1
+Get-ChildItem "$PSScriptRoot/acquisitions" | MergeAcquisitionsObject
+$script:ItemData = gc $PSScriptRoot/items.csv | ConvertFrom-Csv
 
 function AddAcquisition
 {
