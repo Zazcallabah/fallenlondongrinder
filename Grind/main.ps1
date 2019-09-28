@@ -232,7 +232,7 @@ function FilterCards
 
 function ActivateOpportunityCard
 {
-	param($opportunity, $card, $action)
+	param($opportunity, $card, $actionStr)
 
 	if( $card.eventId -eq $null )
 	{
@@ -242,17 +242,16 @@ function ActivateOpportunityCard
 	{
 		$result = GoBack
 	}
-	Write-Host "doing card $($card.name) action $($action)"
+	Write-Host "doing card $($card.name) action $($actionStr)"
 	$storylet = BeginStorylet $card.eventId
-	if( $action )
+	if( $actionStr )
 	{
-		$branch = GetChildBranch $storylet.storylet.childBranches $action
-		if( $branch -eq $null )
+		$actions = $actionStr -split ","
+		$result = PerformActions $storylet $actions
+		if( $result -eq $null )
 		{
-			# not valid choice
 			return $null
 		}
-		$result = ChooseBranch $branch.id
 	}
 	return $false
 }
