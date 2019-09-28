@@ -141,6 +141,18 @@
 			"action":"Put on a fine show for them"
 		},
 		{
+			"name":"The Eater-of-Chains has Returned!",
+			"action":"ask someone"
+		},
+		{
+			"name":"The Cities that Fell",
+			"action":"ancient stories"
+		},
+		{
+			"name":"A visit",
+			"action":"sardonic,drop in"
+		},
+		{
 			"name": "All fear the Overgoat!",
 			"action": "Learn"
 		}
