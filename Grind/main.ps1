@@ -257,7 +257,7 @@ function ActivateOpportunityCard
 	return $false
 }
 
-function TryOpportunity§
+function TryOpportunity
 {
 	if( IsLockedArea )
 	{
