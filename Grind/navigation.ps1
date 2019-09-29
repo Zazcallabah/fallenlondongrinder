@@ -95,7 +95,7 @@ function GetPossessionCategory
 		return (Myself).possessions[0].possessions;
 	}
 
-	return (Myself).possessions | ?{ $category -eq $null -or $_.name -eq $category } | select -expandproperty possessions
+	return (Myself).possessions | ?{ $category -eq $null -or $category -eq "" -or $_.name -eq $category } | select -expandproperty possessions
 }
 
 function GetPossession
