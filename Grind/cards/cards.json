@@ -153,6 +153,10 @@
 		{
 			"name":"A visit",
 			"action":"sardonic,drop in"
+		},
+		{
+			"name":"The Geology of Winewound",
+			"action":"as far as you can"
 		}
 	],
 	"keep":[
@@ -192,6 +196,7 @@
 		"Make Friends with a Young Stag",
 		"A Sporting Sort",
 		"A day at the races",
+		"An Afternoon of Good Deeds",
 		"A dream about",
 		"The troublesome suitor",
 		"The Secular Missionary: a Package Arrives",

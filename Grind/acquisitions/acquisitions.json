@@ -97,13 +97,32 @@
 		],
 		"Action": "flit,embark,baseborn"
 	},
+	"PrepPosi": {
+		"Name": "PrepPosi",
+		"Result": "Casing...",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1,PrepBasebord"
+		],
+		"Action": "flit,preparing,Well-planned villainy",
+		"Reward":3
+	},
 	"PrepBaseborn" : {
 		"Name": "PrepBaseborn",
-		"Result": "Casing...",
+		"Result": "PrepBaseborn",
 		"Prerequisites": [
 			"Circumstance,Planning a Heist:,1,HeistBaseborn"
 		],
-		"Action": "flit,preparing,formulate"
+		"Action": "flit,preparing,formulate",
+		"Reward":3
+	},
+	"StealPermits":{
+		"Name": "StealPermits",
+		"Result": "Bazaar Permit",
+		"Prerequisites": [
+			"Progress,Casing...,10"
+		],
+		"Action": "flit,The Big Score: Choose a Target,Thefts of a particular character,Basebord",
+		"Reward":1
 	},
 	"First City Coin": {
 		"Name": "First City Coin",
@@ -341,7 +360,8 @@
 			"Nostalgia,Vision of the Surface,10",
 			"Nostalgia,Romantic Notion,100"
 		],
-		"Action": "bazaar,fowlingpiece,permit"
+		"Action": "bazaar,fowlingpiece,permit",
+		"Reward": 1
 	},
 	"StartNovel": {
 		"Name": "StartNovel",
