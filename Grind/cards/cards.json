@@ -86,16 +86,6 @@
 			"action": "1"
 		},
 		{
-			"name":"Your green companion",
-			"require": ["Elder,Jade Fragment,50"],
-			"action": "expert"
-		},
-		{
-			"name":"Your house-plant",
-			"require": ["Zee-Treasures,Moon Pearl,50"],
-			"action": "assemble"
-		},
-		{
 			"name":"Don't you know her?",
 			"require":["Influence,Intriguing Snippet,5"],
 			"action":"1"
@@ -147,6 +137,10 @@
 		{
 			"name":"The Eater-of-Chains has Returned!",
 			"action":"ask someone"
+		},
+		{
+			"name":"Plumb the Firebrand's secrets",
+			"action":"allow him"
 		},
 		{
 			"name":"The Cities that Fell",
