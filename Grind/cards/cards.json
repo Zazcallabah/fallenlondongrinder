@@ -143,6 +143,10 @@
 			"action":"allow him"
 		},
 		{
+			"name":"what's that smell",
+			"action":"listen to him"
+		},
+		{
 			"name":"The Cities that Fell",
 			"action":"ancient stories"
 		},
@@ -193,6 +197,7 @@
 		"The Secular Missionary: a Package Arrives",
 		"Remember the Honey-sipping Jewel Thief",
 		"The Coquettish Relicker and Mathilde are Making the Rounds",
-		"A Presumptuous Little Opportunity"
+		"A Presumptuous Little Opportunity",
+		"City Vices: ask the Sardonic Music-Hall Singer to help you"
 	]
 }
