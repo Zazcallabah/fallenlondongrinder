@@ -121,7 +121,7 @@
 		"Prerequisites": [
 			"Progress,Casing...,10"
 		],
-		"Action": "flit,The Big Score: Choose a Target,Thefts of a particular character,Basebord",
+		"Action": "flit,The Big Score: Choose a Target,Thefts of a particular character,Baseborn & Fowlingpiece",
 		"Reward":1
 	},
 	"First City Coin": {
@@ -380,6 +380,15 @@
 		"Action": "empresscourt,quiet,1"
 	},
 
+	"BazaarLodgings": {
+		"Name": "BazaarLodgings",
+		"Result": "Lengthy Lease to Premises at the Bazaar",
+		"Prerequisites": [
+			"Nostalgia,Bazaar Permit,50"
+		],
+		"Action": "bazaar,Solicitors at Law,Your just due",
+		"Reward": 1
+	},
 
 	"Exceptional Short Story": {
 		"Name": "Exceptional Short Story",
