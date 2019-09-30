@@ -146,6 +146,10 @@
 			"action":"Ask someone you know well"
 		},
 		{
+			"name": "City Vices: help the Sardonic Music-Hall Singer",
+			"action": "Help her negotiate"
+		},
+		{
 			"name": "All fear the Overgoat!",
 			"action": "Learn"
 		}
