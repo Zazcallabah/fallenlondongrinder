@@ -15,13 +15,21 @@ function GetUserLocation
 	return (User).area.id
 }
 
+function IsLockedArea
+{
+	return (User).setting -ne $null -and !(User).setting.canTravel
+}
+
 function IsInLocation
 {
 	param($location)
+	if( IsLockedArea )
+	{
+		return $true
+	}
 	$id = GetLocationId $location
 	return (GetUserLocation) -eq $id
 }
-
 
 function HandleLockedStorylet
 {
@@ -294,6 +302,7 @@ function SellPossession
 
 function Airs
 {
+	param([switch]$dontRetry)
 	# this could give outdated value, if we perform an action that changes airs without discarding cached value for plans
 	$plans = Plans
 	$airsmessage =  $plans.active+$plans.completed | %{ $_.branch.qualityRequirements | ?{ $_.qualityName -eq "The Airs of London" } | select -first 1 -expandProperty tooltip } | select -first 1
@@ -306,6 +315,14 @@ function Airs
 			return [int]$result.Groups[1].Value
 		}
 	}
+
+	if( !$dontRetry )
+	{
+		$result = CreatePlan 4346 f9c8d1dde5bee056cfab1123f9e0e9a0
+		$script:plans = $null
+		return Airs -dontRetry
+	}
+
 	return $null
 }
 

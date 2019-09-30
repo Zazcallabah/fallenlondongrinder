@@ -33,10 +33,11 @@ $script:actions = @(
 #	"require,Contacts,Renown: The Church,8,Renown: The Church up to 8"
 	"require,Nostalgia,Bazaar Permit,50"
 	"require,Basic,Watchful,200,GrindWatchful"
+	"require,Progress,Archaeologist's Progress,31"
+
 	"require,Academic,Volume of Collated Research,15"
 	"require,Basic,Dangerous,200,GrindDangerous"
 #	"require,Progress,Casing...,13"
-	"require,Progress,Archaeologist's Progress,31"
 	"require,Stories,A Procurer of Savage Beasts,4,HuntGoat"
 #	"require,Progress,The Hunt is on,19"
 	"require,Stories,Tales of Mahogany Hall,22"
@@ -148,40 +149,96 @@ function IsCommonCard
 	return $card.category -eq "Unspecialised" -and $card.distribution -eq "Standard"
 }
 
-function IsUncommonTrash
+function CollectionHasCard
 {
-	param( $card )
-	$trash = $script:CardActions.trash | ?{ $cardobj.name -match $_ -or $_ -eq $cardobj.eventId }
-	return $trash -ne $null
+	param( $collection, $card )
+	$hit = $collection | ?{
+		if($_.name -ne $null)
+		{
+			return $card.name -match $_.name -or $_.name -eq $card.eventId
+		}
+		else
+		{
+			return $card.name -match $_ -or $_ -eq $card.eventId
+		}
+	}
+	return $hit -ne $null
 }
 
-function IsAlwaysKeep
+function ShouldKeepCard
 {
 	param( $card )
 
-	$keep = $script:CardActions.keep | ?{ $cardobj.name -match $_ -or $_ -eq $cardobj.eventId }
-	return $keep -ne $null
+	if( CollectionHasCard $script:CardActions.use $card )
+	{
+		return $true
+	}
+	if( CollectionHasCard $script:CardActions.keep $card )
+	{
+		return $true
+	}
+	if( CollectionHasCard $script:CardActions.trash $card )
+	{
+		return $false
+	}
+
+	return !(IsCommonCard $card)
 }
 
-function DiscardUnlessKeep
+function FilterCards
 {
-	param($opportunity)
+	if( IsLockedArea )
+	{
+		# dont filter if locked area
+		return
+	}
 
+	# is there a second type of locked area we should be aware of?
+
+	$opportunity = DrawOpportunity
 	foreach( $cardobj in $opportunity.displayCards )
 	{
-		if( !(IsAlwaysKeep) )
+		if( !(ShouldKeepCard $cardobj) )
 		{
-			if( (IsUnCommonTrash $cardobj) -or (IsCommonCard $cardobj) )
-			{
-				write-host "discarding $($cardobj.name)"
-				$result = DiscardOpportunity $cardobj.eventId
-			}
+			write-host "discarding $($cardobj.name)"
+			$result = DiscardOpportunity $cardobj.eventId
 		}
 	}
 }
 
-function Cards
+function ActivateOpportunityCard
 {
+	param($opportunity, $card, $action)
+
+	if( $card.eventId -eq $null )
+	{
+		throw "$card is not a card"
+	}
+	if( $opportunity.isInAStorylet )
+	{
+		$result = GoBack
+	}
+	Write-Host "doing card $($card.name) action $($action)"
+	$storylet = BeginStorylet $card.eventId
+	if( $action )
+	{
+		$branch = GetChildBranch $storylet.storylet.childBranches $action
+		if( $branch -eq $null )
+		{
+			# not valid choice
+			return $null
+		}
+		$result = ChooseBranch $branch.id
+	}
+	return $false
+}
+
+function TryOpportunity
+{
+	if( IsLockedArea )
+	{
+		return
+	}
 	$o = DrawOpportunity
 
 	$card = GetCardInUseList $o
@@ -195,21 +252,10 @@ function Cards
 				return $false
 			}
 		}
-		if( $o.isInAStorylet )
-		{
-			$result = GoBack
-		}
-		Write-Host "doing card $($card.name) action $($card.action)"
-		$storylet = BeginStorylet $card.eventId
-		if( $card.action )
-		{
-			$branch = GetChildBranch $storylet.storylet.childBranches $card.action
-			$result = ChooseBranch $branch.id
-		}
-		return $false
+
+		return ActivateOpportunityCard $o $card $card.action
 	}
 
-	DiscardUnlessKeep $o
 	return $true
 }
 
@@ -364,7 +410,7 @@ function HandleProfession
 
 function HandleLockedArea
 {
-	if( (User).setting -ne $null -and !(User).setting.canTravel )
+	if( IsLockedArea )
 	{
 		# canTravel false means you are in a locked area i think
 		# also user.setting.itemsUsableHere
@@ -380,6 +426,11 @@ function HandleLockedArea
 
 		$areaData = $script:LockedAreas."$((User).setting.name)"
 
+		if($areaData -eq $null)
+		{
+			Write-warning "Stuck in locked area without instructions"
+			return $false
+		}
 		ForEach( $actionstr in $areaData.require )
 		{
 			$action = ParseActionString $actionstr
@@ -504,6 +555,8 @@ function RunActions
 {
 	param($actions,$startIndex)
 
+	$result = FilterCards
+
 	if( HasActionsToSpare )
 	{
 		$hasActionsLeft = HandleLockedArea
@@ -524,7 +577,7 @@ function RunActions
 			return
 		}
 
-		$hasActionsLeft = Cards
+		$hasActionsLeft = TryOpportunity
 		if( !$hasActionsLeft )
 		{
 			return

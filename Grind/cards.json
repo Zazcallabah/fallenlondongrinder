@@ -122,6 +122,10 @@
 			"action":"1"
 		},
 		{
+			"name":"A devil's taken a shine to you",
+			"action":"sharp note"
+		},
+		{
 			"name":"A New Arrival: A Grubby Inquiry",
 			"action":"unnecessary"
 		},
@@ -148,6 +152,10 @@
 		{
 			"name": "City Vices: help the Sardonic Music-Hall Singer",
 			"action": "Help her negotiate"
+		},
+		{
+			"name":"A Polite Invitation",
+			"action":"Reply and attend"
 		},
 		{
 			"name": "All fear the Overgoat!",
@@ -191,6 +199,7 @@
 		"Gold frame, black painting",
 		"Make Friends with a Young Stag",
 		"A Sporting Sort",
-		"The troublesome suitor"
+		"The troublesome suitor",
+		"The Secular Missionary: a Package Arrives"
 	]
 }

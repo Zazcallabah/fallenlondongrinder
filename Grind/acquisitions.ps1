@@ -300,6 +300,25 @@ function Require
 		}
 	}
 
+	if( $acq.Cards -ne $null )
+	{
+		$opportunity = DrawOpportunity
+		foreach( $card in $acq.Cards )
+		{
+			$c = ParseActionString $card
+
+			$card = $opportunity.displayCards | ?{ $_.name -match $c.location -or $_.eventId -eq $c.location } | select -first 1
+			if( $card )
+			{
+				$result = ActivateOpportunityCard $opportunity $card $c.first
+				if( $result -ne $null )
+				{
+					return $result
+				}
+			}
+		}
+	}
+
 	$result = Acquire $acq.Action -dryRun:$dryRun
 
 	return $result
