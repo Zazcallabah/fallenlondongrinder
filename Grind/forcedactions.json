@@ -7,5 +7,78 @@
 	"A thousand choices!":"1",
 	"A letter from Mr Inch": "open",
 	"A Trove of Secrets": "Keep it to yourself",
-	"A Toast in the Shadows": "own name"
+	"A Toast in the Shadows": "own name",
+
+	"Near Arbor": [
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=2",
+				"Mysteries,Extraordinary Implication,24",
+				"Stories,Arbor: Permission to Linger,275"
+			],
+			"Action": "Walk South"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=2",
+				"Stories,Arbor: Permission to Linger,<4"
+			],
+			"Action": "Walk South"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=2"
+			],
+			"Action": "Spy on London's Embassy"
+		},
+
+		{
+			"Conditions":[
+				"Curiosity,Attar,5",
+				"Mysteries,Extraordinary Implication,24",
+				"Stories,Arbor: Permission to Linger,265",
+				"Stories,The Rose-Red Streets,=3"
+			],
+			"Action": "Enter Far Arbor"
+		},
+		{
+			"Conditions":[
+				"Mysteries,Extraordinary Implication,24",
+				"Stories,Arbor: Permission to Linger,265",
+				"Stories,The Rose-Red Streets,=3"
+			],
+			"Action": "Explore the Gatehouse Market"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=3"
+			],
+			"Action": "walk south"
+		},
+
+		{
+			"Conditions":[
+				"Mysteries,Extraordinary Implication,24",
+				"Stories,Arbor: Permission to Linger,275",
+				"Stories,The Rose-Red Streets,=4"
+
+			],
+			"Action": "Walk North"
+		},
+		{
+			"Conditions":[
+				"Mysteries,Extraordinary Implication,<3",
+				"Stories,The Rose-Red Streets,=4"
+
+			],
+			"Action": "short-cut north"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=4"
+
+			],
+			"Action": "Investigate the Near-Arbori"
+		}
+	]
 }

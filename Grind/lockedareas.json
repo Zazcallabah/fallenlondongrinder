@@ -8,5 +8,8 @@
 		"require":[
 			"require,Progress,Time Remaining...,10,ElaborateParty"
 		]
+	},
+	"The Elder Continent":{
+		"forced": true
 	}
 }

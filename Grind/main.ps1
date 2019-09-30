@@ -462,6 +462,12 @@ function HandleLockedArea
 			Write-warning "Stuck in locked area without instructions"
 			return $false
 		}
+		if($areaData.forced)
+		{
+			Write-Verbose "relying on forced action data"
+			$result = GoBackIfInStorylet
+			return $false
+		}
 		ForEach( $actionstr in $areaData.require )
 		{
 			$action = ParseActionString $actionstr
