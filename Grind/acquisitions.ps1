@@ -221,13 +221,11 @@ function ActionCost
 
 	return GetAcquisitionByCost $category $name $amount -force:$force
 }
-
-# returns true if named possession is fullfilled
-# otherwise an action is consumed trying to work towards fullfillment, which returns false
-# returns null if requirement is impossile - e.g. no acquisition can be found
-function Require
+$script:myself = @{
+}
+function PossessionSatisfiesLevel
 {
-	param( $category, $name, $level, $tag, [switch]$dryRun )
+	param($category,$name,$level)
 
 	$pos = GetPossession $category $name
 
@@ -238,11 +236,6 @@ function Require
 
 	if( $level[0] -eq "<" )
 	{
-		# usually menaces, handle state and continue grinding until it passes threshold?
-		# for menaces, not having possession means less than, so return true
-
-		# note that if we are in a forced storylet, that would be detected before we get here
-
 		if( $pos -eq $null -or $pos.effectivelevel -lt $level.substring(1) )
 		{
 			return $true
@@ -250,14 +243,11 @@ function Require
 	}
 	elseif( $level[0] -eq "=" )
 	{
-		# usually "working on...", needs handling of special actions to get specific values
-		if( $pos -eq $null )
+		if( $pos -eq $null -and $level.substring(1) -eq "0" )
 		{
-			# not occupied, "switch" action?
-			# working on 2 is "empresscourt,next work,novel" [poetry,stage,song,symphony,ballet]
-			# working on 31 is "veilgarden,begin a work,short story"
+			return $true
 		}
-		if( $pos -ne $null -and $pos.effectivelevel -eq $level.substring(1) )
+		elseif( $pos -ne $null -and $pos.effectivelevel -eq $level.substring(1) )
 		{
 			return $true
 		}
@@ -268,6 +258,21 @@ function Require
 		{
 			return $true
 		}
+	}
+
+	return $false
+}
+
+# returns true if named possession is fullfilled
+# otherwise an action is consumed trying to work towards fullfillment, which returns false
+# returns null if requirement is impossile - e.g. no acquisition can be found
+function Require
+{
+	param( $category, $name, $level, $tag, [switch]$dryRun )
+
+	if( PossessionSatisfiesLevel $category $name $level )
+	{
+		return $true
 	}
 
 	$acq = LookupAcquisition $tag
