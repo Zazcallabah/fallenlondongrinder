@@ -55,7 +55,7 @@ $script:actions = @(
 #	"require,Basic,Persuasive,200,GrindPersuasive"
 	"require,Basic,Shadowy,200,GrindShadowy"
 #	"require,Contacts,Renown: The Church,8,Renown: The Church up to 8"
-	"require,Nostalgia,Bazaar Permit,50"
+	"require,Nostalgia,Bazaar Permit,5"
 	"require,Basic,Watchful,200,GrindWatchful"
 	"require,Progress,Archaeologist's Progress,31"
 
