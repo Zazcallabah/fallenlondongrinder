@@ -9,11 +9,75 @@
 	"A Trove of Secrets": "Keep it to yourself",
 	"A Toast in the Shadows": "own name",
 
+	"Far Arbor": [
+		{
+			"Conditions":[
+				"Stories,Arbor: Permission to Linger,=0"
+			],
+			"Action": "1"
+		},
+		{
+			"Conditions":[
+				"Curiosity,Attar,<3"
+			],
+			"Action": "1"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=5"
+			],
+			"Action": "Gift your Attar"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=3",
+				"Stories,Arbor: Permission to Linger,10"
+			],
+			"Action": "Walk the Walls"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=3"
+			],
+			"Action": "Walk South"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=4"
+			],
+			"Action": "Walk South"
+		}
+	],
 	"Near Arbor": [
 		{
 			"Conditions":[
+				"Stories,Arbor: Permission to Linger,=0"
+			],
+			"Action": "1"
+		},
+		{
+			"Conditions":[
+				"Curiosity,Attar,5"
+			],
+			"Action": "Enter Far Arbor"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=5",
+				"Mysteries,Extraordinary Implication,<3"
+			],
+			"Action": "Become a serpent-tender"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=5"
+			],
+			"Action": "Walk North"
+		},
+		{
+			"Conditions":[
 				"Stories,The Rose-Red Streets,=2",
-				"Mysteries,Extraordinary Implication,24",
+				"Mysteries,Extraordinary Implication,<3",
 				"Stories,Arbor: Permission to Linger,275"
 			],
 			"Action": "Walk South"
@@ -34,16 +98,7 @@
 
 		{
 			"Conditions":[
-				"Curiosity,Attar,5",
-				"Mysteries,Extraordinary Implication,24",
-				"Stories,Arbor: Permission to Linger,265",
-				"Stories,The Rose-Red Streets,=3"
-			],
-			"Action": "Enter Far Arbor"
-		},
-		{
-			"Conditions":[
-				"Mysteries,Extraordinary Implication,24",
+				"Mysteries,Extraordinary Implication,<3",
 				"Stories,Arbor: Permission to Linger,265",
 				"Stories,The Rose-Red Streets,=3"
 			],
@@ -58,7 +113,7 @@
 
 		{
 			"Conditions":[
-				"Mysteries,Extraordinary Implication,24",
+				"Mysteries,Extraordinary Implication,<3",
 				"Stories,Arbor: Permission to Linger,275",
 				"Stories,The Rose-Red Streets,=4"
 

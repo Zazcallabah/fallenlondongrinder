@@ -35,7 +35,6 @@ function HandleLockedStoryletAction
 	write-verbose "forced action $($list.storylet.name), choosing $action"
 	if( $dryRun )
 	{
-		Write-Host "DRYRUN: forced action $($list.storylet.name), choosing $action"
 		return $action
 	}
 	$result = PerformAction $list $action
