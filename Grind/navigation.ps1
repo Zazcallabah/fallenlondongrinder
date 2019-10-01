@@ -1,14 +1,6 @@
 
-if($env:Home -eq $null)
-{
-	. $PSScriptRoot/apicalls.ps1
-	$script:ForcedActions = gc -Raw $PSScriptRoot/forcedactions.json | ConvertFrom-Json
-}
-else
-{
-	. ${env:HOME}/site/wwwroot/Grind/apicalls.ps1
-	$script:ForcedActions = gc -Raw ${env:HOME}/site/wwwroot/Grind/forcedactions.json | ConvertFrom-Json
-}
+. $PSScriptRoot/apicalls.ps1
+$script:ForcedActions = gc -Raw $PSScriptRoot/forcedactions.json | ConvertFrom-Json
 
 function GetUserLocation
 {
@@ -31,9 +23,27 @@ function IsInLocation
 	return (GetUserLocation) -eq $id
 }
 
+function IsSimpleAction
+{
+	param($action)
+	return $action.GetType().Name -eq "String"
+}
+
+function HandleLockedStoryletAction
+{
+	param( $list, $action, [switch]$dryRun )
+	write-verbose "forced action $($list.storylet.name), choosing $action"
+	if( $dryRun )
+	{
+		return $action
+	}
+	$result = PerformAction $list $action
+	return $false
+}
+
 function HandleLockedStorylet
 {
-	param($list)
+	param($list,[switch]$dryrun)
 
 	$action = $script:ForcedActions."$($list.storylet.name)"
 	if($action -eq $null)
@@ -41,10 +51,31 @@ function HandleLockedStorylet
 		throw "stuck in forced action named $($list.storylet.name), can't proceed without manual interaction"
 	}
 
-	write-verbose "forced action $($list.storylet.name), choosing $action"
-	$result = PerformAction $list $action
-	return $false
+	if( IsSimpleAction  $action )
+	{
+		return HandleLockedStoryletAction $list $action -dryrun:$dryrun
+	}
+
+	foreach( $entry in $action )
+	{
+		$conditions = $entry.Conditions | %{
+			$condition = ParseActionString $_
+			$result = PossessionSatisfiesLevel $condition.location $condition.first $condition.second
+			Write-Verbose "checking criteria $_ gave result $result"
+			return $result
+		} | ?{ $_ } | measure
+
+		if( $conditions.Count -eq @($entry.Conditions).Length )
+		{
+			return HandleLockedStoryletAction $list $entry.Action -dryrun:$dryrun
+		}
+	}
+
+	write-warning "no idea what to do here"
+	throw "$list"
 }
+
+
 
 function GoBackIfInStorylet
 {
@@ -103,7 +134,7 @@ function GetPossessionCategory
 		return (Myself).possessions[0].possessions;
 	}
 
-	return (Myself).possessions | ?{ $category -eq $null -or $_.name -eq $category } | select -expandproperty possessions
+	return (Myself).possessions | ?{ $category -eq $null -or $category -eq "" -or $_.name -eq $category } | select -expandproperty possessions
 }
 
 function GetPossession

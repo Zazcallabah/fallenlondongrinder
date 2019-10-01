@@ -18,6 +18,27 @@
 		"Action": "watchmaker,Find somewhere to live,rent a room"
 	},
 
+
+	"Carnival Ticket Pearl": {
+		"Name": "Carnival Ticket Pearl",
+		"Result": "Carnival Ticket",
+		"Prerequisites": [
+			"Zee-Treasures,Moon-pearl,50,Courierjob",
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1"
+		],
+		"Action": "carnival,Buy,pearl",
+		"Reward": 10
+	},
+
+	"Route: Mrs Plenty's Most Distracting Carnival": {
+		"Name": "Route: Mrs Plenty's Most Distracting Carnival",
+		"Result": "Route: Mrs Plenty's Most Distracting Carnival",
+		"Prerequisites": [
+			"Route,Route: Lodgings,1"
+		],
+		"Action": "lodgings,Open a way to other parts of the City,Carnival"
+	},
+
 	"SellRaggedClothing":{
 		"Name": "SellRaggedClothing",
 		"Result": "SellRaggedClothing",

@@ -1,0 +1,21 @@
+{
+	"use":[
+		{
+			"name":"Investigating St Dunstan's",
+			"require": ["Rumour,Inkling of Identity,10", "Mysteries,Cryptic Clue,10"],
+			"action": "1"
+		},
+		{
+			"name":"He knows something",
+			"action":"1"
+		},
+		{
+			"name":"Recover illegally traded souls",
+			"action":"1"
+		},
+		{
+			"name":"The corrupt vicar",
+			"action":"1"
+		}
+	]
+}

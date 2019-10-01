@@ -1,6 +1,17 @@
 {
 	"use":[
 		{
+			"name":"Mirrors and Clay",
+			"require":[
+				"Mysteries,Cryptic Clue,10"
+			],
+			"action":"Loamsprach/I OFFER JADE/Statues/Stories/Unfinished"
+		},
+		{
+			"name":"Break through the Revolutionary Firebrand's reserve",
+			"action":"?"
+		},
+		{
 			"name": "A new Piece in the Game",
 			"action": "help out"
 		},
@@ -17,10 +28,6 @@
 			"action": "party/dispensary"
 		},
 		{
-			"name": "Altars and Alms-Houses: the Church",
-			"action": "south bank"
-		},
-		{
 			"name": "The Fallen Angel",
 			"action": "tackle"
 		},
@@ -28,10 +35,6 @@
 			"name": "2000 Foxfire Candles wanted! Will pay handsomely!",
 			"require": ["Academic,Foxfire Candle Stub,2000,BuyCandles"],
 			"action": "exchange"
-		},
-		{
-			"name": "The Lord Mayor of London",
-			"action": "protest"
 		},
 		{
 			"name": "The Departed",
@@ -78,23 +81,9 @@
 			"action": "Ask him"
 		},
 		{
-			"name":"Investigating St Dunstan's",
-			"require": ["Rumour,Inkling of Identity,10", "Mysteries,Cryptic Clue,10"],
+			"name":"Entertainers for the revels",
+			"require": ["Influence,Compromising Document,15"],
 			"action": "1"
-		},
-		{
-			"name":"Your green companion",
-			"require": ["Elder,Jade Fragment,50"],
-			"action": "expert"
-		},
-		{
-			"name":"Your house-plant",
-			"require": ["Zee-Treasures,Moon Pearl,50"],
-			"action": "assemble"
-		},
-		{
-			"name":"Remember the Honey-sipping Jewel Thief?",
-			"action":"ignore"
 		},
 		{
 			"name":"Don't you know her?",
@@ -158,20 +147,35 @@
 			"action":"Reply and attend"
 		},
 		{
-			"name": "All fear the Overgoat!",
-			"action": "Learn"
+			"name":"Plumb the Firebrand's secrets",
+			"action":"allow him"
+		},
+		{
+			"name":"what's that smell",
+			"action":"listen to him"
+		},
+		{
+			"name":"The Cities that Fell",
+			"action":"ancient stories"
+		},
+		{
+			"name":"A visit",
+			"action":"sardonic,drop in"
+		},
+		{
+			"name":"The Geology of Winewound",
+			"action":"as far as you can"
 		}
 	],
 	"keep":[
 		"City Vices: a Rather Decadent Evening",
 		"Secrets and Spending",
-		"The Demi-Monde: Bohemians",
-		"The Roof-Tops: Urchins",
 		"Taking matters into your own hands",
 		"A Raggedy Creature",
 		"A flash of white",
 		"A Dream of Roses",
 		"A commotion above!",
+		"Park and Palace: Society",
 		"The mournful rubbery instrument",
 		"A disgraceful spectacle 2",
 		"More Larks with the Young Stags",
@@ -180,7 +184,6 @@
 		"The Lofty Tower: the Potential of Premises at the Bazaar",
 		"Once upon a time in a carriage",
 		"One's public",
-		"All fear the Overgoat!",
 		"Call in favours in the Flit",
 		"The High Castle: What Occurs in a Rooftop Shack",
 		"The mechanics of progress",
@@ -190,16 +193,23 @@
 		"The Listing Tower: Intrigue in a Half-Abandoned Mansion",
 		"The Bonfire of the Decencies",
 		"A Visit",
-		"The Neath's Mysteries",
-		"City Vices: ask the Sardonic Music-Hall Singer to help you"
+		"The Neath's Mysteries"
 	],
 	"trash":[
 		"A fair sized job for the right cracksman",
+		"All fear the Overgoat!",
 		"A letter from your aunt",
 		"Gold frame, black painting",
 		"Make Friends with a Young Stag",
 		"A Sporting Sort",
+		"A day at the races",
+		"An Afternoon of Good Deeds",
+		"A dream about",
 		"The troublesome suitor",
-		"The Secular Missionary: a Package Arrives"
+		"The Secular Missionary: a Package Arrives",
+		"Remember the Honey-sipping Jewel Thief",
+		"The Coquettish Relicker and Mathilde are Making the Rounds",
+		"A Presumptuous Little Opportunity",
+		"City Vices: ask the Sardonic Music-Hall Singer to help you"
 	]
 }

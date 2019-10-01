@@ -6,9 +6,33 @@ if( $env:LOGIN_EMAIL -eq $null -or $env:LOGIN_PASS -eq $null )
 }
 
 . $PSScriptRoot/acquisitions.ps1
-$script:CardActions = gc -Raw $PSScriptRoot/cards.json | ConvertFrom-Json
 $script:LockedAreas = gc -Raw $PSScriptRoot/lockedareas.json | ConvertFrom-Json
 $automaton = gc $PSScriptRoot/automaton.csv
+
+function MergeCardActionsObject
+{
+	param([parameter(ValueFromPipelineByPropertyName)]$FullName)
+
+	process {
+		$inputobject = gc -Raw $FullName | ConvertFrom-Json
+		if( $inputobject.use )
+		{
+			$script:CardActions.use += $inputobject.use
+		}
+		if( $inputobject.keep )
+		{
+			$script:CardActions.keep += $inputobject.keep
+		}
+		if( $inputobject.trash )
+		{
+			$script:CardActions.trash += $inputobject.trash
+		}
+	}
+}
+
+$script:CardActions = new-object PSObject -Property @{"use"=@();"keep"=@();"trash"=@()}
+Get-ChildItem "$PSScriptRoot/cards" | MergeCardActionsObject
+
 
 $script:actions = @(
 	#"veilgarden,archaeology,1" persuasive 31 shreik
@@ -31,7 +55,7 @@ $script:actions = @(
 #	"require,Basic,Persuasive,200,GrindPersuasive"
 	"require,Basic,Shadowy,200,GrindShadowy"
 #	"require,Contacts,Renown: The Church,8,Renown: The Church up to 8"
-	"require,Nostalgia,Bazaar Permit,50"
+	"require,Nostalgia,Bazaar Permit,5"
 	"require,Basic,Watchful,200,GrindWatchful"
 	"require,Progress,Archaeologist's Progress,31"
 
@@ -208,7 +232,7 @@ function FilterCards
 
 function ActivateOpportunityCard
 {
-	param($opportunity, $card, $action)
+	param($opportunity, $card, $actionStr)
 
 	if( $card.eventId -eq $null )
 	{
@@ -218,17 +242,16 @@ function ActivateOpportunityCard
 	{
 		$result = GoBack
 	}
-	Write-Host "doing card $($card.name) action $($action)"
+	Write-Host "doing card $($card.name) action $($actionStr)"
 	$storylet = BeginStorylet $card.eventId
-	if( $action )
+	if( $actionStr )
 	{
-		$branch = GetChildBranch $storylet.storylet.childBranches $action
-		if( $branch -eq $null )
+		$actions = $actionStr -split ","
+		$result = PerformActions $storylet $actions
+		if( $result -eq $null )
 		{
-			# not valid choice
 			return $null
 		}
-		$result = ChooseBranch $branch.id
 	}
 	return $false
 }
@@ -247,13 +270,21 @@ function TryOpportunity
 		$card.require | %{
 			$action = ParseActionString $_
 			$hasActionsLeft = Require $action.location $action.first $action.second $action.third
+			if( $hasActionsLeft -eq $null )
+			{
+				return $true
+			}
 			if(!$hasActionsLeft)
 			{
 				return $false
 			}
 		}
 
-		return ActivateOpportunityCard $o $card $card.action
+		$result = ActivateOpportunityCard $o $card $card.action
+		if( $result -ne $null )
+		{
+			return $false
+		}
 	}
 
 	return $true
@@ -271,7 +302,7 @@ function EarnestPayment
 
 function EnsureTickets
 {
-	return Require "Curiosity" "Carnival Ticket" 2
+	return Require "Curiosity" "Carnival Ticket" 2 "Carnival Ticket Pearl"
 }
 
 function LowerWounds
@@ -431,11 +462,17 @@ function HandleLockedArea
 			Write-warning "Stuck in locked area without instructions"
 			return $false
 		}
+		if($areaData.forced)
+		{
+			Write-Verbose "relying on forced action data"
+			$result = GoBackIfInStorylet
+			return $false
+		}
 		ForEach( $actionstr in $areaData.require )
 		{
 			$action = ParseActionString $actionstr
 			$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
-			if( !$hasActionsLeft )
+			if( $hasActionsLeft -ne $null -and !$hasActionsLeft )
 			{
 				return $false
 			}

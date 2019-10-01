@@ -12,18 +12,9 @@ function MergeAcquisitionsObject
 
 $script:Acquisitions = new-object PSObject
 
-if($env:Home -eq $null)
-{
-	. $PSScriptRoot/navigation.ps1
-	Get-ChildItem "$PSScriptRoot/acquisitions" | MergeAcquisitionsObject
-	$script:ItemData = gc $PSScriptRoot/items.csv | ConvertFrom-Csv
-}
-else
-{
-	. ${env:HOME}/site/wwwroot/Grind/navigation.ps1
-	Get-ChildItem ${env:HOME}/site/wwwroot/Grind/acquisitions | MergeAcquisitionsObject
-	$script:ItemData = gc ${env:HOME}/site/wwwroot/Grind/items.csv | ConvertFrom-Csv
-}
+. $PSScriptRoot/navigation.ps1
+Get-ChildItem "$PSScriptRoot/acquisitions" | MergeAcquisitionsObject
+$script:ItemData = gc $PSScriptRoot/items.csv | ConvertFrom-Csv
 
 function AddAcquisition
 {
@@ -230,12 +221,11 @@ function ActionCost
 
 	return GetAcquisitionByCost $category $name $amount -force:$force
 }
-
-# returns true if named possession is fullfilled
-# otherwise an action is consumed trying to work towards fullfillment, which returns false
-function Require
+$script:myself = @{
+}
+function PossessionSatisfiesLevel
 {
-	param( $category, $name, $level, $tag, [switch]$dryRun )
+	param($category,$name,$level)
 
 	$pos = GetPossession $category $name
 
@@ -246,11 +236,6 @@ function Require
 
 	if( $level[0] -eq "<" )
 	{
-		# usually menaces, handle state and continue grinding until it passes threshold?
-		# for menaces, not having possession means less than, so return true
-
-		# note that if we are in a forced storylet, that would be detected before we get here
-
 		if( $pos -eq $null -or $pos.effectivelevel -lt $level.substring(1) )
 		{
 			return $true
@@ -258,14 +243,11 @@ function Require
 	}
 	elseif( $level[0] -eq "=" )
 	{
-		# usually "working on...", needs handling of special actions to get specific values
-		if( $pos -eq $null )
+		if( $pos -eq $null -and $level.substring(1) -eq "0" )
 		{
-			# not occupied, "switch" action?
-			# working on 2 is "empresscourt,next work,novel" [poetry,stage,song,symphony,ballet]
-			# working on 31 is "veilgarden,begin a work,short story"
+			return $true
 		}
-		if( $pos -ne $null -and $pos.effectivelevel -eq $level.substring(1) )
+		elseif( $pos -ne $null -and $pos.effectivelevel -eq $level.substring(1) )
 		{
 			return $true
 		}
@@ -278,6 +260,21 @@ function Require
 		}
 	}
 
+	return $false
+}
+
+# returns true if named possession is fullfilled
+# otherwise an action is consumed trying to work towards fullfillment, which returns false
+# returns null if requirement is impossile - e.g. no acquisition can be found
+function Require
+{
+	param( $category, $name, $level, $tag, [switch]$dryRun )
+
+	if( PossessionSatisfiesLevel $category $name $level )
+	{
+		return $true
+	}
+
 	$acq = LookupAcquisition $tag
 
 	if( $acq -eq $null )
@@ -287,13 +284,18 @@ function Require
 
 	if( $acq -eq $null )
 	{
-		throw "no way to get $category $name found in acquisitions list"
+		Write-Warning "no way to get $category $name found in acquisitions list"
+		return $null
 	}
 
 	foreach( $prereq in $acq.Prerequisites )
 	{
 		$action = ParseActionString $prereq
 		$hasActionsLeft = Require $action.location $action.first $action.second $action.third -dryRun:$dryRun
+		if( $hasActionsLeft -eq $null )
+		{
+			return $null
+		}
 		if(!$hasActionsLeft)
 		{
 			return $false

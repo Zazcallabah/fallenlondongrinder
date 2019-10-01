@@ -1,0 +1,33 @@
+{
+	"use":[
+		{
+			"name":"Your green companion",
+			"require": ["Elder,Jade Fragment,50"],
+			"action": "expert"
+		},
+		{
+			"name":"Your house-plant",
+			"require": ["Zee-Treasures,Moon Pearl,50"],
+			"action": "assemble"
+		},
+		{
+			"name":"Your green project",
+			"require": ["Mysteries,Cryptic Clue,100"],
+			"action": "tell your plant your secrets"
+		},
+		{
+			"name":"Your sprouting companion",
+			"require": ["Ratness,Rat on a string,200"],
+			"action": "Dinner time"
+		},
+		{
+			"name":"Your green lodger",
+			"action": "Investigate"
+		}
+	],
+	"keep":[
+	],
+	"trash":[
+		"The Noted Orchid-Grower Consults"
+	]
+}

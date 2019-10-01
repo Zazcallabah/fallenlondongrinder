@@ -1,13 +1,23 @@
 {
 
-	"Carnival Ticket": {
-		"Name": "Carnival Ticket",
+	"Carnival Ticket Clues": {
+		"Name": "Carnival Ticket Clues",
 		"Result": "Carnival Ticket",
 		"Prerequisites": [
 			"Mysteries,Cryptic Clue,20",
-			"Route,Route: Mrs plenty,1"
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1"
 		],
-		"Action": "carnival,Buy,clues"
+		"Action": "carnival,Buy,cryptic",
+		"Reward": 10
+	},
+	"BuySouls":{
+		"Result": "BuySouls",
+		"Name": "Soul",
+		"Action": "buy,Merrigans,Soul,500",
+		"Prerequisites": [
+			"Currency,Penny,2000"
+		],
+		"Reward": 500
 	},
 	"Whispered Hint": {
 		"Name": "Whispered Hint",
@@ -87,13 +97,32 @@
 		],
 		"Action": "flit,embark,baseborn"
 	},
+	"PrepPosi": {
+		"Name": "PrepPosi",
+		"Result": "Casing...",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1,PrepBasebord"
+		],
+		"Action": "flit,preparing,Well-planned villainy",
+		"Reward":3
+	},
 	"PrepBaseborn" : {
 		"Name": "PrepBaseborn",
-		"Result": "Casing...",
+		"Result": "PrepBaseborn",
 		"Prerequisites": [
 			"Circumstance,Planning a Heist:,1,HeistBaseborn"
 		],
-		"Action": "flit,preparing,formulate"
+		"Action": "flit,preparing,formulate",
+		"Reward":3
+	},
+	"StealPermits":{
+		"Name": "StealPermits",
+		"Result": "Bazaar Permit",
+		"Prerequisites": [
+			"Progress,Casing...,10"
+		],
+		"Action": "flit,The Big Score: Choose a Target,Thefts of a particular character,Baseborn & Fowlingpiece",
+		"Reward":1
 	},
 	"First City Coin": {
 		"Name": "First City Coin",
@@ -131,6 +160,15 @@
 		"Action": "buy,Merrigans,Foxfire Candle Stub,2000",
 		"Reward": 2000
 	},
+	"BuyLuckyWeasel": {
+		"Name": "BuyLuckyWeasel",
+		"Result": "Lucky Weasel",
+		"Prerequisites": [
+			"Currency,Penny,40"
+		],
+		"Action": "buy,Nassos Zoologicals,Lucky Weasel,1",
+		"Reward": 1
+	},
 	"Nodule of Deep Amber": {
 		"Name": "Nodule of Deep Amber",
 		"Result": "Nodule of Deep Amber",
@@ -156,7 +194,16 @@
 			"Accomplishments,A Person of Some Importance,1"
 		],
 		"Action": "veilgarden,unfinished business,crowd",
-		"Reward": 300
+		"Reward": 100
+	},
+	"Bottle of Greyfields 1882": {
+		"Name": "Bottle of Greyfields 1882",
+		"Result": "Bottle of Greyfields 1882",
+		"Prerequisites": [
+			"Currency,Penny,400"
+		],
+		"Action": "buy,Merrigans,Bottle of Greyfields 1882,100",
+		"Reward": 100
 	},
 	"Relic of the Second City": {
 		"Name": "Relic of the Second City",
@@ -313,7 +360,8 @@
 			"Nostalgia,Vision of the Surface,10",
 			"Nostalgia,Romantic Notion,100"
 		],
-		"Action": "bazaar,fowlingpiece,permit"
+		"Action": "bazaar,fowlingpiece,permit",
+		"Reward": 1
 	},
 	"StartNovel": {
 		"Name": "StartNovel",
@@ -332,6 +380,15 @@
 		"Action": "empresscourt,quiet,1"
 	},
 
+	"BazaarLodgings": {
+		"Name": "BazaarLodgings",
+		"Result": "Lengthy Lease to Premises at the Bazaar",
+		"Prerequisites": [
+			"Nostalgia,Bazaar Permit,50"
+		],
+		"Action": "bazaar,Solicitors at Law,Your just due",
+		"Reward": 1
+	},
 
 	"Exceptional Short Story": {
 		"Name": "Exceptional Short Story",
