@@ -42,271 +42,271 @@
 
 . ./main.ps1 -noaction
 
-
-
-Describe "PossessionSatisfiesLevel" {
-	It "can get possesion" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 21)
-			)
-		};
-
-		PossessionSatisfiesLevel "Mysteries" "Extraordinary Implication" "<3" | should be $false
+function SetupStart
+{
+	param($impl=21,$street=3,$attar=1)
+	$script:myself = @{
+		"possessions" = @(
+			(TestPossessionData "Stories" "Arbor: Permission to Linger" 5),
+			(TestPossessionData "Stories" "The Rose-Red Streets" $street),
+			(TestPossessionData "Curiosity" "Attar" $attar),
+			(TestPossessionData "Mysteries" "Extraordinary Implication" $impl),
+			(TestPossessionData "Influence" "Favour in High Places" 0)
+		)
 	}
+	$script:actionpoints = 0
 }
 
-Describe "Far Arbor" {
-	$list = @{"storylet"=@{"name"="Far Arbor"}}
-	It "walk walls if perm" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 50),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 3),
-				(TestPossessionData "Curiosity" "Attar" 5),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
-			)
-		};
+function SetGetPossessionLevel
+{
+	param($category,$name,$adjust)
 
-		HandleLockedStorylet $list -dryrun | should be "Walk the Walls"
+	$pos = GetPossessionLevel $category $name
+	if( $adjust -eq $null )
+	{
+		return $pos
 	}
-	It "walk south if no perm" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 5),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 3),
-				(TestPossessionData "Curiosity" "Attar" 50),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
-			)
-		};
-
-		HandleLockedStorylet $list -dryrun | should be "Walk South"
-	}
-
-	It "walk south if at 4" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 5),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 4),
-				(TestPossessionData "Curiosity" "Attar" 50),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
-			)
-		};
-
-		HandleLockedStorylet $list -dryrun | should be "Walk South"
-	}
-
-	It "gift attar at palace" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 5),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 5),
-				(TestPossessionData "Curiosity" "Attar" 50),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
-			)
-		};
-
-		HandleLockedStorylet $list -dryrun | should be "Gift your attar"
-	}
-
-	It "can go back to near arbor" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 5),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 5),
-				(TestPossessionData "Curiosity" "Attar" 0),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
-			)
-		};
-
-		HandleLockedStorylet $list -dryrun | should be "1"
-	}
-
+	$return = SetPossessionLevel $category $name ($pos+$adjust)
 }
 
-Describe "Near Arbor" {
-	$list = @{"storylet"=@{"name"="Near Arbor"}}
-	It "entering at palace, goes north" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 5),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 5),
-				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 21)
-			)
-		};
+function SetAttar
+{
+	param($val)
+	$r=SetPossessionLevel "Curiosity" "Attar" $val
+}
+function Attar
+{
+	param($adjust)
+	return SetGetPossessionLevel "Curiosity" "Attar" $adjust
+}
+function Streets
+{
+	param($adjust)
+	return SetGetPossessionLevel "Stories" "The Rose-Red Streets" $adjust
+}
+function SetPermission
+{
+	param($val)
+	$r=SetPossessionLevel "Stories" "Arbor: Permission to Linger" $val
+}
+function Permission
+{
+	param($adjust)
+	return SetGetPossessionLevel "Stories" "Arbor: Permission to Linger" $adjust
+}
+function Implications
+{
+	param($adjust)
+	return SetGetPossessionLevel "Mysteries" "Extraordinary Implication" $adjust
+}
+function FiHP
+{
+	param($adjust)
+	return SetGetPossessionLevel "Influence" "Favour in High Places" $adjust
+}
+function Place
+{
+	return $script:list.storylet.name
+}
+function GoNear
+{
+	$script:list.storylet.name = "Near Arbor"
+}
+function GoFar
+{
+	$script:list.storylet.name = "Far Arbor"
+}
+$script:list = @{"storylet"=@{"name"="Near Arbor"}}
 
-		HandleLockedStorylet $list -dryrun | should be "walk north"
-	}
-	It "at palace without implications means you already gifted, quit" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 5),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 5),
-				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
-			)
-		};
+function Handle
+{
+	$proposedaction = HandleLockedStorylet $script:list -dryrun
+	ChangeState $proposedAction
+}
+$script:rng = new-object -TypeName "System.Random"
 
-		HandleLockedStorylet $list -dryrun | should be "Become a serpent-tender"
-	}
-	It "goes south first thing" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 5),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 3),
-				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 21)
-			)
-		};
+function PrintStatus
+{
+	Write-Host "AP:$($script:actionpoints) >> $(Place), street $(Streets). Perm $(Permission) Impl $(Implications) Attar $(Attar) fihp $(FiHP)"
+}
+$script:lastaction = ""
+$script:xcount = 1
+function ChangeState
+{
+	param($proposedaction)
 
-		HandleLockedStorylet $list -dryrun | should be "walk south"
-	}
-	It "grinds perms #1 a" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 4),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 4),
-				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 21)
-			)
-		};
+	$areequal= $proposedaction -eq $script:lastaction
 
-		HandleLockedStorylet $list -dryrun | should be "Investigate the Near-Arbori"
-	}
-	It "grinds perms #1 b" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 10),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 4),
-				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 3)
-			)
-		};
+	$script:actionpoints++
 
-		HandleLockedStorylet $list -dryrun | should be "Investigate the Near-Arbori"
+	if( $areequal )
+	{
+		$script:xcount++
 	}
-	It "shortcuts north when not enough implications" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 10),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 4),
-				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 0)
-			)
-		};
+	else
+	{
+		if( $script:xcount -gt 1 )
+		{
+			write-host "x $($script:xcount)`n"
+			$script:xcount = 1
+		}
+		$script:lastaction = $proposedaction
+		Write-Host "doing action $proposedaction, new status:"
+	}
 
-		HandleLockedStorylet $list -dryrun | should be "short-cut north"
+	if( (Permission) -eq 0 -and $proposedaction -ne "Leave Arbor")
+	{
+		throw "invalid action for no permission"
 	}
-	It "spies on embassy when north" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 10),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 2),
-				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 0)
-			)
+	if( (Place) -eq "Near Arbor" -and (Attar) -ge 5 -and $proposedaction -ne "Enter Far Arbor" )
+	{
+		throw "invalid action for near arbor with 5 attar"
+	}
+	if( (Place) -eq "Far Arbor" -and (Attar) -lt 3 -and $proposedaction -ne "The City Washes Away" )
+	{
+		throw "invalid action for far arbor without 3 attar"
+	}
+
+	if( $proposedaction -eq "Leave Arbor" )
+	{
+		if( (Permission) -ne 0 )
+		{
+			throw "invalid state for Leave Arbor"
 		}
 
-		HandleLockedStorylet $list -dryrun | should be "Spy on London's Embassy"
+		throw "simulation ended"
 	}
-	It "spies on embassy when north 2" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 4),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 2),
-				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 20)
-			)
+	elseif( $proposedaction -eq "The city washes away" )
+	{
+		if( (Place) -ne "Far arbor" -or (Attar) -ge 3 )
+		{
+			throw "invalid state for city washes away"
 		}
 
-		HandleLockedStorylet $list -dryrun | should be "Spy on London's Embassy"
+		GoNear
 	}
+	elseif( $proposedaction -eq "Gift your Attar in tribute to the Roseate Queen" )
+	{
+		if( (Streets) -ne 5 -or (Place) -ne "Far arbor" )
+		{
+			throw "invalid state for gift your attar to queen"
+		}
+		Permission -1
 
-	It "go south when almost out of perm" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 3),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 2),
-				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 20)
-			)
+		if( ($script:rng.NextDouble()) -lt 0.21 )
+		{
+
+			FiHp ([Math]::Round( (Attar)/3 ) )
+			SetAttar 0
+		}
+		else
+		{
+			Attar -3
+			FiHP 1
 		}
 
-		HandleLockedStorylet $list -dryrun | should be "Walk South"
 	}
-	It "centre: go south when mid travel" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 2),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 3),
-				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 20)
-			)
+	elseif( $proposedaction -eq "Walk the walls" )
+	{
+		if( (Streets) -ne 3 -or (Place) -ne "Far arbor" )
+		{
+			throw "invalid state for walk south"
 		}
-
-		HandleLockedStorylet $list -dryrun | should be "Walk South"
+		Permission -1
+		Attar 2
 	}
-	It "exit condition south" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 275),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 4),
-				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
-			)
+	elseif( $proposedaction -eq "Walk south" )
+	{
+		if( (Streets) -eq 5 )
+		{
+			throw "invalid state for walk south"
 		}
-
-		HandleLockedStorylet $list -dryrun | should be "Walk North"
+		Permission -1
+		Streets 1
 	}
-
-	It "exit condition north" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 275),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 2),
-				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
-			)
+	elseif( $proposedaction -eq "Enter Far Arbor" )
+	{
+		if( (Place) -ne "Near Arbor" )
+		{
+			throw "invalid state for enter far arbor"
 		}
-
-		HandleLockedStorylet $list -dryrun | should be "Walk South"
+		GoFar
 	}
-	It "centre, get attar 1" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 274),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 3),
-				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
-			)
+	elseif( $proposedaction -eq "Become a serpent-tender in exchange for Attar" )
+	{
+		if( (Streets) -ne 5 -or (Place) -ne "Near Arbor" )
+		{
+			throw "invalid state for serpent-tender"
 		}
-
-		HandleLockedStorylet $list -dryrun | should be "Explore the Gatehouse Market"
+		Attar (Permission)
+		SetPermission 0
 	}
-	It "centre, get attar 2" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 273),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 3),
-				(TestPossessionData "Curiosity" "Attar" 3),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
-			)
+	elseif( $proposedaction -eq "Walk north" )
+	{
+		if( (Streets) -eq 1 )
+		{
+			throw "invalid state for walk north"
 		}
-
-		HandleLockedStorylet $list -dryrun | should be "Explore the Gatehouse Market"
+		Permission -1
+		Streets -1
 	}
-
-	It "centre will go far arbor" {
-		$script:myself = @{
-			"possessions" = @(
-				(TestPossessionData "Stories" "Arbor: Permission to Linger" 272),
-				(TestPossessionData "Stories" "The Rose-Red Streets" 3),
-				(TestPossessionData "Curiosity" "Attar" 5),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 24)
-			)
+	elseif( $proposedaction -eq "Spy on London's Embassy" )
+	{
+		if( (Streets) -ne 2 -or (Place) -ne "Near Arbor" )
+		{
+			throw "invalid state for spy embassy"
 		}
-
-		HandleLockedStorylet $list -dryrun | should be "Enter Far Arbor"
+		Permission -1
+		Implications 2
+	}
+	elseif( $proposedaction -eq "Explore the Gatehouse Market" )
+	{
+		if( (Streets) -ne 3 -or (Place) -ne "Near Arbor" )
+		{
+			throw "invalid state for gatehouse market"
+		}
+		Permission -1
+		Attar 2
+	}
+	elseif( $proposedaction -eq "take a short-cut north" )
+	{
+		if( (Streets) -ne 4 -or (Place) -ne "Near Arbor" )
+		{
+			throw "invalid state for shortcut north"
+		}
+		Permission -1
+		Streets -2
+	}
+	elseif( $proposedaction -eq "Investigate the Near-Arbori" )
+	{
+		if( (Streets) -ne 4 -or (Place) -ne "Near Arbor" -or (Implications) -lt 3 )
+		{
+			throw "invalid state for investigate near arbori"
+		}
+		Permission 3
+		Implications -3
+	}
+	else
+	{
+		throw "unknown proposed action"
+	}
+	if( !$areequal )
+	{
+		PrintStatus
 	}
 }
+# Setupstart
+# gave 190 fihp
+# in 785 ap
+
+#SetupStart -impl 21 -attar 3 -street 5
+#gave 191 fihp
+#in 787 ap
+
+SetupStart -impl 21 -attar 5 -street 5
+
+while($true)
+{
+	Handle
+}
+

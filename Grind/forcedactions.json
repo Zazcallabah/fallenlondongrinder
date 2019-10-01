@@ -14,19 +14,19 @@
 			"Conditions":[
 				"Stories,Arbor: Permission to Linger,=0"
 			],
-			"Action": "1"
+			"Action": "Leave Arbor"
 		},
 		{
 			"Conditions":[
 				"Curiosity,Attar,<3"
 			],
-			"Action": "1"
+			"Action": "The city washes away"
 		},
 		{
 			"Conditions":[
 				"Stories,The Rose-Red Streets,=5"
 			],
-			"Action": "Gift your Attar"
+			"Action": "Gift your Attar in tribute to the Roseate Queen"
 		},
 		{
 			"Conditions":[
@@ -53,7 +53,7 @@
 			"Conditions":[
 				"Stories,Arbor: Permission to Linger,=0"
 			],
-			"Action": "1"
+			"Action": "Leave Arbor"
 		},
 		{
 			"Conditions":[
@@ -66,7 +66,7 @@
 				"Stories,The Rose-Red Streets,=5",
 				"Mysteries,Extraordinary Implication,<3"
 			],
-			"Action": "Become a serpent-tender"
+			"Action": "Become a serpent-tender in exchange for Attar"
 		},
 		{
 			"Conditions":[
@@ -126,7 +126,7 @@
 				"Stories,The Rose-Red Streets,=4"
 
 			],
-			"Action": "short-cut north"
+			"Action": "take a short-cut north"
 		},
 		{
 			"Conditions":[

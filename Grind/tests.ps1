@@ -16,8 +16,101 @@ Describe "PossessionSatisfiesLevel" {
 		PossessionSatisfiesLevel "Mysteries" "Extraordinary Implication" "<3" | should be $false
 	}
 }
+
+Describe "Far Arbor" {
+	$list = @{"storylet"=@{"name"="Far Arbor"}}
+	It "walk walls if perm" {
+		$script:myself = @{
+			"possessions" = @(
+				(TestPossessionData "Stories" "Arbor: Permission to Linger" 50),
+				(TestPossessionData "Stories" "The Rose-Red Streets" 3),
+				(TestPossessionData "Curiosity" "Attar" 5),
+				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
+			)
+		};
+
+		HandleLockedStorylet $list -dryrun | should be "Walk the Walls"
+	}
+	It "walk south if no perm" {
+		$script:myself = @{
+			"possessions" = @(
+				(TestPossessionData "Stories" "Arbor: Permission to Linger" 5),
+				(TestPossessionData "Stories" "The Rose-Red Streets" 3),
+				(TestPossessionData "Curiosity" "Attar" 50),
+				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
+			)
+		};
+
+		HandleLockedStorylet $list -dryrun | should be "Walk South"
+	}
+
+	It "walk south if at 4" {
+		$script:myself = @{
+			"possessions" = @(
+				(TestPossessionData "Stories" "Arbor: Permission to Linger" 5),
+				(TestPossessionData "Stories" "The Rose-Red Streets" 4),
+				(TestPossessionData "Curiosity" "Attar" 50),
+				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
+			)
+		};
+
+		HandleLockedStorylet $list -dryrun | should be "Walk South"
+	}
+
+	It "gift attar at palace" {
+		$script:myself = @{
+			"possessions" = @(
+				(TestPossessionData "Stories" "Arbor: Permission to Linger" 5),
+				(TestPossessionData "Stories" "The Rose-Red Streets" 5),
+				(TestPossessionData "Curiosity" "Attar" 50),
+				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
+			)
+		};
+
+		HandleLockedStorylet $list -dryrun | should be "Gift your attar in tribute to the Roseate Queen"
+	}
+
+	It "can go back to near arbor" {
+		$script:myself = @{
+			"possessions" = @(
+				(TestPossessionData "Stories" "Arbor: Permission to Linger" 5),
+				(TestPossessionData "Stories" "The Rose-Red Streets" 5),
+				(TestPossessionData "Curiosity" "Attar" 0),
+				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
+			)
+		};
+
+		HandleLockedStorylet $list -dryrun | should be "the city washes away"
+	}
+
+}
+
 Describe "Near Arbor" {
 	$list = @{"storylet"=@{"name"="Near Arbor"}}
+	It "entering at palace, goes north" {
+		$script:myself = @{
+			"possessions" = @(
+				(TestPossessionData "Stories" "Arbor: Permission to Linger" 5),
+				(TestPossessionData "Stories" "The Rose-Red Streets" 5),
+				(TestPossessionData "Curiosity" "Attar" 1),
+				(TestPossessionData "Mysteries" "Extraordinary Implication" 21)
+			)
+		};
+
+		HandleLockedStorylet $list -dryrun | should be "walk north"
+	}
+	It "at palace without implications means you already gifted, quit" {
+		$script:myself = @{
+			"possessions" = @(
+				(TestPossessionData "Stories" "Arbor: Permission to Linger" 5),
+				(TestPossessionData "Stories" "The Rose-Red Streets" 5),
+				(TestPossessionData "Curiosity" "Attar" 1),
+				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
+			)
+		};
+
+		HandleLockedStorylet $list -dryrun | should be "Become a serpent-tender in exchange for Attar"
+	}
 	It "goes south first thing" {
 		$script:myself = @{
 			"possessions" = @(
@@ -64,7 +157,7 @@ Describe "Near Arbor" {
 			)
 		};
 
-		HandleLockedStorylet $list -dryrun | should be "short-cut north"
+		HandleLockedStorylet $list -dryrun | should be "take a short-cut north"
 	}
 	It "spies on embassy when north" {
 		$script:myself = @{
@@ -121,7 +214,7 @@ Describe "Near Arbor" {
 				(TestPossessionData "Stories" "Arbor: Permission to Linger" 275),
 				(TestPossessionData "Stories" "The Rose-Red Streets" 4),
 				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 24)
+				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
 			)
 		}
 
@@ -134,7 +227,7 @@ Describe "Near Arbor" {
 				(TestPossessionData "Stories" "Arbor: Permission to Linger" 275),
 				(TestPossessionData "Stories" "The Rose-Red Streets" 2),
 				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 24)
+				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
 			)
 		}
 
@@ -146,7 +239,7 @@ Describe "Near Arbor" {
 				(TestPossessionData "Stories" "Arbor: Permission to Linger" 274),
 				(TestPossessionData "Stories" "The Rose-Red Streets" 3),
 				(TestPossessionData "Curiosity" "Attar" 1),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 24)
+				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
 			)
 		}
 
@@ -158,7 +251,7 @@ Describe "Near Arbor" {
 				(TestPossessionData "Stories" "Arbor: Permission to Linger" 273),
 				(TestPossessionData "Stories" "The Rose-Red Streets" 3),
 				(TestPossessionData "Curiosity" "Attar" 3),
-				(TestPossessionData "Mysteries" "Extraordinary Implication" 24)
+				(TestPossessionData "Mysteries" "Extraordinary Implication" 2)
 			)
 		}
 
@@ -179,6 +272,7 @@ Describe "Near Arbor" {
 	}
 }
 
+$script:myself = $null
 Describe "CollectionHasCard function" {
 	It "can detect card" {
 		CollectionHasCard @("a","b") @{"name"="b"} | should be $true
