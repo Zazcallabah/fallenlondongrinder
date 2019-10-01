@@ -24,6 +24,18 @@
 		},
 		{
 			"Conditions":[
+				"Stories,The Rose-Red Streets,=1"
+			],
+			"Action": "Walk South"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=2"
+			],
+			"Action": "Walk South"
+		},
+		{
+			"Conditions":[
 				"Stories,The Rose-Red Streets,=5"
 			],
 			"Action": "Gift your Attar in tribute to the Roseate Queen"
@@ -78,7 +90,7 @@
 			"Conditions":[
 				"Stories,The Rose-Red Streets,=2",
 				"Mysteries,Extraordinary Implication,<3",
-				"Stories,Arbor: Permission to Linger,275"
+				"Stories,Arbor: Permission to Linger,150"
 			],
 			"Action": "Walk South"
 		},
@@ -99,7 +111,7 @@
 		{
 			"Conditions":[
 				"Mysteries,Extraordinary Implication,<3",
-				"Stories,Arbor: Permission to Linger,265",
+				"Stories,Arbor: Permission to Linger,140",
 				"Stories,The Rose-Red Streets,=3"
 			],
 			"Action": "Explore the Gatehouse Market"
@@ -114,7 +126,7 @@
 		{
 			"Conditions":[
 				"Mysteries,Extraordinary Implication,<3",
-				"Stories,Arbor: Permission to Linger,275",
+				"Stories,Arbor: Permission to Linger,150",
 				"Stories,The Rose-Red Streets,=4"
 
 			],
@@ -134,6 +146,12 @@
 
 			],
 			"Action": "Investigate the Near-Arbori"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=1"
+			],
+			"Action": "Walk South"
 		}
 	]
 }

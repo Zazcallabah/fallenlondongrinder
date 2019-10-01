@@ -158,11 +158,11 @@ function ChangeState
 	{
 		throw "invalid action for no permission"
 	}
-	if( (Place) -eq "Near Arbor" -and (Attar) -ge 5 -and $proposedaction -ne "Enter Far Arbor" )
+	if( (Permission) -ne 0 -and (Place) -eq "Near Arbor" -and (Attar) -ge 5 -and $proposedaction -ne "Enter Far Arbor" )
 	{
 		throw "invalid action for near arbor with 5 attar"
 	}
-	if( (Place) -eq "Far Arbor" -and (Attar) -lt 3 -and $proposedaction -ne "The City Washes Away" )
+	if( (Permission) -ne 0 -and (Place) -eq "Far Arbor" -and (Attar) -lt 3 -and $proposedaction -ne "The City Washes Away" )
 	{
 		throw "invalid action for far arbor without 3 attar"
 	}
@@ -174,6 +174,8 @@ function ChangeState
 			throw "invalid state for Leave Arbor"
 		}
 
+		$rate = (FiHP)*12/$script:actionpoints
+		write-host "total $($script:actionpoints) AP gave $(FiHP) fihp. $($rate) e/min"
 		throw "simulation ended"
 	}
 	elseif( $proposedaction -eq "The city washes away" )
@@ -296,14 +298,12 @@ function ChangeState
 	}
 }
 # Setupstart
-# gave 190 fihp
-# in 785 ap
+# gave 190 fihp in 785 ap = 3 e/min
 
 #SetupStart -impl 21 -attar 3 -street 5
-#gave 191 fihp
-#in 787 ap
+#gave 191 fihp in 787 ap = 3 e/min
 
-SetupStart -impl 21 -attar 5 -street 5
+SetupStart -impl 21 -attar 1 -street 3
 
 while($true)
 {
