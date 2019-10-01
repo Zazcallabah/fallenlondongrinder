@@ -44,10 +44,10 @@
 
 function SetupStart
 {
-	param($impl=21,$street=3,$attar=1)
+	param($impl=21,$street=3,$attar=1,$perm=5)
 	$script:myself = @{
 		"possessions" = @(
-			(TestPossessionData "Stories" "Arbor: Permission to Linger" 5),
+			(TestPossessionData "Stories" "Arbor: Permission to Linger" $perm),
 			(TestPossessionData "Stories" "The Rose-Red Streets" $street),
 			(TestPossessionData "Curiosity" "Attar" $attar),
 			(TestPossessionData "Mysteries" "Extraordinary Implication" $impl),
@@ -303,7 +303,7 @@ function ChangeState
 #SetupStart -impl 21 -attar 3 -street 5
 #gave 191 fihp in 787 ap = 3 e/min
 
-SetupStart -impl 21 -attar 1 -street 3
+SetupStart -impl 114 -attar 1 -street 2 -perm 16
 
 while($true)
 {
