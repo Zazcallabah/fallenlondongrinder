@@ -19,7 +19,7 @@
 		"Result": "NameFlourish1",
 		"Prerequisites": [
 			"Venture,Commission: Praising Fungus in Verse,1,NameFlourish1Start",
-			"Progress,Inspired...,8,NameFlourish1Grind"
+			"Progress,Inspired...,6,NameFlourish1Grind"
 		],
 		"Action": "veilgarden,Make Your Name: A Commissioned Epic,Honest"
 	},

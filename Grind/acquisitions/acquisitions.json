@@ -22,7 +22,7 @@
 	"Whispered Hint": {
 		"Name": "Whispered Hint",
 		"Result": "Whispered Hint",
-		"Prerequisites": [],
+		"Prerequisites": ["Route,Route: The Flit,1"],
 		"Action": "flit,its king,meeting,understand",
 		"Reward": 66
 	},

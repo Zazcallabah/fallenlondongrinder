@@ -113,6 +113,12 @@ function SellIfMoreThan
 
 function GrindMoney
 {
+	if( (PossessionSatisfiesLevel "Route" "Route: The Forgotten Quarter" "1") -and (PossessionSatisfiesLevel "Stories" "Archaeologist" "2") )
+	{
+		$hasmoreActions = Require "Progress" "Archaeologist's Progress" "99"
+		return $false
+	}
+
 	$result = SellIfMoreThan "Curiosity" "Competent Short Story" 0
 	$result = SellIfMoreThan "Curiosity" "Compelling Short Story" 1
 	$result = SellIfMoreThan "Curiosity" "Exceptional Short Story" 1

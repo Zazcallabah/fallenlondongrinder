@@ -88,18 +88,50 @@
 		"Result": "CatCatcher",
 		"Prerequisites": [
 			"Stories,A Name Whispered in Darkness,=1,MakeNameWhisperedInDarkness1",
-			"Mysteries,Whispered Hint,250,MakeNameHints"
+			"Mysteries,Whispered Hint,250"
 		],
 		"Action": "spite,alleys,cats of spite,making your name"
 	},
 
 	"MakeNameHints": {
 		"Name": "MakeNameHints",
+		"Result": "MakeNameHints",
+		"Prerequisites": [],
+		"Action": "ladybones,study the secrets,listen to gossip",
+		"Reward":10
+	},
+	"CatchCatsHints": {
+		"Name": "CatchCatsHints",
+		"Result": "CatchCatsHints",
+		"Prerequisites": [
+			"BasicAbility,Shadowy,25,MakeNameHints"
+		],
+		"Action": "spite,The Alleys of Spite,The Cats of Spite,Catch a white cat",
+		"Reward":36
+	},
+	"VeilgardenHints": {
+		"Name": "VeilgardenHints",
+		"Result": "VeilgardenHints",
+		"Prerequisites": [
+			"A Name Signed with a Flourish,3,CatchCatsHints",
+			"BasicAbility,Persuasive,75,CatchCatsHints"
+		],
+		"Action": "veilgarden,entering society,Getting in with the servants",
+		"Reward":51
+	},
+	"Whispered Hint": {
+		"Name": "Whispered Hint",
 		"Result": "Whispered Hint",
 		"Prerequisites": [
+			"Accomplishments,The Darling of the Ambassador's Ball,1,VeilgardenHints",
+			"BasicAbility,Persuasive,85,VeilgardenHints"
 		],
-		"Action": "ladybones,study the secrets,listen to gossip"
+		"Action": "veilgarden,The demands of high society,attend",
+		"Reward":54
 	},
+
+
+
 
 	"RostygoldMedusa": {
 		"Name": "RostygoldMedusa",

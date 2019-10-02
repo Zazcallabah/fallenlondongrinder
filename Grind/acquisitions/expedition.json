@@ -14,6 +14,7 @@
 		"Result": "Archaeologist's Progress",
 		"Prerequisites": [
 			"Academic,Judgements' Egg,<1,SellJudgementsEgg",
+			"Stories,Archaeologist,2",
 			"Circumstance,An Expedition,=11,Silk adventure",
 			"Stories,Rivals' Progress,<10,Lugubrious Seamstress Rivals' Progress"
 		],
@@ -30,25 +31,26 @@
 	},
 
 
+	"BuyCrate": {
+		"Name": "BuyCrate",
+		"Result": "BuyCrate",
+		"Prerequisites": [
+			"Mysteries,Whispered Hint,200"
+		],
+		"Action": "forgotten quarter,Prepare,Rumours"
+	},
+
 	"Crate of Expedition Supplies": {
 		"Name": "Crate of Expedition Supplies",
 		"Result": "Crate of Expedition Supplies",
 		"Prerequisites": [
 			"Progress,Archaeologist's Progress,<1",
-			"Mysteries,Whispered Hint,2000,Tea at court"
+			"Renown,Renown: The Docks,5,BuyCrate",
+			"Favours,Favours: The Docks,1,BuyCrate",
+			"Goods,Piece of Rostygold,50"
 		],
-		"Action": "forgotten quarter,Prepare,Rumours"
+		"Action": "forgotten quarter,Prepare,Hire a porter from the docks"
 	},
-
-	"Tea at court": {
-		"Name":"Tea at Court",
-		"Result":"Whispered Hint",
-		"Prerequisites": [
-		],
-		"Action": "empresscourt,Tea at Court,1",
-		"Reward": 50
-	},
-
 	"SellJudgementsEgg": {
 		"Name": "SellJudgementsEgg",
 		"Result": "SellJudgementsEgg",
