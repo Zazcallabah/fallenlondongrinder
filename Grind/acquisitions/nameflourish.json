@@ -90,9 +90,18 @@
 		"Name": "NameFlourishPotential",
 		"Result": "NameFlourishPotential",
 		"Prerequisites": [
-			"Curiosity,Manuscript Page,3"
+			"Curiosity,Manuscript Page,3",
+			"Progress,Potential,<26,DaringEditFinal"
 		],
 		"Action": "veilgarden,writer,rework,A Cautious Edit"
+	},
+	"DaringEditFinal": {
+		"Name": "DaringEditFinal",
+		"Result": "DaringEditFinal",
+		"Prerequisites": [
+			"Curiosity,Manuscript Page,3"
+		],
+		"Action": "veilgarden,writer,rework,A Daring Edit"
 	},
 	"NameFlourish3": {
 		"Name": "NameFlourish3",
