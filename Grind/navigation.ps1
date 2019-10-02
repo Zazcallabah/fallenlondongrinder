@@ -32,7 +32,7 @@ function IsSimpleAction
 function HandleLockedStoryletAction
 {
 	param( $list, $action, [switch]$dryRun )
-	write-verbose "forced action $($list.storylet.name), choosing $action"
+	write-host "forced action $($list.storylet.name), choosing $action"
 	if( $dryRun )
 	{
 		return $action

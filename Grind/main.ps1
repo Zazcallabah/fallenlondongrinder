@@ -650,6 +650,7 @@ RunActions $script:actions ([DateTime]::UtcNow.DayOfYear)
 
 if( $env:SECOND_EMAIL -ne $null -and $env:SECOND_PASS -ne $null )
 {
+	Write-Host "Running secondary account"
 
 # equip blemmigan
 # grind to what, 10? in each stat
