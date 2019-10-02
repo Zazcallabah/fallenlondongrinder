@@ -167,6 +167,11 @@
 			"action":"as far as you can"
 		},
 		{
+			"name":"A Dream of Roses",
+			"require":["Mysteries,Extraordinary Implication,21"],
+			"action":"1"
+		},
+		{
 			"name":"A Word about Menaces",
 			"action":"1"
 		}
@@ -177,7 +182,6 @@
 		"Taking matters into your own hands",
 		"A Raggedy Creature",
 		"A flash of white",
-		"A Dream of Roses",
 		"A commotion above!",
 		"Park and Palace: Society",
 		"The mournful rubbery instrument",
