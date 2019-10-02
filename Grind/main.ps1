@@ -113,6 +113,12 @@ function SellIfMoreThan
 
 function GrindMoney
 {
+	if( (PossessionSatisfiesLevel "Route" "Route: The Forgotten Quarter" "1") -and (PossessionSatisfiesLevel "Stories" "Archaeologist" "2") )
+	{
+		$hasmoreActions = Require "Progress" "Archaeologist's Progress" "99"
+		return $false
+	}
+
 	$result = SellIfMoreThan "Curiosity" "Competent Short Story" 0
 	$result = SellIfMoreThan "Curiosity" "Compelling Short Story" 1
 	$result = SellIfMoreThan "Curiosity" "Exceptional Short Story" 1
@@ -267,8 +273,9 @@ function TryOpportunity
 	$card = GetCardInUseList $o
 	if( $card -ne $null )
 	{
-		$card.require | %{
-			$action = ParseActionString $_
+		foreach( $req in $card.require )
+		{
+			$action = ParseActionString $req
 			$hasActionsLeft = Require $action.location $action.first $action.second $action.third
 			if( $hasActionsLeft -eq $null )
 			{
@@ -652,7 +659,7 @@ if( $env:SECOND_EMAIL -ne $null -and $env:SECOND_PASS -ne $null )
 # make sure menaces grinding is available
 # find early money grind, make sure menaces are covered
 
-	#Register $env:SECOND_EMAIL $env:SECOND_PASS
-	#RunActions $automaton
+	Register $env:SECOND_EMAIL $env:SECOND_PASS
+	RunActions $automaton
 }
 

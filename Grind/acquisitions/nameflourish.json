@@ -1,0 +1,108 @@
+{
+	"NameFlourish1Start": {
+		"Name": "NameFlourish1Start",
+		"Result": "Commission: Praising Fungus in Verse",
+		"Prerequisites": [
+		],
+		"Action": "veilgarden,Make Your Name: A Commissioned Epic,Mushroom Harvest"
+	},
+	"NameFlourish1Grind": {
+		"Name": "NameFlourish1Grind",
+		"Result": "NameFlourish1Grind",
+		"Prerequisites": [
+			"Venture,Commission: Praising Fungus in Verse,1,NameFlourish1Start"
+		],
+		"Action": "veilgarden,Make Your Name: A Commissioned Epic,field work"
+	},
+	"NameFlourish1": {
+		"Name": "NameFlourish1",
+		"Result": "NameFlourish1",
+		"Prerequisites": [
+			"Venture,Commission: Praising Fungus in Verse,1,NameFlourish1Start",
+			"Progress,Inspired...,6,NameFlourish1Grind"
+		],
+		"Action": "veilgarden,Make Your Name: A Commissioned Epic,Honest"
+	},
+	"NameFlourish2": {
+		"Name": "NameFlourish2",
+		"Result": "NameFlourish2",
+		"Prerequisites": [
+			"Stories,A Name Signed with a Flourish,1,NameFlourish1",
+			"Venture,Seduction: Honey-Sipping Heiress,6,NameFlourish2Grind3"
+		],
+		"Action": "veilgarden,honey-sipping heiress,let her down gently"
+	},
+
+	"NameFlourish2Start": {
+		"Name": "NameFlourish2Start",
+		"Result": "NameFlourish2Start",
+		"Prerequisites": [
+		],
+		"Action": "veilgarden,Making Your Name: Engage in a Notable Affair,Begin a romance with a Honey-Sipping Heiress,Begin"
+	},
+
+
+	"NameFlourish2Grind1": {
+		"Name": "NameFlourish2Grind1",
+		"Result": "NameFlourish2Grind1",
+		"Prerequisites": [
+			"Venture,Seduction: Honey-Sipping Heiress,1,NameFlourish2Start"
+		],
+		"Action": "veilgarden,charming young heiress,faster"
+	},
+
+	"NameFlourish2Grind2": {
+		"Name": "NameFlourish2Grind2",
+		"Result": "NameFlourish2Grind2",
+		"Prerequisites": [
+			"Venture,Seduction: Honey-Sipping Heiress,1,NameFlourish2Start",
+			"Progress,Fascinating...,5,NameFlourish2Grind1"
+		],
+		"Action": "veilgarden,charming young heiress,Commence"
+	},
+	"NameFlourish2Grind3": {
+		"Name": "NameFlourish2Grind3",
+		"Result": "NameFlourish2Grind3",
+		"Prerequisites": [
+			"Venture,Seduction: Honey-Sipping Heiress,2,NameFlourish2Grind2"
+		],
+		"Action": "veilgarden,honey-sipping heiress,disgraceful suggestion/taste of danger/stay as they are"
+	},
+
+	"NameFlourishWorkingOn": {
+		"Name": "NameFlourishWorkingOn",
+		"Result": "NameFlourishWorkingOn",
+		"Prerequisites": [
+		],
+		"Action": "veilgarden,Making Your Name: Writing a Short Story,begin,Write a Short Story"
+	},
+
+	"NameFlourishPotential": {
+		"Name": "NameFlourishPotential",
+		"Result": "NameFlourishPotential",
+		"Prerequisites": [
+			"Curiosity,Manuscript Page,3",
+			"BasicAbility,Persuasive,60,CautiousEdit"
+		],
+		"Action": "veilgarden,writer,rework,A Daring Edit"
+	},
+	"CautiousEdit": {
+		"Name": "NameFlourishPotential",
+		"Result": "NameFlourishPotential",
+		"Prerequisites": [
+			"Curiosity,Manuscript Page,3"
+		],
+		"Action": "veilgarden,writer,rework,A Cautious Edit"
+	},
+	"NameFlourish3": {
+		"Name": "NameFlourish3",
+		"Result": "A Name Signed with a Flourish",
+		"Prerequisites": [
+			"Stories,A Name Signed with a Flourish,2,NameFlourish2",
+			"Circumstance,Working on...,=31,NameFlourishWorkingOn",
+			"Progress,Potential,30,NameFlourishPotential",
+			"Curiosity,Manuscript Page,10"
+		],
+		"Action": "veilgarden,The Writer's Desk: rework,rework,finish,Make Your Name: Publish your story"
+	}
+}

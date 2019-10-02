@@ -202,6 +202,11 @@ function GetAcquisitionByCost
 		return LookupAcquisition $name
 	}
 
+	if( ( $sources | measure | select -expandproperty count ) -eq 1 )
+	{
+		return $sources | select -first 1
+	}
+
 	$level = GetPossessionLevel $category $name
 	$amountNeeded = $amount-$level
 
