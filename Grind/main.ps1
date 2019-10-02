@@ -519,12 +519,12 @@ function DoAction
 	if( $action.location -eq "buy" )
 	{
 		$result = BuyPossession $action.first $action.second $action.third[0]
-		return $true
+		return $ $false # technically true, but that screws with prereq chains
 	}
 	elseif( $action.location -eq "sell" )
 	{
 		$result = SellPossession $action.first $action.second
-		return $true
+		return $false # technically true, but that screws with prereq chains
 	}
 	elseif( $action.location -eq "equip" )
 	{

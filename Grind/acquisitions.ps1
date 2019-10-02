@@ -103,7 +103,7 @@ function Sources
 {
 	param( $name )
 
-	return $script:Acquisitions.PSObject.Properties | ?{ $_.Value.Result -match $name } | select -ExpandProperty Value
+	return $script:Acquisitions.PSObject.Properties | ?{ $_.Value.Result -eq $name } | select -ExpandProperty Value
 }
 
 function GetPossessionLevel

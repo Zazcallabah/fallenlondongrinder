@@ -93,7 +93,7 @@
 		"Name": "VeilgardenHints",
 		"Result": "VeilgardenHints",
 		"Prerequisites": [
-			"A Name Signed with a Flourish,3,CatchCatsHints",
+			"Stories,A Name Signed with a Flourish,3,CatchCatsHints",
 			"BasicAbility,Persuasive,75,CatchCatsHints"
 		],
 		"Action": "veilgarden,entering society,Getting in with the servants",
