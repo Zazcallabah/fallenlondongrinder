@@ -75,8 +75,7 @@
 	"Penny": {
 		"Name": "Penny",
 		"Result": "Penny",
-		"Prerequisites": [
-		],
+		"Prerequisites": [],
 		"Action": "grind_money",
 		"Reward": 3000
 	},
@@ -367,7 +366,7 @@
 		"Name": "StartNovel",
 		"Result": "Working on...",
 		"Prerequisites": [
-			"Circumstance,Working on...,<0"
+			"Circumstance,Working on...,=0,BurnAWork"
 		],
 		"Action": "empresscourt,next work,novel"
 	},

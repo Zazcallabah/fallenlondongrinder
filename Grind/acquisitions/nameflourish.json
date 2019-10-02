@@ -10,7 +10,7 @@
 		"Name": "NameFlourish1Grind",
 		"Result": "NameFlourish1Grind",
 		"Prerequisites": [
-			"Ventures,Commission: Praising Fungus in Verse,1,NameFlourish1Start"
+			"Venture,Commission: Praising Fungus in Verse,1,NameFlourish1Start"
 		],
 		"Action": "veilgarden,Make Your Name: A Commissioned Epic,field work"
 	},
@@ -18,7 +18,7 @@
 		"Name": "NameFlourish1",
 		"Result": "NameFlourish1",
 		"Prerequisites": [
-			"Ventures,Commission: Praising Fungus in Verse,1,NameFlourish1Start",
+			"Venture,Commission: Praising Fungus in Verse,1,NameFlourish1Start",
 			"Progress,Inspired...,8,NameFlourish1Grind"
 		],
 		"Action": "veilgarden,Make Your Name: A Commissioned Epic,Honest"
@@ -67,5 +67,42 @@
 			"Venture,Seduction: Honey-Sipping Heiress,2,NameFlourish2Grind2"
 		],
 		"Action": "veilgarden,honey-sipping heiress,disgraceful suggestion/taste of danger/stay as they are"
+	},
+
+	"NameFlourishWorkingOn": {
+		"Name": "NameFlourishWorkingOn",
+		"Result": "NameFlourishWorkingOn",
+		"Prerequisites": [
+		],
+		"Action": "veilgarden,Making Your Name: Writing a Short Story,begin,Write a Short Story"
+	},
+
+	"NameFlourishPotential": {
+		"Name": "NameFlourishPotential",
+		"Result": "NameFlourishPotential",
+		"Prerequisites": [
+			"Curiosity,Manuscript Page,3",
+			"BasicAbility,Persuasive,60,CautiousEdit"
+		],
+		"Action": "veilgarden,writer,rework,A Daring Edit"
+	},
+	"CautiousEdit": {
+		"Name": "NameFlourishPotential",
+		"Result": "NameFlourishPotential",
+		"Prerequisites": [
+			"Curiosity,Manuscript Page,3"
+		],
+		"Action": "veilgarden,writer,rework,A Cautious Edit"
+	},
+	"NameFlourish3": {
+		"Name": "NameFlourish3",
+		"Result": "A Name Signed with a Flourish",
+		"Prerequisites": [
+			"Stories,A Name Signed with a Flourish,2,NameFlourish2",
+			"Circumstance,Working on...,=31,NameFlourishWorkingOn",
+			"Progress,Potential,30,NameFlourishPotential",
+			"Curiosity,Manuscript Page,10"
+		],
+		"Action": "veilgarden,The Writer's Desk: rework,rework,finish,Make Your Name: Publish your story"
 	}
 }
