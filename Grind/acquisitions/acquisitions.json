@@ -163,9 +163,9 @@
 		"Name": "SellHints",
 		"Result": "SellHints",
 		"Prerequisites": [
-			"Mysteries,Whispered Hints,1000"
+			"Mysteries,Whispered Hint,1000"
 		],
-		"Action": "sell,Whispered Hints,1000",
+		"Action": "sell,Whispered Hint,1000",
 		"Reward": 1000
 	},
 
