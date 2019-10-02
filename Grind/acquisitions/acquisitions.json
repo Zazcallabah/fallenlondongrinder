@@ -19,9 +19,9 @@
 		],
 		"Reward": 500
 	},
-	"Whispered Hint": {
-		"Name": "Whispered Hint",
-		"Result": "Whispered Hint",
+	"Flit Whispered Hint": {
+		"Name": "Flit Whispered Hint",
+		"Result": "Flit Whispered Hint",
 		"Prerequisites": ["Route,Route: The Flit,1"],
 		"Action": "flit,its king,meeting,understand",
 		"Reward": 66
@@ -47,7 +47,7 @@
 		"Result": "Tale of Terror!!",
 		"Prerequisites": [
 			"Goods,Piece of Rostygold,100",
-			"Story,A Name Scrawled in Blood,3"
+			"Stories,A Name Scrawled in Blood,3"
 		],
 		"Action": "watchmakers,fighting ring,meat,clean"
 	},
@@ -145,7 +145,7 @@
 		"Name": "Foxfire Candle Stub",
 		"Result": "Foxfire Candle Stub",
 		"Prerequisites": [
-			"Accomplishments,A Person of Some Importance,1"
+			"Accomplishments,A Person of Some Importance,1,BuyCandles"
 		],
 		"Action": "veilgarden,unfinished business,An admirer among the clergy",
 		"Reward": 100
@@ -154,11 +154,21 @@
 		"Name": "BuyCandles",
 		"Result": "Foxfire Candle Stub",
 		"Prerequisites": [
-			"Currency,Penny,6000"
+			"Currency,Penny,6000,SellHints"
 		],
 		"Action": "buy,Merrigans,Foxfire Candle Stub,2000",
 		"Reward": 2000
 	},
+	"SellHints": {
+		"Name": "SellHints",
+		"Result": "SellHints",
+		"Prerequisites": [
+			"Mysteries,Whispered Hints,1000"
+		],
+		"Action": "sell,Whispered Hints,1000",
+		"Reward": 1000
+	},
+
 	"BuyLuckyWeasel": {
 		"Name": "BuyLuckyWeasel",
 		"Result": "Lucky Weasel",
@@ -213,6 +223,7 @@
 		"Action": "veilgarden,unfinished business,consignment",
 		"Reward": 6
 	},
+
 	"Shard of Glim": {
 		"Name": "Shard of Glim",
 		"Result": "Shard of Glim",
@@ -389,16 +400,6 @@
 		"Reward": 1
 	},
 
-	"Exceptional Short Story": {
-		"Name": "Exceptional Short Story",
-		"Result": "Exceptional Short Story",
-		"Prerequisites": [
-			"Progress,Potential,80",
-			"Curiosity,Manuscript Page,10"
-		],
-		"Action": "lodgings,writer,rework,finish,exceptional",
-		"Reward": 1
-	},
 	"Fascinating...": {
 		"Name": "Fascinating...",
 		"Result": "Fascinating...",

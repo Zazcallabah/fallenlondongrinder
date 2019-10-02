@@ -5,7 +5,7 @@ function MergeAcquisitionsObject
 	process {
 		$inputobject = gc -Raw $FullName | ConvertFrom-Json
 		$inputobject.psobject.Properties | %{
-			$script:Acquisitions | Add-Member -Membertype NoteProperty -Name $_.Name -Value $_.Value -Force
+			$script:Acquisitions | Add-Member -Membertype NoteProperty -Name $_.Name -Value $_.Value
 		}
 	}
 }

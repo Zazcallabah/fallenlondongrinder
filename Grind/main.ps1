@@ -128,17 +128,30 @@ function GrindMoney
 	{
 		return $false
 	}
-	$hasMoreActions = Require "Progress" "Potential" 71 "Touch of darkness"
-	if( !$hasMoreActions )
+	if(PossessionSatisfiesLevel "Stories" "A Name Scrawled in Blood" "3")
 	{
-		return $false
+		$hasMoreActions = Require "Progress" "Potential" 71 "Touch of darkness"
+		if( !$hasMoreActions )
+		{
+			return $false
+		}
+
+		if(PossessionSatisfiesLevel "Accomplishments" "A Person of Some Importance" "1")
+		{
+			$hasMoreActions = Require "Progress" "Potential" 81 "something exotic"
+			if( !$hasMoreActions )
+			{
+				return $false
+			}
+			$hasMoreActions = Require "Curiosity" "Exceptional Short Story" 2
+			$exceptional = $true
+		}
 	}
-	$hasMoreActions = Require "Progress" "Potential" 81 "something exotic"
-	if( !$hasMoreActions )
+	if(!$exceptional)
 	{
-		return $false
+		$hasMoreActions = Require "Curiosity" "Compelling Short Story" 1
 	}
-	$hasMoreActions = Require "Curiosity" "Exceptional Short Story" 2
+
 	$result = SellIfMoreThan "Curiosity" "Competent Short Story" 0
 	$result = SellIfMoreThan "Curiosity" "Compelling Short Story" 1
 	$result = SellIfMoreThan "Curiosity" "Exceptional Short Story" 1
@@ -653,9 +666,6 @@ if( $env:SECOND_EMAIL -ne $null -and $env:SECOND_PASS -ne $null )
 	Write-Host "Running secondary account"
 
 # equip blemmigan
-# grind to what, 10? in each stat
-# handle payment, get a job - this probably needs to be a separate function
-# find carneval, unlock all renown possible, avoid unlocking favours yet?
 # start adding grinds for all making your name stuff
 # make sure menaces grinding is available
 # find early money grind, make sure menaces are covered

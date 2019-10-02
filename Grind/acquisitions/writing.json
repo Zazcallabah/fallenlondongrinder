@@ -1,4 +1,27 @@
 {
+
+	"Exceptional Short Story": {
+		"Name": "Exceptional Short Story",
+		"Result": "Exceptional Short Story",
+		"Prerequisites": [
+			"Progress,Potential,80",
+			"Curiosity,Manuscript Page,10"
+		],
+		"Action": "lodgings,writer,rework,finish,exceptional",
+		"Reward": 1
+	},
+
+	"Compelling Short Story": {
+		"Name": "Compelling Short Story",
+		"Result": "Compelling Short Story",
+		"Prerequisites": [
+			"Progress,Potential,50",
+			"Curiosity,Manuscript Page,10"
+		],
+		"Action": "lodgings,writer,rework,finish,compelling",
+		"Reward": 1
+	},
+
 	"BurnAWork": {
 		"Name": "BurnAWork",
 		"Result": "BurnAWork",
