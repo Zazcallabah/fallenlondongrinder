@@ -1,43 +1,43 @@
 {
-	"RenownBohemiansCarneval": {
-		"Name": "RenownBohemiansCarneval",
-		"Result": "RenownBohemiansCarneval",
+	"RenownBohemiansCarnival": {
+		"Name": "RenownBohemiansCarnival",
+		"Result": "RenownBohemiansCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
 			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
 		],
 		"Action": "carnival,The Big Top,Meet your bohemian friends"
 	},
-	"RenownChurchCarneval": {
-		"Name": "RenownChurchCarneval",
-		"Result": "RenownChurchCarneval",
+	"RenownChurchCarnival": {
+		"Name": "RenownChurchCarnival",
+		"Result": "RenownChurchCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
 			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
 		],
 		"Action": "carnival,The Big Top,churchmen"
 	},
-	"RenownConstablesCarneval": {
-		"Name": "RenownConstablesCarneval",
-		"Result": "RenownConstablesCarneval",
+	"RenownConstablesCarnival": {
+		"Name": "RenownConstablesCarnival",
+		"Result": "RenownConstablesCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
 			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
 		],
 		"Action": "carnival,The Big Top,constables"
 	},
-	"RenownHellCarneval": {
-		"Name": "RenownHellCarneval",
-		"Result": "RenownHellCarneval",
+	"RenownHellCarnival": {
+		"Name": "RenownHellCarnival",
+		"Result": "RenownHellCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
 			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
 		],
 		"Action": "carnival,The Big Top,some devils"
 	},
-	"RenownSocietyCarneval": {
-		"Name": "RenownSocietyCarneval",
-		"Result": "RenownSocietyCarneval",
+	"RenownSocietyCarnival": {
+		"Name": "RenownSocietyCarnival",
+		"Result": "RenownSocietyCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
 			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
@@ -45,9 +45,9 @@
 		"Action": "carnival,The Big Top,high society"
 	},
 
-	"RenownTombColoniesCarneval": {
-		"Name": "RenownTombColoniesCarneval",
-		"Result": "RenownTombColoniesCarneval",
+	"RenownTombColoniesCarnival": {
+		"Name": "RenownTombColoniesCarnival",
+		"Result": "RenownTombColoniesCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
 			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
@@ -56,9 +56,9 @@
 	},
 
 
-	"RenownRevolutionariesCarneval": {
-		"Name": "RenownRevolutionariesCarneval",
-		"Result": "RenownRevolutionariesCarneval",
+	"RenownRevolutionariesCarnival": {
+		"Name": "RenownRevolutionariesCarnival",
+		"Result": "RenownRevolutionariesCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
 			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
@@ -66,9 +66,9 @@
 		"Action": "carnival,Sideshows,revolutionaries"
 	},
 
-	"RenownRubberyMenCarneval": {
-		"Name": "RenownRubberyMenCarneval",
-		"Result": "RenownRubberyMenCarneval",
+	"RenownRubberyMenCarnival": {
+		"Name": "RenownRubberyMenCarnival",
+		"Result": "RenownRubberyMenCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
 			"Curiosity,Carnival Ticket,2,Carnival Ticket Clues"
@@ -76,9 +76,9 @@
 		"Action": "carnival,Sideshows,Rubbery men"
 	},
 
-	"RenownUrchinsCarneval": {
-		"Name": "RenownUrchinsCarneval",
-		"Result": "RenownUrchinsCarneval",
+	"RenownUrchinsCarnival": {
+		"Name": "RenownUrchinsCarnival",
+		"Result": "RenownUrchinsCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
 			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
@@ -86,9 +86,9 @@
 		"Action": "carnival,Sideshows,urchins"
 	},
 
-	"RenownCriminalsCarneval": {
-		"Name": "RenownCriminalsCarneval",
-		"Result": "RenownCriminalsCarneval",
+	"RenownCriminalsCarnival": {
+		"Name": "RenownCriminalsCarnival",
+		"Result": "RenownCriminalsCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
 			"Curiosity,Carnival Ticket,2,Carnival Ticket Clues"
@@ -96,9 +96,9 @@
 		"Action": "carnival,Sideshows,criminals"
 	},
 
-	"RenownDocksCarneval": {
-		"Name": "RenownDocksCarneval",
-		"Result": "RenownDocksCarneval",
+	"RenownDocksCarnival": {
+		"Name": "RenownDocksCarnival",
+		"Result": "RenownDocksCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
 			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
@@ -106,9 +106,9 @@
 		"Action": "carnival,Sideshows,zailors"
 	},
 
-	"RenownGreatGameCarneval": {
-		"Name": "RenownGreatGameCarneval",
-		"Result": "RenownGreatGameCarneval",
+	"RenownGreatGameCarnival": {
+		"Name": "RenownGreatGameCarnival",
+		"Result": "RenownGreatGameCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
 			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
