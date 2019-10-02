@@ -165,6 +165,10 @@
 		{
 			"name":"The Geology of Winewound",
 			"action":"as far as you can"
+		},
+		{
+			"name":"A Word about Menaces",
+			"action":"1"
 		}
 	],
 	"keep":[

@@ -3,7 +3,8 @@
 		"Name": "StartShortStory",
 		"Result": "Working on...",
 		"Prerequisites": [
-			"Circumstance,Working on...,<0"
+			"Circumstance,Working on...,<0",
+			"Stories,A Name Signed with a Flourish,3"
 		],
 		"Action": "veilgarden,begin a work,short story",
 		"Reward": 31
