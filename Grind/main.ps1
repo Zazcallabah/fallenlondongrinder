@@ -267,8 +267,9 @@ function TryOpportunity
 	$card = GetCardInUseList $o
 	if( $card -ne $null )
 	{
-		$card.require | %{
-			$action = ParseActionString $_
+		foreach( $req in $card.require )
+		{
+			$action = ParseActionString $req
 			$hasActionsLeft = Require $action.location $action.first $action.second $action.third
 			if( $hasActionsLeft -eq $null )
 			{
@@ -652,7 +653,7 @@ if( $env:SECOND_EMAIL -ne $null -and $env:SECOND_PASS -ne $null )
 # make sure menaces grinding is available
 # find early money grind, make sure menaces are covered
 
-	#Register $env:SECOND_EMAIL $env:SECOND_PASS
-	#RunActions $automaton
+	Register $env:SECOND_EMAIL $env:SECOND_PASS
+	RunActions $automaton
 }
 
