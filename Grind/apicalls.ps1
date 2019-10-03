@@ -34,7 +34,8 @@ function Login
 	$headers = Get-BasicHeaders
 	$payload = @{ "email" = $email; "password" = $pass; }
 	$uri = "https://api.fallenlondon.com/api/login"
-	$result = $payload | ConvertTo-Json | Invoke-WebRequest -UseBasicParsing -Uri $uri -Method POST -UserAgent $script:uastring -Headers $headers
+	Write-Verbose "logging in"
+	$result = $payload | ConvertTo-Json | Invoke-WebRequest -UseBasicParsing -Uri $uri -Method POST -UserAgent $script:uastring -Headers $headers  -Verbose:$false
 	if($result.StatusCode -ne 200)
 	{
 		throw "login error for $email"
@@ -67,13 +68,13 @@ function Post
 	if($payload -ne $null )
 	{
 		$postdata = $payload | ConvertTo-Json -Depth 99 -Compress
-		Write-Debug "$method $href : $postdata"
-		$content = $postdata | Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method | select -ExpandProperty Content
+		Write-Verbose "$method $href : $postdata"
+		$content = $postdata | Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method -Verbose:$false | select -ExpandProperty Content
 	}
 	else
 	{
-		Write-Debug "$method $href"
-		$content = Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method | select -ExpandProperty Content
+		Write-Verbose "$method $href"
+		$content = Invoke-Webrequest -UseBasicParsing -Uri $uri -Headers $headers -UserAgent $script:uastring -Method $method -Verbose:$false | select -ExpandProperty Content
 	}
 
 	if( $href -ne "login/user" )
