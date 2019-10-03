@@ -672,7 +672,7 @@ if( $noaction )
 	return
 }
 
-if( $skipprimary )
+if( !$skipprimary )
 {
 	Register $env:LOGIN_EMAIL $env:LOGIN_PASS
 	RunActions $script:actions ([DateTime]::UtcNow.DayOfYear)
