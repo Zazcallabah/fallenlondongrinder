@@ -126,7 +126,8 @@
 		"Action": "inventory,Curiosity,Ornate Typewriter,artistic commune",
 		"Prerequisites": [
 			"Contacts,Renown: Bohemians,5,RenownBohemiansCarnival",
-			"Contacts,Favours: Bohemians,3"
+			"Contacts,Favours: Bohemians,3",
+			"Curiosity,Ornate TypeWriter,1"
 		]
 	},
 	"RenownBohemians8": {
@@ -137,7 +138,8 @@
 			"Contacts,Renown: Bohemians,8,RenownBohemians5",
 			"Contacts,Favours: Bohemians,5",
 			"Wines,Bottle of Strangling Willow Absinthe,4",
-			"Wild Words,Maniac's Prayer,5"
+			"Wild Words,Maniac's Prayer,5",
+			"Curiosity,Ornate TypeWriter,1"
 		]
 	},
 	"RenownBohemians15": {
@@ -150,7 +152,8 @@
 			"Currency,Penny,500",
 			"Wines,Bottle of Morelways 1872,25",
 			"Wild Words,Maniac's Prayer,25",
-			"Nostalgia,Touching Love Story,1"
+			"Nostalgia,Touching Love Story,1",
+			"Curiosity,Ornate TypeWriter,1"
 		]
 	},
 	"RenownChurch5": {
@@ -159,7 +162,8 @@
 		"Action": "inventory,Curiosity,Tiny Jewelled Reliquary,distribute",
 		"Prerequisites": [
 			"Contacts,Renown: The Church,5,RenownChurchCarnival",
-			"Contacts,Favours: The Church,3"
+			"Contacts,Favours: The Church,3",
+			"Curiosity,Tiny Jewelled Reliquary,1"
 		]
 	},
 	"RenownChurch8": {
@@ -169,7 +173,8 @@
 		"Prerequisites": [
 			"Contacts,Renown: The Church,8,RenownChurch5",
 			"Contacts,Favours: The Church,5",
-			"Infernal,Soul,125,BuySouls"
+			"Infernal,Soul,125,BuySouls",
+			"Curiosity,Tiny Jewelled Reliquary,1"
 		]
 	},
 	"RenownChurch15": {
@@ -182,7 +187,8 @@
 			"Mysteries,Tale of Terror!!,5",
 			"Infernal,Brilliant Soul,5",
 			"Nostalgia,Vision of the Surface,5",
-			"Wild Words,Maniac's Prayer,50"
+			"Wild Words,Maniac's Prayer,50",
+			"Curiosity,Tiny Jewelled Reliquary,1"
 		]
 	}
 }
