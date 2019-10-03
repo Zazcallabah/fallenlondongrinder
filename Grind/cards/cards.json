@@ -37,12 +37,12 @@
 			"action": "exchange"
 		},
 		{
-			"name": "The Departed",
-			"action": "ripe"
+			"name":"Just Rewards",
+			"action":"1"
 		},
 		{
-			"name": "An unusual wager",
-			"action": "look"
+			"name": "The Departed",
+			"action": "ripe"
 		},
 		{
 			"name": "Reeducating Lyme",
@@ -143,6 +143,10 @@
 			"action": "Help her negotiate"
 		},
 		{
+			"name":"The Lofty Tower: the Potential of Premises at the Bazaar",
+			"action":"?"
+		},
+		{
 			"name":"A Polite Invitation",
 			"action":"Reply and attend"
 		},
@@ -159,8 +163,8 @@
 			"action":"ancient stories"
 		},
 		{
-			"name":"A visit",
-			"action":"sardonic,drop in"
+			"name":"The mechanics of progress",
+			"action":"1"
 		},
 		{
 			"name":"The Geology of Winewound",
@@ -194,7 +198,6 @@
 		"One's public",
 		"Call in favours in the Flit",
 		"The High Castle: What Occurs in a Rooftop Shack",
-		"The mechanics of progress",
 		"Promenade with the Celebrated Artist's Model",
 		"Wolfstack in the fog",
 		"A Polite Invitation",
