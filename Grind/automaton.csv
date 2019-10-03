@@ -8,6 +8,6 @@ require,Stories,A Name Whispered in Darkness,2,CatCatcher
 require,Stories,A Name Signed with a Flourish,3,NameFlourish3
 require,Stories,A Name Scrawled in Blood,1,MakeNameScrawledInBlood1
 require,Stories,A Name in Seven Secret Alphabets,2,NameSecret2
-require,Renown,Renown: Bohemians,5,RenownBohemiansCarnival
+require,Contacts,Renown: Bohemians,5,RenownBohemiansCarnival
 require,Currency,Penny,1000000,Penny
-require,Renown,Renown: The Docks,5,RenownDocksCarnival
+require,Contacts,Renown: The Docks,5,RenownDocksCarnival

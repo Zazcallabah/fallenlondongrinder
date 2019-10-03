@@ -57,8 +57,7 @@ $script:actions = @(
 #	"require,Contacts,Renown: The Church,8,Renown: The Church up to 8"
 	"require,Nostalgia,Bazaar Permit,5"
 	"require,Basic,Watchful,200,GrindWatchful"
-	"require,Progress,Archaeologist's Progress,31"
-
+	"require,Progress,Archaeologist's Progress,99" # <- always an infinite grind for money
 	"require,Academic,Volume of Collated Research,15"
 	"require,Basic,Dangerous,200,GrindDangerous"
 #	"require,Progress,Casing...,13"
@@ -622,6 +621,68 @@ function CycleArray
 	return @($tail)+@($head)
 }
 
+function HandleRenown
+{
+	if( !(PossessionSatisfiesLevel "Route" "Route: Mrs Plenty's Most Distracting Carnival" "1" ))
+	{
+		return $true
+	}
+
+	$isPosi = PossessionSatisfiesLevel "Accomplishments" "A Person of Some Importance" 1
+	$mapper = @{
+		"Church" = "The Church";
+		"Docks" = "The Docks";
+		"GreatGame" = "The Great Game";
+		"TombColonies" = "Tomb-Colonies";
+		"RubberyMen" = "Rubbery Men";
+	}
+	$factions = @(
+		"Church",
+		"Bohemians",
+		"Constables",
+		"Criminals",
+		"Hell",
+		"Revolutionaries",
+		"Society",
+#		"Docks",
+		"Urchins",
+		"GreatGame",
+		"TombColonies",
+		"RubberyMen"
+	)
+	foreach( $faction in $factions )
+	{
+		if( $mapper.ContainsKey($faction) )
+		{
+			$fullname = "Renown: $($mapper[$faction])"
+		}
+		else
+		{
+			$fullname = "Renown: $faction"
+		}
+		if(PossessionSatisfiesLevel "Contacts" $fullname 5)
+		{
+			if( $isPosi )
+			{
+				$hasActionsLeft = Require "Contacts" $fullname 15 "Renown$($faction)8"
+				if( $hasActionsLeft -ne $null -and !$hasActionsLeft )
+				{
+					return $false
+				}
+			}
+			else
+			{
+				$hasActionsLeft = Require "Contacts" $fullname 8 "Renown$($faction)5"
+				if( $hasActionsLeft -ne $null -and !$hasActionsLeft )
+				{
+					return $false
+				}
+			}
+		}
+	}
+	return $true
+}
+
 function RunActions
 {
 	param($actions,$startIndex)
@@ -643,6 +704,12 @@ function RunActions
 		}
 
 		$hasActionsLeft = CheckMenaces
+		if( !$hasActionsLeft )
+		{
+			return
+		}
+
+		$hasActionsLeft = HandleRenown
 		if( !$hasActionsLeft )
 		{
 			return

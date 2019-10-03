@@ -45,8 +45,8 @@
 		"Result": "Crate of Expedition Supplies",
 		"Prerequisites": [
 			"Progress,Archaeologist's Progress,<1",
-			"Renown,Renown: The Docks,5,BuyCrate",
-			"Favours,Favours: The Docks,1,BuyCrate",
+			"Contacts,Renown: The Docks,5,BuyCrate",
+			"Contacts,Favours: The Docks,1,BuyCrate",
 			"Goods,Piece of Rostygold,50"
 		],
 		"Action": "forgotten quarter,Prepare,Hire a porter from the docks"
