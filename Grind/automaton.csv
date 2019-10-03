@@ -1,3 +1,4 @@
+require,Stories,A Name Scrawled in Blood,1,MakeNameScrawledInBlood1
 require,Route,Route: Lodgings,1,RentLodgings
 require,Clothing,Bundle of Ragged Clothing,<1,SellRaggedClothing
 require,Hat,Prisoner's Mask,<1,SellPrisonersMask
@@ -6,6 +7,7 @@ require,Boots,Pair of Leg Irons,<1,SellLegIrons
 require,Stories,A Name Whispered in Darkness,2,CatCatcher
 require,Route,Route: Mrs Plenty's Most Distracting Carnival,1
 require,Stories,A Name Signed with a Flourish,3,NameFlourish3
-require,Currency,Penny,1000000,Penny
 require,Stories,A Name in Seven Secret Alphabets,2,NameSecret2
+require,Renown,Renown: Bohemians,5,RenownBohemiansCarnival
+require,Currency,Penny,1000000,Penny
 require,Renown,Renown: The Docks,5,RenownDocksCarnival

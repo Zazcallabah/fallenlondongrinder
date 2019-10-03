@@ -112,6 +112,6 @@
 			"Progress,Potential,30,NameFlourishPotential",
 			"Curiosity,Manuscript Page,10"
 		],
-		"Action": "veilgarden,The Writer's Desk: rework,rework,finish,Make Your Name: Publish your story"
+		"Action": "veilgarden,The Writer's Desk,rework,finish,Make Your Name: Publish your story"
 	}
 }

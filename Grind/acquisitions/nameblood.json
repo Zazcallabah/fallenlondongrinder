@@ -1,0 +1,27 @@
+{
+	"MakeNameScrawledInBlood1Start": {
+		"Name": "MakeNameScrawledInBlood1Start",
+		"Result": "MakeNameScrawledInBlood1Start",
+		"Prerequisites": [
+			"Circumstance,Your Quarry,=0"
+		],
+		"Action":"watchmakers,Menace Eradication,Make your name"
+	},
+	"MakeNameScrawledInBlood1GrindRat": {
+		"Name": "MakeNameScrawledInBlood1GrindRat",
+		"Result": "MakeNameScrawledInBlood1GrindRat",
+		"Prerequisites": [
+			"Circumstance,Your Quarry,1,MakeNameScrawledInBlood1Start"
+		],
+		"Action":"watchmakers,Hunting across london,Expose"
+	},
+	"MakeNameScrawledInBlood1": {
+		"Name": "MakeNameScrawledInBlood1",
+		"Result": "MakeNameScrawledInBlood1",
+		"Prerequisites": [
+			"Circumstance,Your Quarry,1,MakeNameScrawledInBlood1Start",
+			"Stories,Quarry: Confounded Thing is Hiding,=0,MakeNameScrawledInBlood1GrindRat"
+		],
+		"Action":"watchmakers,Hunting across london,where the rat is lairing,shoot it"
+	}
+}

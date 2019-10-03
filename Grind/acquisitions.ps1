@@ -280,6 +280,8 @@ function Require
 		return $true
 	}
 
+	Write-Verbose "Require $category $name $level ($tag)"
+
 	$acq = LookupAcquisition $tag
 
 	if( $acq -eq $null )
