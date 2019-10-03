@@ -1,4 +1,4 @@
-param([switch]$force,[switch]$noaction)
+param([switch]$force,[switch]$noaction,[switch]$skipprimary)
 
 if( $env:LOGIN_EMAIL -eq $null -or $env:LOGIN_PASS -eq $null )
 {
@@ -164,7 +164,21 @@ function GetCardInUseList
 
 	foreach( $cardobj in $opportunity.displayCards )
 	{
-		$result = $script:CardActions.use | ?{ ![string]::IsNullOrWhitespace($_.name) -and ($cardobj.eventId -eq $_.name -or $cardobj.name -match $_.name )}
+		$result = $script:CardActions.use | ?{
+			if([string]::IsNullOrWhitespace($_.name))
+			{
+				return $false
+			}
+			if( $_.name.StartsWith("~") )
+			{
+				$n = $_.name.substring(1)
+				return $cardobj.name -match $n
+			}
+			else
+			{
+				return $cardobj.eventId -eq $_.name -or $cardobj.name -eq $_.name
+			}
+		} | select -first 1
 		if($result -ne $null)
 		{
 			$result | Add-Member -Membertype NoteProperty -name "eventId" -value $cardobj.eventid
@@ -658,8 +672,11 @@ if( $noaction )
 	return
 }
 
-Register $env:LOGIN_EMAIL $env:LOGIN_PASS
-RunActions $script:actions ([DateTime]::UtcNow.DayOfYear)
+if( $skipprimary )
+{
+	Register $env:LOGIN_EMAIL $env:LOGIN_PASS
+	RunActions $script:actions ([DateTime]::UtcNow.DayOfYear)
+}
 
 if( $env:SECOND_EMAIL -ne $null -and $env:SECOND_PASS -ne $null )
 {

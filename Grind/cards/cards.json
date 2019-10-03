@@ -57,7 +57,7 @@
 			"action": "pages/gatecrash/lordship/ancient/whispers"
 		},
 		{
-			"name": "Cheesemonger",
+			"name": "~Cheesemonger",
 			"action": "Eavesdrop/Start the gang war/Open it up/Look into the matter/Take the shipment/venal/a forthright approach/Private investigations/Steal the manuscript/Listen to him"
 		},
 		{
@@ -123,6 +123,10 @@
 			"action":"1"
 		},
 		{
+			"name":"A visit",
+			"action":"sardonic,drop in"
+		},
+		{
 			"name":"Exploring Fallen London",
 			"action":"1"
 		},
@@ -144,6 +148,10 @@
 		},
 		{
 			"name":"The Lofty Tower: the Potential of Premises at the Bazaar",
+			"action":"?"
+		},
+		{
+			"name":"A tavern dust-up",
 			"action":"?"
 		},
 		{
