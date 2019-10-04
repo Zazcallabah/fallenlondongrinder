@@ -96,7 +96,7 @@
 			"Conditions":[
 				"Stories,The Rose-Red Streets,=2",
 				"Mysteries,Extraordinary Implication,<3",
-				"Stories,Arbor: Permission to Linger,139"
+				"Stories,Arbor: Permission to Linger,170"
 			],
 			"Action": "Walk South"
 		},
@@ -117,7 +117,7 @@
 		{
 			"Conditions":[
 				"Mysteries,Extraordinary Implication,<3",
-				"Stories,Arbor: Permission to Linger,130",
+				"Stories,Arbor: Permission to Linger,160",
 				"Stories,The Rose-Red Streets,=3"
 			],
 			"Action": "Explore the Gatehouse Market"
@@ -132,7 +132,7 @@
 		{
 			"Conditions":[
 				"Mysteries,Extraordinary Implication,<3",
-				"Stories,Arbor: Permission to Linger,139",
+				"Stories,Arbor: Permission to Linger,170",
 				"Stories,The Rose-Red Streets,=4"
 
 			],

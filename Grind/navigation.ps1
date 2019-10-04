@@ -126,9 +126,83 @@ function GetStoryletId
 	return $list.storylets | ?{ $_.name -match $name } | select -first 1 -expandproperty id
 }
 
+function DePluralize
+{
+	param($category)
+	$pluralmap = @{
+
+
+		"BasicAbilities" = "BasicAbility";
+		"SidebarAbilities" = "Prominence";
+		"MajorLaterals" = "Major Laterals";
+		"Ambitions" = "Ambition";
+		"Menace" = "Menaces";
+		"Dream" = "Dreams";
+		"Quirk" = "Quirks";
+		"Ventures" = "Venture";
+		"Contact" = "Contacts";
+		"Favour" = "Contacts";
+		"Favours" = "Contacts";
+		"Renown" = "Contacts";
+		"Acquaintance" = "Acquaintances";
+		"Story" = "Stories";
+		"Circumstances" = "Circumstance";
+		"Accomplishment" = "Accomplishments";
+		"Routes" = "Route";
+		"Advantages" = "Advantage";
+		"Cartographies" = "Cartography";
+		"Contrabands" = "Contraband";
+		"Curiosities" = "Curiosity";
+		"Currencies" = "Currency";
+		"Money" = "Currency";
+		"Documents" = "Document";
+		"Good" = "Goods";
+		"The Great Game" = "Great Game";
+		"GreatGame" = "Great Game";
+		"Infernals" = "Infernal";
+		"Influences" = "Influence";
+		"Lodging" = "Lodgings";
+		"Luminosities" = "Luminosity";
+		"Mystery" = "Mysteries";
+		"RagTrade" = "Rag Trade";
+		"Rubberies" = "Rubbery";
+		"Rumours" = "Rumour";
+		"Sustenances" = "Sustenance";
+		"WildWords" = "Wild Words";
+		"Wine" = "Wines";
+		"Zee Treasure" = "Zee Treasures";
+		"ZeeTreasures" = "Zee Treasures";
+		"ZeeTreasure" = "Zee Treasures";
+		"Zee-Treasures" = "Zee Treasures";
+		"Zee-Treasure" = "Zee Treasures";
+		"Hats" = "Hat";
+		"Glove" = "Gloves";
+		"Weapons" = "Weapon";
+		"Boot" = "Boots";
+		"Companions" = "Companion";
+		"Destinies" = "Destiny";
+		"Affiliations" = "Affiliation";
+		"Transportations" = "Transportation";
+		"HomeComfort" = "Home Comfort";
+		"HomeComforts" = "Home Comfort";
+		"Home Comforts" = "Home Comfort";
+		"ConstantCompanion" = "Constant Companion";
+		"Clubs" = "Club";
+	}
+	if( $pluralmap.ContainsKey($category) )
+	{
+		return $pluralmap[$category]
+	}
+	else
+	{
+		return $category
+	}
+}
+
 function GetPossessionCategory
 {
 	param( $category )
+#	$category = DePluralize $category
 	if( $category -eq "Basic" -or $category -eq "BasicAbility" )
 	{
 		return (Myself).possessions[0].possessions;

@@ -160,6 +160,9 @@
 		},
 		{
 			"name":"A tavern dust-up",
+			"require":[
+				"Mysteries,Cryptic Clue,10"
+			],
 			"action":"?"
 		},
 		{
