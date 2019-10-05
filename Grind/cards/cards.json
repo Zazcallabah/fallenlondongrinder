@@ -166,6 +166,14 @@
 			"action":"?"
 		},
 		{
+			"name":"Surface Ties: the Admirer",
+			"action":"?"
+		},
+		{
+			"name":"Tea with the Vicar",
+			"action":"welcome"
+		},
+		{
 			"name":"A Polite Invitation",
 			"action":"Reply and attend"
 		},
