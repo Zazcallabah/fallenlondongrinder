@@ -95,6 +95,7 @@ function GoBackIfInStorylet
 		}
 		else
 		{
+			# we check for this much earlier, this is redundant
 			$done = HandleLockedStorylet $list
 			return $null
 		}
@@ -202,7 +203,7 @@ function DePluralize
 function GetPossessionCategory
 {
 	param( $category )
-#	$category = DePluralize $category
+	$category = DePluralize $category
 	if( $category -eq "Basic" -or $category -eq "BasicAbility" )
 	{
 		return (Myself).possessions[0].possessions;

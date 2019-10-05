@@ -474,6 +474,15 @@ function HandleProfession
 
 function HandleLockedArea
 {
+	$list = ListStorylet
+
+	if( $list.Phase -ne "Available" -and $list.storylet -ne $null -and ! $list.storylet.canGoBack )
+	{
+		write-verbose "in forced storylet"
+		$done = HandleLockedStorylet $list
+		return $false
+	}
+
 	if( IsLockedArea )
 	{
 		# canTravel false means you are in a locked area i think
