@@ -7,7 +7,8 @@ require,Route,Route: Mrs Plenty's Most Distracting Carnival,1
 require,Stories,A Name Whispered in Darkness,2,CatCatcher
 require,Stories,A Name Signed with a Flourish,3,NameFlourish3
 require,Stories,A Name Scrawled in Blood,2,NameScrawled2
-require,Stories,A Name in Seven Secret Alphabets,2,NameSecret2
+require,Stories,A Name in Seven Secret Alphabets,3,NameSecret3
 require,Contacts,Renown: Bohemians,5,RenownBohemiansCarnival
 require,Currency,Penny,1000000,Penny
 require,Contacts,Renown: The Docks,5,RenownDocksCarnival
+

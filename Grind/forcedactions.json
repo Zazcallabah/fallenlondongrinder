@@ -15,6 +15,7 @@
 	"Returning to the Department":"1",
 	"A Rambunctious Celebration":"?",
 	"The Secret of your Success":"?",
+	"Called to Account":"?",
 
 	"Far Arbor": [
 		{
@@ -97,7 +98,7 @@
 			"Conditions":[
 				"Stories,The Rose-Red Streets,=2",
 				"Mysteries,Extraordinary Implication,<3",
-				"Stories,Arbor: Permission to Linger,170"
+				"Stories,Arbor: Permission to Linger,320"
 			],
 			"Action": "Walk South"
 		},
@@ -118,7 +119,7 @@
 		{
 			"Conditions":[
 				"Mysteries,Extraordinary Implication,<3",
-				"Stories,Arbor: Permission to Linger,160",
+				"Stories,Arbor: Permission to Linger,310",
 				"Stories,The Rose-Red Streets,=3"
 			],
 			"Action": "Explore the Gatehouse Market"
@@ -133,7 +134,7 @@
 		{
 			"Conditions":[
 				"Mysteries,Extraordinary Implication,<3",
-				"Stories,Arbor: Permission to Linger,170",
+				"Stories,Arbor: Permission to Linger,320",
 				"Stories,The Rose-Red Streets,=4"
 
 			],

@@ -132,6 +132,7 @@
 		},
 		{
 			"name":"A visit",
+			"require":["Acquaintances,Acquaintance: Sardonic Music-Hall Singer,1"],
 			"action":"sardonic,drop in"
 		},
 		{
