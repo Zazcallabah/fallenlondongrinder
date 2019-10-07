@@ -48,7 +48,7 @@
 		{
 			"name": "The Demi-Monde: Bohemians",
 			"require": [
-				"Academic,Foxfire Candle Stub,20,BuyCandles",
+				"Academic,Foxfire Candle Stub,20,BuyFewerCandles",
 				"Wines,Bottle of Greyfields 1882,15"
 			],
 			"action": "Arrange a particularly Neathy tableau"

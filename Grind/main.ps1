@@ -292,7 +292,7 @@ function TryOpportunity
 {
 	if( IsLockedArea )
 	{
-		return
+		return $true
 	}
 	$o = DrawOpportunity
 
