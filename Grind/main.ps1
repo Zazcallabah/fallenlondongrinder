@@ -420,7 +420,11 @@ function CheckMenaces
 
 function HandleProfession
 {
-	Require "Route" "Route: Lodgings" 1 "RentLodgings"
+	$hasActionsLeft = Require "Route" "Route: Lodgings" 1 "RentLodgings"
+	if( !$hasActionsLeft )
+	{
+		return $false
+	}
 
 	$profession = GetPossession "Major Laterals" "Profession"
 
