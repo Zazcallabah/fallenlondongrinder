@@ -33,7 +33,7 @@
 		"Name": "Route: Forgotten Quarter",
 		"Result": "Route: Forgotten Quarter",
 		"Prerequisites": [
-			"Stories,A Name in Seven Secret Alphabets,4,NameSecret4"
+			"Stories,A Name in Seven Secret Alphabets,4,NameAlphabets4"
 		],
 		"Action": ""
 	},

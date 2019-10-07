@@ -19,19 +19,19 @@
 		"Action":"ladybones,Pursue your current Case,1"
 	},
 
-	"MakeNameSecret1Closing": {
-		"Name": "MakeNameSecret1Closing",
-		"Result": "MakeNameSecret1Closing",
+	"NameAlphabets1": {
+		"Name": "NameAlphabets1",
+		"Result": "NameAlphabets1",
 		"Prerequisites": [
 			"Stories,Detective's Progress,10,MakeNameSecret1Solve"
 		],
 		"Action":"ladybones,Pursue your current Case,Closing the Case,?,?"
 	},
-	"MakeNameSecret2": {
-		"Name": "MakeNameSecret2",
-		"Result": "MakeNameSecret2",
+	"NameAlphabets2": {
+		"Name": "NameAlphabets2",
+		"Result": "NameAlphabets2",
 		"Prerequisites": [
-			"Stories,A Name in Seven Secret Alphabets,1,MakeNameSecret1Closing",
+			"Stories,A Name in Seven Secret Alphabets,1,NameAlphabets1",
 			"Ventures,Surveillance Contract: Find a Tattooed Messenger's contact,4,TattooedMessenger4"
 		],
 		"Action": "carnival,tattooed courier,constables,?"
@@ -98,7 +98,7 @@
 		"Name": "NameSecret3Start",
 		"Result": "NameSecret3Start",
 		"Prerequisites": [
-			"Stories,A Name in Seven Secret Alphabets,2,NameSecret2",
+			"Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2",
 			"Circumstance,Engaged in a Case,=0"
 		],
 		"Action": "ladybones,Honey-Addled Detective,The Case of the Absconding Devil"
@@ -108,7 +108,7 @@
 		"Name": "NameSecret3GetProgress",
 		"Result": "NameSecret3GetProgress",
 		"Prerequisites": [
-			"Stories,A Name in Seven Secret Alphabets,2,NameSecret2",
+			"Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2",
 			"Circumstance,Engaged in a Case,=3,NameSecret3Start"
 		],
 		"Action": "ladybones,Pursue your current Case,1"
@@ -118,7 +118,7 @@
 		"Name": "NameSecret3Grind",
 		"Result": "NameSecret3Grind",
 		"Prerequisites": [
-			"Stories,A Name in Seven Secret Alphabets,2,NameSecret2",
+			"Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2",
 			"Circumstance,Engaged in a Case,=3,NameSecret3Start",
 			"Stories,Detective's Progress,12,NameSecret3GetProgress"
 		],
@@ -129,17 +129,17 @@
 		"Name": "NameSecret3Singer",
 		"Result": "NameSecret3Singer",
 		"Prerequisites": [
-			"Stories,A Name in Seven Secret Alphabets,2,NameSecret2",
+			"Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2",
 			"Stories,Evidence in the Case of the Absconding Devil,4,NameSecret3Grind",
 			"Stories,Detective's Progress,12,NameSecret3GetProgress"
 		],
 		"Action": "ladybones,Find an Absconding Devil,singer"
 	},
-	"NameSecret3": {
-		"Name": "NameSecret3",
-		"Result": "NameSecret3",
+	"NameAlphabets3": {
+		"Name": "NameAlphabets3",
+		"Result": "NameAlphabets3",
 		"Prerequisites": [
-			"Stories,A Name in Seven Secret Alphabets,2,NameSecret2",
+			"Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2",
 			"Stories,Evidence in the Case of the Absconding Devil,5,NameSecret3Singer"
 		],
 		"Action": "ladybones,Pursue your case,Closing the Case: the Absconding Devil,?,?"

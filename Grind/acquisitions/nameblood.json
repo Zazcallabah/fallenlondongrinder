@@ -15,9 +15,9 @@
 		],
 		"Action":"watchmakers,Hunting across london,Expose"
 	},
-	"MakeNameScrawledInBlood1": {
-		"Name": "MakeNameScrawledInBlood1",
-		"Result": "MakeNameScrawledInBlood1",
+	"NameBlood1": {
+		"Name": "NameBlood1",
+		"Result": "NameBlood1",
 		"Prerequisites": [
 			"Circumstance,Your Quarry,1,MakeNameScrawledInBlood1Start",
 			"Stories,Quarry: Confounded Thing is Hiding,=0,MakeNameScrawledInBlood1GrindRat"
@@ -30,18 +30,18 @@
 		"Name": "MakeNamkeScrawledInBlood2Start",
 		"Result": "MakeNamkeScrawledInBlood2Start",
 		"Prerequisites": [
-			"Stories,A Name Scrawled in Blood,=1,MakeNameScrawledInBlood1",
+			"Stories,A Name Scrawled in Blood,=1,NameBlood1",
 			"Ventures,Menace Eradication Contract: Sorrow-spider infestation,=0"
 		],
 		"Action":"watchmakers,Department of Menace Eradication,Make your name"
 	},
 
 
-	"NameScrawled2": {
-		"Name": "NameScrawled2",
-		"Result": "NameScrawled2",
+	"NameBlood2": {
+		"Name": "NameBlood2",
+		"Result": "NameBlood2",
 		"Prerequisites": [
-			"Stories,A Name Scrawled in Blood,=1,MakeNameScrawledInBlood1",
+			"Stories,A Name Scrawled in Blood,=1,NameBlood1",
 			"Ventures,Menace Eradication Contract: Sorrow-spider infestation,=1,MakeNamkeScrawledInBlood2Start"
 		],
 		"Action":"watchmakers,Destroy an Infestation of Sorrow-Spiders,Make your name/Track them to their nests"

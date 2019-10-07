@@ -1,7 +1,7 @@
 {
-	"MakeNameWhisperedInDarkness1": {
-		"Name": "MakeNameWhisperedInDarkness1",
-		"Result": "MakeNameWhisperedInDarkness1",
+	"NameDarkness1": {
+		"Name": "NameDarkness1",
+		"Result": "NameDarkness1",
 		"Prerequisites": [
 			"Basic,Shadowy,6,Courierjob",
 			"Stories,A Name Whispered in Darkness,<1"
@@ -9,11 +9,11 @@
 		"Action":"spite,alleys,intercept,Making your name"
 	},
 
-	"CatCatcher": {
-		"Name": "CatCatcher",
-		"Result": "CatCatcher",
+	"NameDarkness2": {
+		"Name": "NameDarkness2",
+		"Result": "NameDarkness2",
 		"Prerequisites": [
-			"Stories,A Name Whispered in Darkness,=1,MakeNameWhisperedInDarkness1",
+			"Stories,A Name Whispered in Darkness,=1,NameDarkness1",
 			"Mysteries,Whispered Hint,250"
 		],
 		"Action": "spite,alleys,cats of spite,making your name"
