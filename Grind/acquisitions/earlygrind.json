@@ -9,10 +9,16 @@
 		"Action": "prison,escape,?"
 	},
 
+
+
 	"RentLodgings": {
 		"Name": "RentLodgings",
 		"Result": "Route: Lodgings",
 		"Prerequisites": [
+			"Clothing,Bundle of Ragged Clothing,<1,SellRaggedClothing",
+			"Hat,Prisoner's Mask,<1,SellPrisonersMask",
+			"Gloves,Pair of Iron Manacles,<1,SellManacles",
+			"Boots,Pair of Leg Irons,<1,SellLegIrons",
 			"Goods,Piece of Rostygold,60,RostygoldMedusa"
 		],
 		"Action": "watchmaker,Find somewhere to live,rent a room"
@@ -28,15 +34,6 @@
 		],
 		"Action": "carnival,Buy,pearl",
 		"Reward": 10
-	},
-
-	"Route: Mrs Plenty's Most Distracting Carnival": {
-		"Name": "Route: Mrs Plenty's Most Distracting Carnival",
-		"Result": "Route: Mrs Plenty's Most Distracting Carnival",
-		"Prerequisites": [
-			"Route,Route: Lodgings,1"
-		],
-		"Action": "lodgings,Open a way to other parts of the City,Carnival"
 	},
 
 	"SellRaggedClothing":{

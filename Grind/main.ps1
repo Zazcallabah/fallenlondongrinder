@@ -420,6 +420,8 @@ function CheckMenaces
 
 function HandleProfession
 {
+	Require "Route" "Route: Lodgings" 1 "RentLodgings"
+
 	$profession = GetPossession "Major Laterals" "Profession"
 
 	if( $profession -ne $null -and ($profession.level -lt 7 -or $profession.level -gt 10) )
