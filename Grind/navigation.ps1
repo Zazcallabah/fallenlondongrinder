@@ -130,8 +130,6 @@ function DePluralize
 {
 	param($category)
 	$pluralmap = @{
-
-
 		"BasicAbilities" = "BasicAbility";
 		"SidebarAbilities" = "Prominence";
 		"MajorLaterals" = "Major Laterals";
@@ -189,7 +187,8 @@ function DePluralize
 		"ConstantCompanion" = "Constant Companion";
 		"Clubs" = "Club";
 	}
-	if( $pluralmap.ContainsKey($category) )
+
+	if( $category -ne $null -and $pluralmap.ContainsKey($category) )
 	{
 		return $pluralmap[$category]
 	}
