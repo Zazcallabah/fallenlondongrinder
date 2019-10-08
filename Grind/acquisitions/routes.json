@@ -24,7 +24,7 @@
 		"Prerequisites": [
 			"Stories,A Name Signed With a Flourish,4,NameFlourish4"
 		],
-		"Action": ""
+		"Action": "noop"
 	},
 
 

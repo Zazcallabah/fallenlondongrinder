@@ -113,5 +113,56 @@
 			"Curiosity,Manuscript Page,10"
 		],
 		"Action": "veilgarden,The Writer's Desk,rework,finish,Make Your Name: Publish your story"
+	},
+
+	"SeamstressSilk": {
+		"Name": "SeamstressSilk",
+		"Result": "SeamstressSilk",
+		"Prerequisites": [],
+		"Action": "veilgarden,The Seamstress' favour,1"
+	},
+
+	"FlourishGossipGrind": {
+		"Name": "FlourishGossipGrind",
+		"Result": "FlourishGossipGrind",
+		"Prerequisites": [
+			"Rumour,Inkling of Identity,50,FlourishGossipGrind2"
+		],
+		"Action": "inventory,Rumour,Inkling of Identity,discuss"
+	},
+
+	"FlourishGossipGrind2": {
+		"Name": "FlourishGossipGrind2",
+		"Result": "FlourishGossipGrind2",
+		"Prerequisites": [
+			"Rumour,Proscribed Material,250,FlourishGossipGrind3"
+		],
+		"Action": "inventory,Rumour,Proscribed Material,armful"
+	},
+
+	"FlourishGossipGrind3": {
+		"Name": "FlourishGossipGrind3",
+		"Result": "FlourishGossipGrind3",
+		"Prerequisites": [
+		],
+		"Action": "veilgarden,Charm an influential social butterfly,1"
+	},
+	"FlourishGossipGrindProscribed1": {
+		"Name": "FlourishGossipGrindProscribed1",
+		"Result": "FlourishGossipGrindProscribed1",
+		"Prerequisites": [
+		],
+		"Action": "veilgarden,Rescue banned books,pose"
+	},
+	"NameFlourish4": {
+		"Name": "NameFlourish4",
+		"Result": "A Name Signed with a Flourish",
+		"Prerequisites": [
+			"Stories,A Name Signed with a Flourish,3,NameFlourish3",
+			"Contacts,Favours: Society,1,RenownSocietyCarnival",
+			"Rag trade,Silk Scrap,500,SeamstressSilk",
+			"Rumour,Scrap of Incendiary Gossip,5,FlourishGossipGrind"
+		],
+		"Action": "veilgarden,Calling in favours,1"
 	}
 }
