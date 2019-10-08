@@ -9,7 +9,14 @@
 		"Action": "prison,escape,?"
 	},
 
-
+	"SellDiamond": {
+		"Name": "SellDiamond",
+		"Result": "SellDiamond",
+		"Prerequisites": [
+			"Contraband,Magnificent Diamond,1,SellDiamond"
+		],
+		"Action": "sell,Magnificient Diamond,1"
+	},
 
 	"RentLodgings": {
 		"Name": "RentLodgings",
@@ -19,11 +26,45 @@
 			"Hat,Prisoner's Mask,<1,SellPrisonersMask",
 			"Gloves,Pair of Iron Manacles,<1,SellManacles",
 			"Boots,Pair of Leg Irons,<1,SellLegIrons",
-			"Goods,Piece of Rostygold,60,RostygoldMedusa"
+			"Contraband,Magnificent Diamond,<1,SellDiamond",
+			"Goods,Piece of Rostygold,60,RostygoldNameBlood"
 		],
 		"Action": "watchmaker,Find somewhere to live,rent a room"
 	},
 
+
+
+	"RostygoldNameBlood": {
+		"Name": "RostygoldNameBlood",
+		"Result": "Piece of Rostygold",
+		"Prerequisites": [
+			"Stories,A Name Scrawled in Blood,1,NameBlood1",
+			"Stories,A Name Scrawled in Blood,<4,RostygoldMedusa",
+			"Basic,Dangerous,21,RostygoldNameBlood2"
+		],
+		"Action": "watchmaker,brawl at the medusa,fight"
+	},
+
+
+	"RostygoldNameBlood2": {
+		"Name": "RostygoldNameBlood2",
+		"Result": "Piece of Rostygold2",
+		"Prerequisites": [
+			"Stories,A Name Scrawled in Blood,1,NameBlood1",
+			"Stories,A Name Scrawled in Blood,<4,RostygoldMedusa",
+			"Basic,Dangerous,16,RostygoldMedusa"
+		],
+		"Action": "watchmaker,Needle-wrestling,safe"
+	},
+
+
+
+	"RostygoldMedusa": {
+		"Name": "RostygoldMedusa",
+		"Result": "Piece of Rostygold",
+		"Prerequisites": [],
+		"Action": "watchmaker,rowdy times,subdue"
+	},
 
 	"Carnival Ticket Pearl": {
 		"Name": "Carnival Ticket Pearl",
@@ -105,16 +146,6 @@
 		],
 		"Action": "veilgarden,The demands of high society,attend",
 		"Reward":54
-	},
-
-
-
-
-	"RostygoldMedusa": {
-		"Name": "RostygoldMedusa",
-		"Result": "Piece of Rostygold",
-		"Prerequisites": [],
-		"Action": "watchmaker,rowdy times,subdue"
 	}
 
 

@@ -172,10 +172,10 @@
 		"Name": "SellHints",
 		"Result": "SellHints",
 		"Prerequisites": [
-			"Mysteries,Whispered Hint,1000"
+			"Mysteries,Whispered Hint,600"
 		],
-		"Action": "sell,Whispered Hint,1000",
-		"Reward": 1000
+		"Action": "sell,Whispered Hint,600",
+		"Reward": 600
 	},
 
 	"BuyLuckyWeasel": {
