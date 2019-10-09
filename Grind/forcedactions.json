@@ -107,7 +107,8 @@
 		{
 			"Conditions":[
 				"Stories,The Rose-Red Streets,=2",
-				"Stories,Arbor: Permission to Linger,<4"
+				"Stories,Arbor: Permission to Linger,<4",
+				"Stories,Impossible,1"
 			],
 			"Action": "Walk South"
 		},

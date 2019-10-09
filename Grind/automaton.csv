@@ -1,10 +1,7 @@
 require,Route,Route: Lodgings,1,RentLodgings
 require,Route,Route: Mrs Plenty's Most Distracting Carnival,1
-require,Stories,A Name in Seven Secret Alphabets,3,NameSecret3Singer
-require,Stories,A Name Whispered in Darkness,2,NameDarkness2
-require,Stories,A Name Signed with a Flourish,3,NameFlourish3
-require,Stories,A Name Scrawled in Blood,2,NameBlood2
-require,Contacts,Renown: Bohemians,5,RenownBohemiansCarnival
+require,Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2
+require,Stories,Evidence in the Case of the Absconding Devil,4,NameSecret3Grind
+require,Stories,Detective's Progress,12,NameSecret3GetProgress
 require,Currency,Penny,1000000,Penny
-require,Contacts,Renown: The Docks,5,RenownDocksCarnival
 
