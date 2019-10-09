@@ -157,33 +157,54 @@ function GrindMoney
 	return $false
 }
 
+function GetCardFromUseListByName
+{
+	param($name,$eventid)
+
+	$card = $script:CardActions.use | ?{
+		if([string]::IsNullOrWhitespace($_.name))
+		{
+			return $false
+		}
+		if( $_.name.StartsWith("~") )
+		{
+			$n = $_.name.substring(1)
+			return $name -match $n
+		}
+		else
+		{
+			return $eventId -eq $_.name -or $name -eq $_.name
+		}
+	} | select -first 1
+	if($card -ne $null )
+	{
+		$card | Add-Member -Membertype NoteProperty -name "eventId" -value $eventid
+	}
+	return $card
+}
+
 function GetCardInUseList
 {
 	param( $opportunity )
 
-	foreach( $cardobj in $opportunity.displayCards )
+	$uselistCards = $opportunity.displayCards | %{ GetCardFromUseListByName $_.name $_.eventid } | ?{ $_ -ne $null }
+	if( $uselistCards -eq $null )
 	{
-		$result = $script:CardActions.use | ?{
-			if([string]::IsNullOrWhitespace($_.name))
-			{
-				return $false
-			}
-			if( $_.name.StartsWith("~") )
-			{
-				$n = $_.name.substring(1)
-				return $cardobj.name -match $n
-			}
-			else
-			{
-				return $cardobj.eventId -eq $_.name -or $cardobj.name -eq $_.name
-			}
-		} | select -first 1
-		if($result -ne $null)
-		{
-			$result | Add-Member -Membertype NoteProperty -name "eventId" -value $cardobj.eventid
-			return $result
-		}
+		return $null
 	}
+
+	$noreqCards=$uselistCards | ?{ $_.require -eq $null }
+	if( $noreqCards -ne $null )
+	{
+		$card = $noreqCards | select -first 1
+	}
+	else
+	{
+		$card = $uselistcards | select -first 1
+	}
+
+	return $card
+
 }
 
 function IsCommonCard

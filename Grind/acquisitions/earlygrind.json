@@ -13,9 +13,8 @@
 		"Name": "SellDiamond",
 		"Result": "SellDiamond",
 		"Prerequisites": [
-			"Contraband,Magnificent Diamond,1,SellDiamond"
 		],
-		"Action": "sell,Magnificient Diamond,1"
+		"Action": "sell,Magnificent Diamond,1"
 	},
 
 	"RentLodgings": {

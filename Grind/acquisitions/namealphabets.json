@@ -23,6 +23,7 @@
 		"Name": "NameAlphabets1",
 		"Result": "NameAlphabets1",
 		"Prerequisites": [
+			"Contraband,Magnificent Diamond,<1,SellDiamond",
 			"Stories,Detective's Progress,10,MakeNameSecret1Solve"
 		],
 		"Action":"ladybones,Pursue your current Case,Closing the Case,?,?"
