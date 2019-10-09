@@ -674,7 +674,7 @@ function HandleRenown
 	}
 	$factions = @(
 		"Church",
-		"Bohemians",
+#		"Bohemians",
 		"Constables",
 		"Criminals",
 		"Hell",
