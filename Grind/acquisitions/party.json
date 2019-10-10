@@ -6,7 +6,7 @@
 		"Cards":[
 			"The Brass Ambassador...,...bumps into you on the street outside"
 		],
-		"Action": "veilgarden,Arriving"
+		"Action": "veilgarden,Arriving,punctually"
 	},
 
 	"PartyStep2": {
