@@ -19,6 +19,7 @@
 		"Name": "NameBlood1",
 		"Result": "NameBlood1",
 		"Prerequisites": [
+			"Contraband,Magnificent Diamond,<1,SellDiamond",
 			"Circumstance,Your Quarry,1,MakeNameScrawledInBlood1Start",
 			"Stories,Quarry: Confounded Thing is Hiding,=0,MakeNameScrawledInBlood1GrindRat"
 		],

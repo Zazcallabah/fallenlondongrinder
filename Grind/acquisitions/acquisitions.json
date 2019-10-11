@@ -163,6 +163,7 @@
 		"Name": "BuyFewerCandles",
 		"Result": "Foxfire Candle Stub",
 		"Prerequisites": [
+			"Contraband,Magnificent Diamond,<1,SellDiamond",
 			"Currency,Penny,600,SellHints"
 		],
 		"Action": "buy,Merrigans,Foxfire Candle Stub,200",

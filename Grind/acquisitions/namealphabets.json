@@ -23,6 +23,7 @@
 		"Name": "NameAlphabets1",
 		"Result": "NameAlphabets1",
 		"Prerequisites": [
+			"Contraband,Magnificent Diamond,<1,SellDiamond",
 			"Stories,Detective's Progress,10,MakeNameSecret1Solve"
 		],
 		"Action":"ladybones,Pursue your current Case,Closing the Case,?,?"
@@ -125,24 +126,14 @@
 		"Action": "ladybones,find an Absconding Devil,Look for more evidence"
 	},
 
-	"NameSecret3Singer": {
-		"Name": "NameSecret3Singer",
-		"Result": "NameSecret3Singer",
-		"Prerequisites": [
-			"Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2",
-			"Stories,Evidence in the Case of the Absconding Devil,4,NameSecret3Grind",
-			"Stories,Detective's Progress,12,NameSecret3GetProgress"
-		],
-		"Action": "ladybones,Find an Absconding Devil,singer"
-	},
 	"NameAlphabets3": {
 		"Name": "NameAlphabets3",
 		"Result": "NameAlphabets3",
 		"Prerequisites": [
 			"Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2",
-			"Stories,Evidence in the Case of the Absconding Devil,5,NameSecret3Singer"
+			"Stories,Evidence in the Case of the Absconding Devil,4,NameSecret3Grind",
+			"Stories,Detective's Progress,12,NameSecret3GetProgress"
 		],
-		"Action": "ladybones,Pursue your case,Closing the Case: the Absconding Devil,?,?"
+		"Action": "ladybones,Find an Absconding Devil,Arrange a meeting with the singer"
 	}
-
 }

@@ -3,6 +3,7 @@
 		"Name": "NameDarkness1",
 		"Result": "NameDarkness1",
 		"Prerequisites": [
+			"Contraband,Magnificent Diamond,<1,SellDiamond",
 			"Basic,Shadowy,6,Courierjob",
 			"Stories,A Name Whispered in Darkness,<1"
 		],

@@ -18,6 +18,7 @@
 		"Name": "NameFlourish1",
 		"Result": "NameFlourish1",
 		"Prerequisites": [
+			"Contraband,Magnificent Diamond,<1,SellDiamond",
 			"Venture,Commission: Praising Fungus in Verse,1,NameFlourish1Start",
 			"Progress,Inspired...,6,NameFlourish1Grind"
 		],

@@ -140,8 +140,17 @@
 			"action":"1"
 		},
 		{
+			"name":"Valuable Secrets",
+			"require":["Mysteries,Whispered Hint,15"],
+			"action":"?"
+		},
+		{
 			"name":"Adopt a Profession",
 			"action":"1"
+		},
+		{
+			"name":"A conversation in the rain",
+			"action":"boldly"
 		},
 		{
 			"name": "One's public",
