@@ -66,8 +66,8 @@ $script:actions = @(
 	"require,Stories,Tales of Mahogany Hall,22"
 	"require,Elder,Presbyterate Passphrase,9"
 	"require,Progress,Running Battle,20"
-	"require,Nostalgia,Bazaar Permit,1"
-	"require,Curiosity,First City Coin,77"
+	"require,Influence,Personal Recommendation,3"
+	"require,Curiosity,Book of Hidden Bodies,2"
 	"require,Currency,Penny,10000,Penny"
 	"require,Stories,A Survivor of the Affair of the Box,16,KeyAtLast"
 )
