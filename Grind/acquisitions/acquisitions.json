@@ -169,6 +169,30 @@
 		"Action": "buy,Merrigans,Foxfire Candle Stub,200",
 		"Reward": 200
 	},
+
+	"An Identity Uncovered!": {
+		"Name": "An Identity Uncovered!",
+		"Result": "An Identity Uncovered!",
+		"Prerequisites": [
+			"Contacts,Favours: Society,1",
+			"Rumour,Scrap of Incendiary Gossip,50"
+		],
+		"Action": "inventory,Rumour,Scrap of Incendiary Gossip,Speculate on the identity of certain parties at a salon",
+		"Reward": 10
+	},
+
+	"Book of Hidden Bodies": {
+		"Name": "Book of Hidden Bodies",
+		"Result": "Book of Hidden Bodies",
+		"Prerequisites": [
+			"Rumour,An Identity Uncovered!,6",
+			"Rumour,Scrap of Incendiary Gossip,30",
+			"Rumour,Inkling of Identity,300"
+		],
+		"Action": "Bazaar Side-streets,Walk Down Blackfinger street,compile a book",
+		"Reward": 1
+	},
+
 	"SellHints": {
 		"Name": "SellHints",
 		"Result": "SellHints",
@@ -232,6 +256,56 @@
 		],
 		"Action": "veilgarden,unfinished business,consignment",
 		"Reward": 6
+	},
+
+	"ParthenaeumMembership":{
+		"Name":"A Member in Good Standing",
+		"Result": "A Member in Good Standing",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1",
+			"Stories,Sniffing Around The Parthenaeum,1",
+			"Contacts,Renown: Society,10",
+			"Influence,Favour in High Places,1",
+			"Influence,Personal Recommendation,3",
+			"Curiosity,Book of Hidden Bodies,2"
+		],
+		"Action": "Bazaar Side-streets,expensive of envelopes,accept graciously",
+		"Reward": 1
+	},
+
+	"Personal Recommendation":{
+		"Name":"Personal Recommendation",
+		"Result": "Personal Recommendation",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1",
+			"Influence,Stolen Kiss,6",
+			"Influence,Compromising Document,30",
+			"Influence,Intriguing Snippet,150"
+		],
+		"Action": "Bazaar Side-streets,Call at the offices of Baseborn and Fowlingpiece,Arrange for a Personal Recommendation",
+		"Reward": 1
+	},
+
+	"Favour in High Places":{
+		"Name":"Favour in High Places",
+		"Result": "Favour in High Places",
+		"Prerequisites": [
+			"Contacts,Favours: The Great Game,1",
+			"Influence,Stolen Kiss,25"
+		],
+		"Action": "inventory,Influence,Stolen Kiss,broker",
+		"Reward": 5
+	},
+
+	"Stolen Kiss":{
+		"Name":"Stolen Kiss",
+		"Result": "Stolen Kiss",
+		"Prerequisites": [
+			"Contacts,Favours: The Great Game,1",
+			"Influence,Compromising Document,50"
+		],
+		"Action": "inventory,Influence,Compromising Document,romantic",
+		"Reward": 10
 	},
 
 	"Shard of Glim": {
