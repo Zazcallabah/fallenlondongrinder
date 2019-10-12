@@ -181,6 +181,10 @@
 			"action":"?"
 		},
 		{
+			"name":"a familiar visitor",
+			"action":"Prevaricate"
+		},
+		{
 			"name":"A fine day in the Flit",
 			"action":"Go hunting for caches"
 		},
