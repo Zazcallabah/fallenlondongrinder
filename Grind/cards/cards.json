@@ -73,6 +73,14 @@
 			"action": "charm"
 		},
 		{
+			"name":"Providing for the revels",
+			"require": [
+				"Nostalgia,Drop of Prisoner's Honey,400",
+				"Wines,Bottle of Greyfields 1882,400"
+			],
+			"action":"1"
+		},
+		{
 			"name": "Return to the Palace cellars",
 			"action": "depths"
 		},
