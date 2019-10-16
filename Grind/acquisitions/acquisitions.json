@@ -100,7 +100,7 @@
 		"Name": "PrepPosi",
 		"Result": "Casing...",
 		"Prerequisites": [
-			"Accomplishments,A Person of Some Importance,1,PrepBasebord"
+			"Accomplishments,A Person of Some Importance,1,PrepBaseborn"
 		],
 		"Action": "flit,preparing,Well-planned villainy",
 		"Reward":3

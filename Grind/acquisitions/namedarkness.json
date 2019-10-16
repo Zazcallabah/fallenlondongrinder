@@ -18,5 +18,64 @@
 			"Mysteries,Whispered Hint,250"
 		],
 		"Action": "spite,alleys,cats of spite,making your name"
+	},
+
+
+
+	"StartAreaDiving":{
+		"Name": "StartAreaDiving",
+		"Result": "StartAreaDiving",
+		"Prerequisites": [
+		],
+		"Action":"spite,Making your Name: Area-diving,1"
+	},
+
+	"AreaDivingCasing":{
+		"Name": "AreaDivingCasing",
+		"Result": "AreaDivingCasing",
+		"Prerequisites": [
+		],
+		"Action":"spite,Area-diving: Casing the Target,This might be faster"
+	},
+
+
+	"AreaDivingFirstDive":{
+		"Name": "AreaDivingFirstDive",
+		"Result": "AreaDivingFirstDive",
+		"Prerequisites": [
+			"Progress,Casing...,5,AreaDivingCasing"
+		],
+		"Action":"spite,Area-diving: Casing the Target,Making your name: the first dive,1"
+	},
+
+	"AreaDivingBoxPantry":{
+		"Name": "AreaDivingBoxPantry",
+		"Result": "AreaDivingBoxPantry",
+		"Prerequisites": [
+			"Progress,Casing...,5,AreaDivingCasing"
+		],
+		"Action":"spite,Area-diving: Casing the Target,Making your name: the box in the pantry,1"
+	},
+
+	"AreaDivingBoxBlackmail":{
+		"Name": "AreaDivingBoxBlackmail",
+		"Result": "AreaDivingBoxBlackmail",
+		"Prerequisites": [
+		],
+		"Action":"spite,Area-diving: Casing the Target,Making your Name: What to Do with the Box,blackmail"
+	},
+
+	"NameDarkness3":{
+		"Name": "NameDarkness3",
+		"Result": "NameDarkness3",
+		"Prerequisites": [
+			"Stories,A Name Whispered in Darkness,=2,NameDarkness2",
+			"Ventures,Villainy: Area-Diving,1,StartAreaDiving",
+			"Ventures,Villainy: Area-Diving,2,AreaDivingFirstDive",
+			"Ventures,Villainy: Area-Diving,3,AreaDivingBoxPantry",
+			"Ventures,Villainy: Area-Diving,4,AreaDivingBoxBlackmail",
+			"Progress,Casing...,5,AreaDivingCasing"
+		],
+		"Action":"spite,Area-diving: Casing the Target,Making your Name: a spot of blackmail,blackmail her,?"
 	}
 }

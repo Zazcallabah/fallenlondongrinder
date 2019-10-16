@@ -77,7 +77,6 @@
 			"Stories,Troubled by Vermin,<50,VerminSigns",
 			"Stories,Troubled by Vermin,<5,GrindVermin"
 		],
-		"Action":"lodgings"
-	},
-	"testllololo":"lodgings,A Bad Case of Rattus Faber,The final battle,?,?"
+		"Action":"lodgings,A Bad Case of Rattus Faber,The final battle,?,?"
+	}
 }
