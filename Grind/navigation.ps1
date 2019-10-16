@@ -443,6 +443,7 @@ function UseItem
 
 function HasActionsToSpare
 {
+	Write-Verbose "remaining actions: $((Myself).character.actions)"
 	if($force)
 	{
 		return $true

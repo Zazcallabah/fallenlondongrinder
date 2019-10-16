@@ -46,5 +46,38 @@
 			"Ventures,Menace Eradication Contract: Sorrow-spider infestation,=1,MakeNamkeScrawledInBlood2Start"
 		],
 		"Action":"watchmakers,Destroy an Infestation of Sorrow-Spiders,Make your name/Track them to their nests"
-	}
+	},
+	"StartVermin": {
+		"Name": "StartVermin",
+		"Result": "StartVermin",
+		"Prerequisites": [
+		],
+		"Action":"watchmakers,Business on Watchmaker's Hill,Make your name! Enjoy a picnic,Let it go"
+	},
+	"GrindVermin": {
+		"Name": "GrindVermin",
+		"Result": "GrindVermin",
+		"Prerequisites": [
+		],
+		"Action":"lodgings,A Bad Case of Rattus Faber,1"
+	},
+	"VerminSigns": {
+		"Name": "VerminSigns",
+		"Result": "VerminSigns",
+		"Prerequisites": [
+		],
+		"Action":"lodgings,A rat infestation,1"
+	},
+	"NameBlood3": {
+		"Name": "NameBlood3",
+		"Result": "NameBlood3",
+		"Prerequisites": [
+			"Stories,A Name Scrawled in Blood,=2,NameBlood2",
+			"Stories,Troubled by Vermin,1,StartVermin",
+			"Stories,Troubled by Vermin,<50,VerminSigns",
+			"Stories,Troubled by Vermin,<5,GrindVermin"
+		],
+		"Action":"lodgings"
+	},
+	"testllololo":"lodgings,A Bad Case of Rattus Faber,The final battle,?,?"
 }

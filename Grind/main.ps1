@@ -785,11 +785,6 @@ if( $env:SECOND_EMAIL -ne $null -and $env:SECOND_PASS -ne $null )
 {
 	Write-Host "Running secondary account"
 
-# equip blemmigan
-# start adding grinds for all making your name stuff
-# make sure menaces grinding is available
-# find early money grind, make sure menaces are covered
-
 	Register $env:SECOND_EMAIL $env:SECOND_PASS
 	RunActions $automaton
 }
