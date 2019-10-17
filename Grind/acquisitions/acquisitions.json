@@ -393,7 +393,7 @@
 		"Name": "Jade Fragment",
 		"Result": "Jade Fragment",
 		"Prerequisites": [
-			"Accomplishments,A Person of Some Importance,1"
+			"Accomplishments,A Person of Some Importance,1,SpiteCourierJade"
 		],
 		"Action": "watchmakers,unfinished business,A sure bet",
 		"Reward": 100

@@ -77,5 +77,25 @@
 			"Progress,Casing...,5,AreaDivingCasing"
 		],
 		"Action":"spite,Area-diving: Casing the Target,Making your Name: a spot of blackmail,blackmail her,?"
+	},
+
+
+	"SpiteCourierJade":{
+		"Name": "SpiteCourierJade",
+		"Result": "Jade Fragment",
+		"Prerequisites": [
+		],
+		"Action":"spite,Alleys of Spite,Intercept a courier,exchange",
+		"Reward": 30
+	},
+
+	"NameDarkness4":{
+		"Name": "NameDarkness4",
+		"Result": "NameDarkness4",
+		"Prerequisites": [
+			"Route,Route: The Flit,1",
+			"Elder,Jade Fragment,1000,SpiteCourierJade"
+		],
+		"Action":"spite,Making your Name: Going Up in the World,secure an invitation,Concentrate on winning the game"
 	}
 }
