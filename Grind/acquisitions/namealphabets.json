@@ -182,6 +182,6 @@
 			"Stories,Detective's Progress,10,NameSecretGetProgress",
 			"Stories,A visitor to the Clay Quarters,1,NameA4GetClay"
 		],
-		"Action": ""
+		"Action": "ladybones,Pursue your current Case,A development: the Disappearing Heiress,navigate,leave her,?"
 	}
 }
