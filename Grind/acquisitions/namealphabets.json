@@ -105,12 +105,11 @@
 		"Action": "ladybones,Honey-Addled Detective,The Case of the Absconding Devil"
 	},
 
-	"NameSecret3GetProgress": {
-		"Name": "NameSecret3GetProgress",
-		"Result": "NameSecret3GetProgress",
+	"NameSecretGetProgress": {
+		"Name": "NameSecretGetProgress",
+		"Result": "NameSecretGetProgress",
 		"Prerequisites": [
-			"Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2",
-			"Circumstance,Engaged in a Case,=3,NameSecret3Start"
+			"Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2"
 		],
 		"Action": "ladybones,Pursue your current Case,1"
 	},
@@ -121,7 +120,7 @@
 		"Prerequisites": [
 			"Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2",
 			"Circumstance,Engaged in a Case,=3,NameSecret3Start",
-			"Stories,Detective's Progress,12,NameSecret3GetProgress"
+			"Stories,Detective's Progress,12,NameSecretGetProgress"
 		],
 		"Action": "ladybones,find an Absconding Devil,Look for more evidence"
 	},
@@ -132,8 +131,57 @@
 		"Prerequisites": [
 			"Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2",
 			"Stories,Evidence in the Case of the Absconding Devil,4,NameSecret3Grind",
-			"Stories,Detective's Progress,12,NameSecret3GetProgress"
+			"Stories,Detective's Progress,12,NameSecretGetProgress"
 		],
 		"Action": "ladybones,Find an Absconding Devil,Arrange a meeting with the singer"
+	},
+
+
+	"GiveUpExistingCase": {
+		"Name": "GiveUpExistingCase",
+		"Result": "GiveUpExistingCase",
+		"Prerequisites": [],
+		"Action":"ladybones,Working with the Honey-Addled Detective,abandon your current case"
+	},
+
+	"NameA4Start": {
+		"Name": "NameA4Start",
+		"Result": "NameA4Start",
+		"Prerequisites": [
+			"Circumstances,Engaged in a Case,=0,GiveUpExistingCase"
+		],
+		"Action":"ladybones,Life on Ladybones Road,Begin a Case: the Disappearing Heiress"
+	},
+
+	"NameA4GrindEvidence": {
+		"Name": "NameA4GrindEvidence",
+		"Result": "NameA4GrindEvidence",
+		"Prerequisites": [
+			"Circumstances,Engaged in a Case,=5,NameA4Start",
+			"Stories,Detective's Progress,10,NameSecretGetProgress"
+		],
+		"Action":"ladybones,Pursue your current Case,A development: the Disappearing Heiress,1"
+	},
+
+	"NameA4GetClay": {
+		"Name": "NameA4GetClay",
+		"Result": "NameA4GetClay",
+		"Prerequisites": [
+			"Mysteries,Whispered Hint,50",
+			"Zee-Treasures,Moon-Pearl,50"
+		],
+		"Action":"ladybones,Life on Ladybones Road,find your way to the clay quarters"
+	},
+
+	"NameAlphabets4": {
+		"Name": "NameAlphabets4",
+		"Result": "NameAlphabets4",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,3,NameAlphabets3",
+			"Stories,Evidence in the Case of the Missing Heiress,3,NameA4GrindEvidence",
+			"Stories,Detective's Progress,10,NameSecretGetProgress",
+			"Stories,A visitor to the Clay Quarters,1,NameA4GetClay"
+		],
+		"Action": ""
 	}
 }

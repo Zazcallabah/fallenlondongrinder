@@ -384,7 +384,7 @@
 		"Name": "Moon-pearl",
 		"Result": "Moon-pearl",
 		"Prerequisites": [
-			"Accomplishments,A Person of Some Importance,1"
+			"Accomplishments,A Person of Some Importance,1,Courierjob"
 		],
 		"Action": "watchmakers,unfinished business,A spot of footpadry",
 		"Reward": 60
