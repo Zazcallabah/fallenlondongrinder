@@ -31,38 +31,36 @@
 		"Action": "watchmaker,Find somewhere to live,rent a room"
 	},
 
-
-
 	"RostygoldNameBlood": {
 		"Name": "RostygoldNameBlood",
-		"Result": "Piece of Rostygold",
+		"Result": "RostygoldNameBlood",
 		"Prerequisites": [
 			"Stories,A Name Scrawled in Blood,1,NameBlood1",
 			"Stories,A Name Scrawled in Blood,<4,RostygoldMedusa",
-			"Basic,Dangerous,21,RostygoldNameBlood2"
+			"Basic,Dangerous,23,RostygoldNameBlood2"
 		],
-		"Action": "watchmaker,brawl at the medusa,fight"
+		"Action": "watchmaker,brawl at the medusa,fight",
+		"Reward": 25
 	},
-
 
 	"RostygoldNameBlood2": {
 		"Name": "RostygoldNameBlood2",
-		"Result": "Piece of Rostygold2",
+		"Result": "RostygoldNameBlood2",
 		"Prerequisites": [
 			"Stories,A Name Scrawled in Blood,1,NameBlood1",
 			"Stories,A Name Scrawled in Blood,<4,RostygoldMedusa",
 			"Basic,Dangerous,16,RostygoldMedusa"
 		],
-		"Action": "watchmaker,Needle-wrestling,safe"
+		"Action": "watchmaker,Needle-wrestling,safe",
+		"Reward": 13
 	},
-
-
 
 	"RostygoldMedusa": {
 		"Name": "RostygoldMedusa",
-		"Result": "Piece of Rostygold",
+		"Result": "RostygoldMedusa",
 		"Prerequisites": [],
-		"Action": "watchmaker,rowdy times,subdue"
+		"Action": "watchmaker,rowdy times,subdue",
+		"Reward": 10
 	},
 
 	"Carnival Ticket Pearl": {

@@ -78,5 +78,35 @@
 			"Stories,Troubled by Vermin,<5,GrindVermin"
 		],
 		"Action":"lodgings,A Bad Case of Rattus Faber,The final battle,?,?"
+	},
+
+
+	"NameBloodPassp": {
+		"Name": "NameBloodPassp",
+		"Result": "NameBloodPassp",
+		"Prerequisites": [
+			"Mysteries,Tale of Terror,5,NameBloodTerror"
+		],
+		"Action": "watchmakers,fighting ring,roses,fight"
+	},
+
+
+	"NameBloodTerror": {
+		"Name": "NameBloodTerror",
+		"Result": "NameBloodTerror",
+		"Prerequisites": [
+			"Goods,Piece of Rostygold,100"
+		],
+		"Action": "watchmakers,fighting ring,meat,clean"
+	},
+
+	"NameBlood4": {
+		"Name": "NameBlood4",
+		"Result": "NameBlood4",
+		"Prerequisites": [
+			"Stories,A Name Scrawled in Blood,=3,NameBlood3",
+			"Elder,Presbyterate Passphrase,3,NameBloodPassp"
+		],
+		"Action":"watchmakers,fighting ring,painted,2,?"
 	}
 }

@@ -30,7 +30,8 @@
 		"Name": "Extraordinary Implication",
 		"Result": "Extraordinary Implication",
 		"Prerequisites": [
-			"Elder,Presbyterate Passphrase,3"
+			"Elder,Presbyterate Passphrase,3",
+			"Stories,A Name Scrawled in Blood,3,NameBlood3"
 		],
 		"Action": "watchmakers,fighting ring,painted,2"
 	},
@@ -38,7 +39,8 @@
 		"Name": "Presbyterate Passphrase",
 		"Result": "Presbyterate Passphrase",
 		"Prerequisites": [
-			"Mysteries,Tale of Terror,5"
+			"Mysteries,Tale of Terror,5",
+			"Stories,A Name Scrawled in Blood,3,NameBlood3"
 		],
 		"Action": "watchmakers,fighting ring,roses,fight"
 	},
@@ -47,7 +49,7 @@
 		"Result": "Tale of Terror!!",
 		"Prerequisites": [
 			"Goods,Piece of Rostygold,100",
-			"Stories,A Name Scrawled in Blood,3"
+			"Stories,A Name Scrawled in Blood,3,NameBlood3"
 		],
 		"Action": "watchmakers,fighting ring,meat,clean"
 	},
@@ -402,7 +404,7 @@
 		"Name": "Piece of Rostygold",
 		"Result": "Piece of Rostygold",
 		"Prerequisites": [
-			"Accomplishments,A Person of Some Importance,1"
+			"Accomplishments,A Person of Some Importance,1,RostygoldNameBlood"
 		],
 		"Action": "watchmakers,unfinished business,Wade into the Ring Fights",
 		"Reward": 100

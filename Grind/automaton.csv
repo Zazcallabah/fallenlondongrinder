@@ -1,7 +1,7 @@
 require,Route,Route: Lodgings,1,RentLodgings
 require,Route,Route: Mrs Plenty's Most Distracting Carnival,1
 require,Stories,A Name in Seven Secret Alphabets,3,NameAlphabets3
-require,Stories,A Name Signed with a Flourish,3,NameFlourish3
+require,Stories,A Name Signed with a Flourish,4,NameFlourish4
 require,Stories,A Name Scrawled in Blood,3,NameBlood3
 require,Stories,A Name Whispered in Darkness,4,NameDarkness4
 require,Contacts,Renown: Bohemians,5,RenownBohemiansCarnival
