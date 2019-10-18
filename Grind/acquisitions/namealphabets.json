@@ -183,5 +183,20 @@
 			"Stories,A visitor to the Clay Quarters,1,NameA4GetClay"
 		],
 		"Action": "ladybones,Pursue your current Case,A development: the Disappearing Heiress,navigate,leave her,?"
+	},
+
+
+	"NameAlphabets5": {
+		"Name": "NameAlphabets5",
+		"Result": "NameAlphabets5",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,4,NameAlphabets4",
+			"Goods,Nevercold Brass Sliver,500,NightwatchfforBrass",
+			"Infernal,Soul,250",
+			"Mysteries,Cryptic Clue,100"
+		],
+		"Action": "ladybones,Making Your Name: A Raid on the Brass Embassy!,Plan the raid for the constables,?"
 	}
+
+
 }

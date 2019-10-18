@@ -10,9 +10,20 @@
 		"Action": "carnival,Buy,cryptic",
 		"Reward": 10
 	},
+
+	"BuyBrass":{
+		"Result": "BuyBrass",
+		"Name": "BuyBrass",
+		"Action": "buy,Merrigans,Nevercold Brass Sliver,500",
+		"Prerequisites": [
+			"Currency,Penny,1500"
+		],
+		"Reward": 500
+	},
+
 	"BuySouls":{
 		"Result": "BuySouls",
-		"Name": "Soul",
+		"Name": "BuySouls",
 		"Action": "buy,Merrigans,Soul,500",
 		"Prerequisites": [
 			"Currency,Penny,2000"
@@ -310,6 +321,28 @@
 		"Reward": 10
 	},
 
+
+	"SpiriferSouls": {
+		"Name": "SpiriferSouls",
+		"Result": "SpiriferSouls",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,4,BuySouls",
+			"Basic,Watchful,60,BuySouls"
+		],
+		"Action": "ladybones,Track down a Spirifer,Watch from the rooftops",
+		"Reward": 28
+	},
+
+	"Soul": {
+		"Name": "Soul",
+		"Result": "Soul",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1,SpiriferSouls",
+			"Contacts,Renown: Hell,10,SpiriferSouls"
+		],
+		"Action": "spite,unfinished business,the prince of",
+		"Reward": 60
+	},
 	"Shard of Glim": {
 		"Name": "Shard of Glim",
 		"Result": "Shard of Glim",
@@ -354,6 +387,27 @@
 		],
 		"Action": "spite,unfinished business,The fellow in the corner",
 		"Reward": 11
+	},
+
+	"NightwatchfforBrass": {
+		"Name": "NightwatchfforBrass",
+		"Result": "NightwatchfforBrass",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,4,BuyBrass",
+			"Basic,Watchful,65,BuyBrass"
+		],
+		"Action": "ladybones,Night watch at the Brass Embassy warehouse,easy",
+		"Reward": 50
+	},
+	"Nevercold Brass Sliver": {
+		"Name": "Nevercold Brass Sliver",
+		"Result": "Nevercold Brass Sliver",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1,NightwatchfforBrass",
+			"Contacts,Renown: The Church,10,NightwatchfforBrass"
+		],
+		"Action": "ladybones,unfinished business,mischief and brass",
+		"Reward": 110
 	},
 	"Relic of the Fourth City": {
 		"Name": "Relic of the Fourth City",
