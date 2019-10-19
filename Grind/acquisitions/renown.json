@@ -1,10 +1,76 @@
 {
+	"ConsumeChurch": {
+		"Name": "ConsumeChurch",
+		"Result": "ConsumeChurch",
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
+			"Contacts,Favours: The Church,1"
+		],
+		"Action": "shutteredpalace,Call in favours,vicar-general"
+	},
+	"ConsumeBohemians": {
+		"Name": "ConsumeBohemians",
+		"Result": "ConsumeBohemians",
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
+			"Contacts,Favours: Bohemians,1"
+		],
+		"Action": "shutteredpalace,Call in favours,bohemian friends"
+	},
+	"ConsumeConstables": {
+		"Name": "ConsumeConstables",
+		"Result": "ConsumeConstables",
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
+			"Contacts,Favours: Constables,1"
+		],
+		"Action": "shutteredpalace,Call in favours,commissioner"
+	},
+	"ConsumeSociety": {
+		"Name": "ConsumeSociety",
+		"Result": "ConsumeSociety",
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
+			"Contacts,Favours: Society,1"
+		],
+		"Action": "shutteredpalace,Call in favours,lady-in-waiting"
+	},
+
+	"ConsumeTombColonies": {
+		"Name": "ConsumeTombColonies",
+		"Result": "ConsumeTombColonies",
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
+			"Contacts,Favours: Tomb-Colonies,1"
+		],
+		"Action": "forgottenquarter,Call in favours,dead men"
+	},
+	"ConsumeRubbery": {
+		"Name": "ConsumeRubbery",
+		"Result": "ConsumeRubbery",
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
+			"Contacts,Favours: Rubbery Men,1"
+		],
+		"Action": "forgottenquarter,Call in favours,curious"
+	},
+	"ConsumeHell": {
+		"Name": "ConsumeHell",
+		"Result": "ConsumeHell",
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
+			"Contacts,Favours: Hell,1"
+		],
+		"Action": "forgottenquarter,Call in favours,soothing"
+	},
+
 	"RenownBohemiansCarnival": {
 		"Name": "RenownBohemiansCarnival",
 		"Result": "RenownBohemiansCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
-			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: Bohemians,<7,ConsumeBohemians"
 		],
 		"Action": "carnival,The Big Top,Meet your bohemian friends"
 	},
@@ -13,7 +79,8 @@
 		"Result": "RenownChurchCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
-			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: The Church,<7,ConsumeChurch"
 		],
 		"Action": "carnival,The Big Top,churchmen"
 	},
@@ -22,7 +89,8 @@
 		"Result": "RenownConstablesCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
-			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: Constables,<7,ConsumeConstables"
 		],
 		"Action": "carnival,The Big Top,constables"
 	},
@@ -31,7 +99,8 @@
 		"Result": "RenownHellCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
-			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: Hell,<7,ConsumeHell"
 		],
 		"Action": "carnival,The Big Top,some devils"
 	},
@@ -40,7 +109,8 @@
 		"Result": "RenownSocietyCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
-			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: Society,<7,ConsumeSociety"
 		],
 		"Action": "carnival,The Big Top,high society"
 	},
@@ -50,7 +120,8 @@
 		"Result": "RenownTombColoniesCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
-			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: Tomb-Colonies,<7,ConsumeTombColonies"
 		],
 		"Action": "carnival,The Big Top,Meet tomb-colonists"
 	},
@@ -71,7 +142,8 @@
 		"Result": "RenownRubberyMenCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
-			"Curiosity,Carnival Ticket,2,Carnival Ticket Clues"
+			"Curiosity,Carnival Ticket,2,Carnival Ticket Clues",
+			"Contacts,Favours: Rubbery Men,<7,ConsumeRubberyMen"
 		],
 		"Action": "carnival,Sideshows,Rubbery men"
 	},
