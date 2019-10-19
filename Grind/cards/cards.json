@@ -65,10 +65,6 @@
 			"action": "eulogy"
 		},
 		{
-			"name": "Investigating the Affluent Photographer",
-			"action": "Going alone"
-		},
-		{
 			"name": "The Charming of F. F. Gebrandt",
 			"action": "charm"
 		},
@@ -246,6 +242,10 @@
 			"action":"A Masque in the Marshes"
 		},
 		{
+			"name":"Surface Ties: the Seeker",
+			"action":"1"
+		},
+		{
 			"name":"Do they drink tea?",
 			"action":"Clay Men"
 		},
@@ -283,6 +283,7 @@
 	"trash":[
 		"A fair sized job for the right cracksman",
 		"All fear the Overgoat!",
+		"Investigating the Affluent Photographer",
 		"A letter from your aunt",
 		"Gold frame, black painting",
 		"Make Friends with a Young Stag",
