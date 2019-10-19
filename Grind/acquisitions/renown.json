@@ -64,6 +64,25 @@
 		"Action": "forgottenquarter,Call in favours,soothing"
 	},
 
+	"ConsumeGreatGame": {
+		"Name": "ConsumeGreatGame",
+		"Result": "ConsumeGreatGame",
+		"Prerequisites": [
+			"Route,Route: Wolfstack Docks,1",
+			"Contacts,Favours: The Great Game,1"
+		],
+		"Action": "wolfstack,Call in favours,elliptical"
+	},
+	"ConsumeDocks": {
+		"Name": "ConsumeDocks",
+		"Result": "ConsumeDocks",
+		"Prerequisites": [
+			"Route,Route: Wolfstack Docks,1",
+			"Contacts,Favours: The Docks,1"
+		],
+		"Action": "wolfstack,Call in favours,backslapping"
+	},
+
 	"RenownBohemiansCarnival": {
 		"Name": "RenownBohemiansCarnival",
 		"Result": "RenownBohemiansCarnival",
@@ -173,7 +192,8 @@
 		"Result": "RenownDocksCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
-			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: The Docks,<7,ConsumeDocks"
 		],
 		"Action": "carnival,Sideshows,zailors"
 	},
@@ -183,14 +203,11 @@
 		"Result": "RenownGreatGameCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
-			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: The Great Game,<7,ConsumeGreatGame"
 		],
 		"Action": "carnival,Sideshows,meet with spies"
 	},
-
-
-
-
 
 	"RenownBohemians5": {
 		"Result": "RenownBohemians5",

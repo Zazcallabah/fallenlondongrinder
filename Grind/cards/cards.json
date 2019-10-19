@@ -230,6 +230,14 @@
 			"action":"1"
 		},
 		{
+			"name":"The Clay Man Coalman Delivers",
+			"action":"1"
+		},
+		{
+			"name":"Church-breaking",
+			"action":"1"
+		},
+		{
 			"name":"The Heron Tower: Events at a Lair in the Marshes",
 			"require":[
 				"Contacts,Renown: Bohemians,5",
@@ -240,6 +248,10 @@
 				"Accomplishments,A Person of Some Importance,1"
 			],
 			"action":"A Masque in the Marshes"
+		},
+		{
+			"name":"Surface Ties: the Assailant",
+			"action":"?"
 		},
 		{
 			"name":"Surface Ties: the Seeker",
