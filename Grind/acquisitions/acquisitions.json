@@ -50,7 +50,7 @@
 		"Name": "Presbyterate Passphrase",
 		"Result": "Presbyterate Passphrase",
 		"Prerequisites": [
-			"Mysteries,Tale of Terror,5",
+			"Mysteries,Tale of Terror!!,5",
 			"Stories,A Name Scrawled in Blood,3,NameBlood3"
 		],
 		"Action": "watchmakers,fighting ring,roses,fight"

@@ -85,7 +85,7 @@
 		"Name": "NameBloodPassp",
 		"Result": "NameBloodPassp",
 		"Prerequisites": [
-			"Mysteries,Tale of Terror,5,NameBloodTerror"
+			"Mysteries,Tale of Terror!!,5,NameBloodTerror"
 		],
 		"Action": "watchmakers,fighting ring,roses,fight"
 	},
