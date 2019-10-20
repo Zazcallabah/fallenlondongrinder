@@ -114,7 +114,7 @@ function GetPossessionLevel
 
 function GetCostForSource
 {
-	param( $source, $amountNeeded, [switch]$force )
+	param( $source, $amountNeeded, [int]$depth = 1, [switch]$force )
 	if( $amountNeeded -le 0 )
 	{
 		return 0
@@ -123,6 +123,11 @@ function GetCostForSource
 	{
 		write-warning "no reward for $($source.name)"
 		return 10000
+	}
+	if($depth -ge 20)
+	{
+		write-warning "no reward for $($source.name) - infinite depth"
+		return 100000
 	}
 
 	$actionsRequired = [Math]::Ceiling( $amountNeeded / $source.Reward )
@@ -175,7 +180,7 @@ function GetCostForSource
 		$preReqSources | %{
 			if( $_.Cost -eq $null -or $force )
 			{
-				[int]$cost = GetCostForSource $_ ($totalAmount-$level)
+				[int]$cost = GetCostForSource $_ ($totalAmount-$level) (1+$depth)
 				$_ | Add-Member -MemberType NoteProperty -Name Cost -Value $cost -Force
 			}
 		}
@@ -213,7 +218,7 @@ function GetAcquisitionByCost
 	$sources | %{
 		if($_.Cost -eq $null -or $force )
 		{
-			[int]$cost = GetCostForSource $_ $amountNeeded
+			[int]$cost = GetCostForSource $_ $amountNeeded 1
 			$_ | Add-Member -MemberType NoteProperty -Name Cost -Value $cost -Force
 		}
 	}
