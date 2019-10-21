@@ -174,7 +174,7 @@ function GetCostForSource
 
 		if( !$preReqSources )
 		{
-			write-warning "no sources for $name"
+			write-warning "no sources for $preReqItem"
 			return 10000
 		}
 		$preReqSources | %{
@@ -203,7 +203,7 @@ function GetAcquisitionByCost
 
 	if( !$sources )
 	{
-		write-warning "no sources for $name"
+		write-warning "no cost sources for $name"
 		return LookupAcquisition $name
 	}
 
