@@ -196,7 +196,40 @@
 			"Mysteries,Cryptic Clue,100"
 		],
 		"Action": "ladybones,Making Your Name: A Raid on the Brass Embassy!,Plan the raid for the constables,?"
+	},
+
+
+	"TombSeven": {
+		"Name": "TombSeven",
+		"Result": "TombSeven",
+		"Prerequisites": [
+			"Route,Route: The Forgotten Quarter,1",
+			"Goods,Crate of Expedition Supplies,60"
+		],
+		"Action": "forgotten quarter,prepare,begin,tomb of seven"
+	},
+
+
+	"NameAlphabetStones": {
+		"Name": "NameAlphabetStones",
+		"Result": "NameAlphabetStones",
+		"Prerequisites": [
+			"Stories,Archaeologist,3",
+			"Circumstance,An Expedition,=7,TombSeven",
+			"Progress,Archaeologist's Progress,30,EarlyProgressFilter"
+		],
+		"Action": "forgotten quarter,Pursuing an Archaeological Expedition,The Tomb of the Seven!"
+	},
+
+	"NameAlphabets6": {
+		"Name": "NameAlphabets6",
+		"Result": "NameAlphabets6",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,5,NameAlphabets5",
+			"Curiosity,Set of Correspondence Stones,1,NameAlphabetStones",
+			"Mysteries,Cryptic Clue,250",
+			"Mysteries,Appalling Secret,3"
+		],
+		"Action": "forgottenquarter,Making Your Name: The Secrets of the Stones,scholar,salon"
 	}
-
-
 }

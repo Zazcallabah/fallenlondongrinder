@@ -4,7 +4,7 @@
 		"Result": "Rivals' Progress",
 		"Prerequisites": [
 			"Wines,Bottle of Strangling Willow Absinthe,10",
-			"Goods,Crate of Expedition Supplies"
+			"Goods,Crate of Expedition Supplies,10"
 		],
 		"Action": "forgotten quarter,Archaeological Expedition,confront,distract"
 	},
@@ -25,9 +25,64 @@
 		"Name": "Silk adventure",
 		"Result": "An Expedition",
 		"Prerequisites": [
-			"Goods,Crate of Expedition Supplies,99"
+			"Goods,Crate of Expedition Supplies,99",
+			"Stories,Archaeologist,2"
 		],
-		"Action": "forgotten quarter,prepare,begin,tomb"
+		"Action": "forgotten quarter,prepare,begin,tomb of the Silken Thread"
+	},
+
+
+	"InitArchaeology": {
+		"Name": "InitArchaeology",
+		"Result": "InitArchaeology",
+		"Prerequisites": [
+			"Route,Route: The Forgotten Quarter,1",
+			"Goods,Crate of Expedition Supplies,10",
+			"Mysteries,Tale of Terror!!,1",
+			"Mysteries,Cryptic Clue,250",
+			"Mysteries,Whispered Hint,1000"
+		],
+		"Action": "forgotten quarter,prepare,begin,learn"
+	},
+
+
+	"ThievesCache": {
+		"Name": "ThievesCache",
+		"Result": "ThievesCache",
+		"Prerequisites": [
+			"Route,Route: The Forgotten Quarter,1",
+			"Goods,Crate of Expedition Supplies,30",
+			"Contacts,Favours: Criminals,1"
+		],
+		"Action": "forgotten quarter,prepare,begin,Seek a thieves' cache"
+	},
+
+	"ThievesCacheGrind": {
+		"Name": "ThievesCacheGrind",
+		"Result": "ThievesCacheGrind",
+		"Prerequisites": [
+			"Circumstance,An Expedition,=1,ThievesCache",
+			"Progress,Archaeologist's Progress,10,CautiousProgress"
+		],
+		"Action": "forgotten quarter,Archaeological Expedition,A thieves' cache!,1"
+	},
+	"CautiousProgress": {
+		"Name": "CautiousProgress",
+		"Result": "CautiousProgress",
+		"Prerequisites": [
+		],
+		"Action": "forgotten quarter,Archaeological Expedition,A cautious approach"
+	},
+	"Archaeologist":{
+		"Name": "Archaeologist",
+		"Result": "Archaeologist",
+		"Prerequisites": [
+			"Stories,Archaeologist,1,InitArchaeology",
+			"Stories,Archaeologist,2,ThievesCacheGrind",
+			"Circumstance,An Expedition,=1,ThievesCache",
+			"Progress,Archaeologist's Progress,10,CautiousProgress"
+		],
+		"Action": "forgotten quarter,Archaeological Expedition,A thieves' cache!,1"
 	},
 
 
@@ -45,7 +100,7 @@
 		"Result": "Crate of Expedition Supplies",
 		"Prerequisites": [
 			"Progress,Archaeologist's Progress,<1",
-			"Contacts,Renown: The Docks,5,BuyCrate",
+			"Contacts,Renown: The Docks,5,RenownDocksCarnival",
 			"Contacts,Favours: The Docks,1,BuyCrate",
 			"Goods,Piece of Rostygold,50"
 		],
