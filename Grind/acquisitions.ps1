@@ -103,6 +103,11 @@ function Sources
 {
 	param( $name )
 
+	if( $script:Acquisitions."$name" -ne $null )
+	{
+		return $script:Acquisitions."$name"
+	}
+
 	return $script:Acquisitions.PSObject.Properties | ?{ $_.Value.Result -eq $name } | select -ExpandProperty Value
 }
 
