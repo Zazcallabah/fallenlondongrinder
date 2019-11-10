@@ -145,7 +145,7 @@ function MoveTo
 	param($id)
 	$id = GetLocationId $id
 	$script:user = $null # after move, area is different
-	$area = Post -href "map/move/$id"
+	$area = Post -href "map/move" -payload @{"areaId"=$id}
 	if($area.isSuccess -ne $true)
 	{
 		throw "bad result when moving to a new area: $area"
