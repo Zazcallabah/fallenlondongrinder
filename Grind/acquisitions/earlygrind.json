@@ -39,7 +39,7 @@
 			"Stories,A Name Scrawled in Blood,<4,RostygoldMedusa",
 			"Basic,Dangerous,23,RostygoldNameBlood2"
 		],
-		"Action": "watchmaker,brawl at the medusa,fight",
+		"Action": "watchmaker,brawl at the medusa,fight,?",
 		"Reward": 25
 	},
 

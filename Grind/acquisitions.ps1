@@ -103,6 +103,11 @@ function Sources
 {
 	param( $name )
 
+	if( $script:Acquisitions."$name" -ne $null )
+	{
+		return $script:Acquisitions."$name"
+	}
+
 	return $script:Acquisitions.PSObject.Properties | ?{ $_.Value.Result -eq $name } | select -ExpandProperty Value
 }
 
@@ -174,7 +179,7 @@ function GetCostForSource
 
 		if( !$preReqSources )
 		{
-			write-warning "no sources for $name"
+			write-warning "no sources for $preReqItem"
 			return 10000
 		}
 		$preReqSources | %{
@@ -203,7 +208,7 @@ function GetAcquisitionByCost
 
 	if( !$sources )
 	{
-		write-warning "no sources for $name"
+		write-warning "no cost sources for $name"
 		return LookupAcquisition $name
 	}
 
