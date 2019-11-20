@@ -24,17 +24,6 @@ namespace fl
 		dynamic _plans;
 
 
-		class MapEntry
-		{
-			public string name;
-			public string description;
-			public bool showOps;
-			public bool hideName;
-			public bool premiumSubRequired;
-			public int id;
-		}
-
-
 		public Session(string email, string pass)
 		{
 			_email = email;
@@ -63,7 +52,7 @@ namespace fl
 			return true;
 		}
 
-		public async Task<dynamic> Post( string href, dynamic payload = null) {
+		public async Task<T> Post<T>( string href, dynamic payload = null) {
 			if(!_loggedin)
 			{
 				await GetToken();
@@ -71,7 +60,8 @@ namespace fl
 
 			var response = await _client.PostAsync(href,MakeContent(payload));
 			var content = await response.Content.ReadAsStringAsync();
-			dynamic data = JsonConvert.DeserializeObject(content);
+			T data = JsonConvert.DeserializeObject<T>(content);
+			Console.WriteLine($"cPOST to {href} {payload}");
 // todo write debug
 			if( !IsSuccess(data) )
 			{
@@ -80,15 +70,16 @@ namespace fl
 			return data;
 		}
 
-		public async Task<dynamic> Get( string href ) {
+		public async Task<T> Get<T>( string href ) {
 			if(!_loggedin)
 			{
 				await GetToken();
 			}
 
+			Console.WriteLine($"cGET {href}");
 			var response = await _client.GetAsync(href);
 			var content = await response.Content.ReadAsStringAsync();
-			dynamic data = JsonConvert.DeserializeObject(content);
+			T data = JsonConvert.DeserializeObject<T>(content);
 // todo write debug
 			if( !IsSuccess(data) )
 			{
@@ -100,6 +91,7 @@ namespace fl
 		async Task<string> GetToken()
 		{
 			var payload = JsonConvert.SerializeObject(new { email = _email, password = _pass });
+			Console.WriteLine($"cPOST to /login");
 			var response = await _client.PostAsync("login",new StringContent(payload, System.Text.Encoding.UTF8, "application/json"));
 			if (response.Content == null) {
 				throw new Exception("invalid login");
@@ -117,7 +109,7 @@ namespace fl
 		{
 			if( _mapCache == null )
 			{
-				dynamic response = await Get("map");
+				Map response = await Get<Map>("map");
 				_mapCache = response.areas;
 			}
 			return _mapCache;
