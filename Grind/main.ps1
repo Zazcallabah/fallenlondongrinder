@@ -60,6 +60,7 @@ $script:actions = @(
 	"require,Progress,Archaeologist's Progress,99" # <- always an infinite grind for money
 	"require,Academic,Volume of Collated Research,15"
 	"require,Basic,Dangerous,200,GrindDangerous"
+	"require,Basic,Making Waves,1,GetWaveThroughTerror"
 #	"require,Progress,Casing...,13"
 	"require,Stories,A Procurer of Savage Beasts,4,HuntGoat"
 #	"require,Progress,The Hunt is on,19"
