@@ -32,7 +32,7 @@ namespace test
 		[Test]
 		public async Task CanGetUser()
 		{
-			Assert.AreEqual("ClankingAutomaton", (string)(await SessionHolder.Session.User()).user.name);
+			Assert.AreEqual("ClankingAutomaton", (await SessionHolder.Session.User()).user.name);
 		}
 
 		[Test]
@@ -44,9 +44,22 @@ namespace test
 		[Test]
 		public async Task CanGetPossession()
 		{
-			Assert.AreEqual("Dangerous", (string)(await SessionHolder.Session.GetPossession("Dangerous")).name );
-			Assert.AreEqual("Dangerous", (string)(await SessionHolder.Session.GetPossession("Dangerous","Basic")).name );
-			Assert.AreEqual("Dangerous", (string)(await SessionHolder.Session.GetPossessionCategory("Stories"))[0].name );
+			Assert.AreEqual("Dangerous", (await SessionHolder.Session.GetPossession("Dangerous")).name );
+			Assert.AreEqual("Dangerous", (await SessionHolder.Session.GetPossession("Dangerous","Basic")).name );
+			Assert.AreEqual("A Constables' Pet", (await SessionHolder.Session.GetPossessionCategory("Stories"))[0].name );
+		}
+
+		[Test]
+		public async Task CanMove() {
+			var s = SessionHolder.Session;
+			if( ! await s.IsInLocation("Veilgarden") ){
+				await s.MoveTo("Veilgarden");
+			}
+		}
+
+		[Test]
+		public async Task HandlesNonSuccess(){
+			await SessionHolder.Session.MoveTo("Chimes");
 		}
 	}
 

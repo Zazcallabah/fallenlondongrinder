@@ -13,12 +13,12 @@ namespace fl
 	{
 		public static async Task<int> GetUserLocation(this Session s)
 		{
-			dynamic u = await s.User();
+			User u = await s.User();
 			return u.area.id;
 		}
 		public static async Task<bool> IsLockedArea(this Session s)
 		{
-			dynamic u = await s.User();
+			User u = await s.User();
 			return u.setting != null && !(bool)u.setting.canTravel;
 		}
 
@@ -35,28 +35,24 @@ namespace fl
 				return true;
 			return await s.GetUserLocation() == location;
 
-			// can we force race con?
-
-			// // if user is uncached, both of these will trigger user download?
+			// // if user is uncached,
 			// var t1 = s.IsLockedArea();
 			// var t2 = s.GetUserLocation();
-
-			// //if we then await both, are we downloading once or twice?
+			// //and we then await both, both of these trigger user download
 			// if( await t1 ) return true;
 			// return await t2 == location;
-			// tested yes
 		}
 
 		public static async Task<dynamic> GoBackIfInStorylet(this Session s)
 		{
 			var list = await s.ListStorylet();
-			if( list.Phase == "Available" )
+			if( list.phase == "Available" )
 				return list;
 
 			if( list.storylet == null )
 				return list;
 
-			if( list.storylet.canGoBack )
+			if( list.storylet.canGoBack.HasValue && list.storylet.canGoBack.Value )
 			{
 // todo 			write-verbose "exiting storylet"
 				return s.GoBack();
@@ -168,7 +164,7 @@ namespace fl
 			return category;
 		}
 
-		public static async Task<IList<dynamic>> GetPossessionCategory(this Session s, string category )
+		public static async Task<IList<Possession>> GetPossessionCategory(this Session s, string category )
 		{
 			category = category.Depluralize();
 
@@ -176,20 +172,13 @@ namespace fl
 
 			if( category == "Basic" || category == "BasicAbility" )
 			{
-				var jarray = (Newtonsoft.Json.Linq.JArray)myself.possessions;
-				var basics = (Newtonsoft.Json.Linq.JArray)jarray.First().ToObject<dynamic>().possessions;
-				return basics.ToList<dynamic>();
+				return myself.possessions[0].possessions.ToList();
 			}
 
-			var found = new List<dynamic>();
-			foreach( var c in myself.possessions )
-			{
-				if( string.IsNullOrWhiteSpace(category) || c.name == category )
-				{
-					found.AddRange(c.possessions);
-				}
-			}
-			return found;
+			return myself.possessions
+				.Where( c => string.IsNullOrWhiteSpace(category) || c.name == category )
+				.SelectMany( c => c.possessions )
+				.ToList();
 		}
 
 		public static async Task<dynamic> GetPossession(this Session s, string name, string category = null )

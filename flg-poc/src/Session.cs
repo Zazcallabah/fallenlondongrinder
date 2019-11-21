@@ -16,12 +16,12 @@ namespace fl
 		string _pass;
 
 		IList<MapEntry> _mapCache = null;
-		IDictionary<int,dynamic> _shops = new Dictionary<int,dynamic>();
+		IDictionary<int,ShopItem[]> _shops = new Dictionary<int,ShopItem[]>();
 
 		// caches
-		dynamic _user;
-		dynamic _myself;
-		dynamic _plans;
+		User _user;
+		Myself _myself;
+		Plans _plans;
 
 
 		public Session(string email, string pass)
@@ -61,7 +61,6 @@ namespace fl
 			var response = await _client.PostAsync(href,MakeContent(payload));
 			var content = await response.Content.ReadAsStringAsync();
 			T data = JsonConvert.DeserializeObject<T>(content);
-			Console.WriteLine($"cPOST to {href} {payload}");
 // todo write debug
 			if( !IsSuccess(data) )
 			{
@@ -76,7 +75,6 @@ namespace fl
 				await GetToken();
 			}
 
-			Console.WriteLine($"cGET {href}");
 			var response = await _client.GetAsync(href);
 			var content = await response.Content.ReadAsStringAsync();
 			T data = JsonConvert.DeserializeObject<T>(content);
@@ -91,7 +89,6 @@ namespace fl
 		async Task<string> GetToken()
 		{
 			var payload = JsonConvert.SerializeObject(new { email = _email, password = _pass });
-			Console.WriteLine($"cPOST to /login");
 			var response = await _client.PostAsync("login",new StringContent(payload, System.Text.Encoding.UTF8, "application/json"));
 			if (response.Content == null) {
 				throw new Exception("invalid login");
@@ -150,23 +147,24 @@ namespace fl
 			return area.id;
 		}
 
-		public async Task<dynamic> MoveTo(string location)
+		public async Task<UserArea> MoveTo(string location)
 		{
 			var id = await GetLocationId(location);
-			this._user = null; // after move, area is different
-			return await Post("map/move",new {areaId=id});
+			var move = await Post<Move>("map/move",new {areaId=id});
+			this._user.area = move.area;
+			return move.area;
 		}
 
-		public async Task<dynamic> ListStorylet()
+		public async Task<StoryletList> ListStorylet()
 		{
-			return await Post("storylet");
+			return await Post<StoryletList>("storylet");
 		}
 
-		public async Task<dynamic> GetShopInventory(int shopId)
+		public async Task<ShopItem[]> GetShopInventory(int shopId)
 		{
 			if( !_shops.ContainsKey(shopId) )
 			{
-				_shops.Add(shopId, await Get($"exchange/availabilities?shopId={shopId}"));
+				_shops.Add(shopId, await Get<ShopItem[]>($"exchange/availabilities?shopId={shopId}"));
 			}
 			return _shops[shopId];
 		}
@@ -174,36 +172,37 @@ namespace fl
 		public async Task<dynamic> Buy(int id, int amount)
 		{
 			_myself = null;
-			return await Post("exchange/buy",new {availabilityId=id,amount=amount});
+			return await Post<dynamic>("exchange/buy",new {availabilityId=id,amount=amount});
 		}
 		public async Task<dynamic> Sell(int id, int amount)
 		{
 			_myself = null;
-			return await Post("exchange/sell",new {availabilityId=id,amount=amount});
+			return await Post<dynamic>("exchange/sell",new {availabilityId=id,amount=amount});
 		}
 
-		public async Task<dynamic> UseQuality(int id)
+		public async Task<SuccessResult> UseQuality(int id)
 		{
-			return await Post($"storylet/usequality/{id}");
+			return await Post<SuccessResult>($"storylet/usequality/{id}");
 		}
 
-		public async Task<dynamic> User()
+		public async Task<User> User()
 		{
 			if( _user == null )
 			{
-				_user = await Get("login/user");
+				_user = await Get<User>("login/user");
 			}
 			return _user;
 		}
 
-		async Task<dynamic> Plans()
+		async Task<Plans> Plans()
 		{
 			if( _plans == null )
 			{
-				_plans = await Get("plan");
+				_plans = await Get<Plans>("plan");
 			}
 			return _plans;
 		}
+
 
 		public async Task<dynamic> GetPlan(string name)
 		{
@@ -216,48 +215,49 @@ namespace fl
 			return pl.FirstOrDefault( k => r.IsMatch(k.branch.name) );
 		}
 
-		public async Task<dynamic> ExistsPlan(int id, string planKey)
+		public async Task<bool> ExistsPlan(int id, string planKey)
 		{
 			var plans = await Plans();
-			var pl = new List<dynamic>();
+			var pl = new List<Plan>();
 			pl.AddRange(plans.active);
 			pl.AddRange(plans.complete);
 
 			return pl.Any( k => k.branch.id == id && k.branch.planKey == planKey );
 		}
 
-		public async Task<dynamic> Myself()
+		public async Task<Myself> Myself()
 		{
 			if( _myself == null )
 			{
-				_myself = await Get("character/myself");
+				_myself = await Get<Myself>("character/myself");
 			}
 			return _myself;
 		}
 
-		public async Task<dynamic> Opportunity()
+
+		public async Task<Opportunity> Opportunity()
 		{
-			return await Get("opportunity");
+			return await Get<Opportunity>("opportunity");
 		}
 
-		public async Task<dynamic> DrawOpportunity()
+		public async Task<Opportunity> DrawOpportunity()
 		{
-			return await Post("opportunity/draw");
+			return await Post<Opportunity>("opportunity/draw");
 		}
 
 		public async Task<dynamic> DiscardOpportunity(int id)
 		{
-			return await Post($"opportunity/discard/{id}");
+			return await Post<dynamic>($"opportunity/discard/{id}");
 		}
 
-		public async Task<dynamic> GoBack()
+		public async Task<StoryletList> GoBack()
 		{
-			return await Post("storylet/goback");
+			return await Post<StoryletList>("storylet/goback");
 		}
 
-		public async Task<dynamic> BeginStorylet(int id)
+		public async Task<StoryletList> BeginStorylet(int id)
 		{
-			dynamic ev = await Post("storylet/begin",new {eventId= id});
+			StoryletList ev = await Post<StoryletList>("storylet/begin",new {eventId= id});
 // todo
 // 	if( $ev.storylet )
 // 	{
@@ -267,9 +267,9 @@ namespace fl
 		}
 
 
-		public async Task<dynamic> ChooseBranch(int id)
+		public async Task<BranchChoice> ChooseBranch(int id)
 		{
-			dynamic ev = await Post("storylet/choosebranch",new {branchId=id,secondChanceIds=new int[0]});
+			BranchChoice ev = await Post<BranchChoice>("storylet/choosebranch",new {branchId=id,secondChanceIds=new int[0]});
 // todo
 // 	if( $event.endStorylet )
 // 	{
@@ -290,30 +290,30 @@ namespace fl
 		public async Task<dynamic> CreatePlan(int id, string planKey)
 		{
 			_plans = null;
-			return await Post("plan/create",new {branchId=id,planKey=planKey});
+			return await Post<dynamic>("plan/create",new {branchId=id,planKey=planKey});
 		}
 
 		public async Task<dynamic> DeletePlan(int id)
 		{
 			_plans = null;
-			return await Post($"plan/delete/{id}");
+			return await Post<dynamic>($"plan/delete/{id}");
 		}
 		public async Task<dynamic> EquipOutfit(int id)
 		{
-			return await Post($"outfit/equip/{id}");
+			return await Post<dynamic>($"outfit/equip/{id}");
 		}
 		public async Task<dynamic> UnequipOutfit(int id)
 		{
-			return await Post($"outfit/unequip/{id}");
+			return await Post<dynamic>($"outfit/unequip/{id}");
 		}
 		public async Task<dynamic> Contacts()
 		{
-			return await Get("contact");
+			return await Get<dynamic>("contact");
 		}
 		public async Task<dynamic> AddContact(string name)
 		{
 			var encoded = System.Uri.EscapeDataString(name);
-			return await Post($"contact/addcontact/{encoded}");
+			return await Post<dynamic>($"contact/addcontact/{encoded}");
 		}
 	}
 }
