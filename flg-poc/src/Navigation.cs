@@ -31,7 +31,7 @@ namespace fl
 		public static async Task<bool> IsInLocation(this Session s, int location)
 		{
 			// TODO is this a race condition example?
-			if( await s.IsLockedArea() )
+			if (await s.IsLockedArea())
 				return true;
 			return await s.GetUserLocation() == location;
 
@@ -46,49 +46,50 @@ namespace fl
 		public static async Task<StoryletList> GoBackIfInStorylet(this Session s)
 		{
 			StoryletList list = await s.ListStorylet();
-			if( list.phase == "Available" )
+			if (list.phase == "Available")
 				return list;
 
-			if( list.storylet == null )
+			if (list.storylet == null)
 				return list;
 
-			if( list.storylet.canGoBack.HasValue && list.storylet.canGoBack.Value )
+			if (list.storylet.canGoBack.HasValue && list.storylet.canGoBack.Value)
 			{
-// todo 			write-verbose "exiting storylet"
+				// todo 			write-verbose "exiting storylet"
 				return await s.GoBack();
 			}
 			else
 			{
-// 			# we check for this much earlier, this is redundant
-// 			$done = HandleLockedStorylet $list
-// 			return $null
+				// 			# we check for this much earlier, this is redundant
+				// 			$done = HandleLockedStorylet $list
+				// 			return $null
 				throw new Exception("called GoBackIfInStorylet on what looks like locked storylet");
 			}
 		}
 
-		public static int? AsNumber(this string s){
+		public static int? AsNumber(this string s)
+		{
 			int i;
-			if( int.TryParse(s, out i) )
+			if (int.TryParse(s, out i))
 			{
 				return i;
 			}
 			return null;
 		}
 
-		public static async Task<long?> GetStoryletId(this Session s, string name, StoryletList list = null )
+		public static async Task<long?> GetStoryletId(this Session s, string name, StoryletList list = null)
 		{
-			if( list == null )
+			if (list == null)
 				list = await s.ListStorylet();
 			var n = name.AsNumber();
-			if( n != null )
+			if (n != null)
 			{
-				return list.storylets[n.Value-1].id;
+				return list.storylets[n.Value - 1].id;
 			}
 
 			var r = new Regex(name);
-			foreach( var item in list.storylets )
+			foreach (var item in list.storylets)
 			{
-				if( r.IsMatch(item.name) )
+				if (r.IsMatch(item.name))
 				{
 					return item.id;
 				}
@@ -96,7 +97,7 @@ namespace fl
 			return null;
 		}
 
-		readonly static IDictionary<string,string> DepluralizationMap = new Dictionary<string,string>{
+		readonly static IDictionary<string, string> DepluralizationMap = new Dictionary<string, string>{
 			{"BasicAbilities", "BasicAbility"},
 			{"SidebarAbilities", "Prominence"},
 			{"MajorLaterals", "Major Laterals"},
@@ -155,160 +156,152 @@ namespace fl
 			{"Clubs", "Club"}
 		};
 
-		public static string Depluralize(this string category )
+		public static string Depluralize(this string category)
 		{
-			if( category != null && DepluralizationMap.ContainsKey(category) )
+			if (category != null && DepluralizationMap.ContainsKey(category))
 			{
 				return DepluralizationMap[category];
 			}
 			return category;
 		}
 
-		public static async Task<IList<Possession>> GetPossessionCategory(this Session s, string category )
+		public static async Task<IList<Possession>> GetPossessionCategory(this Session s, string category)
 		{
 			category = category.Depluralize();
 
 			var myself = await s.Myself();
 
-			if( category == "Basic" || category == "BasicAbility" )
+			if (category == "Basic" || category == "BasicAbility")
 			{
 				return myself.possessions[0].possessions.ToList();
 			}
 
 			return myself.possessions
-				.Where( c => string.IsNullOrWhiteSpace(category) || c.name == category )
-				.SelectMany( c => c.possessions )
+				.Where(c => string.IsNullOrWhiteSpace(category) || c.name == category)
+				.SelectMany(c => c.possessions)
 				.ToList();
 		}
 
-		public static async Task<dynamic> GetPossession(this Session s, string name, string category = null )
+		public static async Task<Possession> GetPossession(this Session s, string name, string category = null)
 		{
 			var possessions = await s.GetPossessionCategory(category);
 			var r = new Regex(name);
-			return possessions.FirstOrDefault( p => r.IsMatch(p.name));
+			return possessions.FirstOrDefault(p => r.IsMatch(p.name));
 		}
 
-		static readonly IDictionary<string,int?> ShopIds = new Dictionary<string,int?>{
-	{"Sell my things", null},
-	{"Carrow's Steel", 1},
-	{"Maywell's Hattery", 2},
-	{"Dark & Savage", 3},
-	{"Gottery the Outfitter", 4},
-	{"Nassos Zoologicals", 5},
-	{"MERCURY", 6},
-	{"Nikolas Pawnbrokers", 7},
-	{"Merrigans Exchange", 8},
-	{"Redemptions", 9},
-	{"Dauncey's" ,10},
-	{"Fadgett & Daughters" ,11},
-	{"Crawcase Cryptics" ,12},
-	{"Penstock's Land Agency" ,15},
-};
+		static readonly IDictionary<string, int> ShopIds = new Dictionary<string, int>{
+			{"Sell my things", 0},
+			{"Carrow's Steel", 1},
+			{"Maywell's Hattery", 2},
+			{"Dark & Savage", 3},
+			{"Gottery the Outfitter", 4},
+			{"Nassos Zoologicals", 5},
+			{"MERCURY", 6},
+			{"Nikolas Pawnbrokers", 7},
+			{"Merrigans Exchange", 8},
+			{"Redemptions", 9},
+			{"Dauncey's" ,10},
+			{"Fadgett & Daughters" ,11},
+			{"Crawcase Cryptics" ,12},
+			{"Penstock's Land Agency" ,15},
+		};
 
-public static int? GetShopId(this Session s, string name )
-{
-		var r = new Regex(name);
-		var key = ShopIds.Keys.FirstOrDefault(k=>r.IsMatch(k));
-	if( key == null )
-	{
-		throw new Exception($"Invalid shop name {name}");
+		public static int GetShopId( string name )
+		{
+			var r = new Regex(name);
+			var key = ShopIds.Keys.FirstOrDefault(k => r.IsMatch(k));
+			if (key == null)
+			{
+				throw new Exception($"Invalid shop name {name}");
+			}
+			return ShopIds[key];
+		}
+		public static async Task<long> GetShopItemId(this Session s, string shopName, string itemName )
+		{
+			return (await s.GetShopItem(shopName,itemName)).availability.id;
+		}
+		public static async Task<ShopItem> GetShopItem(this Session s, string shopName, string itemName )
+		{
+			var shopId = GetShopId(shopName);
+			var inventory = await s.GetShopInventory(shopId);
+			var itemNumber = itemName.AsNumber();
+			if ( itemNumber != null )
+			{
+				return inventory.FirstOrDefault( i => i.availability.quality.id == itemNumber.Value );
+			}
+			else
+			{
+				var r = new Regex(itemName);
+				return inventory.FirstOrDefault( i => r.IsMatch( i.availability.quality.name ) );
+			}
+		}
+
+		public static async Task<dynamic> BuyPossession(this Session s, string shopName, string itemName, int amount )
+		{
+			var shopItemId = await s.GetShopItemId(shopName,itemName);
+			return await s.PostBuy( shopItemId, amount );
+		}
+
+		public static async Task<dynamic> SellPossession(this Session s, string itemName, int amount )
+		{
+			var shopItemId = await s.GetShopItemId("sell",itemName);
+			return await s.PostSell( shopItemId, amount );
+		}
+
+		public static async Task<dynamic> Equip(this Session s, string name)
+		{
+			var item = await s.GetPossession(name);
+			return await s.PostEquipOutfit(item.id);
+		}
+
+		public static async Task<dynamic> Unequip(this Session s, string name)
+		{
+			var item = await s.GetPossession(name);
+			return await s.PostUnequipOutfit(item.id);
+		}
+
 	}
-	return ShopIds[key];
+
+	public static class StoryletExt {
+		static Random _R = new Random();
+		static Branch InnerGetChildBranch( this IEnumerable<Branch> branches, string name )
+		{
+			var unlocked = branches.Where( b => !b.isLocked).ToArray();
+			if( unlocked.Length == 0 )
+				return null;
+
+			if( name == "?" )
+			{
+				return unlocked[_R.Next(unlocked.Length)];
+			}
+
+			var n = name.AsNumber();
+			if( n != null )
+			{
+				return unlocked[n.Value-1];
+			}
+
+			var r = new Regex(name);
+			return unlocked.FirstOrDefault(b=> r.IsMatch(b.name) );
+		}
+
+		public static Branch GetChildBranch( this IEnumerable<Branch> branches, string name )
+		{
+			var names = name.Split('/');
+			foreach( var n in names)
+			{
+				var result = branches.InnerGetChildBranch(n);
+				if( result != null )
+					return result;
+			}
+			throw new Exception($"branch {name} not found");
+		}
+	}
+
+
 }
 
-// function GetShopItemId
-// {
-// 	#how to know which shop has which item?
-// 	param($shopname, $itemname)
-// 	$shopid = GetShopId $shopname
-// 	$inventory = GetShopInventory $shopid
-// 	if( IsNumber $itemname )
-// 	{
-// 		$item = $inventory | ?{ $_.availability.quality.id -eq $itemname } | select -first 1
-// 	}
-// 	else
-// 	{
-// 		$item = $inventory | ?{ $_.availability.quality.name -match $itemname } | select -first 1
-// 	}
-// 	return $item.availability.id
-// }
 
-// function BuyPossession
-// {
-// 	param($shopname, $itemname, [int]$amount)
-// 	$shopitemId = GetShopItemId $shopname $itemname
-// 	Buy $shopitemid $amount
-// }
-
-// function SellPossession
-// {
-// 	param($item, [int]$amount)
-// 	$shopitemid = GetShopItemId "sell" $item
-// 	Sell $shopitemid $amount
-// }
-	}
-
-
-	}
-
-
-
-// function Equip
-// {
-// 	param( $name )
-// 	$item = GetPossession $name
-// 	EquipOutfit $item.id
-// }
-
-// function Unequip
-// {
-// 	param( $name )
-// 	$item = GetPossession $name
-// 	UnequipOutfit $item.id
-// }
-
-// function GetChildBranch
-// {
-// 	param($childBranches, $name)
-
-// 	$names = $name -split "/"
-
-// 	foreach( $n in $names )
-// 	{
-// 		$r = InnerGetChildBranch $childBranches $n
-// 		if( $r -ne $null )
-// 		{
-// 			return $r
-// 		}
-// 	}
-// 	return $null
-// }
-
-// function InnerGetChildBranch
-// {
-// 	param($childBranches,$name)
-
-// 	$childBranches = $childBranches | ?{ !$_.isLocked }
-
-// 	if( $childBranches -eq $null )
-// 	{
-// 		return $null
-// 	}
-
-// 	if( $name -eq "?" )
-// 	{
-// 		$name = (random $childBranches.length)+1
-// 	}
-
-// 	if( IsNumber $name )
-// 	{
-// 		return $childBranches[$name-1]
-// 	}
-// 	else
-// 	{
-// 		return $childBranches | ?{ $_.name -match $name } | select -first 1
-// 	}
-// }
 
 // function PerformAction
 // {
@@ -372,65 +365,6 @@ public static int? GetShopId(this Session s, string name )
 // 		return $null
 // 	}
 // 	BeginStorylet $storyletid
-// }
-
-// $script:shopIds = @{
-// 	"Sell my things" = "null";
-// 	"Carrow's Steel" = 1;
-// 	"Maywell's Hattery" = 2;
-// 	"Dark & Savage" = 3;
-// 	"Gottery the Outfitter" = 4;
-// 	"Nassos Zoologicals" = 5;
-// 	"MERCURY" = 6;
-// 	"Nikolas Pawnbrokers" = 7;
-// 	"Merrigans Exchange" = 8;
-// 	"Redemptions" = 9;
-// 	"Dauncey's" = 10;
-// 	"Fadgett & Daughters" = 11;
-// 	"Crawcase Cryptics" = 12;
-// 	"Penstock's Land Agency" = 15;
-// }
-// function GetShopId
-// {
-// 	param($name)
-
-// 	$key = $script:shopIds.Keys | ?{ $_ -match $name } | select -first 1
-// 	if( $key -eq $null )
-// 	{
-// 		return $name
-// 	}
-// 	return $script:shopIds[$key]
-// }
-
-// function GetShopItemId
-// {
-// 	#how to know which shop has which item?
-// 	param($shopname, $itemname)
-// 	$shopid = GetShopId $shopname
-// 	$inventory = GetShopInventory $shopid
-// 	if( IsNumber $itemname )
-// 	{
-// 		$item = $inventory | ?{ $_.availability.quality.id -eq $itemname } | select -first 1
-// 	}
-// 	else
-// 	{
-// 		$item = $inventory | ?{ $_.availability.quality.name -match $itemname } | select -first 1
-// 	}
-// 	return $item.availability.id
-// }
-
-// function BuyPossession
-// {
-// 	param($shopname, $itemname, [int]$amount)
-// 	$shopitemId = GetShopItemId $shopname $itemname
-// 	Buy $shopitemid $amount
-// }
-
-// function SellPossession
-// {
-// 	param($item, [int]$amount)
-// 	$shopitemid = GetShopItemId "sell" $item
-// 	Sell $shopitemid $amount
 // }
 
 // function Airs
@@ -595,8 +529,8 @@ public static int? GetShopId(this Session s, string name )
 
 
 
-	// // // // // // // // // // // // public class ForcedActionHandler
-	// // // // // // // // // // // // {
+// // // // // // // // // // // // public class ForcedActionHandler
+// // // // // // // // // // // // {
 
 
 

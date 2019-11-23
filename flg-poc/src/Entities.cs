@@ -1,6 +1,13 @@
 namespace fl
 {
 
+	public class SuccessMessage
+	{
+		public bool? isSuccess;
+		public string message;
+	}
+
+
 	public class MapEntry
 	{
 		public string name;
@@ -51,18 +58,26 @@ namespace fl
 	public class ShopItem
 	{
 		public ShopAvailability availability;
+		public bool forSale;
 	}
 
 	public class ShopAvailability
 	{
 		public ShopItemQuality quality;
-		public string id;
+		public int cost;
+		public int sellPrice;
+		public long id;
+
 	}
 
 	public class ShopItemQuality
 	{
-		public int id;
+		public long id;
 		public string name;
+		public string description;
+		public long useEventId;
+		public string category;
+		public string image;
 	}
 
 	public class SuccessResult
@@ -218,12 +233,22 @@ namespace fl
 	{
 		public Card[] displayCards;
 		public bool isInAStorylet;
+		public int eligibleForCardsCount;
+		public int maxHandSize;
+		public int maxDeckSize;
+
 	}
 
 	public class Card
 	{
 		public string name;
-		public int eventId;
+		public long eventId;
+		public string category;
+		public string unlockedWithDescription;
+		public string teaser;
+		public bool isAutofire;
+		public string stickiness;
+		public QualityReq[] qualityRequirements;
 	}
 
 	public class BasicMessage

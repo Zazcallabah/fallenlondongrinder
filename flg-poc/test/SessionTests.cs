@@ -11,7 +11,7 @@ namespace test
 	class SessionHolder
 	{
 		public static Session Session;
-			[OneTimeSetUp]
+		[OneTimeSetUp]
 		public void RunBeforeAnyTests()
 		{
 			Session = new fl.Session("automaton@prefect.se", "aoeu1234");
@@ -20,6 +20,12 @@ namespace test
 
 	public class SessionTests
 	{
+		[Test]
+		public void TestDepluralize()
+		{
+			Assert.AreEqual("Stories", Navigation.Depluralize("Story"));
+			Assert.AreEqual("Stories", Navigation.Depluralize("Stories"));
+		}
 		[Test]
 		public async Task CanGetLocationId()
 		{
@@ -40,52 +46,59 @@ namespace test
 		[Test]
 		public async Task CanGetPossession()
 		{
-			Assert.AreEqual("Dangerous", (await SessionHolder.Session.GetPossession("Dangerous")).name );
-			Assert.AreEqual("Dangerous", (await SessionHolder.Session.GetPossession("Dangerous","Basic")).name );
-			Assert.AreEqual("A Constables' Pet", (await SessionHolder.Session.GetPossessionCategory("Stories"))[0].name );
+			Assert.AreEqual("Dangerous", (await SessionHolder.Session.GetPossession("Dangerous")).name);
+			Assert.AreEqual("Dangerous", (await SessionHolder.Session.GetPossession("Dangerous", "Basic")).name);
+			Assert.AreEqual("A Constables' Pet", (await SessionHolder.Session.GetPossessionCategory("Stories"))[0].name);
 		}
 
 		[Test]
-		public async Task TestSuite() {
+		public async Task TestSuite()
+		{
 			var s = SessionHolder.Session;
 
 			// start by resetting position
 			var list = await s.GoBackIfInStorylet();
-			if( ! await s.IsInLocation("Veilgarden") ){
+			if (!await s.IsInLocation("Veilgarden"))
+			{
 				await s.MoveTo("Veilgarden");
 			}
 
 			// can move to area
 			var result = await s.MoveTo("Lodgings");
-			Assert.AreEqual("Your Lodgings",result.name);
-			Assert.AreEqual(2,await s.GetUserLocation());
+			Assert.AreEqual("Your Lodgings", result.name);
+			Assert.AreEqual(2, await s.GetUserLocation());
 			Assert.IsTrue(await SessionHolder.Session.IsInLocation("Lodgings"));
 
 			// can enter storylet and choose free-action-branch, then goback
 			list = await s.ListStorylet();
-			var id = await s.GetStoryletId("Society",list);
-			Assert.AreEqual(276092,id);
+			var id = await s.GetStoryletId("Society", list);
+			Assert.AreEqual(276092, id);
 			var storylet = await s.BeginStorylet(id.Value);
 			Assert.IsTrue(storylet.isSuccess);
-			Assert.AreEqual("In",storylet.phase);
+			Assert.AreEqual("In", storylet.phase);
 			Assert.IsNull(storylet.storylets);
 			Assert.IsNotNull(storylet.storylet);
-			var branch = storylet.storylet.childBranches.FirstOrDefault(c=>c.id == 206983);
-			Assert.IsNotNull( branch );
+			var branch = storylet.storylet.childBranches.FirstOrDefault(c => c.id == 206983);
+			Assert.IsNotNull(branch);
 			var choice = await s.ChooseBranch(branch.id);
-			Assert.AreEqual("In",choice.phase);
-			Assert.AreEqual("Preparing Dinner",choice.storylet.name);
+			Assert.AreEqual("In", choice.phase);
+			Assert.AreEqual("Preparing Dinner", choice.storylet.name);
 			list = await s.GoBackIfInStorylet();
-			Assert.AreEqual(276092,await s.GetStoryletId("Society",list));
+			Assert.AreEqual(276092, await s.GetStoryletId("Society", list));
 			var firstst = list.storylets.First();
-			Assert.AreEqual(firstst.id, await s.GetStoryletId("1",list));
+			Assert.AreEqual(firstst.id, await s.GetStoryletId("1", list));
 
 			// can use item
 			await s.UseQuality(377);
 			list = await s.ListStorylet();
 
-			Assert.AreEqual("InItemUse",list.phase);
-			Assert.AreEqual("Sell your Jade Fragments",list.storylet.name);
+			Assert.AreEqual("InItemUse", list.phase);
+			Assert.AreEqual("Sell your Jade Fragments", list.storylet.name);
+
+			var o1 = await s.DrawOpportunity();
+			var o2 = await s.Opportunity();
+
+			Assert.AreEqual(o1.displayCards[0].name, o2.displayCards[0].name);
 
 
 		}
