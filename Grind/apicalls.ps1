@@ -339,13 +339,13 @@ function DeletePlan
 function EquipOutfit
 {
 	param( [int]$id )
-	Post -href "outfit/equip/$($id)"
+	Post -href "outfit/equip" -payload @{ "qualityId" = $id }
 }
 
 function UnequipOutfit
 {
 	param( [int]$id )
-	Post -href "outfit/unequip/$($id)"
+	Post -href "outfit/unequip" -payload @{ "qualityId" = $id }
 }
 
 function AddContact
