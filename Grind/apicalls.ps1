@@ -194,7 +194,7 @@ function Sell
 function UseQuality
 {
 	param($id)
-	$result = Post -href "storylet/usequality/$([int]$id)"
+	$result = Post -href "storylet/usequality" -payload @{ "qualityId" = [int]$id }
 	if($result.isSuccess -ne $true)
 	{
 		throw "bad result when using quality $($id): $result"
