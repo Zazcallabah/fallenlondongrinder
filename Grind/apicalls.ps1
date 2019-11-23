@@ -261,7 +261,7 @@ function DrawOpportunity
 function DiscardOpportunity
 {
 	param([int]$id)
-	Post -href "opportunity/discard/$id"
+	Post -href "opportunity/discard" -payload @{"eventId" = $id }
 }
 
 function GoBack
