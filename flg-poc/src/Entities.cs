@@ -164,9 +164,10 @@ namespace fl
 		public string phase;
 		public Storylet[] storylets;
 		public Storylet storylet;
+		public EndStorylet endStorylet;
+		public Messages messages;
 		public bool isSuccess;
 	}
-
 	public class Myself
 	{
 		public Character character;
@@ -223,17 +224,6 @@ namespace fl
 	{
 		public string name;
 		public int eventId;
-	}
-
-	public class BranchChoice
-	{
-		public int actions;
-		public string phase;
-		public bool isSuccess;
-
-		public EndStorylet endStorylet;
-		public Messages messages;
-
 	}
 
 	public class BasicMessage

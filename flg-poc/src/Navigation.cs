@@ -43,9 +43,9 @@ namespace fl
 			// return await t2 == location;
 		}
 
-		public static async Task<dynamic> GoBackIfInStorylet(this Session s)
+		public static async Task<StoryletList> GoBackIfInStorylet(this Session s)
 		{
-			var list = await s.ListStorylet();
+			StoryletList list = await s.ListStorylet();
 			if( list.phase == "Available" )
 				return list;
 
@@ -55,7 +55,7 @@ namespace fl
 			if( list.storylet.canGoBack.HasValue && list.storylet.canGoBack.Value )
 			{
 // todo 			write-verbose "exiting storylet"
-				return s.GoBack();
+				return await s.GoBack();
 			}
 			else
 			{
@@ -75,14 +75,14 @@ namespace fl
 			return null;
 		}
 
-		public static async Task<int?> GetStoryletId(this Session s, string name, dynamic list = null )
+		public static async Task<long?> GetStoryletId(this Session s, string name, StoryletList list = null )
 		{
 			if( list == null )
 				list = await s.ListStorylet();
 			var n = name.AsNumber();
 			if( n != null )
 			{
-				return list.storylet[n-1].id;
+				return list.storylets[n.Value-1].id;
 			}
 
 			var r = new Regex(name);
@@ -185,18 +185,67 @@ namespace fl
 		{
 			var possessions = await s.GetPossessionCategory(category);
 			var r = new Regex(name);
-
-			foreach( var item in possessions )
-			{
-				Console.WriteLine((string)item.name);
-				if( r.IsMatch((string)item.name) )
-				{
-					return item;
-				}
-			}
-			return null;
+			return possessions.FirstOrDefault( p => r.IsMatch(p.name));
 		}
 
+		static readonly IDictionary<string,int?> ShopIds = new Dictionary<string,int?>{
+	{"Sell my things", null},
+	{"Carrow's Steel", 1},
+	{"Maywell's Hattery", 2},
+	{"Dark & Savage", 3},
+	{"Gottery the Outfitter", 4},
+	{"Nassos Zoologicals", 5},
+	{"MERCURY", 6},
+	{"Nikolas Pawnbrokers", 7},
+	{"Merrigans Exchange", 8},
+	{"Redemptions", 9},
+	{"Dauncey's" ,10},
+	{"Fadgett & Daughters" ,11},
+	{"Crawcase Cryptics" ,12},
+	{"Penstock's Land Agency" ,15},
+};
+
+public static int? GetShopId(this Session s, string name )
+{
+		var r = new Regex(name);
+		var key = ShopIds.Keys.FirstOrDefault(k=>r.IsMatch(k));
+	if( key == null )
+	{
+		throw new Exception($"Invalid shop name {name}");
+	}
+	return ShopIds[key];
+}
+
+// function GetShopItemId
+// {
+// 	#how to know which shop has which item?
+// 	param($shopname, $itemname)
+// 	$shopid = GetShopId $shopname
+// 	$inventory = GetShopInventory $shopid
+// 	if( IsNumber $itemname )
+// 	{
+// 		$item = $inventory | ?{ $_.availability.quality.id -eq $itemname } | select -first 1
+// 	}
+// 	else
+// 	{
+// 		$item = $inventory | ?{ $_.availability.quality.name -match $itemname } | select -first 1
+// 	}
+// 	return $item.availability.id
+// }
+
+// function BuyPossession
+// {
+// 	param($shopname, $itemname, [int]$amount)
+// 	$shopitemId = GetShopItemId $shopname $itemname
+// 	Buy $shopitemid $amount
+// }
+
+// function SellPossession
+// {
+// 	param($item, [int]$amount)
+// 	$shopitemid = GetShopItemId "sell" $item
+// 	Sell $shopitemid $amount
+// }
 	}
 
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System;
 using System.Threading.Tasks;
 using fl;
+
 namespace test
 {
 	[SetUpFixture]
@@ -35,11 +36,6 @@ namespace test
 			Assert.AreEqual("ClankingAutomaton", (await SessionHolder.Session.User()).user.name);
 		}
 
-		[Test]
-		public async Task CanGetLocation()
-		{
-			Assert.IsTrue(await SessionHolder.Session.IsInLocation("Lodgings"));
-		}
 
 		[Test]
 		public async Task CanGetPossession()
@@ -50,16 +46,48 @@ namespace test
 		}
 
 		[Test]
-		public async Task CanMove() {
+		public async Task TestSuite() {
 			var s = SessionHolder.Session;
+
+			// start by resetting position
+			var list = await s.GoBackIfInStorylet();
 			if( ! await s.IsInLocation("Veilgarden") ){
 				await s.MoveTo("Veilgarden");
 			}
-		}
 
-		[Test]
-		public async Task HandlesNonSuccess(){
-			await SessionHolder.Session.MoveTo("Chimes");
+			// can move to area
+			var result = await s.MoveTo("Lodgings");
+			Assert.AreEqual("Your Lodgings",result.name);
+			Assert.AreEqual(2,await s.GetUserLocation());
+			Assert.IsTrue(await SessionHolder.Session.IsInLocation("Lodgings"));
+
+			// can enter storylet and choose free-action-branch, then goback
+			list = await s.ListStorylet();
+			var id = await s.GetStoryletId("Society",list);
+			Assert.AreEqual(276092,id);
+			var storylet = await s.BeginStorylet(id.Value);
+			Assert.IsTrue(storylet.isSuccess);
+			Assert.AreEqual("In",storylet.phase);
+			Assert.IsNull(storylet.storylets);
+			Assert.IsNotNull(storylet.storylet);
+			var branch = storylet.storylet.childBranches.FirstOrDefault(c=>c.id == 206983);
+			Assert.IsNotNull( branch );
+			var choice = await s.ChooseBranch(branch.id);
+			Assert.AreEqual("In",choice.phase);
+			Assert.AreEqual("Preparing Dinner",choice.storylet.name);
+			list = await s.GoBackIfInStorylet();
+			Assert.AreEqual(276092,await s.GetStoryletId("Society",list));
+			var firstst = list.storylets.First();
+			Assert.AreEqual(firstst.id, await s.GetStoryletId("1",list));
+
+			// can use item
+			await s.UseQuality(377);
+			list = await s.ListStorylet();
+
+			Assert.AreEqual("InItemUse",list.phase);
+			Assert.AreEqual("Sell your Jade Fragments",list.storylet.name);
+
+
 		}
 	}
 

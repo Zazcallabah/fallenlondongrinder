@@ -14,7 +14,6 @@ namespace fl
 		bool _loggedin = false;
 		string _email;
 		string _pass;
-
 		IList<MapEntry> _mapCache = null;
 		IDictionary<int,ShopItem[]> _shops = new Dictionary<int,ShopItem[]>();
 
@@ -22,7 +21,6 @@ namespace fl
 		User _user;
 		Myself _myself;
 		Plans _plans;
-
 
 		public Session(string email, string pass)
 		{
@@ -38,18 +36,23 @@ namespace fl
 			return new StringContent( JsonConvert.SerializeObject(payload), System.Text.Encoding.UTF8, "application/json");
 		}
 
-		static bool IsSuccess( dynamic data )
+		public class SuccessMessage {
+			public bool? isSuccess;
+			public string message;
+		}
+
+		static void EnsureIsSuccess( string href, string verb, HttpResponseMessage response, string data )
 		{
-			if( data == null )
-				return false;
+			if( !response.IsSuccessStatusCode )
+				throw new Exception($"invalid statuscode for {verb} {href} => {response.StatusCode} {data}");
 
-			Type t = data.GetType();
+			var msg = JsonConvert.DeserializeObject<SuccessMessage>(data);
 
-			if(t.GetProperties().Where(p => p.Name.Equals("isSuccess")).Any())
-			{
-				return data.isSuccess;
-			}
-			return true;
+			if( !msg.isSuccess.HasValue )
+				return;
+
+			if(!msg.isSuccess.Value)
+				throw new Exception($"bad response for {verb} {href} => {response.StatusCode} {data}");
 		}
 
 		public async Task<T> Post<T>( string href, dynamic payload = null) {
@@ -60,12 +63,9 @@ namespace fl
 
 			var response = await _client.PostAsync(href,MakeContent(payload));
 			var content = await response.Content.ReadAsStringAsync();
-			T data = JsonConvert.DeserializeObject<T>(content);
 // todo write debug
-			if( !IsSuccess(data) )
-			{
-				throw new Exception($"bad response for POST {href} {payload} => {response.StatusCode} {data}");
-			}
+			EnsureIsSuccess(href, "POST", response, content);
+			T data = JsonConvert.DeserializeObject<T>(content);
 			return data;
 		}
 
@@ -77,12 +77,9 @@ namespace fl
 
 			var response = await _client.GetAsync(href);
 			var content = await response.Content.ReadAsStringAsync();
+			EnsureIsSuccess(href, "GET", response, content);
 			T data = JsonConvert.DeserializeObject<T>(content);
 // todo write debug
-			if( !IsSuccess(data) )
-			{
-				throw new Exception($"bad response for GET {href} => {response.StatusCode} {data}");
-			}
 			return data;
 		}
 
@@ -182,7 +179,7 @@ namespace fl
 
 		public async Task<SuccessResult> UseQuality(int id)
 		{
-			return await Post<SuccessResult>($"storylet/usequality/{id}");
+			return await Post<SuccessResult>($"storylet/usequality",new {qualityId=id});
 		}
 
 		public async Task<User> User()
@@ -192,37 +189,6 @@ namespace fl
 				_user = await Get<User>("login/user");
 			}
 			return _user;
-		}
-
-		async Task<Plans> Plans()
-		{
-			if( _plans == null )
-			{
-				_plans = await Get<Plans>("plan");
-			}
-			return _plans;
-		}
-
-
-		public async Task<dynamic> GetPlan(string name)
-		{
-			var plans = await Plans();
-			var pl = new List<dynamic>();
-			pl.AddRange(plans.active);
-			pl.AddRange(plans.complete);
-
-			var r = new Regex(name);
-			return pl.FirstOrDefault( k => r.IsMatch(k.branch.name) );
-		}
-
-		public async Task<bool> ExistsPlan(int id, string planKey)
-		{
-			var plans = await Plans();
-			var pl = new List<Plan>();
-			pl.AddRange(plans.active);
-			pl.AddRange(plans.complete);
-
-			return pl.Any( k => k.branch.id == id && k.branch.planKey == planKey );
 		}
 
 		public async Task<Myself> Myself()
@@ -247,7 +213,7 @@ namespace fl
 
 		public async Task<dynamic> DiscardOpportunity(int id)
 		{
-			return await Post<dynamic>($"opportunity/discard/{id}");
+			return await Post<dynamic>($"opportunity/discard",new {eventId=id});
 		}
 
 		public async Task<StoryletList> GoBack()
@@ -255,7 +221,7 @@ namespace fl
 			return await Post<StoryletList>("storylet/goback");
 		}
 
-		public async Task<StoryletList> BeginStorylet(int id)
+		public async Task<StoryletList> BeginStorylet(long id)
 		{
 			StoryletList ev = await Post<StoryletList>("storylet/begin",new {eventId= id});
 // todo
@@ -266,10 +232,9 @@ namespace fl
 			return ev;
 		}
 
-
-		public async Task<BranchChoice> ChooseBranch(int id)
+		public async Task<StoryletList> ChooseBranch(long id)
 		{
-			BranchChoice ev = await Post<BranchChoice>("storylet/choosebranch",new {branchId=id,secondChanceIds=new int[0]});
+			StoryletList ev = await Post<StoryletList>("storylet/choosebranch",new {branchId=id,secondChanceIds=new int[0]});
 // todo
 // 	if( $event.endStorylet )
 // 	{
@@ -283,6 +248,36 @@ namespace fl
 // 		}
 // 	}
 			return ev;
+		}
+
+		async Task<Plans> Plans()
+		{
+			if( _plans == null )
+			{
+				_plans = await Get<Plans>("plan");
+			}
+			return _plans;
+		}
+
+		public async Task<dynamic> GetPlan(string name)
+		{
+			var plans = await Plans();
+			var pl = new List<dynamic>();
+			pl.AddRange(plans.active);
+			pl.AddRange(plans.complete);
+
+			var r = new Regex(name);
+			return pl.FirstOrDefault( k => r.IsMatch(k.branch.name) );
+		}
+
+		public async Task<bool> ExistsPlan(int id, string planKey)
+		{
+			var plans = await Plans();
+			var pl = new List<Plan>();
+			pl.AddRange(plans.active);
+			pl.AddRange(plans.complete);
+
+			return pl.Any( k => k.branch.id == id && k.branch.planKey == planKey );
 		}
 
 // # post plan/update {"branchId":204598,"notes":"do this","refresh":false} to save note
