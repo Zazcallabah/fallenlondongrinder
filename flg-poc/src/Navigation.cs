@@ -43,29 +43,6 @@ namespace fl
 			// return await t2 == location;
 		}
 
-		public static async Task<StoryletList> GoBackIfInStorylet(this Session s)
-		{
-			StoryletList list = await s.ListStorylet();
-			if (list.phase == "Available")
-				return list;
-
-			if (list.storylet == null)
-				return list;
-
-			if (list.storylet.canGoBack.HasValue && list.storylet.canGoBack.Value)
-			{
-				// todo 			write-verbose "exiting storylet"
-				return await s.GoBack();
-			}
-			else
-			{
-				// 			# we check for this much earlier, this is redundant
-				// 			$done = HandleLockedStorylet $list
-				// 			return $null
-				throw new Exception("called GoBackIfInStorylet on what looks like locked storylet");
-			}
-		}
-
 		public static int? AsNumber(this string s)
 		{
 			int i;
@@ -260,6 +237,34 @@ namespace fl
 			return await s.PostUnequipOutfit(item.id);
 		}
 
+
+// function Airs
+// {
+// 	param([switch]$dontRetry)
+// 	# this could give outdated value, if we perform an action that changes airs without discarding cached value for plans
+// 	$plans = Plans
+// 	$airsmessage =  $plans.active+$plans.completed | %{ $_.branch.qualityRequirements | ?{ $_.qualityName -eq "The Airs of London" } | select -first 1 -expandProperty tooltip } | select -first 1
+// 	if( $airsmessage -ne $null )
+// 	{
+// 		$r = [regex]"\(you have (\d+)\)"
+// 		$result = $r.Match($airsmessage)
+// 		if($result.Success)
+// 		{
+// 			return [int]$result.Groups[1].Value
+// 		}
+// 	}
+
+// 	if( !$dontRetry )
+// 	{
+// 		$result = CreatePlan 4346 f9c8d1dde5bee056cfab1123f9e0e9a0
+// 		$script:plans = $null
+// 		return Airs -dontRetry
+// 	}
+
+// 	return $null
+// }
+
+
 	}
 
 	public static class StoryletExt {
@@ -298,74 +303,100 @@ namespace fl
 		}
 	}
 
+	public static class StateExt {
+		public static async Task<StoryletList> GoBackIfInStorylet(this Session s)
+		{
+			StoryletList list = await s.ListStorylet();
+			if (list.phase == "Available")
+				return list;
 
+			if (list.storylet == null)
+				return list;
+
+			if (list.storylet.canGoBack.HasValue && list.storylet.canGoBack.Value)
+			{
+				// todo 			write-verbose "exiting storylet"
+				return await s.GoBack();
+			}
+			else
+			{
+				// 			# we check for this much earlier, this is redundant
+				// 			$done = HandleLockedStorylet $list
+				// 			return $null
+				throw new Exception("called GoBackIfInStorylet on what looks like locked storylet");
+			}
+		}
+		public static async Task<StoryletList> PerformAction(this Session s, string name, StoryletList list = null)
+		{
+			if( list == null || list.phase == "End")
+			{
+				list = await s.ListStorylet();
+			}
+			if( list.phase == "Available" )
+			{
+// TODO 		Write-Warning "Trying to perform action $name while phase: Available"
+				throw new Exception($"Trying to perform action {name} while phase: Available");
+			}
+			var branch = list.storylet.childBranches.GetChildBranch(name);
+
+			if( branch == null )
+			{
+				return null;
+			}
+			return await s.ChooseBranch( branch.id );
+		}
+
+		public static async Task<StoryletList> PerformActions(this Session s, IEnumerable<string> actions, StoryletList list = null)
+		{
+			if( actions  == null )
+				return list;
+
+			foreach( var action in actions )
+			{
+				if( !string.IsNullOrWhiteSpace(action) ){
+					if( list.phase == "End" )
+						list = await s.ListStorylet();
+					list = await s.PerformAction(action,list);
+					if( list == null )
+					{
+// 				write-warning "branch $($action) in $actions not found"
+				// null or exception?
+						throw new Exception($"branch {action} in {string.Join(",", actions.ToArray())} not found");
+					}
+				}
+			}
+			return list;
+		}
+
+		public static async Task<StoryletList> EnterStorylet(this Session s, StoryletList list, string storyletname )
+		{
+			var sid = await s.GetStoryletId(storyletname,list);
+			if( sid == null )
+			{
+				// throw?
+				return null;
+			}
+			return await s.BeginStorylet(sid.Value);
+		}
+
+		public static async Task<StoryletList> MoveIfNeeded(this Session s, StoryletList list, string location )
+		{
+			if( await s.IsInLocation( location ) )
+				return list;
+
+			if( await s.GetLocationId(location) == await s.GetLocationId("empress court") )
+			{
+				// TODO 		$result = DoAction "shutteredpalace,Spend,1"
+				throw new NotImplementedException("TODO: moving to empresscort");
+			}
+
+// todo test if race condition since we throw away result from moveto?
+			await s.MoveTo(location);
+			return await s.ListStorylet();
+		}
+	}
 }
 
-
-
-// function PerformAction
-// {
-// 	param($event, [string]$name)
-
-// 	if( $event -eq $null -or $event.Phase -eq "End" )
-// 	{
-// 		$event = ListStorylet
-// 	}
-// 	if( $event.Phase -eq "Available" )
-// 	{
-// 		Write-Warning "Trying to perform action $name while phase: Available"
-// 		return $null
-// 	}
-
-// 	$branch = GetChildBranch $event.storylet.childBranches $name
-// 	if( $branch -eq $null )
-// 	{
-// 		return $null
-// 	}
-
-// 	return ChooseBranch $branch.id
-// }
-
-// function PerformActions
-// {
-// 	param($event, $actions)
-
-
-// 	if( $actions -eq $null )
-// 	{
-// 		return $event
-// 	}
-
-// 	foreach( $action in $actions )
-// 	{
-// 		if( $action -ne $null )
-// 		{
-// 			if( $event.Phase -eq "End" )
-// 			{
-// 				$event = ListStorylet
-// 			}
-// 			$event = PerformAction $event $action
-// 			if( $event -eq $null )
-// 			{
-// 				write-warning "branch $($action) in $actions not found"
-// 				return
-// 			}
-// 		}
-// 	}
-
-// 	return $event
-// }
-
-// function EnterStorylet
-// {
-// 	param($list, $storyletname)
-// 	$storyletid = GetStoryletId $storyletname $list
-// 	if($storyletid -eq $null)
-// 	{
-// 		return $null
-// 	}
-// 	BeginStorylet $storyletid
-// }
 
 // function Airs
 // {
@@ -435,24 +466,7 @@ namespace fl
 // 	}
 // }
 
-// function MoveIfNeeded
-// {
-// 	param( $list, $location )
 
-// 	if( IsInLocation $location )
-// 	{
-// 		return $list;
-// 	}
-
-// 	if( $location -eq "empresscourt" )
-// 	{
-// 		$result = DoAction "shutteredpalace,Spend,1"
-// 		return ListStorylet
-// 	}
-
-// 	$area = MoveTo $location;
-// 	return ListStorylet
-// }
 
 
 

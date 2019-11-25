@@ -127,6 +127,7 @@ namespace fl
 			["ShutteredPalace"] = 10,
 			["The Empress' Court"] = 26,
 			["EmpressCourt"] = 26,
+			["Empress Court"] = 26,
 			["A State of Some Confusion"] = 1,
 		};
 
