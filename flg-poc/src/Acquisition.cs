@@ -193,9 +193,6 @@ namespace fl
 			if (string.IsNullOrWhiteSpace(name))
 				return null;
 
-			Func<string>a;
-			System.AsyncCallback;
-
 			if (Acquisitions.ContainsKey(name))
 				return Acquisitions[name];
 			var r = new Regex(name, RegexOptions.IgnoreCase);

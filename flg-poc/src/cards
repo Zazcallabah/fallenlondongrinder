@@ -1,0 +1,187 @@
+
+function GetCardFromUseListByName
+{
+	param($name,$eventid)
+
+	$card = $script:CardActions.use | ?{
+		if([string]::IsNullOrWhitespace($_.name))
+		{
+			return $false
+		}
+		if( $_.name.StartsWith("~") )
+		{
+			$n = $_.name.substring(1)
+			return $name -match $n
+		}
+		else
+		{
+			return $eventId -eq $_.name -or $name -eq $_.name
+		}
+	} | select -first 1
+	if($card -ne $null )
+	{
+		$card | Add-Member -Membertype NoteProperty -name "eventId" -value $eventid
+	}
+	return $card
+}
+
+function GetCardInUseList
+{
+	param( $opportunity )
+
+	$uselistCards = $opportunity.displayCards | %{ GetCardFromUseListByName $_.name $_.eventid } | ?{ $_ -ne $null }
+	if( $uselistCards -eq $null )
+	{
+		return $null
+	}
+
+	$noreqCards=$uselistCards | ?{ $_.require -eq $null }
+	if( $noreqCards -ne $null )
+	{
+		$card = $noreqCards | select -first 1
+	}
+	else
+	{
+		$card = $uselistcards | select -first 1
+	}
+
+	return $card
+
+}
+
+function IsCommonCard
+{
+	param( $card )
+
+	# categories
+	#  Gold
+	#  Unspecialized
+	#  (im guessing bronze, silver, red)
+	# Episodic
+
+	# distribution
+	#  Standard
+	# (not sure if used)
+	# VeryInfrequent
+
+	#urgency	Normal
+	return $card.category -eq "Unspecialised" -and $card.distribution -eq "Standard"
+}
+
+function CollectionHasCard
+{
+	param( $collection, $card )
+	$hit = $collection | ?{
+		if($_.name -ne $null)
+		{
+			return $card.name -match $_.name -or $_.name -eq $card.eventId
+		}
+		else
+		{
+			return $card.name -match $_ -or $_ -eq $card.eventId
+		}
+	}
+	return $hit -ne $null
+}
+
+function ShouldKeepCard
+{
+	param( $card )
+
+	if( CollectionHasCard $script:CardActions.use $card )
+	{
+		return $true
+	}
+	if( CollectionHasCard $script:CardActions.keep $card )
+	{
+		return $true
+	}
+	if( CollectionHasCard $script:CardActions.trash $card )
+	{
+		return $false
+	}
+
+	return !(IsCommonCard $card)
+}
+
+function FilterCards
+{
+	if( IsLockedArea )
+	{
+		# dont filter if locked area
+		return
+	}
+
+	# is there a second type of locked area we should be aware of?
+
+	$opportunity = DrawOpportunity
+	foreach( $cardobj in $opportunity.displayCards )
+	{
+		if( !(ShouldKeepCard $cardobj) )
+		{
+			write-host "discarding $($cardobj.name)"
+			$result = DiscardOpportunity $cardobj.eventId
+		}
+	}
+}
+
+function ActivateOpportunityCard
+{
+	param($opportunity, $card, $actionStr)
+
+	if( $card.eventId -eq $null )
+	{
+		throw "$card is not a card"
+	}
+	if( $opportunity.isInAStorylet )
+	{
+		$result = GoBack
+	}
+	Write-Host "doing card $($card.name) action $($actionStr)"
+	$storylet = BeginStorylet $card.eventId
+	if( $actionStr )
+	{
+		$actions = $actionStr -split ","
+		$result = PerformActions $storylet $actions
+		if( $result -eq $null )
+		{
+			return $null
+		}
+	}
+	return $false
+}
+
+function TryOpportunity
+{
+	if( IsLockedArea )
+	{
+		return $true
+	}
+	$o = DrawOpportunity
+
+	$card = GetCardInUseList $o
+	if( $card -ne $null )
+	{
+		foreach( $req in $card.require )
+		{
+			$action = ParseActionString $req
+			$hasActionsLeft = Require $action.location $action.first $action.second $action.third
+			if( $hasActionsLeft -eq $null )
+			{
+				return $true
+			}
+			if(!$hasActionsLeft)
+			{
+				return $false
+			}
+		}
+
+		$result = ActivateOpportunityCard $o $card $card.action
+		if( $result -ne $null )
+		{
+			return $false
+		}
+	}
+
+	return $true
+}

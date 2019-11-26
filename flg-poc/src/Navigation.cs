@@ -177,6 +177,15 @@ namespace fl
 			return p.effectiveLevel;
 		}
 
+		public static async Task<bool> SellIfMoreThan(this Session s, string category, string name, int amount)
+		{
+			var pos = await s.GetPossession(category,name);
+			if(pos != null && pos.effectiveLevel > amount)
+			{
+				await s.SellPossession(name,pos.effectiveLevel - amount);
+			}
+			return true;
+		}
 		static readonly IDictionary<string, int> ShopIds = new Dictionary<string, int>{
 			{"Sell my things", 0},
 			{"Carrow's Steel", 1},
@@ -359,6 +368,85 @@ namespace fl
 
 	public static class StateExt
 	{
+
+		public static async Task<bool?> DoAction( this Session s, ActionString action )
+				{
+					// todo debug output
+					//	Write-host "doing action $($action.location) $($action.first) $($action.second) $($action.third)"
+
+
+	//  bazaar can usually be done even in storylet, i think?
+	//  require is best done doing its inventory checks before doing goback and move, to aviod extra liststorylet calls
+	//  inventory just needs to make sure we do gobackifinstorylet first
+	if( action.location == "buy" )
+	{
+		await s.BuyPossession action.first $action.second $action.third[0]
+		return false; // technically true, but that screws with prereq chains
+	}
+	elseif( $action.location -eq "sell" )
+	{
+		$result = SellPossession $action.first $action.second
+		return $false # technically true, but that screws with prereq chains
+	}
+	elseif( $action.location -eq "equip" )
+	{
+		$result = Equip $action.first
+		return $true
+	}
+	elseif( $action.location -eq "unequip" )
+	{
+		$result = Unequip $action.first
+		return $true
+	}
+	elseif( $action.location -eq "require" )
+	{
+		$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
+		return $hasactionsleft
+	}
+	elseif( $action.location -eq "inventory" )
+	{
+		$result = DoInventoryAction $action.first $action.second $action.third
+		return $false
+	}
+	elseif( $action.location -eq "grind_money" )
+	{
+		$result = GrindMoney
+		return $false
+	}
+	elseif( $action.location -eq "handle_profession" )
+	{
+		$result = HandleProfession
+		return $result
+	}
+
+	$list = GoBackIfInStorylet
+
+	if( $list -eq $null )
+	{
+		return $false
+	}
+
+	$list = MoveIfNeeded $list $action.location
+
+	if( $action.location -eq "carnival" -and $action.first -ne "Buy" )
+	{
+		$hasActionsLeft = EnsureTickets
+		if( !$hasActionsLeft )
+		{
+			return $false
+		}
+	}
+
+	$event = EnterStorylet $list $action.first
+	if( $event -eq $null )
+	{
+		write-warning "storylet $($action.first) not found"
+		return $false
+	}
+
+	$result = PerformActions $event (@($action.second)+$action.third)
+	return $false
+}
 		public static async Task<StoryletList> GoBackIfInStorylet(this Session s)
 		{
 			StoryletList list = await s.ListStorylet();
