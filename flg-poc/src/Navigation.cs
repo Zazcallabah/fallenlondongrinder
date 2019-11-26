@@ -63,7 +63,7 @@ namespace fl
 				return list.storylets[n.Value - 1].id;
 			}
 
-			var r = new Regex(name);
+			var r = new Regex(name, RegexOptions.IgnoreCase);
 			foreach (var item in list.storylets)
 			{
 				if (r.IsMatch(item.name))
@@ -159,11 +159,22 @@ namespace fl
 				.ToList();
 		}
 
-		public static async Task<Possession> GetPossession(this Session s, string name, string category = null)
+		public static async Task<Possession> GetPossession(this Session s, string name)
+		{
+			return await s.GetPossession(null, name);
+		}
+
+
+		public static async Task<Possession> GetPossession(this Session s, string category, string name)
 		{
 			var possessions = await s.GetPossessionCategory(category);
-			var r = new Regex(name);
+			var r = new Regex(name, RegexOptions.IgnoreCase);
 			return possessions.FirstOrDefault(p => r.IsMatch(p.name));
+		}
+		public static async Task<int> GetPossessionLevel(this Session s, string category, string name)
+		{
+			var p = await s.GetPossession(category, name);
+			return p.effectiveLevel;
 		}
 
 		static readonly IDictionary<string, int> ShopIds = new Dictionary<string, int>{
@@ -183,9 +194,9 @@ namespace fl
 			{"Penstock's Land Agency" ,15},
 		};
 
-		public static int GetShopId( string name )
+		public static int GetShopId(string name)
 		{
-			var r = new Regex(name);
+			var r = new Regex(name, RegexOptions.IgnoreCase);
 			var key = ShopIds.Keys.FirstOrDefault(k => r.IsMatch(k));
 			if (key == null)
 			{
@@ -193,117 +204,161 @@ namespace fl
 			}
 			return ShopIds[key];
 		}
-		public static async Task<long> GetShopItemId(this Session s, string shopName, string itemName )
+		public static async Task<long> GetShopItemId(this Session s, string shopName, string itemName)
 		{
-			return (await s.GetShopItem(shopName,itemName)).availability.id;
+			return (await s.GetShopItem(shopName, itemName)).availability.id;
 		}
-		public static async Task<ShopItem> GetShopItem(this Session s, string shopName, string itemName )
+		public static async Task<ShopItem> GetShopItem(this Session s, string shopName, string itemName)
 		{
 			var shopId = GetShopId(shopName);
 			var inventory = await s.GetShopInventory(shopId);
 			var itemNumber = itemName.AsNumber();
-			if ( itemNumber != null )
+			if (itemNumber != null)
 			{
-				return inventory.FirstOrDefault( i => i.availability.quality.id == itemNumber.Value );
+				return inventory.FirstOrDefault(i => i.availability.quality.id == itemNumber.Value);
 			}
 			else
 			{
-				var r = new Regex(itemName);
-				return inventory.FirstOrDefault( i => r.IsMatch( i.availability.quality.name ) );
+				var r = new Regex(itemName, RegexOptions.IgnoreCase);
+				return inventory.FirstOrDefault(i => r.IsMatch(i.availability.quality.name));
 			}
 		}
 
-		public static async Task<dynamic> BuyPossession(this Session s, string shopName, string itemName, int amount )
+		public static async Task<TransactionResult> BuyPossession(this Session s, string shopName, string itemName, int amount)
 		{
-			var shopItemId = await s.GetShopItemId(shopName,itemName);
-			return await s.PostBuy( shopItemId, amount );
+			var shopItemId = await s.GetShopItemId(shopName, itemName);
+			return await s.PostBuy(shopItemId, amount);
 		}
 
-		public static async Task<dynamic> SellPossession(this Session s, string itemName, int amount )
+		public static async Task<TransactionResult> SellPossession(this Session s, string itemName, int amount)
 		{
-			var shopItemId = await s.GetShopItemId("sell",itemName);
-			return await s.PostSell( shopItemId, amount );
+			var shopItemId = await s.GetShopItemId("sell", itemName);
+			return await s.PostSell(shopItemId, amount);
 		}
 
-		public static async Task<dynamic> Equip(this Session s, string name)
+		public static async Task<OutfitSlot[]> Equip(this Session s, string name)
 		{
 			var item = await s.GetPossession(name);
 			return await s.PostEquipOutfit(item.id);
 		}
 
-		public static async Task<dynamic> Unequip(this Session s, string name)
+		public static async Task<OutfitSlot[]> Unequip(this Session s, string name)
 		{
 			var item = await s.GetPossession(name);
 			return await s.PostUnequipOutfit(item.id);
 		}
 
+		static int? GetAirsFromPlans(IEnumerable<Plan> plans)
+		{
+			var r = new Regex("\\(you have (\\d+)\\)");
+			var airs = plans.SelectMany(p => p.branch.qualityRequirements).FirstOrDefault(q => q.qualityName == "The Airs of London");
+			if (airs != null)
+			{
+				var message = r.Match(airs.tooltip);
+				if (message.Success)
+				{
+					return int.Parse(message.Groups[1].Value);
+				}
+			}
+			return null;
+		}
 
-// function Airs
-// {
-// 	param([switch]$dontRetry)
-// 	# this could give outdated value, if we perform an action that changes airs without discarding cached value for plans
-// 	$plans = Plans
-// 	$airsmessage =  $plans.active+$plans.completed | %{ $_.branch.qualityRequirements | ?{ $_.qualityName -eq "The Airs of London" } | select -first 1 -expandProperty tooltip } | select -first 1
-// 	if( $airsmessage -ne $null )
-// 	{
-// 		$r = [regex]"\(you have (\d+)\)"
-// 		$result = $r.Match($airsmessage)
-// 		if($result.Success)
-// 		{
-// 			return [int]$result.Groups[1].Value
-// 		}
-// 	}
+		static async Task<int?> GetAirs(this Session s)
+		{
+			var plans = await s.ListPlans();
+			return GetAirsFromPlans(plans);
+		}
 
-// 	if( !$dontRetry )
-// 	{
-// 		$result = CreatePlan 4346 f9c8d1dde5bee056cfab1123f9e0e9a0
-// 		$script:plans = $null
-// 		return Airs -dontRetry
-// 	}
+		public static async Task<int?> Airs(this Session s)
+		{
+			var airs = await GetAirs(s);
+			if (airs.HasValue)
+				return airs;
+			var result = await s.CreatePlan(4346, "f9c8d1dde5bee056cfab1123f9e0e9a0");
+			if (!result.isSuccess)
+				return null;
+			return GetAirsFromPlans(new[] { result.plan });
+		}
 
-// 	return $null
-// }
+		public static async Task<int> GetAvailableActions(this Session s)
+		{
+			var myself = await s.Myself();
+			return myself.character.actions;
+		}
 
+
+		// todo should be moved to more external location, has too much
+		public static async Task<bool> HasActionsToSpare(this Session s)
+		{
+			// 	Write-Verbose "remaining actions: $((Myself).character.actions)"
+			if (await s.GetAvailableActions() < 19)
+			{
+				// 		write-warning "not enough actions left"
+				return false;
+			}
+
+			return true;
+		}
 
 	}
 
-	public static class StoryletExt {
-		static Random _R = new Random();
-		static Branch InnerGetChildBranch( this IEnumerable<Branch> branches, string name )
+	public static class StoryletExt
+	{
+		public static long? EquippedAt(this IEnumerable<OutfitSlot> slots, string slotname)
 		{
-			var unlocked = branches.Where( b => !b.isLocked).ToArray();
-			if( unlocked.Length == 0 )
+			return slots.FirstOrDefault(s => s.name == slotname)?.qualityId;
+		}
+		public static bool HasEquipped(this IEnumerable<OutfitSlot> slots, string slotname)
+		{
+			return slots.FirstOrDefault(s => s.name == slotname && s.qualityId.HasValue) != null;
+		}
+		public static bool IsEquipped(this IEnumerable<OutfitSlot> slots, long id)
+		{
+			return slots.FirstOrDefault(s => s.qualityId == id) != null;
+		}
+		static Random _R = new Random();
+		static Branch InnerGetChildBranch(this IEnumerable<Branch> branches, string name)
+		{
+			var unlocked = branches.Where(b => !b.isLocked).ToArray();
+			if (unlocked.Length == 0)
 				return null;
 
-			if( name == "?" )
+			if (name == "?")
 			{
 				return unlocked[_R.Next(unlocked.Length)];
 			}
 
 			var n = name.AsNumber();
-			if( n != null )
+			if (n != null)
 			{
-				return unlocked[n.Value-1];
+				return unlocked[n.Value - 1];
 			}
 
-			var r = new Regex(name);
-			return unlocked.FirstOrDefault(b=> r.IsMatch(b.name) );
+			var r = new Regex(name, RegexOptions.IgnoreCase);
+			return unlocked.FirstOrDefault(b => r.IsMatch(b.name));
 		}
 
-		public static Branch GetChildBranch( this IEnumerable<Branch> branches, string name )
+		public static Branch GetChildBranch(this IEnumerable<Branch> branches, string name)
 		{
 			var names = name.Split('/');
-			foreach( var n in names)
+			foreach (var n in names)
 			{
 				var result = branches.InnerGetChildBranch(n);
-				if( result != null )
+				if (result != null)
 					return result;
 			}
 			throw new Exception($"branch {name} not found");
 		}
+
+		// for testing
+		public static StoryletList AsDryrun(this StoryletList list, string message)
+		{
+			return new StoryletList { phase = message, isSuccess = list.isSuccess };
+		}
 	}
 
-	public static class StateExt {
+	public static class StateExt
+	{
 		public static async Task<StoryletList> GoBackIfInStorylet(this Session s)
 		{
 			StoryletList list = await s.ListStorylet();
@@ -326,41 +381,46 @@ namespace fl
 				throw new Exception("called GoBackIfInStorylet on what looks like locked storylet");
 			}
 		}
-		public static async Task<StoryletList> PerformAction(this Session s, string name, StoryletList list = null)
+		public static async Task<StoryletList> PerformAction(this Session s, string name, StoryletList list = null, bool dryRun = false)
 		{
-			if( list == null || list.phase == "End")
+			if (list == null || list.phase == "End")
 			{
 				list = await s.ListStorylet();
 			}
-			if( list.phase == "Available" )
+			if (list.phase == "Available")
 			{
-// TODO 		Write-Warning "Trying to perform action $name while phase: Available"
+				// TODO 		Write-Warning "Trying to perform action $name while phase: Available"
 				throw new Exception($"Trying to perform action {name} while phase: Available");
 			}
 			var branch = list.storylet.childBranches.GetChildBranch(name);
 
-			if( branch == null )
+			if (branch == null)
 			{
 				return null;
 			}
-			return await s.ChooseBranch( branch.id );
+			if (dryRun)
+			{
+				return list.AsDryrun("dryRun");
+			}
+			return await s.ChooseBranch(branch.id);
 		}
 
-		public static async Task<StoryletList> PerformActions(this Session s, IEnumerable<string> actions, StoryletList list = null)
+		public static async Task<StoryletList> PerformActions(this Session s, IEnumerable<string> actions, StoryletList list = null, bool dryRun = false)
 		{
-			if( actions  == null )
+			if (actions == null)
 				return list;
 
-			foreach( var action in actions )
+			foreach (var action in actions)
 			{
-				if( !string.IsNullOrWhiteSpace(action) ){
-					if( list.phase == "End" )
+				if (!string.IsNullOrWhiteSpace(action))
+				{
+					if (list.phase == "End")
 						list = await s.ListStorylet();
-					list = await s.PerformAction(action,list);
-					if( list == null )
+					list = await s.PerformAction(action, list, dryRun);
+					if (list == null)
 					{
-// 				write-warning "branch $($action) in $actions not found"
-				// null or exception?
+						// 				write-warning "branch $($action) in $actions not found"
+						// null or exception?
 						throw new Exception($"branch {action} in {string.Join(",", actions.ToArray())} not found");
 					}
 				}
@@ -368,10 +428,10 @@ namespace fl
 			return list;
 		}
 
-		public static async Task<StoryletList> EnterStorylet(this Session s, StoryletList list, string storyletname )
+		public static async Task<StoryletList> EnterStorylet(this Session s, StoryletList list, string storyletname)
 		{
-			var sid = await s.GetStoryletId(storyletname,list);
-			if( sid == null )
+			var sid = await s.GetStoryletId(storyletname, list);
+			if (sid == null)
 			{
 				// throw?
 				return null;
@@ -379,92 +439,47 @@ namespace fl
 			return await s.BeginStorylet(sid.Value);
 		}
 
-		public static async Task<StoryletList> MoveIfNeeded(this Session s, StoryletList list, string location )
+		public static async Task<StoryletList> MoveIfNeeded(this Session s, StoryletList list, string location)
 		{
-			if( await s.IsInLocation( location ) )
+			if (await s.IsInLocation(location))
 				return list;
 
-			if( await s.GetLocationId(location) == await s.GetLocationId("empress court") )
+			if (await s.GetLocationId(location) == await s.GetLocationId("empress court"))
 			{
 				// TODO 		$result = DoAction "shutteredpalace,Spend,1"
 				throw new NotImplementedException("TODO: moving to empresscort");
 			}
 
-// todo test if race condition since we throw away result from moveto?
+			// todo test if race condition since we throw away result from moveto?
 			await s.MoveTo(location);
 			return await s.ListStorylet();
 		}
+
+		static async Task<StoryletList> UseItem(this Session s, long id, string action, bool dryRun = false)
+		{
+			var result = await s.UseQuality(id);
+			if (result.isSuccess)
+			{
+				return await s.PerformAction(action, null, dryRun);
+			}
+			return null;
+		}
+		public static async Task<bool> DoInventoryAction(this Session s, string category, string name, string action, bool dryRun = false)
+		{
+			// todo when going stateful, this can possibly be shortened
+			var list = await s.GoBackIfInStorylet();
+			var item = await s.GetPossession(category, name);
+			if (item != null && item.effectiveLevel >= 1)
+			{
+				var r = await s.UseItem(item.id, action, dryRun);
+				return false;
+			}
+			return true;
+		}
+
 	}
 }
 
-
-// function Airs
-// {
-// 	param([switch]$dontRetry)
-// 	# this could give outdated value, if we perform an action that changes airs without discarding cached value for plans
-// 	$plans = Plans
-// 	$airsmessage =  $plans.active+$plans.completed | %{ $_.branch.qualityRequirements | ?{ $_.qualityName -eq "The Airs of London" } | select -first 1 -expandProperty tooltip } | select -first 1
-// 	if( $airsmessage -ne $null )
-// 	{
-// 		$r = [regex]"\(you have (\d+)\)"
-// 		$result = $r.Match($airsmessage)
-// 		if($result.Success)
-// 		{
-// 			return [int]$result.Groups[1].Value
-// 		}
-// 	}
-
-// 	if( !$dontRetry )
-// 	{
-// 		$result = CreatePlan 4346 f9c8d1dde5bee056cfab1123f9e0e9a0
-// 		$script:plans = $null
-// 		return Airs -dontRetry
-// 	}
-
-// 	return $null
-// }
-
-
-// function UseItem
-// {
-// 	param($id, $action)
-// 	$result = UseQuality $id
-// 	if($result.isSuccess)
-// 	{
-// 		PerformAction $null $action
-// 	}
-// }
-
-// function HasActionsToSpare
-// {
-// 	Write-Verbose "remaining actions: $((Myself).character.actions)"
-// 	if($force)
-// 	{
-// 		return $true
-// 	}
-// 	if( (Myself).character.actions -lt 19 )
-// 	{
-// 		write-warning "not enough actions left"
-// 		return $false
-// 	}
-// 	return $true
-// }
-
-// function DoInventoryAction
-// {
-// 	param($category, $name, [string]$action)
-// 	$list = GoBackIfInStorylet
-// 	if( $list -eq $null )
-// 	{
-// 		return $true
-// 	}
-// 	$item = GetPossession $category $name
-// 	if( $item -ne $null -and $item.effectiveLevel -ge 1 )
-// 	{
-// 		$result = UseItem $item.id $action
-// 		return $false
-// 	}
-// }
 
 
 

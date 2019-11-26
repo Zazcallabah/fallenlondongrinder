@@ -37,10 +37,14 @@ namespace fl
 			return new StringContent(JsonConvert.SerializeObject(payload), System.Text.Encoding.UTF8, "application/json");
 		}
 
-		static void EnsureIsSuccess(string href, string verb, HttpResponseMessage response, string data)
+		static void EnsureIsSuccess<T>(string href, string verb, HttpResponseMessage response, string data)
 		{
 			if (!response.IsSuccessStatusCode)
 				throw new Exception($"invalid statuscode for {verb} {href} => {response.StatusCode} {data}");
+
+			var t = typeof(T);
+			if(t.IsArray)
+				return;
 
 			var msg = JsonConvert.DeserializeObject<SuccessMessage>(data);
 
@@ -61,7 +65,7 @@ namespace fl
 			var response = await _client.PostAsync(href, MakeContent(payload));
 			var content = await response.Content.ReadAsStringAsync();
 			// todo write debug
-			EnsureIsSuccess(href, "POST", response, content);
+			EnsureIsSuccess<T>(href, "POST", response, content);
 			T data = JsonConvert.DeserializeObject<T>(content);
 			return data;
 		}
@@ -75,7 +79,7 @@ namespace fl
 
 			var response = await _client.GetAsync(href);
 			var content = await response.Content.ReadAsStringAsync();
-			EnsureIsSuccess(href, "GET", response, content);
+			EnsureIsSuccess<T>(href, "GET", response, content);
 			T data = JsonConvert.DeserializeObject<T>(content);
 			// todo write debug
 			return data;
@@ -133,7 +137,7 @@ namespace fl
 
 		public async Task<int> GetLocationId(string name)
 		{
-			var r = new Regex(name);
+			var r = new Regex(name, RegexOptions.IgnoreCase);
 			var key = _locations.Keys.FirstOrDefault(k => r.IsMatch(k));
 			if (key != null)
 			{
@@ -169,18 +173,18 @@ namespace fl
 			return _shops[shopId];
 		}
 
-		public async Task<dynamic> PostBuy(long id, int amount)
+		public async Task<TransactionResult> PostBuy(long id, int amount)
 		{
 			_myself = null;
-			return await Post<dynamic>("exchange/buy", new { availabilityId = id, amount = amount });
+			return await Post<TransactionResult>("exchange/buy", new { availabilityId = id, amount = amount });
 		}
-		public async Task<dynamic> PostSell(long id, int amount)
+		public async Task<TransactionResult> PostSell(long id, int amount)
 		{
 			_myself = null;
-			return await Post<dynamic>("exchange/sell", new { availabilityId = id, amount = amount });
+			return await Post<TransactionResult>("exchange/sell", new { availabilityId = id, amount = amount });
 		}
 
-		public async Task<SuccessResult> UseQuality(int id)
+		public async Task<SuccessResult> UseQuality(long id)
 		{
 			return await Post<SuccessResult>($"storylet/usequality", new { qualityId = id });
 		}
@@ -213,9 +217,9 @@ namespace fl
 			return await Post<Opportunity>("opportunity/draw");
 		}
 
-		public async Task<dynamic> DiscardOpportunity(int id)
+		public async Task<Opportunity> DiscardOpportunity(int id)
 		{
-			return await Post<dynamic>($"opportunity/discard", new { eventId = id });
+			return await Post<Opportunity>($"opportunity/discard", new { eventId = id });
 		}
 
 		public async Task<StoryletList> GoBack()
@@ -261,48 +265,53 @@ namespace fl
 			return _plans;
 		}
 
-		public async Task<dynamic> GetPlan(string name)
-		{
+		public async Task<IEnumerable<Plan>> ListPlans(){
 			var plans = await Plans();
-			var pl = new List<dynamic>();
+			var pl = new List<Plan>();
 			pl.AddRange(plans.active);
 			pl.AddRange(plans.complete);
+			return pl;
+		}
 
-			var r = new Regex(name);
+		public async Task<Plan> GetPlan(string name)
+		{
+			var pl = await ListPlans();
+			var r = new Regex(name, RegexOptions.IgnoreCase);
 			return pl.FirstOrDefault(k => r.IsMatch(k.branch.name));
 		}
 
 		public async Task<bool> ExistsPlan(int id, string planKey)
 		{
-			var plans = await Plans();
-			var pl = new List<Plan>();
-			pl.AddRange(plans.active);
-			pl.AddRange(plans.complete);
-
+			var pl = await ListPlans();
 			return pl.Any(k => k.branch.id == id && k.branch.planKey == planKey);
 		}
 
 		// # post plan/update {"branchId":204598,"notes":"do this","refresh":false} to save note
 		// # post plan/update {"branchId":204598,"refresh":true} to restart plan
-		public async Task<dynamic> CreatePlan(int id, string planKey)
+		public async Task<PlanResult> CreatePlan(int id, string planKey)
 		{
 			_plans = null;
-			return await Post<dynamic>("plan/create", new { branchId = id, planKey = planKey });
+			return await Post<PlanResult>("plan/create", new { branchId = id, planKey = planKey });
 		}
 
-		public async Task<dynamic> DeletePlan(int id)
+		public async Task<SuccessResult> DeletePlan(int id)
 		{
 			_plans = null;
-			return await Post<dynamic>($"plan/delete/{id}");
+			return await Post<SuccessResult>($"plan/delete", new{ branchid=id});
 		}
-		public async Task<dynamic> PostEquipOutfit(int id)
+		public async Task<OutfitSlot[]> PostEquipOutfit(long id)
 		{
-			return await Post<dynamic>($"outfit/equip", new { qualityId = id });
+			return await Post<OutfitSlot[]>($"outfit/equip", new { qualityId = id });
 		}
-		public async Task<dynamic> PostUnequipOutfit(int id)
+		public async Task<OutfitSlot[]> PostUnequipOutfit(long id)
 		{
-			return await Post<dynamic>($"outfit/unequip", new { qualityId = id });
+			return await Post<OutfitSlot[]>($"outfit/unequip", new { qualityId = id });
 		}
+
+		public async Task<OutfitSlot[]> Outfit() {
+			return await Get<OutfitSlot[]>("outfit");
+		}
+
 		public async Task<dynamic> Contacts()
 		{
 			return await Get<dynamic>("contact");

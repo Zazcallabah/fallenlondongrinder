@@ -1,0 +1,551 @@
+{
+
+	"Carnival Ticket Clues": {
+		"Name": "Carnival Ticket Clues",
+		"Result": "Carnival Ticket",
+		"Prerequisites": [
+			"Mysteries,Cryptic Clue,20",
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1"
+		],
+		"Action": "carnival,Buy,cryptic",
+		"Reward": 10
+	},
+
+	"BuyBrass":{
+		"Result": "BuyBrass",
+		"Name": "BuyBrass",
+		"Action": "buy,Merrigans,Nevercold Brass Sliver,500",
+		"Prerequisites": [
+			"Currency,Penny,1500"
+		],
+		"Reward": 500
+	},
+
+	"BuySouls":{
+		"Result": "BuySouls",
+		"Name": "BuySouls",
+		"Action": "buy,Merrigans,Soul,500",
+		"Prerequisites": [
+			"Currency,Penny,2000"
+		],
+		"Reward": 500
+	},
+	"Flit Whispered Hint": {
+		"Name": "Flit Whispered Hint",
+		"Result": "Flit Whispered Hint",
+		"Prerequisites": ["Route,Route: The Flit,1"],
+		"Action": "flit,its king,meeting,understand",
+		"Reward": 66
+	},
+	"Extraordinary Implication": {
+		"Name": "Extraordinary Implication",
+		"Result": "Extraordinary Implication",
+		"Prerequisites": [
+			"Elder,Presbyterate Passphrase,3",
+			"Stories,A Name Scrawled in Blood,3,NameBlood3"
+		],
+		"Action": "watchmakers,fighting ring,painted,2"
+	},
+	"Presbyterate Passphrase": {
+		"Name": "Presbyterate Passphrase",
+		"Result": "Presbyterate Passphrase",
+		"Prerequisites": [
+			"Mysteries,Tale of Terror!!,5",
+			"Stories,A Name Scrawled in Blood,3,NameBlood3"
+		],
+		"Action": "watchmakers,fighting ring,roses,fight"
+	},
+	"Tale of Terror!!": {
+		"Name": "Tale of Terror!!",
+		"Result": "Tale of Terror!!",
+		"Prerequisites": [
+			"Goods,Piece of Rostygold,100",
+			"Stories,A Name Scrawled in Blood,3,NameBlood3"
+		],
+		"Action": "watchmakers,fighting ring,meat,clean"
+	},
+
+
+	"SelectProfession": {
+		"Name": "SelectProfession",
+		"Result": "Profession",
+		"Prerequisites": [
+			"Route,Route: Lodgings,1,RentLodgings"
+		],
+		"Action": "handle_profession"
+	},
+
+
+	"Payment": {
+		"Name": "Payment",
+		"Result": "An Earnest of Payment",
+		"Prerequisites": [
+			"Major Laterals,Profession,1,SelectProfession"
+		],
+		"Action": "lodgings,Professional Reward,1"
+	},
+
+	"Penny": {
+		"Name": "Penny",
+		"Result": "Penny",
+		"Prerequisites": [],
+		"Action": "grind_money",
+		"Reward": 3000
+	},
+
+	"Tales of Mahogany Hall" : {
+		"Name": "Tales of Mahogany Hall",
+		"Result": "Tales of Mahogany Hall",
+		"Prerequisites": [
+		],
+		"Action": "mahogany,variety is the spice of life,props"
+	},
+
+	"HeistBaseborn" : {
+		"Name": "HeistBaseborn",
+		"Result": "Planning a Heist:",
+		"Prerequisites": [
+			"Circumstance,Planning a Heist:,<0"
+		],
+		"Action": "flit,embark,baseborn"
+	},
+	"PrepPosi": {
+		"Name": "PrepPosi",
+		"Result": "Casing...",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1,PrepBaseborn"
+		],
+		"Action": "flit,preparing,Well-planned villainy",
+		"Reward":3
+	},
+	"PrepBaseborn" : {
+		"Name": "PrepBaseborn",
+		"Result": "PrepBaseborn",
+		"Prerequisites": [
+			"Circumstance,Planning a Heist:,1,HeistBaseborn"
+		],
+		"Action": "flit,preparing,formulate",
+		"Reward":3
+	},
+	"StealPermits":{
+		"Name": "StealPermits",
+		"Result": "Bazaar Permit",
+		"Prerequisites": [
+			"Progress,Casing...,10"
+		],
+		"Action": "flit,The Big Score: Choose a Target,Thefts of a particular character,Baseborn & Fowlingpiece",
+		"Reward":1
+	},
+	"First City Coin": {
+		"Name": "First City Coin",
+		"Result": "First City Coin",
+		"Prerequisites": [
+			"Elder,Mystery of the Elder Continent,2"
+		],
+		"Action": "lodgings,Ambition: Heart's Desire,Gamble for silver!",
+		"Reward": 1
+	},
+	"Drop of Prisoner's Honey": {
+		"Name": "Honey",
+		"Result": "Drop of Prisoner's Honey",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "veilgarden,unfinished business,Doing the decent thing",
+		"Reward": 50
+	},
+	"Foxfire Candle Stub": {
+		"Name": "Foxfire Candle Stub",
+		"Result": "Foxfire Candle Stub",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1,BuyCandles"
+		],
+		"Action": "veilgarden,unfinished business,An admirer among the clergy",
+		"Reward": 100
+	},
+	"BuyCandles": {
+		"Name": "BuyCandles",
+		"Result": "Foxfire Candle Stub",
+		"Prerequisites": [
+			"Currency,Penny,6000,SellHints"
+		],
+		"Action": "buy,Merrigans,Foxfire Candle Stub,2000",
+		"Reward": 2000
+	},
+	"BuyFewerCandles": {
+		"Name": "BuyFewerCandles",
+		"Result": "Foxfire Candle Stub",
+		"Prerequisites": [
+			"Contraband,Magnificent Diamond,<1,SellDiamond",
+			"Currency,Penny,600,SellHints"
+		],
+		"Action": "buy,Merrigans,Foxfire Candle Stub,200",
+		"Reward": 200
+	},
+
+	"An Identity Uncovered!": {
+		"Name": "An Identity Uncovered!",
+		"Result": "An Identity Uncovered!",
+		"Prerequisites": [
+			"Contacts,Favours: Society,1",
+			"Rumour,Scrap of Incendiary Gossip,50"
+		],
+		"Action": "inventory,Rumour,Scrap of Incendiary Gossip,Speculate on the identity of certain parties at a salon",
+		"Reward": 10
+	},
+
+	"Book of Hidden Bodies": {
+		"Name": "Book of Hidden Bodies",
+		"Result": "Book of Hidden Bodies",
+		"Prerequisites": [
+			"Rumour,An Identity Uncovered!,6",
+			"Rumour,Scrap of Incendiary Gossip,30",
+			"Rumour,Inkling of Identity,300"
+		],
+		"Action": "Bazaar Side-streets,Walk Down Blackfinger street,compile a book",
+		"Reward": 1
+	},
+
+	"SellHints": {
+		"Name": "SellHints",
+		"Result": "SellHints",
+		"Prerequisites": [
+			"Mysteries,Whispered Hint,600"
+		],
+		"Action": "sell,Whispered Hint,600",
+		"Reward": 600
+	},
+
+	"BuyLuckyWeasel": {
+		"Name": "BuyLuckyWeasel",
+		"Result": "Lucky Weasel",
+		"Prerequisites": [
+			"Currency,Penny,40"
+		],
+		"Action": "buy,Nassos Zoologicals,Lucky Weasel,1",
+		"Reward": 1
+	},
+	"Nodule of Deep Amber": {
+		"Name": "Nodule of Deep Amber",
+		"Result": "Nodule of Deep Amber",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "veilgarden,unfinished business,card game",
+		"Reward": 100
+	},
+	"Fistful of Surface Currency": {
+		"Name": "Fistful of Surface Currency",
+		"Result": "Fistful of Surface Currency",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "veilgarden,unfinished business,shake down",
+		"Reward": 200
+	},
+	"Bottle of Greyfields 1879": {
+		"Name": "Bottle of Greyfields 1879",
+		"Result": "Bottle of Greyfields 1879",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "veilgarden,unfinished business,crowd",
+		"Reward": 100
+	},
+	"Bottle of Greyfields 1882": {
+		"Name": "Bottle of Greyfields 1882",
+		"Result": "Bottle of Greyfields 1882",
+		"Prerequisites": [
+			"Currency,Penny,400"
+		],
+		"Action": "buy,Merrigans,Bottle of Greyfields 1882,100",
+		"Reward": 100
+	},
+	"Relic of the Second City": {
+		"Name": "Relic of the Second City",
+		"Result": "Relic of the Second City",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "veilgarden,unfinished business,consignment",
+		"Reward": 6
+	},
+
+	"ParthenaeumMembership":{
+		"Name":"A Member in Good Standing",
+		"Result": "A Member in Good Standing",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1",
+			"Stories,Sniffing Around The Parthenaeum,1",
+			"Contacts,Renown: Society,10",
+			"Influence,Favour in High Places,1",
+			"Influence,Personal Recommendation,3",
+			"Curiosity,Book of Hidden Bodies,2"
+		],
+		"Action": "Bazaar Side-streets,expensive of envelopes,accept graciously",
+		"Reward": 1
+	},
+
+	"Personal Recommendation":{
+		"Name":"Personal Recommendation",
+		"Result": "Personal Recommendation",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1",
+			"Influence,Stolen Kiss,6",
+			"Influence,Compromising Document,30",
+			"Influence,Intriguing Snippet,150"
+		],
+		"Action": "Bazaar Side-streets,Call at the offices of Baseborn & Fowlingpiece,Arrange for a Personal Recommendation",
+		"Reward": 1
+	},
+
+	"Favour in High Places":{
+		"Name":"Favour in High Places",
+		"Result": "Favour in High Places",
+		"Prerequisites": [
+			"Contacts,Favours: The Great Game,1",
+			"Influence,Stolen Kiss,25"
+		],
+		"Action": "inventory,Influence,Stolen Kiss,broker",
+		"Reward": 5
+	},
+
+	"Stolen Kiss":{
+		"Name":"Stolen Kiss",
+		"Result": "Stolen Kiss",
+		"Prerequisites": [
+			"Contacts,Favours: The Great Game,1",
+			"Influence,Compromising Document,50"
+		],
+		"Action": "inventory,Influence,Compromising Document,romantic",
+		"Reward": 10
+	},
+
+
+	"SpiriferSouls": {
+		"Name": "SpiriferSouls",
+		"Result": "SpiriferSouls",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,4,BuySouls",
+			"Basic,Watchful,60,BuySouls"
+		],
+		"Action": "ladybones,Track down a Spirifer,Watch from the rooftops",
+		"Reward": 28
+	},
+
+	"Soul": {
+		"Name": "Soul",
+		"Result": "Soul",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1,SpiriferSouls",
+			"Contacts,Renown: Hell,10,SpiriferSouls"
+		],
+		"Action": "spite,unfinished business,the prince of",
+		"Reward": 60
+	},
+	"Shard of Glim": {
+		"Name": "Shard of Glim",
+		"Result": "Shard of Glim",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "spite,unfinished business,Rob a glim shipment",
+		"Reward": 100
+	},
+	"Stolen Correspondence": {
+		"Name": "Stolen Correspondence",
+		"Result": "Stolen Correspondence",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "spite,unfinished business,Ambush a few couriers for old times' sake",
+		"Reward": 20
+	},
+	"Rat on a String": {
+		"Name": "Rat on a String",
+		"Result": "Rat on a String",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "spite,unfinished business,Keep your hands quick",
+		"Reward": 100
+	},
+	"more Cryptic Clue": {
+		"Name": "more Cryptic Clue",
+		"Result": "Cryptic Clue",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "spite,unfinished business,Eavesdropping",
+		"Reward": 40
+	},
+	"Relic of the Third City": {
+		"Name": "Relic of the Third City",
+		"Result": "Relic of the Third City",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "spite,unfinished business,The fellow in the corner",
+		"Reward": 11
+	},
+
+	"NightwatchfforBrass": {
+		"Name": "NightwatchfforBrass",
+		"Result": "NightwatchfforBrass",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,4,BuyBrass",
+			"Basic,Watchful,65,BuyBrass"
+		],
+		"Action": "ladybones,Night watch at the Brass Embassy warehouse,easy",
+		"Reward": 50
+	},
+	"Nevercold Brass Sliver": {
+		"Name": "Nevercold Brass Sliver",
+		"Result": "Nevercold Brass Sliver",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1,NightwatchfforBrass",
+			"Contacts,Renown: The Church,10,NightwatchfforBrass"
+		],
+		"Action": "ladybones,unfinished business,mischief and brass",
+		"Reward": 110
+	},
+	"Relic of the Fourth City": {
+		"Name": "Relic of the Fourth City",
+		"Result": "Relic of the Fourth City",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "ladybones,unfinished business,antiquities ",
+		"Reward": 20
+	},
+	"Lamplighter Beeswax": {
+		"Name": "Lamplighter Beeswax",
+		"Result": "Lamplighter Beeswax",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "ladybones,unfinished business,A lovely thought",
+		"Reward": 70
+	},
+	"Primordial Shriek": {
+		"Name": "Primordial Shriek",
+		"Result": "Primordial Shriek",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "ladybones,unfinished business,Debate the nature",
+		"Reward": 50
+	},
+	"Moon-pearl": {
+		"Name": "Moon-pearl",
+		"Result": "Moon-pearl",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1,Courierjob"
+		],
+		"Action": "watchmakers,unfinished business,A spot of footpadry",
+		"Reward": 60
+	},
+	"Jade Fragment": {
+		"Name": "Jade Fragment",
+		"Result": "Jade Fragment",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1,SpiteCourierJade"
+		],
+		"Action": "watchmakers,unfinished business,A sure bet",
+		"Reward": 100
+	},
+	"Piece of Rostygold": {
+		"Name": "Piece of Rostygold",
+		"Result": "Piece of Rostygold",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1,RostygoldNameBlood"
+		],
+		"Action": "watchmakers,unfinished business,Wade into the Ring Fights",
+		"Reward": 100
+	},
+	"Proscribed Material": {
+		"Name": "Proscribed Material",
+		"Result": "Proscribed Material",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "watchmakers,unfinished business,A literary sort of fist-fight",
+		"Reward": 25
+	},
+	"Infernal Contract": {
+		"Name": "Infernal Contract",
+		"Result": "Infernal Contract",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action": "watchmakers,unfinished business,Contracts and legs",
+		"Reward": 5
+	},
+	"Volume of Collated Research": {
+		"Name": "Volume of Collated Research",
+		"Result": "Volume of Collated Research",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1",
+			"Mysteries,Appalling Secret,12",
+			"Mysteries,Tale of Terror!!,2"
+		],
+		"Action": "bazaar,Walk Down Blackfinger Street,collate some research",
+		"Reward": 1
+	},
+
+
+	"Velocipede": {
+		"Name": "Velocipede",
+		"Result": "Velocipede",
+		"Prerequisites": [
+			"Curiosity,Strong-Backed Labour,1",
+			"Nostalgia,Bazaar Permit,1"
+		],
+		"Action": "bazaar,velocipede"
+	},
+	"Bazaar Permit": {
+		"Name": "Bazaar Permit",
+		"Result": "Bazaar Permit",
+		"Prerequisites": [
+			"Nostalgia,Vision of the Surface,10",
+			"Nostalgia,Romantic Notion,100"
+		],
+		"Action": "bazaar,fowlingpiece,permit",
+		"Reward": 1
+	},
+	"StartNovel": {
+		"Name": "StartNovel",
+		"Result": "Working on...",
+		"Prerequisites": [
+			"Circumstance,Working on...,=0,BurnAWork"
+		],
+		"Action": "empresscourt,next work,novel"
+	},
+	"Inspired...": {
+		"Name": "Inspired...",
+		"Result": "Inspired...",
+		"Prerequisites": [
+			"Circumstance,Working on...,=2"
+		],
+		"Action": "empresscourt,quiet,1"
+	},
+
+	"BazaarLodgings": {
+		"Name": "BazaarLodgings",
+		"Result": "Lengthy Lease to Premises at the Bazaar",
+		"Prerequisites": [
+			"Nostalgia,Bazaar Permit,50"
+		],
+		"Action": "bazaar,Solicitors at Law,Your just due",
+		"Reward": 1
+	},
+
+	"Fascinating...": {
+		"Name": "Fascinating...",
+		"Result": "Fascinating...",
+		"Prerequisites": [
+			"Progress,Inspired...,34"
+		],
+		"Action": "empresscourt,complete,gothic romance"
+	}
+}

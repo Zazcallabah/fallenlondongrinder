@@ -94,6 +94,15 @@ namespace fl
 	public class Plan
 	{
 		public PlanBranch branch;
+		public string areaName;
+		public long id;
+	}
+
+	public class PlanResult{
+		public Plan plan;
+		public string message;
+		public bool isSuccess;
+
 	}
 
 	public class PlanBranch
@@ -102,8 +111,33 @@ namespace fl
 		public int id;
 		public string planKey;
 		public string name;
+		public string description;
+		public int currencyCost;
+		public int actionCost;
+		public string buttonText;
+		public string image;
+		public bool isLocked;
+		public int ordering;
+		public bool actionLocked;
+		public bool currencyLocked;
+		public bool qualityLocked;
+		public Challenge[] challenges;
 	}
 
+	public class Challenge{
+		public string name;
+		public long id;
+		public int targetNumber;
+		public string description;
+		public string category;
+		public string nature;
+		public string type;
+		public bool canAffordSecondChance;
+		public string image;
+		public int secondChanceId;
+		public int secondChanceLevel;
+
+	}
 	public class QualityReq
 	{
 		public long qualityId;
@@ -117,7 +151,6 @@ namespace fl
 		public string image;
 		public string availableAtMessage;
 	}
-
 	public class Storylet
 	{
 		public string name;
@@ -158,20 +191,6 @@ namespace fl
 		public long id;
 	}
 
-	public class Challenge
-	{
-		public string name;
-		public int targetNumber;
-		public string description;
-		public string category;
-		public string nature;
-		public string type;
-		public bool canAffordSecondChance;
-		public int secondChanceId;
-		public int secondChanceLevel;
-		public string image;
-		public long id;
-	}
 
 	public class StoryletList
 	{
@@ -188,6 +207,12 @@ namespace fl
 		public Character character;
 		public PossessionCategory[] possessions;
 	}
+	public class TransactionResult
+	{
+		public Possession[] possessionsChanged;
+		public string message;
+		public bool isSuccess;
+	}
 
 	public class Domicile
 	{
@@ -202,9 +227,22 @@ namespace fl
 		public string description;
 		public string descriptiveText;
 		public Domicile currentDomicile;
+		public Outfit[] outfits;
 		public int actions;
 		public bool journalIsPrivate;
+		public UserData user;
 		public int id;
+	}
+	public class OutfitSlot
+		{
+		public string name;
+		public long? qualityId;
+	}
+
+	public class Outfit{
+		public string name;
+		public bool selected;
+		public long id;
 	}
 
 	public class UserData
@@ -328,7 +366,7 @@ namespace fl
 		public string bonusOrPenaltyDisplay;
 		public int progressAsPercentage;
 		public string image;
-		public int id;
+		public long id;
+		public long? useEventId;
 	}
-
 }
