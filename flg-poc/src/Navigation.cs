@@ -179,10 +179,10 @@ namespace fl
 
 		public static async Task<bool> SellIfMoreThan(this Session s, string category, string name, int amount)
 		{
-			var pos = await s.GetPossession(category,name);
-			if(pos != null && pos.effectiveLevel > amount)
+			var pos = await s.GetPossession(category, name);
+			if (pos != null && pos.effectiveLevel > amount)
 			{
-				await s.SellPossession(name,pos.effectiveLevel - amount);
+				await s.SellPossession(name, pos.effectiveLevel - amount);
 			}
 			return true;
 		}
@@ -366,100 +366,139 @@ namespace fl
 		}
 	}
 
-	public static class StateExt
+	public static class aoeu
 	{
 
-		public static async Task<bool?> DoAction( this Session s, ActionString action )
-				{
-					// todo debug output
-					//	Write-host "doing action $($action.location) $($action.first) $($action.second) $($action.third)"
-
-
-	//  bazaar can usually be done even in storylet, i think?
-	//  require is best done doing its inventory checks before doing goback and move, to aviod extra liststorylet calls
-	//  inventory just needs to make sure we do gobackifinstorylet first
-	if( action.location == "buy" )
-	{
-		await s.BuyPossession action.first $action.second $action.third[0]
-		return false; // technically true, but that screws with prereq chains
-	}
-	elseif( $action.location -eq "sell" )
-	{
-		$result = SellPossession $action.first $action.second
-		return $false # technically true, but that screws with prereq chains
-	}
-	elseif( $action.location -eq "equip" )
-	{
-		$result = Equip $action.first
-		return $true
-	}
-	elseif( $action.location -eq "unequip" )
-	{
-		$result = Unequip $action.first
-		return $true
-	}
-	elseif( $action.location -eq "require" )
-	{
-		$hasActionsLeft = Require $action.first $action.second $action.third[0] $action.third[1]
-		return $hasactionsleft
-	}
-	elseif( $action.location -eq "inventory" )
-	{
-		$result = DoInventoryAction $action.first $action.second $action.third
-		return $false
-	}
-	elseif( $action.location -eq "grind_money" )
-	{
-		$result = GrindMoney
-		return $false
-	}
-	elseif( $action.location -eq "handle_profession" )
-	{
-		$result = HandleProfession
-		return $result
-	}
-
-	$list = GoBackIfInStorylet
-
-	if( $list -eq $null )
-	{
-		return $false
-	}
-
-	$list = MoveIfNeeded $list $action.location
-
-	if( $action.location -eq "carnival" -and $action.first -ne "Buy" )
-	{
-		$hasActionsLeft = EnsureTickets
-		if( !$hasActionsLeft )
+		public static async Task<bool?> DoAction(this Session s, ActionString action)
 		{
-			return $false
+			// todo debug output
+			//	Write-host "doing action $($action.location) $($action.first) $($action.second) $($action.third)"
+
+
+			//  bazaar can usually be done even in storylet, i think?
+			//  require is best done doing its inventory checks before doing goback and move, to aviod extra liststorylet calls
+			//  inventory just needs to make sure we do gobackifinstorylet first
+			if (action.location == "buy")
+			{
+				if (action.third == null)
+				{
+					throw new Exception($"invalid buy action {action}");
+				}
+				var n = action.third[0].AsNumber();
+				if (!n.HasValue)
+				{
+					throw new Exception($"invalid buy action {action}");
+				}
+				await s.BuyPossession(action.first, action.second, n.Value);
+				return false; // technically true, but that screws with prereq chains
+			}
+			else if (action.location == "sell")
+			{
+				var n = action.second.AsNumber();
+				if (!n.HasValue)
+				{
+					throw new Exception($"invalid sell action {action}");
+				}
+				await s.SellPossession(action.first, n.Value);
+				return false;// technically true, but that screws with prereq chains
+			}
+			else if (action.location == "equip")
+			{
+				await s.Equip(action.first);
+				return true;
+			}
+			else if (action.location == "unequip")
+			{
+				await s.Unequip(action.first);
+				return true;
+			}
+			else if (action.location == "require")
+			{
+				var hasActionsLeft = Require(action.first, action.second, action.third[0], action.third[1]);
+				return hasActionsLeft;
+			}
+			else if (action.location == "inventory")
+			{
+				await s.DoInventoryAction(action.first, action.second, action.third);
+				return false;
+			}
+			else if (action.location == "grind_money")
+			{
+				await GrindMoney;
+				return false;
+			}
+			else if (action.location == "handle_profession")
+			{
+				return await HandleProfession();
+			}
+			return await DoAction2(s,action);
 		}
 	}
 
-	$event = EnterStorylet $list $action.first
-	if( $event -eq $null )
+	public class GameState
 	{
-		write-warning "storylet $($action.first) not found"
-		return $false
-	}
+		Session _session;
+		StoryletList _cachedList;
 
-	$result = PerformActions $event (@($action.second)+$action.third)
-	return $false
-}
-		public static async Task<StoryletList> GoBackIfInStorylet(this Session s)
+
+		public GameState(Session s)
 		{
-			StoryletList list = await s.ListStorylet();
-			if (list.phase == "Available")
-				return list;
+			_session = s;
+		}
 
-			if (list.storylet == null)
-				return list;
+		public async Task<bool?> NavigateIntoAction(ActionString action)
+		{
 
-			if (list.storylet.canGoBack.HasValue && list.storylet.canGoBack.Value)
+			await GoBackIfInStorylet();
+
+			if (_cachedList == null)
+			{
+				// was return false <- hasmoreactions?
+				throw new Exception("invalid state after goback");
+			}
+
+			await MoveIfNeeded(action.location);
+
+			// this is a remnant from before the time of prereq in the acq engine
+			// if (action.location == "carnival" && action.first != "Buy")
+			// {
+			// 	var hasActionsLeft = await EnsureTickets()
+			// 	if (!hasActionsLeft)
+			// 	{
+			// 		return false;
+			// 	}
+			// }
+
+			bool success = await EnterStorylet(action.first);
+			if (_cachedList == null)
+			{
+				//todo error handle also debug output
+				//write-warning "storylet $($action.first) not found"
+				return false;
+			}
+
+			var ac = new List<string> { action.second };
+			if (action.third != null)
+				ac.AddRange(action.third);
+
+			bool success = await PerformActions(ac);
+			return false;
+		}
+
+		public async Task GoBackIfInStorylet()
+		{
+			_cachedList = await _session.ListStorylet();
+			if (_cachedList.phase == "Available")
+				return;
+
+			if (_cachedList.storylet == null)
+				return;
+
+			if (_cachedList.storylet.canGoBack.HasValue && _cachedList.storylet.canGoBack.Value)
 			{
 				// todo 			write-verbose "exiting storylet"
-				return await s.GoBack();
+				_cachedList = await _session.GoBack();
+				return;
 			}
 			else
 			{
@@ -469,43 +508,40 @@ namespace fl
 				throw new Exception("called GoBackIfInStorylet on what looks like locked storylet");
 			}
 		}
-		public static async Task<StoryletList> PerformAction(this Session s, string name, StoryletList list = null, bool dryRun = false)
+		public async Task<bool> PerformAction(string name)
 		{
-			if (list == null || list.phase == "End")
+			if (_cachedList == null || _cachedList.phase == "End")
 			{
-				list = await s.ListStorylet();
+				_cachedList = await _session.ListStorylet();
 			}
-			if (list.phase == "Available")
+			if (_cachedList.phase == "Available")
 			{
 				// TODO 		Write-Warning "Trying to perform action $name while phase: Available"
 				throw new Exception($"Trying to perform action {name} while phase: Available");
 			}
-			var branch = list.storylet.childBranches.GetChildBranch(name);
+			var branch = _cachedList.storylet.childBranches.GetChildBranch(name);
 
 			if (branch == null)
 			{
-				return null;
+				return false;
 			}
-			if (dryRun)
-			{
-				return list.AsDryrun("dryRun");
-			}
-			return await s.ChooseBranch(branch.id);
+			_cachedList = await _session.ChooseBranch(branch.id);
+			return true;
 		}
 
-		public static async Task<StoryletList> PerformActions(this Session s, IEnumerable<string> actions, StoryletList list = null, bool dryRun = false)
+		public async Task<bool> PerformActions(IEnumerable<string> actions)
 		{
 			if (actions == null)
-				return list;
+				return false;
 
 			foreach (var action in actions)
 			{
 				if (!string.IsNullOrWhiteSpace(action))
 				{
-					if (list.phase == "End")
-						list = await s.ListStorylet();
-					list = await s.PerformAction(action, list, dryRun);
-					if (list == null)
+					if (_cachedList.phase == "End")
+						_cachedList = await _session.ListStorylet();
+					var result = await PerformAction(action);
+					if (_cachedList == null || !result )
 					{
 						// 				write-warning "branch $($action) in $actions not found"
 						// null or exception?
@@ -513,53 +549,51 @@ namespace fl
 					}
 				}
 			}
-			return list;
+			return true;
 		}
 
-		public static async Task<StoryletList> EnterStorylet(this Session s, StoryletList list, string storyletname)
+		public async Task<bool> EnterStorylet(string storyletname)
 		{
-			var sid = await s.GetStoryletId(storyletname, list);
-			if (sid == null)
+			var sid = await _session.GetStoryletId(storyletname, _cachedList);
+			if (sid != null)
 			{
-				// throw?
-				return null;
+				_cachedList = await _session.BeginStorylet(sid.Value);
+				return true;
 			}
-			return await s.BeginStorylet(sid.Value);
+			else
+			{
+				_cachedList = null;
+				return false;
+			}
 		}
 
-		public static async Task<StoryletList> MoveIfNeeded(this Session s, StoryletList list, string location)
+		public async Task MoveIfNeeded(string location)
 		{
-			if (await s.IsInLocation(location))
-				return list;
+			if (await _session.IsInLocation(location))
+				return;
 
-			if (await s.GetLocationId(location) == await s.GetLocationId("empress court"))
+			if (await _session.GetLocationId(location) == await _session.GetLocationId("empress court"))
 			{
 				// TODO 		$result = DoAction "shutteredpalace,Spend,1"
 				throw new NotImplementedException("TODO: moving to empresscort");
 			}
 
 			// todo test if race condition since we throw away result from moveto?
-			await s.MoveTo(location);
-			return await s.ListStorylet();
+			await _session.MoveTo(location);
+			_cachedList = await _session.ListStorylet();
 		}
 
-		static async Task<StoryletList> UseItem(this Session s, long id, string action, bool dryRun = false)
+		public async Task<bool> DoInventoryAction(string category, string name, string action)
 		{
-			var result = await s.UseQuality(id);
-			if (result.isSuccess)
-			{
-				return await s.PerformAction(action, null, dryRun);
-			}
-			return null;
-		}
-		public static async Task<bool> DoInventoryAction(this Session s, string category, string name, string action, bool dryRun = false)
-		{
-			// todo when going stateful, this can possibly be shortened
-			var list = await s.GoBackIfInStorylet();
-			var item = await s.GetPossession(category, name);
+			await GoBackIfInStorylet();
+			var item = await _session.GetPossession(category, name);
 			if (item != null && item.effectiveLevel >= 1)
 			{
-				var r = await s.UseItem(item.id, action, dryRun);
+				var result = await _session.UseQuality(item.id);
+				if (result.isSuccess)
+				{
+					return await PerformAction(action);
+				}
 				return false;
 			}
 			return true;

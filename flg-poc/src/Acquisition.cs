@@ -320,6 +320,15 @@ namespace fl
 
 	public class ActionString
 	{
+		public override string ToString(){
+			var s = $"{location} {first} {second}";
+			if( third != null )
+			{
+				s+= " " + string.Join(",",third);
+			}
+			return s;
+		}
+
 		public string location;
 		public string first;
 		public string second;
