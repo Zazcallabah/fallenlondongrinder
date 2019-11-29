@@ -1,0 +1,34 @@
+{
+
+	"The Hunt is On!": {
+		"Name": "The Hunt is On!",
+		"Result": "The Hunt is On!",
+		"Prerequisites": [
+			"Stories,Acquiring Exhibits for the Labyrinth of Tigers,1"
+		],
+		"Action": "wolfstack,Hunting Dangerous Prey,stalk your prey/go for the throat/prepare the ground"
+	},
+
+
+	"HuntRats": {
+		"Name": "HuntRats",
+		"Result": "A Procurer of Savage Beasts",
+		"Prerequisites": [
+			"Progress,The Hunt is On!,11"
+		],
+		"Action": "spite,Hunt the Rattus Faber Brigands,kill"
+	},
+
+	"HuntGoat": {
+		"Name": "HuntGoat",
+		"Result": "A Procurer of Savage Beasts",
+		"Prerequisites": [
+			"Stories,A Procurer of Savage Beasts,2,HuntRats",
+			"Progress,The Hunt is On!,13"
+		],
+		"Action": "flit,Hunt the Goat Demon,kill"
+	}
+
+
+
+}

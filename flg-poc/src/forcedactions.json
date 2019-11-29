@@ -1,0 +1,175 @@
+{
+	"Unpredictable Treasures": "?",
+	"The Stuff of Song": "Provide a very personal lesson",
+	"A Kindred Spirit": "snake",
+	"Unjustly imprisoned!":"1",
+	"How will you get through these bars?":"?",
+	"A thousand choices!":"1",
+	"A letter from Mr Inch": "open",
+	"A Trove of Secrets": "Keep it to yourself",
+	"A Toast in the Shadows": "own name",
+	"A New Star in the Neath": "?",
+	"What's in the bundle?": "?",
+	"A Storied Life": "?",
+	"Sought by London's Finest":"Bohemians",
+	"Returning to the Department":"1",
+	"A Rambunctious Celebration":"?",
+	"The Secret of your Success":"?",
+	"Called to Account":"?",
+	"Making Your Name – Closing the Case: the Absconding Devil":"delay",
+	"The case is closed...":"1",
+	"A Royal Invitation":"?",
+	"A rat infestation?":"1",
+	"After the Case":"1",
+	"The Mark of a True Duellist":"?",
+	"Love and Death in the Clay Quarters":"leave her",
+	"The Burden of Truth":"?",
+	"Announcing your Findings":"salons",
+
+	"Far Arbor": [
+		{
+			"Conditions":[
+				"Stories,Arbor: Permission to Linger,=0"
+			],
+			"Action": "Leave Arbor"
+		},
+		{
+			"Conditions":[
+				"Curiosity,Attar,<3"
+			],
+			"Action": "The city washes away"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=1"
+			],
+			"Action": "Walk South"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=2"
+			],
+			"Action": "Walk South"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=5"
+			],
+			"Action": "Gift your Attar in tribute to the Roseate Queen"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=3",
+				"Stories,Arbor: Permission to Linger,10"
+			],
+			"Action": "Walk the Walls"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=3"
+			],
+			"Action": "Walk South"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=4"
+			],
+			"Action": "Walk South"
+		}
+	],
+	"Near Arbor": [
+		{
+			"Conditions":[
+				"Stories,Arbor: Permission to Linger,=0"
+			],
+			"Action": "Leave Arbor"
+		},
+		{
+			"Conditions":[
+				"Curiosity,Attar,5"
+			],
+			"Action": "Enter Far Arbor"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=5",
+				"Mysteries,Extraordinary Implication,<3"
+			],
+			"Action": "Become a serpent-tender in exchange for Attar"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=5"
+			],
+			"Action": "Walk North"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=2",
+				"Mysteries,Extraordinary Implication,<3",
+				"Stories,Arbor: Permission to Linger,320"
+			],
+			"Action": "Walk South"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=2",
+				"Stories,Arbor: Permission to Linger,<4",
+				"Stories,Impossible,1"
+			],
+			"Action": "Walk South"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=2"
+			],
+			"Action": "Spy on London's Embassy"
+		},
+
+		{
+			"Conditions":[
+				"Mysteries,Extraordinary Implication,<3",
+				"Stories,Arbor: Permission to Linger,310",
+				"Stories,The Rose-Red Streets,=3"
+			],
+			"Action": "Explore the Gatehouse Market"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=3"
+			],
+			"Action": "walk south"
+		},
+
+		{
+			"Conditions":[
+				"Mysteries,Extraordinary Implication,<3",
+				"Stories,Arbor: Permission to Linger,320",
+				"Stories,The Rose-Red Streets,=4"
+
+			],
+			"Action": "Walk North"
+		},
+		{
+			"Conditions":[
+				"Mysteries,Extraordinary Implication,<3",
+				"Stories,The Rose-Red Streets,=4"
+
+			],
+			"Action": "take a short-cut north"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=4"
+
+			],
+			"Action": "Investigate the Near-Arbori"
+		},
+		{
+			"Conditions":[
+				"Stories,The Rose-Red Streets,=1"
+			],
+			"Action": "Walk South"
+		}
+	]
+}

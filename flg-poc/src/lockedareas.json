@@ -1,0 +1,15 @@
+{
+	"Imprisoned": {
+		"require": [
+			"require,Stories,Preparing for a Daring Escape,<2,EscapeFromNewgate"
+		]
+	},
+	"An Elaborate Party":{
+		"require":[
+			"require,Progress,Time Remaining...,10,ElaborateParty"
+		]
+	},
+	"The Elder Continent":{
+		"forced": true
+	}
+}

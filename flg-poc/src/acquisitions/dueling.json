@@ -1,0 +1,46 @@
+{
+	"Running Battle..." : {
+		"Name": "Running Battle...",
+		"Result": "Running Battle...",
+		"Prerequisites": [
+		],
+		"Action": "wolfstack,Duelling the Black Ribbon,sparring/scout/find out/arrange"
+	},
+	"Duel Priest" : {
+		"Name": "Duel Priest",
+		"Result": "A Fearsome Duellist",
+		"Prerequisites": [
+			"Progress,Running Battle,7"
+		],
+		"Action": "wolfstack,Challenge,Priest,1"
+	},
+	"Duel Inch" : {
+		"Name": "Duel Inch",
+		"Result": "A Fearsome Duellist",
+		"Prerequisites": [
+			"Progress,Running Battle,9",
+			"Stories,A Fearsome Duellist,1"
+		],
+		"Action": "wolfstack,Challenge,Inch,1"
+	},
+	"Duel Vendrick" : {
+		"Name": "Duel Vendrick",
+		"Result": "A Fearsome Duellist",
+		"Prerequisites": [
+			"Progress,Running Battle,12",
+			"Menaces,Wounds,<4",
+			"Stories,A Fearsome Duellist,2"
+		],
+		"Action": "wolfstack,Challenge,Vendrick,1"
+	},
+	"Duel Fencing" : {
+		"Name": "Duel Fencing",
+		"Result": "A Fearsome Duellist",
+		"Prerequisites": [
+			"Progress,Running Battle,15",
+			"Menaces,Wounds,<4",
+			"Stories,A Fearsome Duellist,3"
+		],
+		"Action": "wolfstack,Challenge,Fencing,1"
+	}
+}

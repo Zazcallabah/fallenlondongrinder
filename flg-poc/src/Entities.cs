@@ -1,12 +1,76 @@
 namespace fl
 {
+	// bool?
+	// true -> has remaining actions, this prereq is fulfilled, keep doing this chain of actions
+	// false -> we have consumed our action for this run, stop
+	// null -> this chain of actions has failed in some fashion. abort and start working on the next chain
+	// mismatch ->
+	// specific case where you have multiple paths to a prereq
+	// like if you need foxfire candles, you can buy them in bulk, but if you are posi, you should do the unfinished business storylet
+	// so there is a prereq for the unfinishedbuisiness acquisition that is tagged with a different acq that buys the candles
+	// but if that prereq returns true (because buying doesnt consume an action) the engine will assume you actually have posi,
+	// and proceed doing an invalid action
+	// {
+	// 	"Name": "Foxfire Candle Stub",
+	// 	"Result": "Foxfire Candle Stub",
+	// 	"Prerequisites": [
+	// 		"Accomplishments,A Person of Some Importance,1,BuyCandles"
+	// 	],
+	// 	"Action": "veilgarden,unfinished business,An admirer among the clergy"
+	// },
+	// {
+	// 	"Name": "BuyCandles",
+	// 	"Result": "Foxfire Candle Stub",
+	// 	"Prerequisites": [
+	// 		"Currency,Penny,6000,SellHints"
+	// 	],
+	// 	"Action": "buy,Merrigans,Foxfire Candle Stub,2000"
+	// }
+	// to prevent this, "mismatch" means this requirement has already been acquired through alternate means
+	// NOTE maybe you actually bought the stuff you needed for this requirement though? how to distinguish this??
+	public enum HasActionsLeft
+	{
+		Available,
+		Consumed,
+		Faulty,
+		Mismatch,
+	}
 
+	public class ActionList
+	{
+		public string[] automaton;
+		public string[] main;
+	}
+
+	public class CardAction
+	{
+		public string name;
+		public string[] require;
+		public string action;
+		public long? eventId;
+	}
+	public class Acquisition
+	{
+		public string Key;
+		public string Name;
+		public string Result;
+		public string[] Prerequisites;
+		public string Action;
+		public int? Reward;
+		public string[] Cards;
+	}
 	public class SuccessMessage
 	{
 		public bool? isSuccess;
 		public string message;
 	}
 
+	public class PlanQuery
+	{
+		public string name;
+		public string planKey;
+		public int? id;
+	}
 
 	public class MapEntry
 	{
@@ -98,7 +162,8 @@ namespace fl
 		public long id;
 	}
 
-	public class PlanResult{
+	public class PlanResult
+	{
 		public Plan plan;
 		public string message;
 		public bool isSuccess;
@@ -124,7 +189,8 @@ namespace fl
 		public Challenge[] challenges;
 	}
 
-	public class Challenge{
+	public class Challenge
+	{
 		public string name;
 		public long id;
 		public int targetNumber;
@@ -234,12 +300,13 @@ namespace fl
 		public int id;
 	}
 	public class OutfitSlot
-		{
+	{
 		public string name;
 		public long? qualityId;
 	}
 
-	public class Outfit{
+	public class Outfit
+	{
 		public string name;
 		public bool selected;
 		public long id;

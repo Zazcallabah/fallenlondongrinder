@@ -1,0 +1,35 @@
+{
+
+	"GrindPersuasive": {
+		"Name": "GrindPersuasive",
+		"Result": "Persuasive",
+		"Prerequisites": [],
+		"Action": "empresscourt,attend,perform"
+	},
+	"GrindShadowy": {
+		"Name": "GrindShadowy",
+		"Result": "Shadowy",
+		"Prerequisites": [
+			"Goods,Piece of Rostygold,10"
+		],
+		"Action": "spite,unfinished Business,?"
+	},
+	"GrindDangerous": {
+		"Name": "GrindDangerous",
+		"Result": "Dangerous",
+		"Prerequisites": [
+			"Progress,Running Battle,15",
+			"Menaces,Wounds,<3",
+			"Stories,A Fearsome Duellist,3"
+		],
+		"Action": "wolfstack,Challenge,Fencing,1"
+	},
+	"GrindWatchful": {
+		"Name": "GrindWatchful",
+		"Result": "Watchful",
+		"Prerequisites": [
+			"Progress,Archaeologist's Progress,99"
+		],
+		"Action": "forgotten quarter,prepare,rumours"
+	}
+}

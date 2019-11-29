@@ -1,0 +1,13 @@
+{
+	"scriptFile": "fl.dll",
+	"entryPoint": "fl.Main.Run",
+	"bindings": [
+		{
+			"name": "timer",
+			"type": "timerTrigger",
+			"direction": "in",
+			"schedule": "0 */10 * * * *"
+		}
+	],
+	"disabled": false
+}

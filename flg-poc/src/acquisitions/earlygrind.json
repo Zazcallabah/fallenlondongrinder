@@ -1,0 +1,149 @@
+{
+
+	"EscapeFromNewgate": {
+		"Name": "EscapeFromNewgate",
+		"Result": "A New Arrival",
+		"Prerequisites": [
+			"Stories,Preparing for a Daring Escape,=2"
+		],
+		"Action": "prison,escape,?"
+	},
+
+	"SellDiamond": {
+		"Name": "SellDiamond",
+		"Result": "SellDiamond",
+		"Prerequisites": [
+		],
+		"Action": "sell,Magnificent Diamond,1"
+	},
+
+	"RentLodgings": {
+		"Name": "RentLodgings",
+		"Result": "Route: Lodgings",
+		"Prerequisites": [
+			"Clothing,Bundle of Ragged Clothing,<1,SellRaggedClothing",
+			"Hat,Prisoner's Mask,<1,SellPrisonersMask",
+			"Gloves,Pair of Iron Manacles,<1,SellManacles",
+			"Boots,Pair of Leg Irons,<1,SellLegIrons",
+			"Contraband,Magnificent Diamond,<1,SellDiamond",
+			"Goods,Piece of Rostygold,60,RostygoldNameBlood"
+		],
+		"Action": "watchmaker,Find somewhere to live,rent a room"
+	},
+
+	"RostygoldNameBlood": {
+		"Name": "RostygoldNameBlood",
+		"Result": "RostygoldNameBlood",
+		"Prerequisites": [
+			"Stories,A Name Scrawled in Blood,1,NameBlood1",
+			"Stories,A Name Scrawled in Blood,<4,RostygoldMedusa",
+			"Basic,Dangerous,23,RostygoldNameBlood2"
+		],
+		"Action": "watchmaker,brawl at the medusa,fight,?",
+		"Reward": 25
+	},
+
+	"RostygoldNameBlood2": {
+		"Name": "RostygoldNameBlood2",
+		"Result": "RostygoldNameBlood2",
+		"Prerequisites": [
+			"Stories,A Name Scrawled in Blood,1,NameBlood1",
+			"Stories,A Name Scrawled in Blood,<4,RostygoldMedusa",
+			"Basic,Dangerous,16,RostygoldMedusa"
+		],
+		"Action": "watchmaker,Needle-wrestling,safe",
+		"Reward": 13
+	},
+
+	"RostygoldMedusa": {
+		"Name": "RostygoldMedusa",
+		"Result": "RostygoldMedusa",
+		"Prerequisites": [],
+		"Action": "watchmaker,rowdy times,subdue",
+		"Reward": 10
+	},
+
+	"Carnival Ticket Pearl": {
+		"Name": "Carnival Ticket Pearl",
+		"Result": "Carnival Ticket",
+		"Prerequisites": [
+			"Zee-Treasures,Moon-pearl,50,Courierjob",
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1"
+		],
+		"Action": "carnival,Buy,pearl",
+		"Reward": 10
+	},
+
+	"SellRaggedClothing":{
+		"Name": "SellRaggedClothing",
+		"Result": "SellRaggedClothing",
+		"Prerequisites": [],
+		"Action": "sell,Bundle of Ragged Clothing,1"
+	},
+	"SellPrisonersMask":{
+		"Name": "SellPrisonersMask",
+		"Result": "SellPrisonersMask",
+		"Prerequisites": [],
+		"Action": "sell,Prisoner's Mask,1"
+	},
+	"SellManacles":{
+		"Name": "SellManacles",
+		"Result": "SellManacles",
+		"Prerequisites": [],
+		"Action": "sell,Pair of Iron Manacles,1"
+	},
+	"SellLegIrons":{
+		"Name": "SellLegIrons",
+		"Result": "SellLegIrons",
+		"Prerequisites": [],
+		"Action": "sell,Pair of Leg Irons,1"
+	},
+
+	"Courierjob": {
+		"Name": "Courierjob",
+		"Result": "Moon-pearl",
+		"Reward": 20,
+		"Prerequisites": [
+		],
+		"Action":"spite,alleys,Courier's work,Attempt a short cut"
+	},
+
+	"GossipHints": {
+		"Name": "GossipHints",
+		"Result": "GossipHints",
+		"Prerequisites": [],
+		"Action": "ladybones,study the secrets,listen to gossip",
+		"Reward":10
+	},
+	"CatchCatsHints": {
+		"Name": "CatchCatsHints",
+		"Result": "CatchCatsHints",
+		"Prerequisites": [
+			"BasicAbility,Shadowy,25,GossipHints"
+		],
+		"Action": "spite,The Alleys of Spite,The Cats of Spite,Catch a white cat",
+		"Reward":36
+	},
+	"VeilgardenHints": {
+		"Name": "VeilgardenHints",
+		"Result": "VeilgardenHints",
+		"Prerequisites": [
+			"Stories,A Name Signed with a Flourish,3,CatchCatsHints",
+			"BasicAbility,Persuasive,75,CatchCatsHints"
+		],
+		"Action": "veilgarden,entering society,Getting in with the servants",
+		"Reward":51
+	},
+	"Whispered Hint": {
+		"Name": "Whispered Hint",
+		"Result": "Whispered Hint",
+		"Prerequisites": [
+			"Accomplishments,The Darling of the Ambassador's Ball,1,VeilgardenHints",
+			"BasicAbility,Persuasive,85,VeilgardenHints"
+		],
+		"Action": "veilgarden,The demands of high society,attend",
+		"Reward":54
+	}
+
+
+}

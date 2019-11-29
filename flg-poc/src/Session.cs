@@ -43,7 +43,7 @@ namespace fl
 				throw new Exception($"invalid statuscode for {verb} {href} => {response.StatusCode} {data}");
 
 			var t = typeof(T);
-			if(t.IsArray)
+			if (t.IsArray)
 				return;
 
 			var msg = JsonConvert.DeserializeObject<SuccessMessage>(data);
@@ -167,7 +167,7 @@ namespace fl
 		{
 			if (!_shops.ContainsKey(shopId))
 			{
-				string s = shopId==0 ? "null" : shopId.ToString();
+				string s = shopId == 0 ? "null" : shopId.ToString();
 				_shops.Add(shopId, await Get<ShopItem[]>($"exchange/availabilities?shopId={s}"));
 			}
 			return _shops[shopId];
@@ -217,7 +217,7 @@ namespace fl
 			return await Post<Opportunity>("opportunity/draw");
 		}
 
-		public async Task<Opportunity> DiscardOpportunity(int id)
+		public async Task<Opportunity> DiscardOpportunity(long id)
 		{
 			return await Post<Opportunity>($"opportunity/discard", new { eventId = id });
 		}
@@ -265,7 +265,8 @@ namespace fl
 			return _plans;
 		}
 
-		public async Task<IEnumerable<Plan>> ListPlans(){
+		public async Task<IEnumerable<Plan>> ListPlans()
+		{
 			var plans = await Plans();
 			var pl = new List<Plan>();
 			pl.AddRange(plans.active);
@@ -280,10 +281,10 @@ namespace fl
 			return pl.FirstOrDefault(k => r.IsMatch(k.branch.name));
 		}
 
-		public async Task<bool> ExistsPlan(int id, string planKey)
+		public async Task<bool> ExistsPlan(int id)//, string planKey)
 		{
 			var pl = await ListPlans();
-			return pl.Any(k => k.branch.id == id && k.branch.planKey == planKey);
+			return pl.Any(k => k.branch.id == id );// && k.branch.planKey == planKey);
 		}
 
 		// # post plan/update {"branchId":204598,"notes":"do this","refresh":false} to save note
@@ -297,7 +298,7 @@ namespace fl
 		public async Task<SuccessResult> DeletePlan(int id)
 		{
 			_plans = null;
-			return await Post<SuccessResult>($"plan/delete", new{ branchid=id});
+			return await Post<SuccessResult>($"plan/delete", new { branchid = id });
 		}
 		public async Task<OutfitSlot[]> PostEquipOutfit(long id)
 		{
@@ -308,7 +309,8 @@ namespace fl
 			return await Post<OutfitSlot[]>($"outfit/unequip", new { qualityId = id });
 		}
 
-		public async Task<OutfitSlot[]> Outfit() {
+		public async Task<OutfitSlot[]> Outfit()
+		{
 			return await Get<OutfitSlot[]>("outfit");
 		}
 

@@ -1,0 +1,112 @@
+{
+	"MakeNameScrawledInBlood1Start": {
+		"Name": "MakeNameScrawledInBlood1Start",
+		"Result": "MakeNameScrawledInBlood1Start",
+		"Prerequisites": [
+			"Circumstance,Your Quarry,=0"
+		],
+		"Action":"watchmakers,Menace Eradication,Make your name"
+	},
+	"MakeNameScrawledInBlood1GrindRat": {
+		"Name": "MakeNameScrawledInBlood1GrindRat",
+		"Result": "MakeNameScrawledInBlood1GrindRat",
+		"Prerequisites": [
+			"Circumstance,Your Quarry,1,MakeNameScrawledInBlood1Start"
+		],
+		"Action":"watchmakers,Hunting across london,Expose"
+	},
+	"NameBlood1": {
+		"Name": "NameBlood1",
+		"Result": "NameBlood1",
+		"Prerequisites": [
+			"Contraband,Magnificent Diamond,<1,SellDiamond",
+			"Circumstance,Your Quarry,1,MakeNameScrawledInBlood1Start",
+			"Stories,Quarry: Confounded Thing is Hiding,=0,MakeNameScrawledInBlood1GrindRat"
+		],
+		"Action":"watchmakers,Hunting across london,where the rat is lairing,shoot it"
+	},
+
+
+	"MakeNamkeScrawledInBlood2Start": {
+		"Name": "MakeNamkeScrawledInBlood2Start",
+		"Result": "MakeNamkeScrawledInBlood2Start",
+		"Prerequisites": [
+			"Stories,A Name Scrawled in Blood,=1,NameBlood1",
+			"Ventures,Menace Eradication Contract: Sorrow-spider infestation,=0"
+		],
+		"Action":"watchmakers,Department of Menace Eradication,Make your name"
+	},
+
+
+	"NameBlood2": {
+		"Name": "NameBlood2",
+		"Result": "NameBlood2",
+		"Prerequisites": [
+			"Stories,A Name Scrawled in Blood,=1,NameBlood1",
+			"Ventures,Menace Eradication Contract: Sorrow-spider infestation,=1,MakeNamkeScrawledInBlood2Start"
+		],
+		"Action":"watchmakers,Destroy an Infestation of Sorrow-Spiders,Make your name/Track them to their nests"
+	},
+	"StartVermin": {
+		"Name": "StartVermin",
+		"Result": "StartVermin",
+		"Prerequisites": [
+		],
+		"Action":"watchmakers,Business on Watchmaker's Hill,Make your name! Enjoy a picnic,Let it go"
+	},
+	"GrindVermin": {
+		"Name": "GrindVermin",
+		"Result": "GrindVermin",
+		"Prerequisites": [
+		],
+		"Action":"lodgings,A Bad Case of Rattus Faber,1"
+	},
+	"VerminSigns": {
+		"Name": "VerminSigns",
+		"Result": "VerminSigns",
+		"Prerequisites": [
+		],
+		"Action":"lodgings,A rat infestation,1"
+	},
+	"NameBlood3": {
+		"Name": "NameBlood3",
+		"Result": "NameBlood3",
+		"Prerequisites": [
+			"Stories,A Name Scrawled in Blood,=2,NameBlood2",
+			"Stories,Troubled by Vermin,1,StartVermin",
+			"Stories,Troubled by Vermin,<50,VerminSigns",
+			"Stories,Troubled by Vermin,<5,GrindVermin"
+		],
+		"Action":"lodgings,A Bad Case of Rattus Faber,The final battle,?,?"
+	},
+
+
+	"NameBloodPassp": {
+		"Name": "NameBloodPassp",
+		"Result": "NameBloodPassp",
+		"Prerequisites": [
+			"Mysteries,Tale of Terror!!,5,NameBloodTerror"
+		],
+		"Action": "watchmakers,fighting ring,roses,fight"
+	},
+
+
+	"NameBloodTerror": {
+		"Name": "NameBloodTerror",
+		"Result": "NameBloodTerror",
+		"Prerequisites": [
+			"Goods,Piece of Rostygold,100"
+		],
+		"Action": "watchmakers,fighting ring,meat,clean"
+	},
+
+	"NameBlood4": {
+		"Name": "NameBlood4",
+		"Result": "NameBlood4",
+		"Prerequisites": [
+			"Stories,A Name Scrawled in Blood,=3,NameBlood3",
+			"Elder,Presbyterate Passphrase,3,NameBloodPassp"
+		],
+		"Action":"watchmakers,fighting ring,painted,2,?"
+	}
+}

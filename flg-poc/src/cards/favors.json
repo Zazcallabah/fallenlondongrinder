@@ -1,0 +1,80 @@
+{
+	"use": [
+		{
+			"name": "A Polite Invitation",
+			"action": "Reply and attend"
+		},
+		{
+			"name": "Altars and Alms-Houses: the Church",
+			"require":["Goods,Piece of Rostygold,10"],
+			"action": "south bank"
+		},
+		{
+			"name": "By the River's Side: the Docks",
+			"require": [
+				"Goods,Piece of Rostygold,10"
+			],
+			"action": "Buy a round at the Rusty Tramp"
+		},
+		{
+			"name": "The Alleys of London: the Criminals",
+			"action": "Provide an alibi"
+		},
+		{
+			"name": "Bandages and Dust: The Tomb-Colonies",
+			"action": "A night on the town"
+		},
+		{
+			"name": "Court and Cell: the Constables",
+			"require": [
+				"Goods,Piece of Rostygold,10"
+			],
+			"action": "A small donation"
+		},
+		{
+			"name": "Park and Palace: Society",
+			"require": [
+				"Rumour,Scrap of Incendiary Gossip,1"
+			],
+			"action": "Nip an inconvenient rumour in the bud"
+		},
+		{
+			"name": "Gunpowder and Zeal: the Revolutionaries",
+			"require": [
+				"Nostalgia,Vision of the Surface,1"
+			],
+			"action": "Offer a report from the Surface"
+		},
+		{
+			"name": "The Demi-Monde: Bohemians",
+			"require": [
+				"Academic,Foxfire Candle Stub,20,BuyFewerCandles",
+				"Wines,Bottle of Greyfields 1882,15"
+			],
+			"action": "Arrange a particularly Neathy tableau"
+		},
+		{
+			"name": "Slime and Amber: the Rubbery Men",
+			"action": "Shake"
+		},
+		{
+			"name": "Whispers from the Surface: The Great Game",
+			"action": "Assist in a stakeout"
+		},
+		{
+			"name": "The Roof-Tops: Urchins",
+			"require": [
+				"Companion,Lucky Weasel,1"
+			],
+			"action": "In the shadow of All Christs Spire"
+		},
+		{
+			"name": "The Lord Mayor of London",
+			"action": "protest"
+		},
+		{
+			"name": "Burning Shadows: the Devils of London",
+			"action": "Attend a lecture at the Brass Embassy"
+		}
+	]
+}

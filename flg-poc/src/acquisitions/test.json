@@ -1,0 +1,313 @@
+{
+
+	"RenownConstables5": {
+		"Result": "RenownConstables5",
+		"Name": "RenownConstables5",
+		"Action": "inventory,Curiosity,Antique Constable's Badge,Pass a tankard around",
+		"Prerequisites": [
+			"Contacts,Renown: Constables,5,RenownConstablesCarnival",
+			"Contacts,Favours: Constables,3",
+			"Curiosity,Antique Constable's Badge,1"
+		]
+	},
+	"RenownConstables8": {
+		"Result": "RenownConstables8",
+		"Name": "RenownConstables8",
+		"Action": "inventory,Curiosity,Antique Constable's Badge,Mediate peace",
+		"Prerequisites": [
+			"Contacts,Renown: Constables,8,RenownConstables5",
+			"Contacts,Favours: Constables,5",
+			"Wines,Bottle of Broken Giant 1844,1",
+			"Curiosity,Antique Constable's Badge,1"
+		]
+	},
+	"RenownConstables15": {
+		"Result": "RenownConstables15",
+		"Name": "RenownConstables15",
+		"Action": "inventory,Curiosity,Antique Constable's Badge,unjustly jailed",
+		"Prerequisites": [
+			"Contacts,Renown: Constables,15,RenownConstables8",
+			"Contacts,Favours: Constables,7",
+			"Curiosity,Antique Constable's Badge,1"
+		]
+	},
+
+	"RenownCriminals5": {
+		"Result": "RenownCriminals5",
+		"Name": "RenownCriminals5",
+		"Action": "inventory,Curiosity,Old Bone Skeleton Key,win a topsy",
+		"Prerequisites": [
+			"Contacts,Renown: Criminals,5,RenownCriminalsCarnival",
+			"Contacts,Favours: Criminals,3",
+			"Curiosity,Old Bone Skeleton Key,1"
+		]
+	},
+	"London Street Sign": {
+		"Result":"London Street Sign",
+		"Name":"London Street Sign",
+		"Prerequisites": ["Currency,Penny,500"],
+		"Action":"buy,Merrigans,London Street Sign,1"
+	},
+	"RenownCriminals8": {
+		"Result": "RenownCriminals8",
+		"Name": "RenownCriminals8",
+		"Action": "inventory,Curiosity,Old Bone Skeleton Key,mediate",
+		"Prerequisites": [
+			"Contacts,Renown: Criminals,8,RenownCriminals5",
+			"Contacts,Favours: Criminals,5",
+			"Contraband,London Street Sign,1",
+			"Curiosity,Old Bone Skeleton Key,1"
+		]
+	},
+	"RenownCriminals15": {
+		"Result": "RenownCriminals15",
+		"Name": "RenownCriminals15",
+		"Action": "inventory,Curiosity,Old Bone Skeleton Key,arrange",
+		"Prerequisites": [
+			"Contacts,Renown: Criminals,15,RenownCriminals8",
+			"Contacts,Favours: Criminals,7",
+			"Curiosity,Old Bone Skeleton Key,1"
+		]
+	},
+	"RenownDocks5": {
+		"Result": "RenownDocks5",
+		"Name": "RenownDocks5",
+		"Action": "inventory,Curiosity,Engraved Pewter Tankard,funeral",
+		"Prerequisites": [
+			"Contacts,Renown: The Docks,5,RenownDocksCarnival",
+			"Contacts,Favours: The Docks,3",
+			"Curiosity,Engraved Pewter Tankard,1"
+		]
+	},
+	"RenownDocks8": {
+		"Result": "RenownDocks8",
+		"Name": "RenownDocks8",
+		"Action": "inventory,Curiosity,Engraved Pewter Tankard,disturbance",
+		"Prerequisites": [
+			"Contacts,Renown: The Docks,8,RenownDocks5",
+			"Contacts,Favours: The Docks,5",
+			"Wines,Bottle of Greyfields 1882,125",
+			"Curiosity,Engraved Pewter Tankard,1"
+		]
+	},
+	"RenownDocks15": {
+		"Result": "RenownDocks15",
+		"Name": "RenownDocks15",
+		"Action": "inventory,Curiosity,Engraved Pewter Tankard,lovestruck",
+		"Prerequisites": [
+			"Contacts,Renown: The Docks,15,RenownDocks8",
+			"Contacts,Favours: The Docks,7",
+			"Curiosity,Engraved Pewter Tankard,1"
+		]
+	},
+	"RenownGreatGame5": {
+		"Result": "RenownGreatGame5",
+		"Name": "RenownGreatGame5",
+		"Action": "inventory,Great Game,Copper Cipher Ring,particular ink",
+		"Prerequisites": [
+			"Contacts,Renown: The Great Game,5,RenownGreatGameCarnival",
+			"Contacts,Favours: The Great Game,3",
+			"Great Game,Copper Cipher Ring,1"
+		]
+	},
+	"RenownGreatGame8": {
+		"Result": "RenownGreatGame8",
+		"Name": "RenownGreatGame8",
+		"Action": "inventory,Great Game,Copper Cipher Ring,arrange soiree",
+		"Prerequisites": [
+			"Contacts,Renown: The Great Game,8,RenownGreatGame5",
+			"Contacts,Favours: The Great Game,5",
+			"Great Game,Copper Cipher Ring,1"
+		]
+	},
+	"RenownGreatGame15": {
+		"Result": "RenownGreatGame15",
+		"Name": "RenownGreatGame15",
+		"Action": "inventory,Great Game,Copper Cipher Ring,forgotten match",
+		"Prerequisites": [
+			"Contacts,Renown: The Great Game,15,RenownGreatGame8",
+			"Contacts,Favours: The Great Game,7",
+			"Great Game,Copper Cipher Ring,1"
+		]
+	},
+	"RenownHell5": {
+		"Result": "RenownHell5",
+		"Name": "RenownHell5",
+		"Action": "inventory,Infernal,Bright Brass Skull,Introduce an acquaintance to the Devils",
+		"Prerequisites": [
+			"Contacts,Renown: Hell,5,RenownHellCarnival",
+			"Contacts,Favours: Hell,3",
+			"Infernal,Bright Brass Skull,1"
+		]
+	},
+	"RenownHell8": {
+		"Result": "RenownHell8",
+		"Name": "RenownHell8",
+		"Action": "inventory,Infernal,Bright Brass Skull,Hell's dignitaries",
+		"Prerequisites": [
+			"Contacts,Renown: Hell,8,RenownHell5",
+			"Contacts,Favours: Hell,5",
+			"Infernal,Bright Brass Skull,1"
+		]
+	},
+	"RenownHell15": {
+		"Result": "RenownHell15",
+		"Name": "RenownHell15",
+		"Action": "inventory,Infernal,Bright Brass Skull,private soiree",
+		"Prerequisites": [
+			"Contacts,Renown: Hell,15,RenownHell8",
+			"Contacts,Favours: Hell,7",
+			"Infernal,Bright Brass Skull,1"
+		]
+	},
+	"RenownRevolutionaries5": {
+		"Result": "RenownRevolutionaries5",
+		"Name": "RenownRevolutionaries5",
+		"Action": "inventory,Curiosity,Red-Feathered Pin,recruit new blood",
+		"Prerequisites": [
+			"Contacts,Renown: Revolutionaries,5,RenownRevolutionariesCarnival",
+			"Contacts,Favours: Revolutionaries,3",
+			"Curiosity,Red-Feathered Pin,1"
+		]
+	},
+	"RenownRevolutionaries8": {
+		"Result": "RenownRevolutionaries8",
+		"Name": "RenownRevolutionaries8",
+		"Action": "inventory,Curiosity,Red-Feathered Pin,awake",
+		"Prerequisites": [
+			"Contacts,Renown: Revolutionaries,8,RenownRevolutionaries5",
+			"Contacts,Favours: Revolutionaries,5",
+			"Curiosity,Red-Feathered Pin,1"
+		]
+	},
+	"RenownRevolutionaries15": {
+		"Result": "RenownRevolutionaries15",
+		"Name": "RenownRevolutionaries15",
+		"Action": "inventory,Curiosity,Red-Feathered Pin,bury the council",
+		"Prerequisites": [
+			"Contacts,Renown: Revolutionaries,15,RenownRevolutionaries8",
+			"Contacts,Favours: Revolutionaries,7",
+			"Curiosity,Red-Feathered Pin,1"
+		]
+	},
+	"RenownRubberyMen5": {
+		"Result": "RenownRubberyMen5",
+		"Name": "RenownRubberyMen5",
+		"Action": "inventory,Rubbery,Nodule of Pulsating Amber,train the rubbery racer",
+		"Prerequisites": [
+			"Contacts,Renown: Rubbery Men,5,RenownRubberyMenCarnival",
+			"Contacts,Favours: Rubbery Men,3",
+			"Rubbery,Nodule of Pulsating Amber,1"
+		]
+	},
+	"RenownRubberyMen8": {
+		"Result": "RenownRubberyMen8",
+		"Name": "RenownRubberyMen8",
+		"Action": "inventory,Rubbery,Nodule of Pulsating Amber,arrange",
+		"Prerequisites": [
+			"Contacts,Renown: Rubbery Men,8,RenownRubberyMen5",
+			"Contacts,Favours: Rubbery Men,5",
+			"Rubbery,Nodule of Pulsating Amber,1"
+		]
+	},
+	"RenownRubberyMen15": {
+		"Result": "RenownRubberyMen15",
+		"Name": "RenownRubberyMen15",
+		"Action": "inventory,Rubbery,Nodule of Pulsating Amber,flophouse",
+		"Prerequisites": [
+			"Contacts,Renown: Rubbery Men,15,RenownRubberyMen8",
+			"Contacts,Favours: Rubbery Men,7",
+			"Rubbery,Nodule of Pulsating Amber,1"
+		]
+	},
+	"RenownSociety5": {
+		"Result": "RenownSociety5",
+		"Name": "RenownSociety5",
+		"Action": "inventory,Curiosity,Entry in Slowcake's Exceptionals,build a reputation",
+		"Prerequisites": [
+			"Contacts,Renown: Society,5,RenownSocietyCarnival",
+			"Contacts,Favours: Society,3",
+			"Curiosity,Entry in Slowcake's Exceptionals,1"
+		]
+	},
+	"RenownSociety8": {
+		"Result": "RenownSociety8",
+		"Name": "RenownSociety8",
+		"Action": "inventory,Curiosity,Entry in Slowcake's Exceptionals,arrange",
+		"Prerequisites": [
+			"Contacts,Renown: Society,8,RenownSociety5",
+			"Contacts,Favours: Society,5",
+			"Curiosity,Entry in Slowcake's Exceptionals,1"
+		]
+	},
+	"RenownSociety15": {
+		"Result": "RenownSociety15",
+		"Name": "RenownSociety15",
+		"Action": "inventory,Curiosity,Entry in Slowcake's Exceptionals,remind",
+		"Prerequisites": [
+			"Contacts,Renown: Society,15,RenownSociety8",
+			"Contacts,Favours: Society,7",
+			"Curiosity,Entry in Slowcake's Exceptionals,1"
+		]
+	},
+	"RenownTombColonies5": {
+		"Result": "RenownTombColonies5",
+		"Name": "RenownTombColonies5",
+		"Action": "inventory,Rumour,Diary of the Dead,attend",
+		"Prerequisites": [
+			"Contacts,Renown: Tomb-Colonies,5,RenownTombColoniesCarnival",
+			"Contacts,Favours: Tomb-Colonies,3",
+			"Rumour,Diary of the Dead,1"
+		]
+	},
+	"RenownTombColonies8": {
+		"Result": "RenownTombColonies8",
+		"Name": "RenownTombColonies8",
+		"Action": "inventory,Rumour,Diary of the Dead,intervene",
+		"Prerequisites": [
+			"Contacts,Renown: Tomb-Colonies,8,RenownTombColonies5",
+			"Contacts,Favours: Tomb-Colonies,5",
+			"Rumour,Diary of the Dead,1"
+		]
+	},
+	"RenownTombColonies15": {
+		"Result": "RenownTombColonies15",
+		"Name": "RenownTombColonies15",
+		"Action": "inventory,Rumour,Diary of the Dead,rouse",
+		"Prerequisites": [
+			"Contacts,Renown: Tomb-Colonies,15,RenownTombColonies8",
+			"Contacts,Favours: Tomb-Colonies,7",
+			"Rumour,Diary of the Dead,1"
+		]
+	},
+	"RenownUrchins5": {
+		"Result": "RenownUrchins5",
+		"Name": "RenownUrchins5",
+		"Action": "inventory,Contraband,Rookery Password,assist",
+		"Prerequisites": [
+			"Contacts,Renown: Urchins,5,RenownUrchinsCarnival",
+			"Contacts,Favours: Urchins,3",
+			"Contraband,Rookery Password,1"
+		]
+	},
+	"RenownUrchins8": {
+		"Result": "RenownUrchins8",
+		"Name": "RenownUrchins8",
+		"Action": "inventory,Contraband,Rookery Password,knotted sock",
+		"Prerequisites": [
+			"Contacts,Renown: Urchins,8,RenownUrchins5",
+			"Contacts,Favours: Urchins,5",
+			"Contraband,Rookery Password,1"
+		]
+	},
+	"RenownUrchins15": {
+		"Result": "RenownUrchins15",
+		"Name": "RenownUrchins15",
+		"Action": "inventory,Contraband,Rookery Password,regiment urchin",
+		"Prerequisites": [
+			"Contacts,Renown: Urchins,15,RenownUrchins8",
+			"Contacts,Favours: Urchins,7",
+			"Contraband,Rookery Password,1"
+		]
+	}
+}

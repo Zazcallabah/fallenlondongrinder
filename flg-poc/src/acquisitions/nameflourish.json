@@ -1,0 +1,169 @@
+{
+	"NameFlourish1Start": {
+		"Name": "NameFlourish1Start",
+		"Result": "Commission: Praising Fungus in Verse",
+		"Prerequisites": [
+		],
+		"Action": "veilgarden,Make Your Name: A Commissioned Epic,Mushroom Harvest"
+	},
+	"NameFlourish1Grind": {
+		"Name": "NameFlourish1Grind",
+		"Result": "NameFlourish1Grind",
+		"Prerequisites": [
+			"Venture,Commission: Praising Fungus in Verse,1,NameFlourish1Start"
+		],
+		"Action": "veilgarden,Make Your Name: A Commissioned Epic,field work"
+	},
+	"NameFlourish1": {
+		"Name": "NameFlourish1",
+		"Result": "NameFlourish1",
+		"Prerequisites": [
+			"Contraband,Magnificent Diamond,<1,SellDiamond",
+			"Venture,Commission: Praising Fungus in Verse,1,NameFlourish1Start",
+			"Progress,Inspired...,6,NameFlourish1Grind"
+		],
+		"Action": "veilgarden,Make Your Name: A Commissioned Epic,Honest"
+	},
+	"NameFlourish2": {
+		"Name": "NameFlourish2",
+		"Result": "NameFlourish2",
+		"Prerequisites": [
+			"Stories,A Name Signed with a Flourish,1,NameFlourish1",
+			"Venture,Seduction: Honey-Sipping Heiress,6,NameFlourish2Grind3"
+		],
+		"Action": "veilgarden,honey-sipping heiress,let her down gently"
+	},
+
+	"NameFlourish2Start": {
+		"Name": "NameFlourish2Start",
+		"Result": "NameFlourish2Start",
+		"Prerequisites": [
+		],
+		"Action": "veilgarden,Making Your Name: Engage in a Notable Affair,Begin a romance with a Honey-Sipping Heiress,Begin"
+	},
+
+
+	"NameFlourish2Grind1": {
+		"Name": "NameFlourish2Grind1",
+		"Result": "NameFlourish2Grind1",
+		"Prerequisites": [
+			"Venture,Seduction: Honey-Sipping Heiress,1,NameFlourish2Start"
+		],
+		"Action": "veilgarden,charming young heiress,faster"
+	},
+
+	"NameFlourish2Grind2": {
+		"Name": "NameFlourish2Grind2",
+		"Result": "NameFlourish2Grind2",
+		"Prerequisites": [
+			"Venture,Seduction: Honey-Sipping Heiress,1,NameFlourish2Start",
+			"Progress,Fascinating...,5,NameFlourish2Grind1"
+		],
+		"Action": "veilgarden,charming young heiress,Commence"
+	},
+	"NameFlourish2Grind3": {
+		"Name": "NameFlourish2Grind3",
+		"Result": "NameFlourish2Grind3",
+		"Prerequisites": [
+			"Venture,Seduction: Honey-Sipping Heiress,2,NameFlourish2Grind2"
+		],
+		"Action": "veilgarden,honey-sipping heiress,disgraceful suggestion/taste of danger/stay as they are"
+	},
+
+	"NameFlourishWorkingOn": {
+		"Name": "NameFlourishWorkingOn",
+		"Result": "NameFlourishWorkingOn",
+		"Prerequisites": [
+		],
+		"Action": "veilgarden,Making Your Name: Writing a Short Story,begin,Write a Short Story"
+	},
+
+	"NameFlourishPotential": {
+		"Name": "NameFlourishPotential",
+		"Result": "NameFlourishPotential",
+		"Prerequisites": [
+			"Curiosity,Manuscript Page,3",
+			"BasicAbility,Persuasive,60,CautiousEdit"
+		],
+		"Action": "veilgarden,writer,rework,A Daring Edit"
+	},
+	"CautiousEdit": {
+		"Name": "NameFlourishPotential",
+		"Result": "NameFlourishPotential",
+		"Prerequisites": [
+			"Curiosity,Manuscript Page,3",
+			"Progress,Potential,<26,DaringEditFinal"
+		],
+		"Action": "veilgarden,writer,rework,A Cautious Edit"
+	},
+	"DaringEditFinal": {
+		"Name": "DaringEditFinal",
+		"Result": "DaringEditFinal",
+		"Prerequisites": [
+			"Curiosity,Manuscript Page,3"
+		],
+		"Action": "veilgarden,writer,rework,A Daring Edit"
+	},
+	"NameFlourish3": {
+		"Name": "NameFlourish3",
+		"Result": "A Name Signed with a Flourish",
+		"Prerequisites": [
+			"Stories,A Name Signed with a Flourish,2,NameFlourish2",
+			"Circumstance,Working on...,=31,NameFlourishWorkingOn",
+			"Progress,Potential,30,NameFlourishPotential",
+			"Curiosity,Manuscript Page,10"
+		],
+		"Action": "veilgarden,The Writer's Desk,rework,finish,Make Your Name: Publish your story"
+	},
+
+	"SeamstressSilk": {
+		"Name": "SeamstressSilk",
+		"Result": "SeamstressSilk",
+		"Prerequisites": [],
+		"Action": "veilgarden,The Seamstress' favour,1"
+	},
+
+	"FlourishGossipGrind": {
+		"Name": "FlourishGossipGrind",
+		"Result": "FlourishGossipGrind",
+		"Prerequisites": [
+			"Rumour,Inkling of Identity,50,FlourishGossipGrind2"
+		],
+		"Action": "inventory,Rumour,Inkling of Identity,discuss"
+	},
+
+	"FlourishGossipGrind2": {
+		"Name": "FlourishGossipGrind2",
+		"Result": "FlourishGossipGrind2",
+		"Prerequisites": [
+			"Rumour,Proscribed Material,250,FlourishGossipGrind3"
+		],
+		"Action": "inventory,Rumour,Proscribed Material,armful"
+	},
+
+	"FlourishGossipGrind3": {
+		"Name": "FlourishGossipGrind3",
+		"Result": "FlourishGossipGrind3",
+		"Prerequisites": [
+		],
+		"Action": "veilgarden,Charm an influential social butterfly,1"
+	},
+	"FlourishGossipGrindProscribed1": {
+		"Name": "FlourishGossipGrindProscribed1",
+		"Result": "FlourishGossipGrindProscribed1",
+		"Prerequisites": [
+		],
+		"Action": "veilgarden,Rescue banned books,pose"
+	},
+	"NameFlourish4": {
+		"Name": "NameFlourish4",
+		"Result": "A Name Signed with a Flourish",
+		"Prerequisites": [
+			"Stories,A Name Signed with a Flourish,3,NameFlourish3",
+			"Contacts,Favours: Society,1,RenownSocietyCarnival",
+			"Rag trade,Silk Scrap,500,SeamstressSilk",
+			"Rumour,Scrap of Incendiary Gossip,5,FlourishGossipGrind"
+		],
+		"Action": "veilgarden,Make Your Name: Getting to the Ball,Calling in favours,1"
+	}
+}

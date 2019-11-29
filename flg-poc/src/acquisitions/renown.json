@@ -1,0 +1,283 @@
+{
+	"ConsumeChurch": {
+		"Name": "ConsumeChurch",
+		"Result": "ConsumeChurch",
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
+			"Contacts,Favours: The Church,1"
+		],
+		"Action": "shutteredpalace,Call in favours,vicar-general"
+	},
+	"ConsumeBohemians": {
+		"Name": "ConsumeBohemians",
+		"Result": "ConsumeBohemians",
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
+			"Contacts,Favours: Bohemians,1"
+		],
+		"Action": "shutteredpalace,Call in favours,bohemian friends"
+	},
+	"ConsumeConstables": {
+		"Name": "ConsumeConstables",
+		"Result": "ConsumeConstables",
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
+			"Contacts,Favours: Constables,1"
+		],
+		"Action": "shutteredpalace,Call in favours,commissioner"
+	},
+	"ConsumeSociety": {
+		"Name": "ConsumeSociety",
+		"Result": "ConsumeSociety",
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
+			"Contacts,Favours: Society,1"
+		],
+		"Action": "shutteredpalace,Call in favours,lady-in-waiting"
+	},
+
+	"ConsumeTombColonies": {
+		"Name": "ConsumeTombColonies",
+		"Result": "ConsumeTombColonies",
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
+			"Contacts,Favours: Tomb-Colonies,1"
+		],
+		"Action": "forgottenquarter,Call in favours,dead men"
+	},
+	"ConsumeRubbery": {
+		"Name": "ConsumeRubbery",
+		"Result": "ConsumeRubbery",
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
+			"Contacts,Favours: Rubbery Men,1"
+		],
+		"Action": "forgottenquarter,Call in favours,curious"
+	},
+	"ConsumeHell": {
+		"Name": "ConsumeHell",
+		"Result": "ConsumeHell",
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
+			"Contacts,Favours: Hell,1"
+		],
+		"Action": "forgottenquarter,Call in favours,soothing"
+	},
+
+	"ConsumeGreatGame": {
+		"Name": "ConsumeGreatGame",
+		"Result": "ConsumeGreatGame",
+		"Prerequisites": [
+			"Route,Route: Wolfstack Docks,1",
+			"Contacts,Favours: The Great Game,1"
+		],
+		"Action": "wolfstack,Call in favours,elliptical"
+	},
+	"ConsumeDocks": {
+		"Name": "ConsumeDocks",
+		"Result": "ConsumeDocks",
+		"Prerequisites": [
+			"Route,Route: Wolfstack Docks,1",
+			"Contacts,Favours: The Docks,1"
+		],
+		"Action": "wolfstack,Call in favours,backslapping"
+	},
+
+	"RenownBohemiansCarnival": {
+		"Name": "RenownBohemiansCarnival",
+		"Result": "RenownBohemiansCarnival",
+		"Prerequisites": [
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: Bohemians,<7,ConsumeBohemians"
+		],
+		"Action": "carnival,The Big Top,Meet your bohemian friends"
+	},
+	"RenownChurchCarnival": {
+		"Name": "RenownChurchCarnival",
+		"Result": "RenownChurchCarnival",
+		"Prerequisites": [
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: The Church,<7,ConsumeChurch"
+		],
+		"Action": "carnival,The Big Top,churchmen"
+	},
+	"RenownConstablesCarnival": {
+		"Name": "RenownConstablesCarnival",
+		"Result": "RenownConstablesCarnival",
+		"Prerequisites": [
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: Constables,<7,ConsumeConstables"
+		],
+		"Action": "carnival,The Big Top,constables"
+	},
+	"RenownHellCarnival": {
+		"Name": "RenownHellCarnival",
+		"Result": "RenownHellCarnival",
+		"Prerequisites": [
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: Hell,<7,ConsumeHell"
+		],
+		"Action": "carnival,The Big Top,some devils"
+	},
+	"RenownSocietyCarnival": {
+		"Name": "RenownSocietyCarnival",
+		"Result": "RenownSocietyCarnival",
+		"Prerequisites": [
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: Society,<7,ConsumeSociety"
+		],
+		"Action": "carnival,The Big Top,high society"
+	},
+
+	"RenownTombColoniesCarnival": {
+		"Name": "RenownTombColoniesCarnival",
+		"Result": "RenownTombColoniesCarnival",
+		"Prerequisites": [
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: Tomb-Colonies,<7,ConsumeTombColonies"
+		],
+		"Action": "carnival,The Big Top,Meet tomb-colonists"
+	},
+
+
+	"RenownRevolutionariesCarnival": {
+		"Name": "RenownRevolutionariesCarnival",
+		"Result": "RenownRevolutionariesCarnival",
+		"Prerequisites": [
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
+		],
+		"Action": "carnival,Sideshows,revolutionaries"
+	},
+
+	"RenownRubberyMenCarnival": {
+		"Name": "RenownRubberyMenCarnival",
+		"Result": "RenownRubberyMenCarnival",
+		"Prerequisites": [
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
+			"Curiosity,Carnival Ticket,2,Carnival Ticket Clues",
+			"Contacts,Favours: Rubbery Men,<7,ConsumeRubberyMen"
+		],
+		"Action": "carnival,Sideshows,Rubbery men"
+	},
+
+	"RenownUrchinsCarnival": {
+		"Name": "RenownUrchinsCarnival",
+		"Result": "RenownUrchinsCarnival",
+		"Prerequisites": [
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
+		],
+		"Action": "carnival,Sideshows,urchins"
+	},
+
+	"RenownCriminalsCarnival": {
+		"Name": "RenownCriminalsCarnival",
+		"Result": "RenownCriminalsCarnival",
+		"Prerequisites": [
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
+			"Curiosity,Carnival Ticket,2,Carnival Ticket Clues"
+		],
+		"Action": "carnival,Sideshows,criminals"
+	},
+
+	"RenownDocksCarnival": {
+		"Name": "RenownDocksCarnival",
+		"Result": "RenownDocksCarnival",
+		"Prerequisites": [
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: The Docks,<7,ConsumeDocks"
+		],
+		"Action": "carnival,Sideshows,zailors"
+	},
+
+	"RenownGreatGameCarnival": {
+		"Name": "RenownGreatGameCarnival",
+		"Result": "RenownGreatGameCarnival",
+		"Prerequisites": [
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
+			"Contacts,Favours: The Great Game,<7,ConsumeGreatGame"
+		],
+		"Action": "carnival,Sideshows,meet with spies"
+	},
+
+	"RenownBohemians5": {
+		"Result": "RenownBohemians5",
+		"Name": "RenownBohemians5",
+		"Action": "inventory,Curiosity,Ornate Typewriter,artistic commune",
+		"Prerequisites": [
+			"Contacts,Renown: Bohemians,5,RenownBohemiansCarnival",
+			"Contacts,Favours: Bohemians,3",
+			"Curiosity,Ornate TypeWriter,1"
+		]
+	},
+	"RenownBohemians8": {
+		"Result": "RenownBohemians8",
+		"Name": "RenownBohemians8",
+		"Action": "inventory,Curiosity,Ornate Typewriter,suffer for art",
+		"Prerequisites": [
+			"Contacts,Renown: Bohemians,8,RenownBohemians5",
+			"Contacts,Favours: Bohemians,5",
+			"Wines,Bottle of Strangling Willow Absinthe,4",
+			"Wild Words,Maniac's Prayer,5",
+			"Curiosity,Ornate TypeWriter,1"
+		]
+	},
+	"RenownBohemians15": {
+		"Result": "RenownBohemians15",
+		"Name": "RenownBohemians15",
+		"Action": "inventory,Curiosity,Ornate Typewriter,Aid those",
+		"Prerequisites": [
+			"Contacts,Renown: Bohemians,15,RenownBohemians8",
+			"Contacts,Favours: Bohemians,7",
+			"Currency,Penny,500",
+			"Wines,Bottle of Morelways 1872,25",
+			"Wild Words,Maniac's Prayer,25",
+			"Nostalgia,Touching Love Story,1",
+			"Curiosity,Ornate TypeWriter,1"
+		]
+	},
+	"RenownChurch5": {
+		"Result": "RenownChurch5",
+		"Name": "RenownChurch5",
+		"Action": "inventory,Curiosity,Tiny Jewelled Reliquary,distribute",
+		"Prerequisites": [
+			"Contacts,Renown: The Church,5,RenownChurchCarnival",
+			"Contacts,Favours: The Church,3",
+			"Curiosity,Tiny Jewelled Reliquary,1"
+		]
+	},
+	"RenownChurch8": {
+		"Result": "RenownChurch8",
+		"Name": "RenownChurch8",
+		"Action": "inventory,Curiosity,Tiny Jewelled Reliquary,return souls",
+		"Prerequisites": [
+			"Contacts,Renown: The Church,8,RenownChurch5",
+			"Contacts,Favours: The Church,5",
+			"Infernal,Soul,125,BuySouls",
+			"Curiosity,Tiny Jewelled Reliquary,1"
+		]
+	},
+	"RenownChurch15": {
+		"Result": "RenownChurch15",
+		"Name": "RenownChurch15",
+		"Action": "inventory,Curiosity,Tiny Jewelled Reliquary,broker",
+		"Prerequisites": [
+			"Contacts,Renown: The Church,15,RenownChurch8",
+			"Contacts,Favours: The Church,7",
+			"Mysteries,Tale of Terror!!,5",
+			"Infernal,Brilliant Soul,5",
+			"Nostalgia,Vision of the Surface,5",
+			"Wild Words,Maniac's Prayer,50",
+			"Curiosity,Tiny Jewelled Reliquary,1"
+		]
+	}
+}

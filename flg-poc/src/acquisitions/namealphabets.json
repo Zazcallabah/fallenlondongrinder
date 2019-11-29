@@ -1,0 +1,235 @@
+{
+	"MakeNameSecret1Start": {
+		"Name": "MakeNameSecret1Start",
+		"Result": "MakeNameSecret1Start",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,=0",
+			"Circumstance,Engaged in a Case,=0"
+		],
+		"Action":"ladybones,Making Your Name: The Case of the Honey-Addled Detective,1"
+	},
+
+	"MakeNameSecret1Solve": {
+		"Name": "MakeNameSecret1Solve",
+		"Result": "MakeNameSecret1Solve",
+		"Prerequisites": [
+			"Circumstance,Engaged in a Case,2,MakeNameSecret1Start",
+			"Acquaintances,Acquaintance: the Honey-Addled Detective,=0"
+		],
+		"Action":"ladybones,Pursue your current Case,1"
+	},
+
+	"NameAlphabets1": {
+		"Name": "NameAlphabets1",
+		"Result": "NameAlphabets1",
+		"Prerequisites": [
+			"Contraband,Magnificent Diamond,<1,SellDiamond",
+			"Stories,Detective's Progress,10,MakeNameSecret1Solve"
+		],
+		"Action":"ladybones,Pursue your current Case,Closing the Case,?,?"
+	},
+	"NameAlphabets2": {
+		"Name": "NameAlphabets2",
+		"Result": "NameAlphabets2",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,1,NameAlphabets1",
+			"Ventures,Surveillance Contract: Find a Tattooed Messenger's contact,4,TattooedMessenger4"
+		],
+		"Action": "carnival,tattooed courier,constables,?"
+	},
+
+	"SeekingTattooed": {
+		"Name": "SeekingTattooed",
+		"Result": "SeekingTattooed",
+		"Prerequisites": [
+			"BasicAbility,Shadowy,22,SeekingTattooedEasy"
+		],
+		"Action": "ladybones,tattooed courier,search their belongings"
+	},
+
+	"SeekingTattooedEasy": {
+		"Name": "SeekingTattooedEasy",
+		"Result": "SeekingTattooedEasy",
+		"Prerequisites": [
+		],
+		"Action": "ladybones,tattooed courier,straightforward"
+	},
+
+	"TattooedMessenger4": {
+		"Name": "TattooedMessenger4",
+		"Result": "TattooedMessenger4",
+		"Prerequisites": [
+			"Venture,Surveillance Contract: Find a Tattooed Messenger's contact,3,TattooedMessenger3",
+			"Progress,Seeking...,5,SeekingTattooed"
+		],
+		"Action": "ladybones,tattooed courier,urchin"
+	},
+
+	"TattooedMessenger3": {
+		"Name": "TattooedMessenger3",
+		"Result": "TattooedMessenger3",
+		"Prerequisites": [
+			"Venture,Surveillance Contract: Find a Tattooed Messenger's contact,2,TattooedMessenger2",
+			"Progress,Seeking...,5,SeekingTattooed"
+		],
+		"Action": "ladybones,tattooed courier,actress"
+	},
+
+	"TattooedMessenger2": {
+		"Name": "TattooedMessenger2",
+		"Result": "TattooedMessenger2",
+		"Prerequisites": [
+			"Venture,Surveillance Contract: Find a Tattooed Messenger's contact,1,TattooedMessenger1",
+			"Progress,Seeking...,5,SeekingTattooed"
+		],
+		"Action": "ladybones,tattooed courier,nearly"
+	},
+
+	"TattooedMessenger1": {
+		"Name": "TattooedMessenger1",
+		"Result": "TattooedMessenger1",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,1,NameSecret1",
+			"Venture,Surveillance Contract: Find a Tattooed Messenger's contact,=0"
+		],
+		"Action": "ladybones,Making Your Name: Find a Tattooed Courier,accept"
+	},
+
+	"NameSecret3Start": {
+		"Name": "NameSecret3Start",
+		"Result": "NameSecret3Start",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2",
+			"Circumstance,Engaged in a Case,=0"
+		],
+		"Action": "ladybones,Honey-Addled Detective,The Case of the Absconding Devil"
+	},
+
+	"NameSecretGetProgress": {
+		"Name": "NameSecretGetProgress",
+		"Result": "NameSecretGetProgress",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2"
+		],
+		"Action": "ladybones,Pursue your current Case,1"
+	},
+
+	"NameSecret3Grind": {
+		"Name": "NameSecret3Grind",
+		"Result": "NameSecret3Grind",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2",
+			"Circumstance,Engaged in a Case,=3,NameSecret3Start",
+			"Stories,Detective's Progress,12,NameSecretGetProgress"
+		],
+		"Action": "ladybones,find an Absconding Devil,Look for more evidence"
+	},
+
+	"NameAlphabets3": {
+		"Name": "NameAlphabets3",
+		"Result": "NameAlphabets3",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2",
+			"Stories,Evidence in the Case of the Absconding Devil,4,NameSecret3Grind",
+			"Stories,Detective's Progress,12,NameSecretGetProgress"
+		],
+		"Action": "ladybones,Find an Absconding Devil,Arrange a meeting with the singer"
+	},
+
+
+	"GiveUpExistingCase": {
+		"Name": "GiveUpExistingCase",
+		"Result": "GiveUpExistingCase",
+		"Prerequisites": [],
+		"Action":"ladybones,Working with the Honey-Addled Detective,abandon your current case"
+	},
+
+	"NameA4Start": {
+		"Name": "NameA4Start",
+		"Result": "NameA4Start",
+		"Prerequisites": [
+			"Circumstances,Engaged in a Case,=0,GiveUpExistingCase"
+		],
+		"Action":"ladybones,Life on Ladybones Road,Begin a Case: the Disappearing Heiress"
+	},
+
+	"NameA4GrindEvidence": {
+		"Name": "NameA4GrindEvidence",
+		"Result": "NameA4GrindEvidence",
+		"Prerequisites": [
+			"Circumstances,Engaged in a Case,=5,NameA4Start",
+			"Stories,Detective's Progress,10,NameSecretGetProgress"
+		],
+		"Action":"ladybones,Pursue your current Case,A development: the Disappearing Heiress,1"
+	},
+
+	"NameA4GetClay": {
+		"Name": "NameA4GetClay",
+		"Result": "NameA4GetClay",
+		"Prerequisites": [
+			"Mysteries,Whispered Hint,50",
+			"Zee-Treasures,Moon-Pearl,50"
+		],
+		"Action":"ladybones,Life on Ladybones Road,find your way to the clay quarters"
+	},
+
+	"NameAlphabets4": {
+		"Name": "NameAlphabets4",
+		"Result": "NameAlphabets4",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,3,NameAlphabets3",
+			"Stories,Evidence in the Case of the Missing Heiress,3,NameA4GrindEvidence",
+			"Stories,Detective's Progress,10,NameSecretGetProgress",
+			"Stories,A visitor to the Clay Quarters,1,NameA4GetClay"
+		],
+		"Action": "ladybones,Pursue your current Case,A development: the Disappearing Heiress,navigate,leave her,?"
+	},
+
+
+	"NameAlphabets5": {
+		"Name": "NameAlphabets5",
+		"Result": "NameAlphabets5",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,4,NameAlphabets4",
+			"Goods,Nevercold Brass Sliver,500,NightwatchfforBrass",
+			"Infernal,Soul,250",
+			"Mysteries,Cryptic Clue,100"
+		],
+		"Action": "ladybones,Making Your Name: A Raid on the Brass Embassy!,Plan the raid for the constables,?"
+	},
+
+
+	"TombSeven": {
+		"Name": "TombSeven",
+		"Result": "TombSeven",
+		"Prerequisites": [
+			"Route,Route: The Forgotten Quarter,1",
+			"Goods,Crate of Expedition Supplies,60"
+		],
+		"Action": "forgotten quarter,prepare,begin,tomb of seven"
+	},
+
+
+	"NameAlphabetStones": {
+		"Name": "NameAlphabetStones",
+		"Result": "NameAlphabetStones",
+		"Prerequisites": [
+			"Stories,Archaeologist,3",
+			"Circumstance,An Expedition,=7,TombSeven",
+			"Progress,Archaeologist's Progress,30,EarlyProgressFilter"
+		],
+		"Action": "forgotten quarter,Pursuing an Archaeological Expedition,The Tomb of the Seven!"
+	},
+
+	"NameAlphabets6": {
+		"Name": "NameAlphabets6",
+		"Result": "NameAlphabets6",
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,5,NameAlphabets5",
+			"Curiosity,Set of Correspondence Stones,1,NameAlphabetStones",
+			"Mysteries,Cryptic Clue,250",
+			"Mysteries,Appalling Secret,3"
+		],
+		"Action": "forgottenquarter,Making Your Name: The Secrets of the Stones,scholar,salon"
+	}
+}

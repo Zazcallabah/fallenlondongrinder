@@ -1,8 +1,6 @@
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.IO;
@@ -13,10 +11,18 @@ namespace fl
 	{
 		public readonly IDictionary<string, Acquisition> Acquisitions = new Dictionary<string, Acquisition>();
 		Session _session;
+		GameState _state;
+		Handler _handler;
 
-		public AcquisitionEngine(Session s)
+		public Handler Handler {get;set;}
+
+		Func<ActionString, HasActionsLeft> _doAction;
+
+		public AcquisitionEngine(Session session, GameState state, Func<ActionString, HasActionsLeft> callback)
 		{
-			_session = s;
+			_session = session;
+			_doAction = callback;
+			_state = state;
 			LoadItemsCsv();
 			AddAcquisition("DefaultMysteries3bJournals",
 				"Journal of Infamy",
@@ -30,7 +36,9 @@ namespace fl
 				51,
 				new string[] { "Mysteries,Journal of Infamy,50" });
 
+			FileHandler.ForEachFile("acquisitions", MergeAcquisitionsFile);
 		}
+
 		void AddAcquisition(string name, string result, string action, int? reward, string[] prereq)
 		{
 			Acquisitions.Add(name, new Acquisition
@@ -42,18 +50,6 @@ namespace fl
 				Result = result,
 				Reward = reward
 			});
-		}
-
-		public IEnumerable<Acquisition> ReadFile(FileInfo file)
-		{
-			var filecontents = File.ReadAllText(file.FullName, System.Text.Encoding.UTF8);
-			var jobject = Newtonsoft.Json.Linq.JObject.Parse(filecontents);
-			foreach (Newtonsoft.Json.Linq.JProperty property in jobject.Properties())
-			{
-				Acquisition a = property.Value.ToObject<Acquisition>();
-				a.Key = property.Name;
-				yield return a;
-			}
 		}
 
 		class CsvItem
@@ -122,45 +118,29 @@ namespace fl
 
 		void LoadItemsCsv()
 		{
-			var f = GetFile("items.csv");
+			var f = FileHandler.GetFile("items.csv");
 			var filecontents = File.ReadAllLines(f.FullName, System.Text.Encoding.UTF8);
 			var items = filecontents.Select(CsvItem.FromRow).Skip(1);
-			//"Economy","Level","Item","Cost","Action","Gain","BoughtItem"
-			// 	$name = "Default$($_.Economy)$($_.Level)$($_.BoughtItem)"
-			// 	$result = $_.BoughtItem
-			// 	$p = "$($_.Economy),$($_.Item),$($_.Cost)"
-			// 	$action = "inventory,$($_.Economy),$($_.Item),$($_.action)"
-			// 	$reward = $_.Gain
-			// 	$done = AddAcquisition $name $result $action $reward @($p)
-			// }
 			MergeAcquisitions("items.csv", items.Select(i => i.ToAcq()));
 		}
 
-		static string GetWorkingDirectory()
+		IEnumerable<Acquisition> ParseString(string filecontents)
 		{
-			var assembly = new System.IO.FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
-			return assembly.Directory.FullName;
-		}
-		static DirectoryInfo GetDir(string name)
-		{
-			var target = System.IO.Path.Combine(GetWorkingDirectory(), name);
-			return new System.IO.DirectoryInfo(target);
-		}
-		static FileInfo GetFile(string name)
-		{
-			var target = System.IO.Path.Combine(GetWorkingDirectory(), name);
-			return new System.IO.FileInfo(target);
-		}
-
-		public void MergeFolder(string foldername)
-		{
-			var files = GetDir(foldername).GetFiles("*.json");
-			foreach (var file in files)
+			var jobject = Newtonsoft.Json.Linq.JObject.Parse(filecontents);
+			foreach (Newtonsoft.Json.Linq.JProperty property in jobject.Properties())
 			{
-				MergeAcquisitions(file.Name, ReadFile(file));
+				Acquisition a = property.Value.ToObject<Acquisition>();
+				a.Key = property.Name;
+				yield return a;
 			}
 		}
-		public void MergeAcquisitions(string batch, IEnumerable<Acquisition> input)
+
+		void MergeAcquisitionsFile(string batch, string input)
+		{
+			MergeAcquisitions(batch, ParseString(input));
+		}
+
+		void MergeAcquisitions(string batch, IEnumerable<Acquisition> input)
 		{
 			foreach (var item in input)
 			{
@@ -177,16 +157,15 @@ namespace fl
 			ActionHistory.Add(action);
 		}
 
-		// # consumes an action, assumes all possessions neccessary already exists
-		// public async bool Acquire(ActionString actionstr, bool dryRun = false )
-		// {
-		// 	if( dryRun )
-		// 	{
-		// 		RecordAction(actionstr);
-		// 		return false;
-		// 	}
-		// 	return DoAction( actionstr ); <<<< ------ TODO how will we handle the callback?
-		// }
+		public async Task<HasActionsLeft> Acquire(ActionString actionstr, bool dryRun = false)
+		{
+			if (dryRun)
+			{
+				RecordAction(actionstr);
+				return HasActionsLeft.Consumed;
+			}
+			return await _handler.DoAction( actionstr );
+		}
 
 		public Acquisition LookupAcquisition(string name)
 		{
@@ -201,16 +180,12 @@ namespace fl
 				return matching;
 			var resultmatching = Acquisitions.Values.Where(a => r.IsMatch(a.Result)).ToArray();
 
-			var exactmatch = resultmatching.Where( a => a.Result == name ).OrderByDescending( a => a.Reward ).FirstOrDefault();
-			if( exactmatch != null )
+			var exactmatch = resultmatching.Where(a => a.Result == name).OrderByDescending(a => a.Reward).FirstOrDefault();
+			if (exactmatch != null)
 				return exactmatch;
-			return resultmatching.OrderByDescending( a => a.Reward ).FirstOrDefault();
+			return resultmatching.OrderByDescending(a => a.Reward).FirstOrDefault();
 
 		}
-
-
-
-
 
 		public async Task<bool> PossessionSatisfiesLevel(string category, string name, string level)
 		{
@@ -248,14 +223,11 @@ namespace fl
 			return false;
 		}
 
-		// # returns true if named possession is fullfilled
-		// # otherwise an action is consumed trying to work towards fullfillment, which returns false
-		// # returns null if requirement is impossile - e.g. no acquisition can be found
-		public async Task<bool?> Require(string category, string name, string level, string tag = null, bool dryRun = false)
+		public async Task<HasActionsLeft> Require(string category, string name, string level, string tag = null, bool dryRun = false)
 		{
 			if (await PossessionSatisfiesLevel(category, name, level))
 			{
-				return true;
+				return HasActionsLeft.Available;
 			}
 
 			//todo
@@ -268,19 +240,17 @@ namespace fl
 			}
 			if (acq == null)
 			{
-				// 		Write-Warning "no way to get $category $name found in acquisitions list"
-				return null;
+				Log.Warning($"no way to get {category} {name} found in acquisitions list");
+				return HasActionsLeft.Faulty;
 			}
 
 			foreach (var action in acq.Prerequisites.Select(p => new ActionString(p)))
 			{
 				var t = action.third?.FirstOrDefault();
 				var hasActionsLeft = await Require(action.location, action.first, action.second, t, dryRun);
-				if (hasActionsLeft == null)
-					return null;
-
-				if (!hasActionsLeft.Value)
-					return false;
+				// todo find some way to test this mismatch handling
+				if (hasActionsLeft != HasActionsLeft.Available)
+					return hasActionsLeft;
 			}
 
 			if (acq.Cards != null)
@@ -293,62 +263,20 @@ namespace fl
 					var card = opportunity.displayCards.FirstOrDefault(d => cId == null ? r.IsMatch(d.name) : d.eventId == cId);
 					if (card != null)
 					{
-						//TODO
-						// bool? result = ActivateOpportunityCard(opportunity,card,c.first);
-						// if( result != null )
-						// {
-						// 	return result;
-						// }
+						var cardaction = new CardAction { action = c.first, eventId = card.eventId, name = card.name };
+						var result = await _state.ActivateOpportunityCard(cardaction, opportunity.isInAStorylet);
+
+						if (result != HasActionsLeft.Available && result != HasActionsLeft.Mismatch)
+							return result;
 					}
 				}
 			}
-			//	return Acquire(acq.Action,dryRun);
-			return null;
+			return await Acquire(new ActionString(acq.Action), dryRun);
 		}
 	}
 
-	public class Acquisition
-	{
-		public string Key;
-		public string Name;
-		public string Result;
-		public string[] Prerequisites;
-		public string Action;
-		public int? Reward;
-		public string[] Cards;
-	}
 
-	public class ActionString
-	{
-		public override string ToString(){
-			var s = $"{location} {first} {second}";
-			if( third != null )
-			{
-				s+= " " + string.Join(",",third);
-			}
-			return s;
-		}
 
-		public string location;
-		public string first;
-		public string second;
-		public string[] third;
-		public ActionString(string s)
-		{
-			var spl = s.Split(',');
-			if (spl.Length < 3)
-				throw new ArgumentException("invalid action string");
-
-			location = spl[0];
-			first = spl[1];
-			second = spl[2];
-
-			if (spl.Length == 3)
-				third = null;
-			else
-				third = spl.Skip(3).ToArray();
-		}
-	}
 
 }
 

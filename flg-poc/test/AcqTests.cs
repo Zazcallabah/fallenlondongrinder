@@ -12,19 +12,22 @@ namespace test
 		[Test]
 		public void TestLoadAcqs()
 		{
-			var e = new AcquisitionEngine();
-			e.MergeFolder("acquisitions");
-
-			Assert.IsNotEmpty( e.Acquisitions );
+			Console.WriteLine(ActionHandler.Main(null).ToString());
 		}
 
 		[Test]
 		public void TestLoadItems()
 		{
 
-			var l = AcquisitionEngine.load();
-			var s = new []{"Economy","Level","Item","Cost","Action","Gain","BoughtItem"};
-			Assert.AreEqual(s,l[0]);
+			var c = new CardAction{action="aoeu",name="aoeu"};
+
+			foreach( var r in c.require )
+			{
+
+			Assert.AreEqual("aoeu",r);
+			}
+
+
 
 		}
 
