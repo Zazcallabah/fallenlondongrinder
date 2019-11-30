@@ -14,14 +14,11 @@ namespace fl
 		GameState _state;
 		Handler _handler;
 
-		public Handler Handler {get;set;}
+		public Handler Handler { get; set; }
 
-		Func<ActionString, HasActionsLeft> _doAction;
-
-		public AcquisitionEngine(Session session, GameState state, Func<ActionString, HasActionsLeft> callback)
+		public AcquisitionEngine(Session session, GameState state)
 		{
 			_session = session;
-			_doAction = callback;
 			_state = state;
 			LoadItemsCsv();
 			AddAcquisition("DefaultMysteries3bJournals",
@@ -164,7 +161,7 @@ namespace fl
 				RecordAction(actionstr);
 				return HasActionsLeft.Consumed;
 			}
-			return await _handler.DoAction( actionstr );
+			return await _handler.DoAction(actionstr);
 		}
 
 		public Acquisition LookupAcquisition(string name)
@@ -187,45 +184,9 @@ namespace fl
 
 		}
 
-		public async Task<bool> PossessionSatisfiesLevel(string category, string name, string level)
-		{
-			var pos = await _session.GetPossession(category, name);
-
-			if (string.IsNullOrWhiteSpace(level))
-			{
-				return pos != null && pos.effectiveLevel > 0;
-			}
-
-			var opNum = level.Substring(1).AsNumber();
-
-			if (level[0] == '<')
-			{
-				if (pos == null || (opNum.HasValue && pos.effectiveLevel < opNum.Value))
-				{
-					return true;
-				}
-			}
-			else if (level[0] == '=')
-			{
-				if (pos == null && (opNum.HasValue && opNum.Value == 0))
-				{
-					return true;
-				}
-				else if (pos != null && (opNum.HasValue && pos.effectiveLevel == opNum.Value))
-				{
-					return true;
-				}
-			}
-			else if (pos != null && (opNum.HasValue && pos.effectiveLevel >= opNum.Value))
-			{
-				return true;
-			}
-			return false;
-		}
-
 		public async Task<HasActionsLeft> Require(string category, string name, string level, string tag = null, bool dryRun = false)
 		{
-			if (await PossessionSatisfiesLevel(category, name, level))
+			if (await _state.PossessionSatisfiesLevel(category, name, level))
 			{
 				return HasActionsLeft.Available;
 			}
@@ -274,41 +235,4 @@ namespace fl
 			return await Acquire(new ActionString(acq.Action), dryRun);
 		}
 	}
-
-
-
-
 }
-
-
-
-
-// function TestPossessionData
-// {
-// 	param( $category, $name, $level )
-// 	return new-object psobject -property @{
-// 		"name" = $category
-// 		"possessions" = @(new-object psobject -property @{ "name" = $name; "effectiveLevel" = $level })
-// 	}
-// }
-
-// function SetPossessionLevel
-// {
-// 	param( $category, $name, [int]$level )
-// 	$p = GetPossession $category $name
-// 	if( $p )
-// 	{
-// 		$p.effectiveLevel = $level
-// 		return
-// 	}
-// 	$category = $script:myself.possessions | ?{ $_.name -match $category } | select -first 1
-// 	if( $category )
-// 	{
-// 		$category.possessions += new-object psobject -Property @{
-// 			"name" = $name;
-// 			"category" = $category;
-// 			"effectiveLevel" = $level;
-// 			"level" = $level;
-// 		}
-// 	}
-// }

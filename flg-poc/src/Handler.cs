@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System;
 
 namespace fl
@@ -76,9 +75,9 @@ namespace fl
 
 		void LoadLockedAreaData()
 		{
-			foreach( var area in ParseString(FileHandler.ReadFile("lockedareas.json")))
+			foreach (var area in ParseString(FileHandler.ReadFile("lockedareas.json")))
 			{
-				_lockedAreas.Add( area.name, area);
+				_lockedAreas.Add(area.name, area);
 			}
 		}
 
@@ -108,7 +107,6 @@ namespace fl
 				return null;
 			return _lockedAreas[name];
 		}
-
 
 		private async Task<HasActionsLeft> HandleLockedArea()
 		{
@@ -168,8 +166,8 @@ namespace fl
 				}
 			}
 			return HasActionsLeft.Consumed;
-
 		}
+
 		private async Task<HasActionsLeft> EarnestPayment()
 		{
 			var hasActionsLeft = await HandleProfession();
@@ -179,9 +177,66 @@ namespace fl
 			}
 			return await _engine.Require("Curiosity", "An Earnest of Payment", "<1", "Payment");
 		}
+
 		private async Task<HasActionsLeft> HandleRenown()
 		{
-			throw new NotImplementedException();
+			if (!await _state.PossessionSatisfiesLevel("Route", "Route: Mrs Plenty's Most Distracting Carnival", "1"))
+			{
+				return HasActionsLeft.Available;
+			}
+
+			var isPosi = await _state.PossessionSatisfiesLevel("Accomplishments", "A Person of Some Importance", "1");
+			var mapper = new Dictionary<string, string>{
+				{"Church", "The Church"},
+				{"Docks", "The Docks"},
+				{"GreatGame", "The Great Game"},
+				{"TombColonies", "Tomb-Colonies"},
+				{"RubberyMen", "Rubbery Men"}
+			};
+			var factions = new[]{
+				"Church",
+		//		"Bohemians",
+				"Constables",
+				"Criminals",
+				"Hell",
+				"Revolutionaries",
+				"Society",
+		//		"Docks",
+				"Urchins",
+				"GreatGame",
+				"TombColonies",
+				"RubberyMen"
+			};
+			foreach (var faction in factions)
+			{
+				var fullname = $"Renown: {faction}";
+
+				if (mapper.ContainsKey(faction))
+				{
+					fullname = $"Renown: {mapper[faction]}";
+				}
+
+				if (await _state.PossessionSatisfiesLevel("Contacts", fullname, "5"))
+				{
+					if (isPosi)
+					{
+						var hasActionsLeft = await _engine.Require("Contacts", fullname, "15", $"Renown{faction}8");
+						if (hasActionsLeft == HasActionsLeft.Consumed)
+						{
+							return hasActionsLeft;
+						}
+					}
+					else
+					{
+						var hasActionsLeft = await _engine.Require("Contacts", fullname, "8", $"Renown{faction}5");
+						if (hasActionsLeft == HasActionsLeft.Consumed)
+						{
+							return hasActionsLeft;
+						}
+					}
+				}
+			}
+			return HasActionsLeft.Available;
 		}
 		private async Task<HasActionsLeft> CheckMenaces()
 		{
@@ -259,7 +314,7 @@ namespace fl
 		{
 			if (await _session.ExistsPlan(planId))
 			{
-				if (await _engine.PossessionSatisfiesLevel(exitCondition.location, exitCondition.first, exitCondition.second))
+				if (await _state.PossessionSatisfiesLevel(exitCondition.location, exitCondition.first, exitCondition.second))
 				{
 					await _session.DeletePlan(planId);
 					return HasActionsLeft.Available;
@@ -269,7 +324,7 @@ namespace fl
 				return hasActionsLeft;
 			}
 
-			if (await _engine.PossessionSatisfiesLevel(trigger.location, trigger.first, trigger.second))
+			if (await _state.PossessionSatisfiesLevel(trigger.location, trigger.first, trigger.second))
 			{
 				await _session.CreatePlan(planId, planKey);
 				return await DoAction(action);
@@ -417,7 +472,7 @@ namespace fl
 
 		private async Task<HasActionsLeft> GrindMoney()
 		{
-			if (await _engine.PossessionSatisfiesLevel("Route", "Route: The Forgotten Quarter", "1") && await _engine.PossessionSatisfiesLevel("Stories", "Archaeologist", "2"))
+			if (await _state.PossessionSatisfiesLevel("Route", "Route: The Forgotten Quarter", "1") && await _state.PossessionSatisfiesLevel("Stories", "Archaeologist", "2"))
 			{
 				var hasmoreActions = await _engine.Require("Progress", "Archaeologist's Progress", "99"); // infinite grind for money
 				return HasActionsLeft.Consumed;
@@ -432,7 +487,7 @@ namespace fl
 			{
 				return hasMoreActions;
 			}
-			if (await _engine.PossessionSatisfiesLevel("Stories", "A Name Scrawled in Blood", "3"))
+			if (await _state.PossessionSatisfiesLevel("Stories", "A Name Scrawled in Blood", "3"))
 			{
 				hasMoreActions = await _engine.Require("Progress", "Potential", "71", "Touch of darkness");
 				if (hasMoreActions == HasActionsLeft.Consumed)
@@ -440,7 +495,7 @@ namespace fl
 					return hasMoreActions;
 				}
 
-				if (await _engine.PossessionSatisfiesLevel("Accomplishments", "A Person of Some Importance", "1"))
+				if (await _state.PossessionSatisfiesLevel("Accomplishments", "A Person of Some Importance", "1"))
 				{
 					hasMoreActions = await _engine.Require("Progress", "Potential", "81", "something exotic");
 					if (hasMoreActions == HasActionsLeft.Consumed)

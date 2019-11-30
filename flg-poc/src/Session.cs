@@ -284,7 +284,7 @@ namespace fl
 		public async Task<bool> ExistsPlan(int id)//, string planKey)
 		{
 			var pl = await ListPlans();
-			return pl.Any(k => k.branch.id == id );// && k.branch.planKey == planKey);
+			return pl.Any(k => k.branch.id == id);// && k.branch.planKey == planKey);
 		}
 
 		// # post plan/update {"branchId":204598,"notes":"do this","refresh":false} to save note

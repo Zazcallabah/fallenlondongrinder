@@ -15,7 +15,10 @@
 		<None Update="forcedactions.json" CopyToOutputDirectory="PreserveNewest" />
 		<None Update="lockedareas.json" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
-	<Target Name="FetchOutput" AfterTargets="Build">
+	<Target Name="FetchOutput" AfterTargets="Build" Condition="'$(OS)' == 'Unix'">
 		<Exec Command="cp ./bin/Debug/netstandard2.0/fl.dll ./fl.dll" />
+	</Target>
+	<Target Name="FetchOutputWindows" AfterTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
+		<Exec Command="copy .\bin\Debug\netstandard2.0\fl.dll .\fl.dll" />
 	</Target>
 </Project>

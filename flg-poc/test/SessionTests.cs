@@ -54,15 +54,15 @@ namespace test
 		[Test]
 		public async Task CanDeleteAndCreatePlansAndAirs()
 		{
-			var s = SessionHolder.Session;
-			if(await s.ExistsPlan(4346,"f9c8d1dde5bee056cfab1123f9e0e9a0"))
-			{
-				var r = await s.DeletePlan(4346);
-				Assert.IsTrue( r.isSuccess );
-			}
-			// can get airs
-			var a = await s.Airs();
-			Assert.IsNotNull( a );
+			// var s = SessionHolder.Session;
+			// if(await .ExistsPlan(4346,"f9c8d1dde5bee056cfab1123f9e0e9a0"))
+			// {
+			// 	var r = await s.DeletePlan(4346);
+			// 	Assert.IsTrue( r.isSuccess );
+			// }
+			// // can get airs
+			// var a = await s.Airs();
+			// Assert.IsNotNull( a );
 		}
 
 		// [Test]

@@ -1,67 +1,120 @@
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace fl
 {
+
+	public class ForcedActionFile
+	{
+		public static IDictionary<string, string> simple = new Dictionary<string, string>();
+		public static IDictionary<string, IList<ForcedAction>> complex = new Dictionary<string, IList<ForcedAction>>();
+
+		static ForcedActionFile()
+		{
+			var jobject = Newtonsoft.Json.Linq.JObject.Parse(FileHandler.ReadFile("forcedactions.json"));
+			foreach (Newtonsoft.Json.Linq.JProperty property in jobject.Properties())
+			{
+				if (property.Value is Newtonsoft.Json.Linq.JArray)
+				{
+					complex.Add(property.Name, property.Value.ToObject<List<ForcedAction>>());
+				}
+				else
+				{
+					simple.Add(property.Name, property.Value.ToObject<string>());
+				}
+			}
+		}
+	}
+
+	public class ForcedAction
+	{
+		public string[] Conditions;
+		public string Action;
+	}
+
 	public class GameState
 	{
 		Session _session;
 		StoryletList _cachedList;
-
 
 		public GameState(Session s)
 		{
 			_session = s;
 		}
 
+		public async Task<bool> PossessionSatisfiesLevel(string category, string name, string level)
+		{
+			var pos = await _session.GetPossession(category, name);
+
+			if (string.IsNullOrWhiteSpace(level))
+			{
+				return pos != null && pos.effectiveLevel > 0;
+			}
+
+			var opNum = level.Substring(1).AsNumber();
+
+			if (level[0] == '<')
+			{
+				if (pos == null || (opNum.HasValue && pos.effectiveLevel < opNum.Value))
+				{
+					return true;
+				}
+			}
+			else if (level[0] == '=')
+			{
+				if (pos == null && (opNum.HasValue && opNum.Value == 0))
+				{
+					return true;
+				}
+				else if (pos != null && (opNum.HasValue && pos.effectiveLevel == opNum.Value))
+				{
+					return true;
+				}
+			}
+			else if (pos != null && (opNum.HasValue && pos.effectiveLevel >= opNum.Value))
+			{
+				return true;
+			}
+			return false;
+		}
 
 		public async Task<HasActionsLeft> HandleForcedAction()
 		{
-// {
-	throw new NotImplementedException();
-// 	param($list,[switch]$dryrun)
+			if (_cachedList == null)
+				_cachedList = await _session.ListStorylet();
+			if (ForcedActionFile.simple.ContainsKey(_cachedList.storylet.name))
+			{
+				return await PerformAction(ForcedActionFile.simple[_cachedList.storylet.name]);
+			}
 
-// 	$action = $script:ForcedActions."$($list.storylet.name)"
-// 	if($action -eq $null)
-// 	{
-// 		throw "stuck in forced action named $($list.storylet.name), can't proceed without manual interaction"
-// 	}
+			if (ForcedActionFile.complex.ContainsKey(_cachedList.storylet.name))
+			{
+				foreach (var entry in ForcedActionFile.complex[_cachedList.storylet.name])
+				{
+					var total = entry.Conditions.Length;
+					var satisfied = 0;
+					foreach (var cond in entry.Conditions)
+					{
+						var a = new ActionString(cond);
+						if (await PossessionSatisfiesLevel(a.location, a.first, a.second))
+							satisfied++;
+					}
+					if (total == satisfied)
+					{
+						return await PerformAction(entry.Action);
+					}
+				}
+			}
 
-// 	if( IsSimpleAction  $action )
-// 	{
-// 		return HandleLockedStoryletAction $list $action -dryrun:$dryrun
-// 	}
-
-// 	foreach( $entry in $action )
-// 	{
-// 		$conditions = $entry.Conditions | %{
-// 			$condition = ParseActionString $_
-// 			$result = PossessionSatisfiesLevel $condition.location $condition.first $condition.second
-// 			Write-Verbose "checking criteria $_ gave result $result"
-// 			return $result
-// 		} | ?{ $_ } | measure
-
-// 		if( $conditions.Count -eq @($entry.Conditions).Length )
-// 		{
-// 			return HandleLockedStoryletAction $list $entry.Action -dryrun:$dryrun
-// 		}
-// 	}
-
-// 	write-warning "no idea what to do here"
-// 	throw "$list"
+			throw new Exception($"stuck in forced action named {_cachedList.storylet.name}, can't proceed without manual interaction");
 		}
-
 
 		public async Task<bool> HasForcedAction()
 		{
-			if(_cachedList != null )
+			if (_cachedList != null)
 				_cachedList = await _session.ListStorylet();
-			return  _cachedList.phase != "Available" && _cachedList.storylet != null && ( _cachedList.storylet.canGoBack.HasValue && ! _cachedList.storylet.canGoBack.Value);
+			return _cachedList.phase != "Available" && _cachedList.storylet != null && (_cachedList.storylet.canGoBack.HasValue && !_cachedList.storylet.canGoBack.Value);
 		}
 
 		public async Task<bool> HasActionsToSpare()
@@ -78,16 +131,16 @@ namespace fl
 
 		public async Task<HasActionsLeft> ActivateOpportunityCard(CardAction card, bool inStoryletHint)
 		{
-			if( card.eventId == null )
+			if (card.eventId == null)
 				throw new Exception("card has no eventId set");
-			if( inStoryletHint )
+			if (inStoryletHint)
 				await _session.GoBack();
 
 			Log.Info($"doing card {card.name} action {card.action}");
-			var storylet = _session.BeginStorylet( card.eventId.Value );
-			if( !string.IsNullOrWhiteSpace(card.action) )
+			_cachedList = await _session.BeginStorylet(card.eventId.Value);
+			if (!string.IsNullOrWhiteSpace(card.action))
 			{
-				return await PerformActions( card.action.Split(',') );
+				return await PerformActions(card.action.Split(','));
 			}
 
 			return HasActionsLeft.Consumed;
@@ -133,7 +186,8 @@ namespace fl
 
 		public async Task GoBackIfInStorylet()
 		{
-			_cachedList = await _session.ListStorylet();
+			if (_cachedList == null || _cachedList.phase == "End")
+				_cachedList = await _session.ListStorylet();
 			if (_cachedList.phase == "Available")
 				return;
 
@@ -190,7 +244,7 @@ namespace fl
 					if (_cachedList.phase == "End")
 						_cachedList = await _session.ListStorylet();
 					var result = await PerformAction(action);
-					if (_cachedList == null || result == HasActionsLeft.Faulty )
+					if (_cachedList == null || result == HasActionsLeft.Faulty)
 					{
 						return HasActionsLeft.Faulty;
 					}
