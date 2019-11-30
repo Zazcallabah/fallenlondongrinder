@@ -9,11 +9,7 @@ namespace test
 {
 	public class AcqTests
 	{
-		[Test]
-		public void TestLoadAcqs()
-		{
-			Console.WriteLine(ActionHandler.Main(null).ToString());
-		}
+
 
 		[Test]
 		public void TestLoadItems()

@@ -55,7 +55,7 @@ namespace fl
 				throw new Exception($"bad response for {verb} {href} => {response.StatusCode} {data}");
 		}
 
-		public async Task<T> Post<T>(string href, dynamic payload = null)
+		async Task<T> Post<T>(string href, dynamic payload = null)
 		{
 			if (!_loggedin)
 			{
@@ -70,7 +70,7 @@ namespace fl
 			return data;
 		}
 
-		public async Task<T> Get<T>(string href)
+		async Task<T> Get<T>(string href)
 		{
 			if (!_loggedin)
 			{
@@ -281,10 +281,10 @@ namespace fl
 			return pl.FirstOrDefault(k => r.IsMatch(k.branch.name));
 		}
 
-		public async Task<bool> ExistsPlan(int id)//, string planKey)
+		public async Task<bool> ExistsPlan(int id)
 		{
 			var pl = await ListPlans();
-			return pl.Any(k => k.branch.id == id);// && k.branch.planKey == planKey);
+			return pl.Any(k => k.branch.id == id);
 		}
 
 		// # post plan/update {"branchId":204598,"notes":"do this","refresh":false} to save note

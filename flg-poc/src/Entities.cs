@@ -59,6 +59,13 @@ namespace fl
 		public int? Reward;
 		public string[] Cards;
 	}
+
+	public class ForcedAction
+	{
+		public string[] Conditions;
+		public string Action;
+	}
+
 	public class SuccessMessage
 	{
 		public bool? isSuccess;
