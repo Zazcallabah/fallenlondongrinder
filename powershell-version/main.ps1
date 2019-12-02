@@ -38,37 +38,29 @@ $script:actions = @(
 	#"veilgarden,archaeology,1" persuasive 31 shreik
 	#"veilgarden,literary,1" persuasive 5 gets rusty/glim/jade also
 	#"veilgarden,rescue,publisher" persuasive 47, proscribed material
-
 	#"ladybones,warehouse,1" - nevercold
-
 	#"carnival,games,high"
-
 	#"carnival,big,?"
 	#"carnival,sideshows,?"
-
 	#"empresscourt,Matters,artistically"
 	#"spite,casing,gather"
 	#"writing"
 #	"require,Stories,A Fearsome Duelist,5,Duel Fencing"
-
 #	"require,Progress,Casing...,5,PrepBaseborn"
 #	"require,Basic,Persuasive,200,GrindPersuasive"
-	"require,Basic,Shadowy,200,GrindShadowy"
 #	"require,Contacts,Renown: The Church,8,Renown: The Church up to 8"
+#	"require,Progress,Casing...,13"
+#	"require,Progress,The Hunt is on,19"
 	"require,Nostalgia,Bazaar Permit,5"
-	"require,Basic,Watchful,200,GrindWatchful"
+	"require,Basic,Making Waves,1,GetWaveThroughTerror"
 	"require,Progress,Archaeologist's Progress,99" # <- always an infinite grind for money
 	"require,Academic,Volume of Collated Research,15"
-	"require,Basic,Dangerous,200,GrindDangerous"
-#	"require,Progress,Casing...,13"
 	"require,Stories,A Procurer of Savage Beasts,4,HuntGoat"
-#	"require,Progress,The Hunt is on,19"
 	"require,Stories,Tales of Mahogany Hall,22"
 	"require,Elder,Presbyterate Passphrase,9"
 	"require,Progress,Running Battle,20"
 	"require,Influence,Personal Recommendation,3"
 	"require,Curiosity,Book of Hidden Bodies,2"
-	"require,Currency,Penny,10000,Penny"
 	"require,Stories,A Survivor of the Affair of the Box,16,KeyAtLast"
 )
 

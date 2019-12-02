@@ -31,5 +31,13 @@
 			"Progress,Archaeologist's Progress,99"
 		],
 		"Action": "forgotten quarter,prepare,rumours"
+	},
+	"GetWaveThroughTerror": {
+		"Name":"GetWaveThroughTerror",
+		"Result":"Making Waves",
+		"Prerequisites": [
+			"Mysteries,Tale of Terror!!,50"
+		],
+		"Action": "inventory,Tale of Terror!!,fireside"
 	}
 }

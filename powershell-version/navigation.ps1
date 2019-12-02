@@ -409,7 +409,7 @@ function Airs
 	param([switch]$dontRetry)
 	# this could give outdated value, if we perform an action that changes airs without discarding cached value for plans
 	$plans = Plans
-	$airsmessage =  $plans.active+$plans.completed | %{ $_.branch.qualityRequirements | ?{ $_.qualityName -eq "The Airs of London" } | select -first 1 -expandProperty tooltip } | select -first 1
+	$airsmessage =  $plans.active+$plans.complete | %{ $_.branch.qualityRequirements | ?{ $_.qualityName -eq "The Airs of London" } | select -first 1 -expandProperty tooltip } | select -first 1
 	if( $airsmessage -ne $null )
 	{
 		$r = [regex]"\(you have (\d+)\)"

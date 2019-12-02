@@ -194,7 +194,7 @@ function Sell
 function UseQuality
 {
 	param($id)
-	$result = Post -href "storylet/usequality/$([int]$id)"
+	$result = Post -href "storylet/usequality" -payload @{ "qualityId" = [int]$id }
 	if($result.isSuccess -ne $true)
 	{
 		throw "bad result when using quality $($id): $result"
@@ -261,7 +261,7 @@ function DrawOpportunity
 function DiscardOpportunity
 {
 	param([int]$id)
-	Post -href "opportunity/discard/$id"
+	Post -href "opportunity/discard" -payload @{"eventId" = $id }
 }
 
 function GoBack
@@ -339,13 +339,13 @@ function DeletePlan
 function EquipOutfit
 {
 	param( [int]$id )
-	Post -href "outfit/equip/$($id)"
+	Post -href "outfit/equip" -payload @{ "qualityId" = $id }
 }
 
 function UnequipOutfit
 {
 	param( [int]$id )
-	Post -href "outfit/unequip/$($id)"
+	Post -href "outfit/unequip" -payload @{ "qualityId" = $id }
 }
 
 function AddContact
