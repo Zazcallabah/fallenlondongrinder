@@ -1,0 +1,29 @@
+name: .NET Core
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.0.100
+    - name: Build with dotnet
+      run: dotnet build fl --configuration Release -o build/fl
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.SCM_CREDENTIALS }}
+    - uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: fallenlondongrinder-cs
+        package: './build'
