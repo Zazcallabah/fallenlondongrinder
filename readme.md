@@ -2,11 +2,14 @@
 
 Azure function set up to run every 10 minutes. Will cycle through a given set of storylets and choices in fallen london, as long as there are actions to spare.
 
+
+Most of the following describes the original, powershell port, but most of the descriptions should be relevant for the cs port. The powershell port is now deprecated.
+
 ## how
 
 An `action` is a sequence of navigational clicks in fallen london. They are simple strings, divided into different parts by commas.
 
-`run.ps1` contains a list of actions. Each time the script runs, one of those actions are performed. Which action is chosen based on the date. Each day that passes progresses one step further in the list of actions. When the list is done, it restarts from the beginning.
+`action.json` contains a list of actions. Each time the script runs, one of those actions are performed. Which action is chosen based on the date. Each day that passes progresses one step further in the list of actions. When the list is done, it restarts from the beginning.
 
 ### types of actions
 
