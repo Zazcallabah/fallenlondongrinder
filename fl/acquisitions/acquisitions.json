@@ -158,7 +158,7 @@
 		"Name": "Foxfire Candle Stub",
 		"Result": "Foxfire Candle Stub",
 		"Prerequisites": [
-			"Accomplishments,A Person of Some Importance,1,BuyCandles"
+			"!Accomplishments,A Person of Some Importance,1,BuyCandles"
 		],
 		"Action": "veilgarden,unfinished business,An admirer among the clergy",
 		"Reward": 100
@@ -326,8 +326,8 @@
 		"Name": "SpiriferSouls",
 		"Result": "SpiriferSouls",
 		"Prerequisites": [
-			"Stories,A Name in Seven Secret Alphabets,4,BuySouls",
-			"Basic,Watchful,60,BuySouls"
+			"!Stories,A Name in Seven Secret Alphabets,4,BuySouls",
+			"!Basic,Watchful,60,BuySouls"
 		],
 		"Action": "ladybones,Track down a Spirifer,Watch from the rooftops",
 		"Reward": 28
@@ -393,8 +393,8 @@
 		"Name": "NightwatchfforBrass",
 		"Result": "NightwatchfforBrass",
 		"Prerequisites": [
-			"Stories,A Name in Seven Secret Alphabets,4,BuyBrass",
-			"Basic,Watchful,65,BuyBrass"
+			"!Stories,A Name in Seven Secret Alphabets,4,BuyBrass",
+			"!Basic,Watchful,65,BuyBrass"
 		],
 		"Action": "ladybones,Night watch at the Brass Embassy warehouse,easy",
 		"Reward": 50
