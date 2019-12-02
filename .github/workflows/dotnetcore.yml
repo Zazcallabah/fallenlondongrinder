@@ -21,7 +21,7 @@ jobs:
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.SCM_CREDENTIALS }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
     - uses: Azure/functions-action@v1
       id: fa
       with:
