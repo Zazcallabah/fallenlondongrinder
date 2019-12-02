@@ -156,7 +156,9 @@ namespace fl
 						var cardaction = new CardAction { action = c.first, eventId = card.eventId, name = card.name };
 						var result = await _state.ActivateOpportunityCard(cardaction, opportunity.isInAStorylet);
 
-						if (result != HasActionsLeft.Available && result != HasActionsLeft.Mismatch)
+						if(result == HasActionsLeft.Faulty)
+							Log.Warning($"failed to activate card {card.name}, proceeding with acquisition");
+						else if (result == HasActionsLeft.Consumed)
 							return result;
 					}
 				}

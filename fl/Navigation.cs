@@ -21,13 +21,14 @@ namespace fl
 
 		public static async Task<bool> IsInLocation(this Session s, string location)
 		{
+			if( await s.IsLockedArea())
+				return true;
 			var id = await s.GetLocationId(location);
 			return await s.IsInLocation(id);
 		}
 
 		public static async Task<bool> IsInLocation(this Session s, int location)
 		{
-			// TODO is this a race condition example?
 			if (await s.IsLockedArea())
 				return true;
 			return await s.GetUserLocation() == location;
