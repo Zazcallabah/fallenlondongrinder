@@ -207,6 +207,7 @@ namespace fl
 				var result = await _session.UseQuality(item.id);
 				if (result.isSuccess && !dryRun )
 				{
+					_cachedList = null;
 					return await PerformAction(action);
 				}
 				// todo the following two could possibly be thrown instead

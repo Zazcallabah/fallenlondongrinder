@@ -16,7 +16,13 @@ namespace fl
 			var p = Environment.GetEnvironmentVariable("LOGIN_PASS", EnvironmentVariableTarget.Process);
 
 			var h = new Main(e, p);
-			await h.RunMain();
+			try
+			{
+				await h.RunMain();
+			}
+			catch(Exception ex){
+				Log.Error(ex.Message);
+			}
 
 			var ae = Environment.GetEnvironmentVariable("SECOND_EMAIL", EnvironmentVariableTarget.Process);
 			var ap = Environment.GetEnvironmentVariable("SECOND_PASS", EnvironmentVariableTarget.Process);
