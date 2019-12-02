@@ -573,6 +573,15 @@ namespace fl
 				{
 					string tag = action.third?.FirstOrDefault();
 					HasActionsLeft hasActionsLeft = await _engine.Require(action.location, action.first, action.second, tag);
+					if( hasActionsLeft == HasActionsLeft.Faulty )
+					{
+						if(card.eventId.HasValue)
+						{
+							Log.Warning($"Missing prereq path for card {card.name}, discarding.");
+							await _session.DiscardOpportunity(card.eventId.Value);
+						}
+						return HasActionsLeft.Available;
+					}
 					if (hasActionsLeft != HasActionsLeft.Available)
 						return hasActionsLeft;
 				}

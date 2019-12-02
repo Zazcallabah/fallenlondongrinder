@@ -22,14 +22,15 @@ namespace fl
 		public ActionString(string s)
 		{
 			var spl = s.Split(',');
-			if (spl.Length < 3)
-				throw new ArgumentException("invalid action string");
 
 			location = spl[0];
-			first = spl[1];
-			second = spl[2];
+			if( spl.Length > 1)
+				first = spl[1];
 
-			if (spl.Length == 3)
+			if( spl.Length > 2)
+				second = spl[2];
+
+			if (spl.Length <= 3)
 				third = null;
 			else
 				third = spl.Skip(3).ToArray();
