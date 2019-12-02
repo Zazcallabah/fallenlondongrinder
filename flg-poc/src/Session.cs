@@ -62,9 +62,9 @@ namespace fl
 				await GetToken();
 			}
 
-			var response = await _client.PostAsync(href, MakeContent(payload));
+			HttpResponseMessage response = await _client.PostAsync(href, MakeContent(payload));
 			var content = await response.Content.ReadAsStringAsync();
-			// todo write debug
+			Log.Debug($"POST: {href} {payload} -> {response.StatusCode}");
 			EnsureIsSuccess<T>(href, "POST", response, content);
 			T data = JsonConvert.DeserializeObject<T>(content);
 			return data;
@@ -81,7 +81,7 @@ namespace fl
 			var content = await response.Content.ReadAsStringAsync();
 			EnsureIsSuccess<T>(href, "GET", response, content);
 			T data = JsonConvert.DeserializeObject<T>(content);
-			// todo write debug
+			Log.Debug($"GET: {href} -> {response.StatusCode}");
 			return data;
 		}
 

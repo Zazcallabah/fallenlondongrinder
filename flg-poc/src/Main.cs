@@ -12,32 +12,44 @@ namespace fl
 		{
 			Log._logObject = log;
 
-			var e = Environment.GetEnvironmentVariable("LoginEmail", EnvironmentVariableTarget.Process);
-			var p = Environment.GetEnvironmentVariable("LoginPass", EnvironmentVariableTarget.Process);
+			var e = Environment.GetEnvironmentVariable("LOGIN_EMAIL", EnvironmentVariableTarget.Process);
+			var p = Environment.GetEnvironmentVariable("LOGIN_PASS", EnvironmentVariableTarget.Process);
 
-			var h = new Handler2(e, p);
+			var h = new Main(e, p);
 			await h.RunMain();
+
+			var ae = Environment.GetEnvironmentVariable("SECOND_EMAIL", EnvironmentVariableTarget.Process);
+			var ap = Environment.GetEnvironmentVariable("SECOND_PASS", EnvironmentVariableTarget.Process);
+
+			if (ae != null && ap != null)
+			{
+				var ah = new Main(ae, ap);
+				await ah.RunAutomaton();
+			}
 		}
 
-		public class Handler2
+		Handler _handler;
+
+		public Main(string email, string password)
 		{
-			Handler _handler;
+			// if( string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password) )
+			// 	throw new Exception("missing login information");
+			Session session = new Session(email, password);
+			GameState state = new GameState(session);
+			AcquisitionEngine engine = new AcquisitionEngine(state);
 
-			public Handler2(string email, string password)
-			{
-				// if( string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password) )
-				// 	throw new Exception("missing login information");
-				Session session = new Session(email, password);
-				GameState state = new GameState(session);
-				AcquisitionEngine engine = new AcquisitionEngine( state);
+			_handler = new Handler(session, state, engine);
+		}
 
-				_handler = new Handler(session, state, engine);
-			}
+		public async Task RunMain(bool force = false)
+		{
+			await _handler.RunActions(ActionHandler.Main(),force);
+		}
 
-			public async Task RunMain()
-			{
-				await _handler.RunActions(ActionHandler.Main());
-			}
+		public async Task RunAutomaton(bool force = false)
+		{
+			await _handler.RunActions(ActionHandler.Automaton(),force);
 		}
 	}
+
 }

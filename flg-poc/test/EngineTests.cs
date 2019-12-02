@@ -7,6 +7,18 @@ using fl;
 
 namespace test
 {
+	[SetUpFixture]
+	class AcqHolder
+	{
+		public static AcquisitionsHandler Acq;
+		[OneTimeSetUp]
+		public void RunBeforeAnyTests()
+		{
+			Acq = new AcquisitionsHandler();
+			Acq.LoadFromFile();
+		}
+	}
+
 	public class EngineTests
 	{
 		AcquisitionEngine _engine;
@@ -18,7 +30,7 @@ namespace test
 		{
 			_session = SessionHolder.Session;
 			_state = new GameState(_session);
-			_engine = new AcquisitionEngine(_state);
+			_engine = new AcquisitionEngine(_state,AcqHolder.Acq);
 		}
 
 		PossessionCategory EnsureCategory(Myself myself, string category)
@@ -75,6 +87,9 @@ namespace test
 
 			Assert.IsFalse( await _engine.PossessionSatisfiesLevel( "Mysteries", "Extraordinary Implication", "<3"));
 			Assert.IsTrue( await _engine.PossessionSatisfiesLevel( "Mysteries", "Extraordinary Implication", "3"));
+			Assert.IsTrue( await _engine.PossessionSatisfiesLevel( "Mysteries", "Extraordinary Implication", null));
+			Assert.IsFalse( await _engine.PossessionSatisfiesLevel( "Mysteries", "Not Found Item", null));
+			Assert.IsTrue( await _engine.PossessionSatisfiesLevel( "Mysteries", "Not Found Item", "=0"));
 			Assert.IsTrue( await _engine.PossessionSatisfiesLevel( "Mysteries", "Extraordinary Implication", "=21"));
 			Assert.IsFalse( await _engine.PossessionSatisfiesLevel( "Mysteries", "Extraordinary Implication", "22"));
 			Assert.IsFalse( await _engine.PossessionSatisfiesLevel( "Mysteries", "Extraordinary Implication", "=20"));
@@ -83,10 +98,10 @@ namespace test
 		[Test]
 		public void TestAcquisitions()
 		{
-			var acq = _engine.Acquisitions["GrindPersuasive"];
+			var acq = AcqHolder.Acq.Acquisitions["GrindPersuasive"];
 			Assert.IsNotNull(acq);
 			Assert.AreEqual( "empresscourt,attend,perform", acq.Action );
-			Assert.IsNotNull(_engine.Acquisitions["Scandal"]);
+			Assert.IsNotNull(AcqHolder.Acq.Acquisitions["Scandal"]);
 		}
 
 		[Test]
@@ -106,61 +121,171 @@ namespace test
 		}
 
 		[Test]
-		public async Task TestRequire()
+		public async Task RequireNothingIfAlreadySatisfied()
 		{
-			var oldp = JsonConvert.SerializeObject((await _session.Myself()).possessions);
-			await ClearPossessions();
-			await SetPossession("","Dangerous",100);
-			await SetPossession("Mysteries","Cryptic Clue",10);
-			await SetPossession("Menaces","Nightmares",5);
+			await SetPossession("Mysteries","Test Cryptic Clue",10);
+			await SetPossession("Menaces","TestNightmares",5);
 
-			var r = await _engine.Require("Menaces","Wounds",null,null,true);
-			Assert.AreEqual(1,_engine.ActionHistory.Count);
-			Assert.AreEqual("lodgings,wounds,time,1",_engine.ActionHistory[0].ToString());
-			_engine.ActionHistory.Clear();
-
-			r = await _engine.Require("Circumstance","Working on...","100","StartShortStory",true);
-			Assert.AreEqual( HasActionsLeft.Consumed, r);
-			Assert.AreEqual(1,_engine.ActionHistory.Count);
-			Assert.AreEqual("veilgarden,begin a work,short story",_engine.ActionHistory[0]);
-			_engine.ActionHistory.Clear();
-
-			r = await _engine.Require("Mysteries","Cryptic Clue","5",null,true);
+			var r = await _engine.Require("Mysteries","Test Cryptic Clue","5",null,true);
 			Assert.AreEqual( HasActionsLeft.Available, r);
 			Assert.AreEqual(0,_engine.ActionHistory.Count);
 
-			r = await _engine.Require("Mysteries","Cryptic Clue","=10",null,true);
+			r = await _engine.Require("Mysteries","Test Cryptic Clue","=10",null,true);
 			Assert.AreEqual( HasActionsLeft.Available, r);
 			Assert.AreEqual(0,_engine.ActionHistory.Count);
 
-			r = await _engine.Require("Menaces","Nightmares", "<8",null,true);
+			r = await _engine.Require("Menaces","TestNightmares", "<8",null,true);
 			Assert.AreEqual( HasActionsLeft.Available, r);
 			Assert.AreEqual(0,_engine.ActionHistory.Count);
-
-			r = await _engine.Require("Mysteries","Cryptic Clue","15","Cryptic Clue",true);
-			Assert.AreEqual( HasActionsLeft.Consumed, r);
-			Assert.AreEqual(1,_engine.ActionHistory.Count);
-			Assert.AreEqual("spite,Alleys,Cats,grey",_engine.ActionHistory[0]);
-			_engine.ActionHistory.Clear();
-
-			r = await _engine.Require("Menaces","Scandal","15",null,true);
-			Assert.AreEqual( HasActionsLeft.Consumed, r);
-			Assert.AreEqual(1,_engine.ActionHistory.Count);
-			Assert.AreEqual("lodgings,scandal,service",_engine.ActionHistory[0]);
-			_engine.ActionHistory.Clear();
-
-			r = await _engine.Require("Mysteries","Cryptic Clue","15",null,true);
-			Assert.AreEqual( HasActionsLeft.Consumed, r);
-			Assert.AreEqual(1,_engine.ActionHistory.Count);
-			Assert.AreEqual("flit,its king,meeting,understand",_engine.ActionHistory[0]);
-			_engine.ActionHistory.Clear();
-
-			r = await _engine.Require("Menaces","Nightmares","<5",null,true);
-			Assert.AreEqual( HasActionsLeft.Consumed, r);
-			Assert.AreEqual(1,_engine.ActionHistory.Count);
-			Assert.AreEqual("flit,its king,meeting,understand",_engine.ActionHistory[0]);
-			_engine.ActionHistory.Clear();
-			(await _session.Myself()).possessions = JsonConvert.DeserializeObject<PossessionCategory[]>(oldp);
 		}
+
+
+		[Test]
+		public async Task RequireWillFirstDoPrereq()
+		{
+			AcqHolder.Acq.AddTestAcquisition(new Acquisition{
+				Name = "Test1Prereq",
+				Prerequisites = new []{"Mysteries,Testaoeu,11,Test2Prereq"},
+				Action = "Test1,Prereq,b,3",
+			});
+			AcqHolder.Acq.AddTestAcquisition(new Acquisition{
+				Name = "Test2Prereq",
+				Action = "Test Cryptic Clue,Prereq,b,3"
+			});
+
+			await SetPossession("Mysteries","Test Cryptic Clue",10);
+			var r = await _engine.Require("Mysteries","Test Cryptic Clue","15","Test1Prereq",true);
+			Assert.AreEqual( HasActionsLeft.Consumed, r);
+			Assert.AreEqual(1,_engine.ActionHistory.Count);
+			Assert.AreEqual("Test Cryptic Clue,Prereq,b,3",_engine.ActionHistory[0].ToString());
+		}
+
+		[Test]
+		public async Task RequireByTagHasPriorityOverNameMatch()
+		{
+			AcqHolder.Acq.AddTestAcquisition(new Acquisition{
+				Name = "Test1",
+				Action = "Test1,a,b,3",
+			});
+			AcqHolder.Acq.AddTestAcquisition(new Acquisition{
+				Name = "Test Cryptic Clue",
+				Action = "Test Cryptic Clue,a,b,3",
+				Result = "Test Cryptic Clue"
+			});
+
+			await SetPossession("Mysteries","Test Cryptic Clue",10);
+			var r = await _engine.Require("Mysteries","Test Cryptic Clue","15","Test1",true);
+			Assert.AreEqual( HasActionsLeft.Consumed, r);
+			Assert.AreEqual(1,_engine.ActionHistory.Count);
+			Assert.AreEqual("Test1,a,b,3",_engine.ActionHistory[0].ToString());
+		}
+
+		[Test]
+		public async Task RequireByNameLookupWhenTagNotmatching()
+		{
+			AcqHolder.Acq.AddTestAcquisition(new Acquisition{
+				Name = "Test Cryptic Clue",
+				Action = "Test Cryptic Clue,a,b,c",
+				Result = "Test Cryptic Clue"
+			});
+
+			await SetPossession("Mysteries","Test Cryptic Clue",10);
+			var r = await _engine.Require("Mysteries","Test Cryptic Clue","15","NotUsedTag",true);
+			Assert.AreEqual( HasActionsLeft.Consumed, r);
+			Assert.AreEqual(1,_engine.ActionHistory.Count);
+			Assert.AreEqual("Test Cryptic Clue,a,b,c",_engine.ActionHistory[0].ToString());
+		}
+
+		[Test]
+		public async Task RequireByNameLookupWhenTagNull()
+		{
+			AcqHolder.Acq.AddTestAcquisition(new Acquisition{
+				Name = "Test Cryptic Clue",
+				Action = "Test Cryptic Clue,a,aoeu",
+				Result = "Test Cryptic Clue"
+			});
+
+			await SetPossession("Mysteries","Test Cryptic Clue",10);
+			var r = await _engine.Require("Mysteries","Test Cryptic Clue","15",null,true);
+			Assert.AreEqual( HasActionsLeft.Consumed, r);
+			Assert.AreEqual(1,_engine.ActionHistory.Count);
+			Assert.AreEqual("Test Cryptic Clue,a,aoeu",_engine.ActionHistory[0].ToString());
+		}
+
+		[Test]
+		public async Task RequireByNameLookupWhenTagNull_PrefersPerfectMatch()
+		{
+			AcqHolder.Acq.AddTestAcquisition(new Acquisition{
+				Name = "Test Cryptic Clue 388292398",
+				Action = "Test Cryptic Clue,a,c",
+				Result = "Test Cryptic Clue"
+			});
+			AcqHolder.Acq.AddTestAcquisition(new Acquisition{
+				Name = "Test Cryptic Clue",
+				Action = "Test Cryptic Clue,a,b,b",
+				Result = "Test Cryptic Clue"
+			});
+			await SetPossession("Mysteries","Test Cryptic Clue",10);
+			var r = await _engine.Require("Mysteries","Test Cryptic Clue","15",null,true);
+			Assert.AreEqual( HasActionsLeft.Consumed, r);
+			Assert.AreEqual(1,_engine.ActionHistory.Count);
+			Assert.AreEqual("Test Cryptic Clue,a,b,b",_engine.ActionHistory[0].ToString());
+		}
+
+		[Test]
+		public async Task Require_CanDoNonCaseSensitiveMatch()
+		{
+			AcqHolder.Acq.AddTestAcquisition(new Acquisition{
+				Name = "Test Cryptic Clue AOEUHTNS",
+				Action = "Test Cryptic Clue,a,c,1",
+				Result = "Test Cryptic Clue"
+			});
+			AcqHolder.Acq.AddTestAcquisition(new Acquisition{
+				Name = "Test Cryptic Clue",
+				Action = "Test Cryptic Clue,a,b,1",
+				Result = "Test Cryptic Clue"
+			});
+			await SetPossession("Mysteries","Test Cryptic Clue",10);
+			var r = await _engine.Require("Mysteries","Test Cryptic Clue","15","aoeuhtns",true);
+			Assert.AreEqual( HasActionsLeft.Consumed, r);
+			Assert.AreEqual(1,_engine.ActionHistory.Count);
+			Assert.AreEqual("Test Cryptic Clue,a,c,1",_engine.ActionHistory[0].ToString());
+		}
+
+		[Test]
+		public async Task RequireByResultLookupWhenTagNullAndNoNameMatch()
+		{
+			AcqHolder.Acq.AddTestAcquisition(new Acquisition{
+				Name = "TestCluenomatch",
+				Action = "Test Cryptic Clue,1,2",
+				Result = "Test Cryptic Clue match"
+			});
+
+			await SetPossession("Mysteries","Test Cryptic Clue",10);
+			var r = await _engine.Require("Mysteries","Test Cryptic Clue match","15",null,true);
+			Assert.AreEqual( HasActionsLeft.Consumed, r);
+			Assert.AreEqual(1,_engine.ActionHistory.Count);
+			Assert.AreEqual("Test Cryptic Clue,1,2",_engine.ActionHistory[0].ToString());
+		}
+
+		[Test]
+		public async Task RequireWithEmptyLevelWillAcquireNoItemsInPossession()
+		{
+			AcqHolder.Acq.AddTestAcquisition(new Acquisition{
+				Name = "Test1",
+				Action = "Test1,a,b",
+			});
+
+			await SetPossession("Mysteries","Test Cryptic Clue",10);
+			var r = await _engine.Require("Mysteries","Test Cryptic Clue",null,"Test1",true);
+			Assert.AreEqual( HasActionsLeft.Available, r);
+			Assert.AreEqual(0,_engine.ActionHistory.Count);
+
+			r = await _engine.Require("Mysteries","Test Cryptic Clue Not Found",null,"Test1",true);
+			Assert.AreEqual( HasActionsLeft.Consumed, r);
+			Assert.AreEqual(1,_engine.ActionHistory.Count);
+			Assert.AreEqual("Test1,a,b",_engine.ActionHistory[0].ToString());
+		}
+
 	}
 }

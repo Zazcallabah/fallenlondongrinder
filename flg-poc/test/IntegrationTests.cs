@@ -4,7 +4,8 @@ using System.Linq;
 using System;
 using System.Threading.Tasks;
 using fl;
-
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 namespace test
 {
 	[SetUpFixture]
@@ -18,10 +19,36 @@ namespace test
 		}
 	}
 
-	[Ignore("")]
 	public class IntegrationTests
 	{
 		[Test]
+		[Ignore("")]
+		[Category("Main")]
+		public async Task RunMain()
+		{
+			var e = Environment.GetEnvironmentVariable("LOGIN_EMAIL", EnvironmentVariableTarget.Process);
+			var p = Environment.GetEnvironmentVariable("LOGIN_PASS", EnvironmentVariableTarget.Process);
+
+			if( e == null || p == null )
+				throw new Exception("missing login");
+
+			var n = new Main(e,p);
+			await n.RunMain();
+		}
+		[Test]
+		[Category("Main")]
+		[Ignore("")]
+		public async Task RunAuto()
+		{
+			var e = "automaton3@prefect.se";
+			var p = "aoeu1234";
+			if( e == null || p == null )
+				throw new Exception("missing login");
+			var n = new Main(e,p);
+			await n.RunAutomaton(true);
+		}
+		[Test]
+		[Ignore("")]
 		public async Task VerifyApiFunctionality()
 		{
 			var s = SessionHolder.Session;

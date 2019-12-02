@@ -27,7 +27,7 @@ namespace fl
 
 		public async Task<bool> HasForcedAction()
 		{
-			if (_cachedList != null)
+			if (_cachedList == null)
 				_cachedList = await _session.ListStorylet();
 			return _cachedList.phase != "Available" && _cachedList.storylet != null && (_cachedList.storylet.canGoBack.HasValue && !_cachedList.storylet.canGoBack.Value);
 		}
@@ -75,8 +75,7 @@ namespace fl
 
 			if (_cachedList == null)
 			{
-				//todo error handle also debug output
-				//write-warning "storylet $($action.first) not found"
+				Log.Warning($"storylet {action.first} not found");
 				return HasActionsLeft.Faulty;
 			}
 
@@ -99,7 +98,7 @@ namespace fl
 
 			if (_cachedList.storylet.canGoBack.HasValue && _cachedList.storylet.canGoBack.Value)
 			{
-				// todo 			write-verbose "exiting storylet"
+				Log.Debug("DEBUG: exiting storylet");
 				_cachedList = await _session.GoBack();
 				return;
 			}

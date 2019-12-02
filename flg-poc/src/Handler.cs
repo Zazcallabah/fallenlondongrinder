@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
+using System.Text.RegularExpressions;
 
 namespace fl
 {
@@ -25,12 +26,12 @@ namespace fl
 			FileHandler.ForEachFile("cards", MergeCardFile);
 		}
 
-		public async Task RunActions(IEnumerable<ActionString> actions)
+		public async Task RunActions(IEnumerable<ActionString> actions, bool force = false)
 		{
 
 			await FilterCards();
 
-			if (await _session.HasActionsToSpare())
+			if (force || await _session.HasActionsToSpare())
 			{
 				var hasActionsLeft = await HandleLockedArea();
 				if (hasActionsLeft != HasActionsLeft.Available)
@@ -145,14 +146,8 @@ namespace fl
 				return HasActionsLeft.Faulty;
 			foreach (var action in areaData.require.Select(a => new ActionString(a)))
 			{
-				string level = null;
-				string tag = null;
-				if (action.third != null)
-				{
-					level = action.third[0];
-					if (action.third.Length > 1)
-						tag = action.third[2];
-				}
+				string level = action.third?.FirstOrDefault();
+				string tag = action.third?.Skip(1)?.FirstOrDefault();
 				var hasactionsleft = await _engine.Require(action.first, action.second, level, tag);
 				if (hasactionsleft == HasActionsLeft.Faulty || hasactionsleft == HasActionsLeft.Consumed)
 				{
@@ -165,14 +160,17 @@ namespace fl
 		public async Task<HasActionsLeft> HandleForcedAction()
 		{
 			var name = await _state.GetStoryletName();
-			if (ForcedActionFile.simple.ContainsKey(name))
+			var r = new Regex(name,RegexOptions.IgnoreCase);
+			var simplekey = ForcedActionFile.simple.Keys.FirstOrDefault( k => r.IsMatch(k) );
+			if( simplekey != null )
 			{
-				return await _state.PerformAction(ForcedActionFile.simple[name]);
+				return await _state.PerformAction(ForcedActionFile.simple[simplekey]);
 			}
+			var complexkey = ForcedActionFile.complex.Keys.FirstOrDefault( k => r.IsMatch(k) );
 
-			if (ForcedActionFile.complex.ContainsKey(name))
+			if (complexkey != null )
 			{
-				foreach (var entry in ForcedActionFile.complex[name])
+				foreach (var entry in ForcedActionFile.complex[complexkey])
 				{
 					var total = entry.Conditions.Length;
 					var satisfied = 0;
@@ -399,14 +397,9 @@ namespace fl
 			}
 			else if (action.location == "require")
 			{
-				string level = null;
-				string tag = null;
-				if (action.third != null)
-				{
-					level = action.third[0];
-					if (action.third.Length > 1)
-						tag = action.third[2];
-				}
+				string level = action.third?.FirstOrDefault();
+				string tag = action.third?.Skip(1)?.FirstOrDefault();
+
 				var hasActionsLeft = await _engine.Require(action.first, action.second, level, tag);
 				return hasActionsLeft;
 			}
@@ -578,12 +571,8 @@ namespace fl
 			{
 				foreach (var action in card.require.Select(r => new ActionString(r)))
 				{
-					string tag = null;
-					if (action.third != null)
-					{
-						tag = action.third[0];
-					}
-					HasActionsLeft hasActionsLeft = await _engine.Require(action.location,action.first,action.second,tag);
+					string tag = action.third?.FirstOrDefault();
+					HasActionsLeft hasActionsLeft = await _engine.Require(action.location, action.first, action.second, tag);
 					if (hasActionsLeft != HasActionsLeft.Available)
 						return hasActionsLeft;
 				}

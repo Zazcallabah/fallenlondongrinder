@@ -30,6 +30,8 @@ namespace fl
 	// }
 	// to prevent this, "mismatch" means this requirement has already been acquired through alternate means
 	// NOTE maybe you actually bought the stuff you needed for this requirement though? how to distinguish this??
+
+	//
 	public enum HasActionsLeft
 	{
 		Available,
@@ -389,14 +391,14 @@ namespace fl
 		public string qualityName;
 		public int qualityId;
 		public int levelBefore;
-		public int xpBefore;
+		public string xpBefore;
 		public int levelAfter;
-		public int xpAfter;
+		public string xpAfter;
 		public bool usesProgressBars;
 		public int leftScore;
 		public int rightScore;
-		public int startPercentage;
-		public int endPercentage;
+		public string startPercentage;
+		public string endPercentage;
 		public string changeType;
 		public bool isSidebar;
 		public string type;
