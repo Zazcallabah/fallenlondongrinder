@@ -280,172 +280,18 @@ namespace fl
 			var myself = await s.Myself();
 			return myself.character.actions;
 		}
+
+		public static async Task<bool> HasActionsToSpare(this Session s)
+		{
+			var actions = await s.GetAvailableActions();
+			Log.Info($"remaining actions: {actions}");
+			if (actions < 19)
+			{
+				Log.Warning("not enough actions left");
+				return false;
+			}
+
+			return true;
+		}
 	}
 }
-
-
-
-
-
-
-// function CreatePlanFromAction
-// {
-// 	param($location, $storyletname, $branches, $name)
-
-// 	$list = GoBackIfInStorylet
-// 	if( $list -eq $null )
-// 	{
-// 		return
-// 	}
-// 	$list = MoveIfNeeded $list $location
-
-// 	$event = EnterStorylet $list $storyletname
-// 	if( $event -eq $null )
-// 	{
-// 		write-warning "cant create plan, storylet $($storyletname) not found"
-// 		return
-// 	}
-
-// 	if( $branches -ne $null )
-// 	{
-// 		$event = PerformActions $event $branches
-// 	}
-
-// 	$branch = GetChildBranch $event.storylet.childBranches $name
-// 	if( $branch -eq $null )
-// 	{
-// 		write-warning "no childbranch named $name"
-// 	}
-// 	$branchId = $branch.id
-// 	$plankey = $branch.plankey
-// 	if(!(ExistsPlan $branch.id $branch.planKey))
-// 	{
-// 		return CreatePlan $branch.id $branch.planKey
-// 	}
-// 	return $null
-// }
-
-// function CreatePlanFromActionString
-// {
-// 	param($actionstring)
-// 	$str = $actionstring -split ","
-
-// 	if( $str.length -gt 0 )
-// 	{
-// 		$location = $str[0]
-// 	}
-// 	if( $str.length -gt 1 )
-// 	{
-// 		$storyletname = $str[1]
-// 	}
-// 	if( $str.length -gt 2 )
-// 	{
-// 		$name = $str[-1]
-// 	}
-// 	if( $str.length -gt 3 )
-// 	{
-// 		$branches = $str[2,($str.length-2)]
-// 	}
-
-// 	return CreatePlanFromAction -location $location -storyletname $storyletname -branches $branches -name $name
-// }
-
-// function DeleteExistingPlan
-// {
-// 	param( $name )
-// 	$plan = Get-Plan $name
-// 	DeletePlan $plan.branch.id
-// }
-
-
-
-
-
-// // // // // // // // // // // // public class ForcedActionHandler
-// // // // // // // // // // // // {
-
-
-
-
-
-
-// {
-// 	"Unpredictable Treasures": "?",
-// 	"The Stuff of Song": "Provide a very personal lesson",
-// 	"A Kindred Spirit": "snake",
-// 	"Unjustly imprisoned!":"1",
-
-
-// 	"Far Arbor": [
-// 		{
-// 			"Conditions":[
-// 				"Stories,Arbor: Permission to Linger,=0"
-// 			],
-// 			"Action": "Leave Arbor"
-// 		},
-// 		{
-// 			"Conditions":[
-// 				"Curiosity,Attar,<3"
-// 			],
-// 			"Action": "The city washes away"
-// 		}
-// 	],
-// }
-
-
-
-// $script:ForcedActions = gc -Raw $PSScriptRoot/forcedactions.json | ConvertFrom-Json
-
-
-// function IsSimpleAction
-// {
-// 	param($action)
-// 	return $action.GetType().Name -eq "String"
-// }
-
-// function HandleLockedStoryletAction
-// {
-// 	param( $list, $action, [switch]$dryRun )
-// 	if( $dryRun )
-// 	{
-// 		return $action
-// 	}
-// 	$result = PerformAction $list $action
-// 	return $false
-// }
-
-// function HandleLockedStorylet
-// {
-// 	param($list,[switch]$dryrun)
-
-// 	$action = $script:ForcedActions."$($list.storylet.name)"
-// 	if($action -eq $null)
-// 	{
-// 		throw "stuck in forced action named $($list.storylet.name), can't proceed without manual interaction"
-// 	}
-
-// 	if( IsSimpleAction  $action )
-// 	{
-// 		return HandleLockedStoryletAction $list $action -dryrun:$dryrun
-// 	}
-
-// 	foreach( $entry in $action )
-// 	{
-// 		$conditions = $entry.Conditions | %{
-// 			$condition = ParseActionString $_
-// 			$result = PossessionSatisfiesLevel $condition.location $condition.first $condition.second
-// 			Write-Verbose "checking criteria $_ gave result $result"
-// 			return $result
-// 		} | ?{ $_ } | measure
-
-// 		if( $conditions.Count -eq @($entry.Conditions).Length )
-// 		{
-// 			return HandleLockedStoryletAction $list $entry.Action -dryrun:$dryrun
-// 		}
-// 	}
-
-// 	write-warning "no idea what to do here"
-// 	throw "$list"
-// }
-
-

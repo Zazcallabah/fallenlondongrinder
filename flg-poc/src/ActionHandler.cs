@@ -12,6 +12,11 @@ namespace fl
 			_list = JsonConvert.DeserializeObject<ActionList>(FileHandler.ReadFile("actions.json"));
 		}
 
+		public static ActionList List()
+		{
+			return _list;
+		}
+
 		public static ActionString[] Main(int? shiftIndex = null)
 		{
 

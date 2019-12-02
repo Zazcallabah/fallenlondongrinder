@@ -88,8 +88,8 @@
 		"Action": "veilgarden,writer,rework,A Daring Edit"
 	},
 	"CautiousEdit": {
-		"Name": "NameFlourishPotential",
-		"Result": "NameFlourishPotential",
+		"Name": "CautiousEdit",
+		"Result": "CautiousEdit",
 		"Prerequisites": [
 			"Curiosity,Manuscript Page,3",
 			"Progress,Potential,<26,DaringEditFinal"

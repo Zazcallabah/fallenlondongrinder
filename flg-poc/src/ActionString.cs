@@ -7,10 +7,10 @@ namespace fl
 	{
 		public override string ToString()
 		{
-			var s = $"{location} {first} {second}";
+			var s = $"{location},{first},{second}";
 			if (third != null)
 			{
-				s += " " + string.Join(",", third);
+				s += "," + string.Join(",", third);
 			}
 			return s;
 		}

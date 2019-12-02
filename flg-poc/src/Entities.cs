@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace fl
 {
 	// bool?
@@ -77,6 +79,13 @@ namespace fl
 		public string name;
 		public string planKey;
 		public int? id;
+	}
+
+	public class LockedAreaData
+	{
+		public string name;
+		public string[] require;
+		public bool? forced;
 	}
 
 	public class MapEntry
@@ -275,6 +284,7 @@ namespace fl
 		public Messages messages;
 		public bool isSuccess;
 	}
+
 	public class Myself
 	{
 		public Character character;
@@ -411,11 +421,14 @@ namespace fl
 		public string image;
 		public long id;
 	}
+
 	public class EndStorylet
 	{
 		public int rootEventId;
 		public int currentActionsRemaining;
-		//	public Event event;
+
+		[JsonProperty(PropertyName = "event")]
+		public Event eventValue;
 		public bool isLinkingEvent;
 		public bool isDirectLinkingEvent;
 		public int maxActionsAllowed;

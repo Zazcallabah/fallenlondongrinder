@@ -10,15 +10,13 @@ namespace fl
 	public class AcquisitionEngine
 	{
 		public readonly IDictionary<string, Acquisition> Acquisitions = new Dictionary<string, Acquisition>();
-		Session _session;
 		GameState _state;
 		Handler _handler;
 
 		public Handler Handler { get; set; }
 
-		public AcquisitionEngine(Session session, GameState state)
+		public AcquisitionEngine(GameState state)
 		{
-			_session = session;
 			_state = state;
 			LoadItemsCsv();
 			AddAcquisition("DefaultMysteries3bJournals",
@@ -175,7 +173,7 @@ namespace fl
 			var matching = Acquisitions.Values.FirstOrDefault(a => r.IsMatch(a.Name));
 			if (matching != null)
 				return matching;
-			var resultmatching = Acquisitions.Values.Where(a => r.IsMatch(a.Result)).ToArray();
+			var resultmatching = Acquisitions.Values.Where(a => !string.IsNullOrWhiteSpace(a.Result) && r.IsMatch(a.Result)).ToArray();
 
 			var exactmatch = resultmatching.Where(a => a.Result == name).OrderByDescending(a => a.Reward).FirstOrDefault();
 			if (exactmatch != null)
@@ -184,9 +182,45 @@ namespace fl
 
 		}
 
+		public async Task<bool> PossessionSatisfiesLevel(string category, string name, string level)
+		{
+			var pos = await _state.GetPossession(category, name);
+
+			if (string.IsNullOrWhiteSpace(level))
+			{
+				return pos != null && pos.effectiveLevel > 0;
+			}
+
+			var opNum = level.Substring(1).AsNumber();
+
+			if (level[0] == '<')
+			{
+				if (pos == null || (opNum.HasValue && pos.effectiveLevel < opNum.Value))
+				{
+					return true;
+				}
+			}
+			else if (level[0] == '=')
+			{
+				if (pos == null && (opNum.HasValue && opNum.Value == 0))
+				{
+					return true;
+				}
+				else if (pos != null && (opNum.HasValue && pos.effectiveLevel == opNum.Value))
+				{
+					return true;
+				}
+			}
+			else if (pos != null && pos.effectiveLevel >= level.AsNumber() )
+			{
+				return true;
+			}
+			return false;
+		}
+
 		public async Task<HasActionsLeft> Require(string category, string name, string level, string tag = null, bool dryRun = false)
 		{
-			if (await _state.PossessionSatisfiesLevel(category, name, level))
+			if (await PossessionSatisfiesLevel(category, name, level))
 			{
 				return HasActionsLeft.Available;
 			}
@@ -216,7 +250,7 @@ namespace fl
 
 			if (acq.Cards != null)
 			{
-				var opportunity = await _session.DrawOpportunity();
+				var opportunity = await _state.DrawOpportunity();
 				foreach (var c in acq.Cards.Select(c => new ActionString(c)))
 				{
 					var cId = c.location.AsNumber();

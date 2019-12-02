@@ -30,7 +30,7 @@ namespace fl
 
 			await FilterCards();
 
-			if (await _state.HasActionsToSpare())
+			if (await _session.HasActionsToSpare())
 			{
 				var hasActionsLeft = await HandleLockedArea();
 				if (hasActionsLeft != HasActionsLeft.Available)
@@ -92,12 +92,6 @@ namespace fl
 			}
 		}
 
-		public class LockedAreaData
-		{
-			public string name;
-			public string[] require;
-			public bool? forced;
-		}
 
 		IDictionary<string, LockedAreaData> _lockedAreas = new Dictionary<string, LockedAreaData>();
 
@@ -113,7 +107,7 @@ namespace fl
 			if (await _state.HasForcedAction())
 			{
 				Log.Info("in forced storylet");
-				return await _state.HandleForcedAction();
+				return await HandleForcedAction();
 			}
 
 			if (!await _session.IsLockedArea())
@@ -168,6 +162,35 @@ namespace fl
 			return HasActionsLeft.Consumed;
 		}
 
+		public async Task<HasActionsLeft> HandleForcedAction()
+		{
+			var name = await _state.GetStoryletName();
+			if (ForcedActionFile.simple.ContainsKey(name))
+			{
+				return await _state.PerformAction(ForcedActionFile.simple[name]);
+			}
+
+			if (ForcedActionFile.complex.ContainsKey(name))
+			{
+				foreach (var entry in ForcedActionFile.complex[name])
+				{
+					var total = entry.Conditions.Length;
+					var satisfied = 0;
+					foreach (var cond in entry.Conditions)
+					{
+						var a = new ActionString(cond);
+						if (await _engine.PossessionSatisfiesLevel(a.location, a.first, a.second))
+							satisfied++;
+					}
+					if (total == satisfied)
+					{
+						return await _state.PerformAction(entry.Action);
+					}
+				}
+			}
+
+			throw new Exception($"stuck in forced action named {name}, can't proceed without manual interaction");
+		}
 		private async Task<HasActionsLeft> EarnestPayment()
 		{
 			var hasActionsLeft = await HandleProfession();
@@ -180,12 +203,12 @@ namespace fl
 
 		private async Task<HasActionsLeft> HandleRenown()
 		{
-			if (!await _state.PossessionSatisfiesLevel("Route", "Route: Mrs Plenty's Most Distracting Carnival", "1"))
+			if (!await _engine.PossessionSatisfiesLevel("Route", "Route: Mrs Plenty's Most Distracting Carnival", "1"))
 			{
 				return HasActionsLeft.Available;
 			}
 
-			var isPosi = await _state.PossessionSatisfiesLevel("Accomplishments", "A Person of Some Importance", "1");
+			var isPosi = await _engine.PossessionSatisfiesLevel("Accomplishments", "A Person of Some Importance", "1");
 			var mapper = new Dictionary<string, string>{
 				{"Church", "The Church"},
 				{"Docks", "The Docks"},
@@ -216,7 +239,7 @@ namespace fl
 					fullname = $"Renown: {mapper[faction]}";
 				}
 
-				if (await _state.PossessionSatisfiesLevel("Contacts", fullname, "5"))
+				if (await _engine.PossessionSatisfiesLevel("Contacts", fullname, "5"))
 				{
 					if (isPosi)
 					{
@@ -314,7 +337,7 @@ namespace fl
 		{
 			if (await _session.ExistsPlan(planId))
 			{
-				if (await _state.PossessionSatisfiesLevel(exitCondition.location, exitCondition.first, exitCondition.second))
+				if (await _engine.PossessionSatisfiesLevel(exitCondition.location, exitCondition.first, exitCondition.second))
 				{
 					await _session.DeletePlan(planId);
 					return HasActionsLeft.Available;
@@ -324,7 +347,7 @@ namespace fl
 				return hasActionsLeft;
 			}
 
-			if (await _state.PossessionSatisfiesLevel(trigger.location, trigger.first, trigger.second))
+			if (await _engine.PossessionSatisfiesLevel(trigger.location, trigger.first, trigger.second))
 			{
 				await _session.CreatePlan(planId, planKey);
 				return await DoAction(action);
@@ -472,7 +495,7 @@ namespace fl
 
 		private async Task<HasActionsLeft> GrindMoney()
 		{
-			if (await _state.PossessionSatisfiesLevel("Route", "Route: The Forgotten Quarter", "1") && await _state.PossessionSatisfiesLevel("Stories", "Archaeologist", "2"))
+			if (await _engine.PossessionSatisfiesLevel("Route", "Route: The Forgotten Quarter", "1") && await _engine.PossessionSatisfiesLevel("Stories", "Archaeologist", "2"))
 			{
 				var hasmoreActions = await _engine.Require("Progress", "Archaeologist's Progress", "99"); // infinite grind for money
 				return HasActionsLeft.Consumed;
@@ -487,7 +510,7 @@ namespace fl
 			{
 				return hasMoreActions;
 			}
-			if (await _state.PossessionSatisfiesLevel("Stories", "A Name Scrawled in Blood", "3"))
+			if (await _engine.PossessionSatisfiesLevel("Stories", "A Name Scrawled in Blood", "3"))
 			{
 				hasMoreActions = await _engine.Require("Progress", "Potential", "71", "Touch of darkness");
 				if (hasMoreActions == HasActionsLeft.Consumed)
@@ -495,7 +518,7 @@ namespace fl
 					return hasMoreActions;
 				}
 
-				if (await _state.PossessionSatisfiesLevel("Accomplishments", "A Person of Some Importance", "1"))
+				if (await _engine.PossessionSatisfiesLevel("Accomplishments", "A Person of Some Importance", "1"))
 				{
 					hasMoreActions = await _engine.Require("Progress", "Potential", "81", "something exotic");
 					if (hasMoreActions == HasActionsLeft.Consumed)
@@ -555,7 +578,12 @@ namespace fl
 			{
 				foreach (var action in card.require.Select(r => new ActionString(r)))
 				{
-					HasActionsLeft hasActionsLeft = HasActionsLeft.Consumed; // TODO Require $action.location $action.first $action.second $action.third
+					string tag = null;
+					if (action.third != null)
+					{
+						tag = action.third[0];
+					}
+					HasActionsLeft hasActionsLeft = await _engine.Require(action.location,action.first,action.second,tag);
 					if (hasActionsLeft != HasActionsLeft.Available)
 						return hasActionsLeft;
 				}

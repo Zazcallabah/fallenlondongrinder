@@ -1,9 +1,6 @@
-using Newtonsoft.Json;
 using NUnit.Framework;
-using System.Linq;
-using System;
-using System.Threading.Tasks;
 using fl;
+using System.Linq;
 
 namespace test
 {
@@ -17,7 +14,7 @@ namespace test
 			Assert.AreEqual("b",s.first);
 			Assert.AreEqual("c",s.second);
 			Assert.AreEqual(new []{"d","e","f"},s.third);
-			Assert.AreEqual("a b c d,e,f",s.ToString());
+			Assert.AreEqual("a,b,c,d,e,f",s.ToString());
 		}
 
 		[Test]
@@ -50,6 +47,17 @@ namespace test
 
 			Assert.AreEqual(mstr[1].ToString(), shifted[0].ToString());
 			Assert.AreEqual(mstr[day].ToString(), dayshifted[0].ToString());
+		}
+
+		[Test]
+		public void TestMainActionsOrder()
+		{
+			var l = ActionHandler.List();
+			var old = l.main;
+			l.main = new []{"action,a,1","action,a,2","action,a,3","action,a,4"};
+
+			Assert.AreEqual(new []{"action,a,4","action,a,1","action,a,2","action,a,3"},ActionHandler.Main(3).Select(a => a.ToString() ).ToArray());
+			l.main = old;
 		}
 	}
 }

@@ -117,7 +117,7 @@ namespace fl
 				if (result != null)
 					return result;
 			}
-			throw new Exception($"branch {name} not found");
+			return null;
 		}
 
 		// for testing

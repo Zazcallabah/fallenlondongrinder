@@ -230,30 +230,32 @@ namespace fl
 		public async Task<StoryletList> BeginStorylet(long id)
 		{
 			StoryletList ev = await Post<StoryletList>("storylet/begin", new { eventId = id });
-			// todo
-			// 	if( $ev.storylet )
-			// 	{
-			// 		Write-Verbose "BeginStorylet: $($ev.storylet.name) -> $($ev.storylet.description)"
-			// 	}
+			if( ev.storylet != null )
+				Log.Info($"BeginStorylet: {ev.storylet.name} -> {ev.storylet.description}");
 			return ev;
 		}
 
+		public bool TestModeEnabled {get;set;}
+
+		public List<long> TestPostedBranches = new List<long>();
+
 		public async Task<StoryletList> ChooseBranch(long id)
 		{
-			StoryletList ev = await Post<StoryletList>("storylet/choosebranch", new { branchId = id, secondChanceIds = new int[0] });
-			// todo
-			// 	if( $event.endStorylet )
-			// 	{
-			// 		Write-Verbose "EndStorylet: $($event.endStorylet.event.name) -> $($event.endStorylet.event.description)"
-			// 	}
-			// 	if( $event.messages )
-			// 	{
-			// 		if( $event.messages.defaultMessages )
-			// 		{
-			// 			$event.messages.defaultMessages | %{ Write-Verbose "message: $($_.message)" }
-			// 		}
-			// 	}
-			return ev;
+			if(TestModeEnabled)
+			{
+				TestPostedBranches.Add(id);
+				return null;
+			}
+			else
+			{
+				StoryletList ev = await Post<StoryletList>("storylet/choosebranch", new { branchId = id, secondChanceIds = new int[0] });
+				if( ev.endStorylet != null )
+					Log.Info($"EndStorylet: {ev.endStorylet.eventValue.name} -> {ev.endStorylet.eventValue.description}");
+				if( ev.messages != null && ev.messages.defaultMessages != null )
+					foreach (var m in ev.messages.defaultMessages)
+						Log.Info($"message: {m.message}");
+				return ev;
+			}
 		}
 
 		async Task<Plans> Plans()

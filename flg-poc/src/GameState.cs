@@ -14,71 +14,15 @@ namespace fl
 			_session = s;
 		}
 
-		public async Task<bool> PossessionSatisfiesLevel(string category, string name, string level)
+		public StoryletList GetCached()
 		{
-			var pos = await _session.GetPossession(category, name);
-
-			if (string.IsNullOrWhiteSpace(level))
-			{
-				return pos != null && pos.effectiveLevel > 0;
-			}
-
-			var opNum = level.Substring(1).AsNumber();
-
-			if (level[0] == '<')
-			{
-				if (pos == null || (opNum.HasValue && pos.effectiveLevel < opNum.Value))
-				{
-					return true;
-				}
-			}
-			else if (level[0] == '=')
-			{
-				if (pos == null && (opNum.HasValue && opNum.Value == 0))
-				{
-					return true;
-				}
-				else if (pos != null && (opNum.HasValue && pos.effectiveLevel == opNum.Value))
-				{
-					return true;
-				}
-			}
-			else if (pos != null && (opNum.HasValue && pos.effectiveLevel >= opNum.Value))
-			{
-				return true;
-			}
-			return false;
+			return _cachedList;
 		}
 
-		public async Task<HasActionsLeft> HandleForcedAction()
-		{
+		public async Task<string> GetStoryletName(){
 			if (_cachedList == null)
 				_cachedList = await _session.ListStorylet();
-			if (ForcedActionFile.simple.ContainsKey(_cachedList.storylet.name))
-			{
-				return await PerformAction(ForcedActionFile.simple[_cachedList.storylet.name]);
-			}
-
-			if (ForcedActionFile.complex.ContainsKey(_cachedList.storylet.name))
-			{
-				foreach (var entry in ForcedActionFile.complex[_cachedList.storylet.name])
-				{
-					var total = entry.Conditions.Length;
-					var satisfied = 0;
-					foreach (var cond in entry.Conditions)
-					{
-						var a = new ActionString(cond);
-						if (await PossessionSatisfiesLevel(a.location, a.first, a.second))
-							satisfied++;
-					}
-					if (total == satisfied)
-					{
-						return await PerformAction(entry.Action);
-					}
-				}
-			}
-
-			throw new Exception($"stuck in forced action named {_cachedList.storylet.name}, can't proceed without manual interaction");
+			return _cachedList.storylet?.name;
 		}
 
 		public async Task<bool> HasForcedAction()
@@ -86,18 +30,6 @@ namespace fl
 			if (_cachedList != null)
 				_cachedList = await _session.ListStorylet();
 			return _cachedList.phase != "Available" && _cachedList.storylet != null && (_cachedList.storylet.canGoBack.HasValue && !_cachedList.storylet.canGoBack.Value);
-		}
-
-		public async Task<bool> HasActionsToSpare()
-		{
-			// 	Write-Verbose "remaining actions: $((Myself).character.actions)"
-			if (await _session.GetAvailableActions() < 19)
-			{
-				// 		write-warning "not enough actions left"
-				return false;
-			}
-
-			return true;
 		}
 
 		public async Task<HasActionsLeft> ActivateOpportunityCard(CardAction card, bool inStoryletHint)
@@ -180,6 +112,16 @@ namespace fl
 			}
 		}
 
+		public async Task<Opportunity> DrawOpportunity()
+		{
+			return await _session.DrawOpportunity();
+		}
+
+		public async Task<Possession> GetPossession(string category, string name)
+		{
+			return await _session.GetPossession(category,name);
+		}
+
 		public async Task<HasActionsLeft> PerformAction(string name)
 		{
 			if (_cachedList == null || _cachedList.phase == "End")
@@ -188,9 +130,7 @@ namespace fl
 			}
 			if (_cachedList.phase == "Available")
 			{
-				// TODO 		Write-Warning "Trying to perform action $name while phase: Available"
 				throw new Exception($"Trying to perform action {name} while phase: Available");
-				// should return null;
 			}
 			var branch = _cachedList.storylet.childBranches.GetChildBranch(name);
 
@@ -199,7 +139,9 @@ namespace fl
 				return HasActionsLeft.Faulty;
 			}
 
-			_cachedList = await _session.ChooseBranch(branch.id);
+			var branchResult = await _session.ChooseBranch(branch.id);
+			if( branchResult != null )
+				_cachedList = branchResult;
 			return HasActionsLeft.Available; // can technically be consumed, but until we figure out list.phase and stuff, we have to depend on upstream calls knowing what they are doing
 		}
 
@@ -257,14 +199,14 @@ namespace fl
 			_cachedList = await _session.ListStorylet();
 		}
 
-		public async Task<HasActionsLeft> DoInventoryAction(string category, string name, string action)
+		public async Task<HasActionsLeft> DoInventoryAction(string category, string name, string action, bool dryRun = false)
 		{
 			await GoBackIfInStorylet();
 			var item = await _session.GetPossession(category, name);
 			if (item != null && item.effectiveLevel >= 1)
 			{
 				var result = await _session.UseQuality(item.id);
-				if (result.isSuccess)
+				if (result.isSuccess && !dryRun )
 				{
 					return await PerformAction(action);
 				}

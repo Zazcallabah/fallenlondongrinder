@@ -29,7 +29,7 @@ namespace fl
 				// 	throw new Exception("missing login information");
 				Session session = new Session(email, password);
 				GameState state = new GameState(session);
-				AcquisitionEngine engine = new AcquisitionEngine(session, state);
+				AcquisitionEngine engine = new AcquisitionEngine( state);
 
 				_handler = new Handler(session, state, engine);
 			}
