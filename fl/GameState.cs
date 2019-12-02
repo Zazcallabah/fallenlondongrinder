@@ -189,8 +189,11 @@ namespace fl
 
 			if (await _session.GetLocationId(location) == await _session.GetLocationId("empress court"))
 			{
-				// TODO 		$result = DoAction "shutteredpalace,Spend,1"
-				throw new NotImplementedException("TODO: moving to empresscort");
+				await _session.MoveTo("shutteredpalace");
+				_cachedList = await _session.ListStorylet();
+				await EnterStorylet("spend");
+				await PerformAction("1");
+				return;
 			}
 
 			// todo test if race condition since we throw away result from moveto?

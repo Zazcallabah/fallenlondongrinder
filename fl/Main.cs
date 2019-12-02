@@ -18,6 +18,7 @@ namespace fl
 			var h = new Main(e, p);
 			try
 			{
+				Log.Info("Main account");
 				await h.RunMain();
 			}
 			catch(Exception ex){
@@ -29,6 +30,7 @@ namespace fl
 
 			if (ae != null && ap != null)
 			{
+				Log.Info($"Current automaton: {ae}");
 				var ah = new Main(ae, ap);
 				await ah.RunAutomaton();
 			}
