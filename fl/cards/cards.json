@@ -81,6 +81,11 @@
 			"action": "depths"
 		},
 		{
+			"name":"A dream of a high mountain path",
+			"require": ["Academic,Foxfire Candle Stub,150"],
+			"action":"bird"
+		},
+		{
 			"name": "Who is this Smuggler?",
 			"action": "Ask him"
 		},
@@ -302,6 +307,7 @@
 		"A Sporting Sort",
 		"A day at the races",
 		"An Afternoon of Good Deeds",
+		"A voice from a well",
 		"A dream about",
 		"The troublesome suitor",
 		"The Secular Missionary: a Package Arrives",

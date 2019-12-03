@@ -64,7 +64,7 @@ namespace fl
 				{
 					return r.IsMatch(c.name.Substring(1));
 				}
-				return eventId.ToString() == c.name || c.name == name;
+				return eventId.ToString() == c.name || name.Equals(c.name, StringComparison.InvariantCultureIgnoreCase);
 			});
 			if (card == null)
 				return null;
