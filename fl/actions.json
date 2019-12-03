@@ -28,7 +28,7 @@
 		//"require,Progress,Casing...,13",
 		//"require,Progress,The Hunt is on,19",
 		"require,Nostalgia,Bazaar Permit,5",
-		"require,Basic,Making Waves,1,GetWaveThroughTerror",
+		"require,Prominence,Making Waves,1,GetWaveThroughTerror",
 		"require,Progress,Archaeologist's Progress,99", // <- always an infinite grind for money,
 		"require,Academic,Volume of Collated Research,15",
 		"require,Stories,A Procurer of Savage Beasts,4,HuntGoat",

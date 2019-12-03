@@ -58,7 +58,7 @@ namespace fl
 				}
 
 				hasActionsLeft = await TryOpportunity();
-				if (hasActionsLeft != HasActionsLeft.Available)
+				if (hasActionsLeft != HasActionsLeft.Available && hasActionsLeft != HasActionsLeft.Faulty)
 				{
 					return;
 				}
@@ -160,15 +160,15 @@ namespace fl
 		public async Task<HasActionsLeft> HandleForcedAction()
 		{
 			var name = await _state.GetStoryletName();
-			var r = new Regex(name,RegexOptions.IgnoreCase);
-			var simplekey = ForcedActionFile.simple.Keys.FirstOrDefault( k => r.IsMatch(k) );
-			if( simplekey != null )
+			var r = new Regex(name, RegexOptions.IgnoreCase);
+			var simplekey = ForcedActionFile.simple.Keys.FirstOrDefault(k => r.IsMatch(k));
+			if (simplekey != null)
 			{
 				return await _state.PerformAction(ForcedActionFile.simple[simplekey]);
 			}
-			var complexkey = ForcedActionFile.complex.Keys.FirstOrDefault( k => r.IsMatch(k) );
+			var complexkey = ForcedActionFile.complex.Keys.FirstOrDefault(k => r.IsMatch(k));
 
-			if (complexkey != null )
+			if (complexkey != null)
 			{
 				foreach (var entry in ForcedActionFile.complex[complexkey])
 				{
@@ -573,9 +573,9 @@ namespace fl
 				{
 					string tag = action.third?.FirstOrDefault();
 					HasActionsLeft hasActionsLeft = await _engine.Require(action.location, action.first, action.second, tag);
-					if( hasActionsLeft == HasActionsLeft.Faulty )
+					if (hasActionsLeft == HasActionsLeft.Faulty)
 					{
-						if(card.eventId.HasValue)
+						if (card.eventId.HasValue)
 						{
 							Log.Warning($"Missing prereq path for card {card.name}, discarding.");
 							await _session.DiscardOpportunity(card.eventId.Value);

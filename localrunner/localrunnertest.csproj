@@ -18,6 +18,9 @@
     <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
   </ItemGroup>
+	<ItemGroup>
+		<None Update="secrets.json" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\fl\fl.csproj" />
