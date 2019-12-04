@@ -254,7 +254,7 @@ namespace fl
 
 		static int? GetAirsFromPlans(IEnumerable<Plan> plans)
 		{
-			var r = new Regex("\\(you have (\\d+)\\)");
+			var r = new Regex("\\(you have (?<airs>\\d+)\\)|The Airs of London</span> (?<airs>\\d+)<em>");
 			var airs = plans.SelectMany(p => p.branch.qualityRequirements).FirstOrDefault(q => q.qualityName == "The Airs of London");
 			if (airs != null)
 			{

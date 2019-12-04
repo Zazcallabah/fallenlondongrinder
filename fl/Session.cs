@@ -21,6 +21,10 @@ namespace fl
 		User _user;
 		Myself _myself;
 		Plans _plans;
+		public void TestSetPlans(Plans plans)
+		{
+			_plans = plans;
+		}
 
 		public Session(string email, string pass)
 		{

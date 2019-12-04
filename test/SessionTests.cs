@@ -87,6 +87,25 @@ namespace test
 			Assert.IsNotNull( a );
 		}
 
+		Plans TestPlans(string tooltip)
+		{
+			return new Plans { complete = new Plan[0], active = new[] { new Plan { branch = new PlanBranch{
+				qualityRequirements =new []{ new QualityReq{
+					tooltip = tooltip,
+					qualityName = "The Airs of London"
+				}}}}}};
+		}
+
+
+		[Test]
+		public async Task CanParseAirs()
+		{
+			SessionHolder.Session.TestSetPlans(TestPlans("You unlocked this with <span class='quality-name'>The Airs of London</span> 38<em> (you needed 31-60)</em>"));
+			Assert.AreEqual(38,await SessionHolder.Session.Airs());
+
+			SessionHolder.Session.TestSetPlans(TestPlans("You need <span class='quality-name'>The Airs of London</span> 31-60<em> (you have 4)</em>"));
+			Assert.AreEqual(4,await SessionHolder.Session.Airs());
+		}
 		[Test]
 		public async Task CanGetShopItem()
 		{
