@@ -133,7 +133,7 @@ namespace fl
 
 			if (areaData == null)
 			{
-				Log.Error("Stuck in locked area without instructions");
+				Log.Error($"Stuck in locked area called {user.setting.name} without instructions");
 				return HasActionsLeft.Faulty;
 			}
 			if (areaData.forced.HasValue && areaData.forced.Value)
@@ -558,7 +558,7 @@ namespace fl
 
 		public async Task<HasActionsLeft> TryOpportunity()
 		{
-			if (await _session.IsLockedArea())
+			if (await _session.IsLockedArea() || await _state.HasForcedAction() )
 				return HasActionsLeft.Mismatch;
 
 
@@ -610,6 +610,11 @@ namespace fl
 			if (await _session.IsLockedArea())
 			{
 				Log.Info("In locked area, won't filter cards");
+				return;
+			}
+			if (await _state.HasForcedAction())
+			{
+				Log.Info("Forced action, won't filter cards");
 				return;
 			}
 			_cachedOpportunity = await _session.DrawOpportunity();
