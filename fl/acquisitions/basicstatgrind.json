@@ -39,5 +39,28 @@
 			"Mysteries,Tale of Terror!!,50"
 		],
 		"Action": "inventory,Tale of Terror!!,fireside"
+	},
+	"SmuggledTea":{
+		"Name":"SmuggledTea",
+		"Result": "Suspicion",
+		"Prerequisites":[],
+		"Action":"spite,widow,smuggled tea"
+
+	},
+	"UnfairTax":{
+		"Name":"UnfairTax",
+		"Result": "Suspicion",
+		"Prerequisites":["Special,Airs,34,SmuggledTea"],
+		"Action":"spite,widow,Unfair Tax on Jewels,1"
+
+	},
+	"WidowSuspicion":{
+		"Name":"WidowSuspicion",
+		"Result": "Suspicion",
+		"Prerequisites":[
+			"Connected,Connected: The Widow,10,UnfairTax",
+			"Special,Airs,<34,UnfairTax"
+		],
+		"Action":"spite,widow,tomb-colonist,1"
 	}
 }

@@ -45,11 +45,11 @@ namespace fl
 					return;
 				}
 
-				hasActionsLeft = await CheckMenaces();
-				if (hasActionsLeft != HasActionsLeft.Available)
-				{
-					return;
-				}
+				// hasActionsLeft = await CheckMenaces();
+				// if (hasActionsLeft != HasActionsLeft.Available)
+				// {
+				// 	return;
+				// }
 
 				hasActionsLeft = await HandleRenown();
 				if (hasActionsLeft != HasActionsLeft.Available)
@@ -57,11 +57,11 @@ namespace fl
 					return;
 				}
 
-				hasActionsLeft = await TryOpportunity();
-				if (hasActionsLeft != HasActionsLeft.Available && hasActionsLeft != HasActionsLeft.Faulty)
-				{
-					return;
-				}
+				// hasActionsLeft = await TryOpportunity();
+				// if (hasActionsLeft != HasActionsLeft.Available && hasActionsLeft != HasActionsLeft.Faulty)
+				// {
+				// 	return;
+				// }
 				foreach (var action in actions)
 				{
 					hasActionsLeft = await DoAction(action);
