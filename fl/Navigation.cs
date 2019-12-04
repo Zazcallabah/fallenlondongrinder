@@ -155,6 +155,14 @@ namespace fl
 
 		public static async Task<Possession> GetPossession(this Session s, string category, string name)
 		{
+			if( category == "Special" && name == "Airs" ) {
+				var a = await s.Airs();
+				return new Possession{
+					name = "Airs",
+					level = a.Value,
+					effectiveLevel = a.Value
+				};
+			}
 			var possessions = await s.GetPossessionCategory(category);
 			var r = new Regex(name, RegexOptions.IgnoreCase);
 			return possessions.FirstOrDefault(p => r.IsMatch(p.name));
@@ -259,7 +267,7 @@ namespace fl
 			return null;
 		}
 
-		static async Task<int?> GetAirs(this Session s)
+		static async Task<int?> _GetAirs(this Session s)
 		{
 			var plans = await s.ListPlans();
 			return GetAirsFromPlans(plans);
@@ -267,7 +275,7 @@ namespace fl
 
 		public static async Task<int?> Airs(this Session s)
 		{
-			var airs = await GetAirs(s);
+			var airs = await _GetAirs(s);
 			if (airs.HasValue)
 				return airs;
 			var result = await s.CreatePlan(4346, "f9c8d1dde5bee056cfab1123f9e0e9a0");

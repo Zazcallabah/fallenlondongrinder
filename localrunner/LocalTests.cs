@@ -36,6 +36,7 @@ namespace localrunnertest
 				throw new Exception("missing login");
 			var n = new Main(e,p);
 			await n.RunAutomaton(true);
+			Assert.Fail("Fail test to see output");
 		}
 	}
 }
