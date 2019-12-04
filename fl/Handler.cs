@@ -565,7 +565,7 @@ namespace fl
 			var card = await GetCardInUseList();
 
 			if (card == null)
-				return HasActionsLeft.Mismatch;
+				return HasActionsLeft.Available;
 
 			if (card.require != null)
 			{
