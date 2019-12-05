@@ -87,6 +87,13 @@ namespace test
 			Assert.IsNotNull( a );
 		}
 
+	[Test]
+		public async Task CanReadForgottenQuarterAirs()
+		{
+			var s = SessionHolder.Session;
+			var a = await s.AirsForgottenQuarter();
+			Assert.IsNotNull( a );
+		}
 		Plans TestPlans(string tooltip)
 		{
 			return new Plans { complete = new Plan[0], active = new[] { new Plan { branch = new PlanBranch{

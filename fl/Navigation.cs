@@ -252,10 +252,10 @@ namespace fl
 			return await s.PostUnequipOutfit(item.id);
 		}
 
-		static int? GetAirsFromPlans(IEnumerable<Plan> plans)
+		static int? GetAirsFromPlans(IEnumerable<Plan> plans, string location = "London")
 		{
-			var r = new Regex("\\(you have (?<airs>\\d+)\\)|The Airs of London</span> (?<airs>\\d+)<em>");
-			var airs = plans.SelectMany(p => p.branch.qualityRequirements).FirstOrDefault(q => q.qualityName == "The Airs of London");
+			var r = new Regex($"\\(you have (?<airs>\\d+)\\)|The Airs of {location}</span> (?<airs>\\d+)<em>");
+			var airs = plans.SelectMany(p => p.branch.qualityRequirements).FirstOrDefault(q => q.qualityName == $"The Airs of {location}");
 			if (airs != null)
 			{
 				var message = r.Match(airs.tooltip);
@@ -263,25 +263,31 @@ namespace fl
 				{
 					return int.Parse(message.Groups[1].Value);
 				}
+				else return 0;
 			}
 			return null;
 		}
 
-		static async Task<int?> _GetAirs(this Session s)
+		static async Task<int?> _GetAirs(this Session s, string location = "London" )
 		{
 			var plans = await s.ListPlans();
-			return GetAirsFromPlans(plans);
+			return GetAirsFromPlans(plans,location);
 		}
 
-		public static async Task<int?> Airs(this Session s)
+		public static async Task<int?> Airs(this Session s,string location = "London",int id = 4346, string key = "f9c8d1dde5bee056cfab1123f9e0e9a0" )
 		{
-			var airs = await _GetAirs(s);
+			var airs = await _GetAirs(s,location);
 			if (airs.HasValue)
 				return airs;
-			var result = await s.CreatePlan(4346, "f9c8d1dde5bee056cfab1123f9e0e9a0");
+			var result = await s.CreatePlan(id, key);
 			if (!result.isSuccess)
 				return null;
 			return GetAirsFromPlans(new[] { result.plan });
+		}
+
+		public static async Task<int?> AirsForgottenQuarter(this Session s)
+		{
+			return await Airs(s,"the Forgotten Quarter",4653,"56ff8f90a87789481ea90de9d2d0ee36");
 		}
 
 		public static async Task<int> GetAvailableActions(this Session s)
