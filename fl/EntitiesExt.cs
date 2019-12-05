@@ -52,7 +52,7 @@ namespace fl
 			return collection.Any(c => r.IsMatch(c) || c.AsNumber() == card.eventId);
 		}
 
-		public static CardAction GetCardFromUseListByName(this List<CardAction> use, string name, long eventId)
+		public static CardAction GetCardFromUseListByName(this IEnumerable<CardAction> use, string name, long eventId)
 		{
 			var r = new Regex(name, RegexOptions.IgnoreCase);
 			var card = use.FirstOrDefault(c =>
@@ -64,7 +64,11 @@ namespace fl
 				{
 					return r.IsMatch(c.name.Substring(1));
 				}
-				return eventId.ToString() == c.name || name.Equals(c.name, StringComparison.InvariantCultureIgnoreCase);
+				var n = c.name;
+				if(n[0] == '!' ) {
+					n = n.Substring(1);
+				}
+				return eventId.ToString() == n || name.Equals(n, StringComparison.InvariantCultureIgnoreCase);
 			});
 			if (card == null)
 				return null;

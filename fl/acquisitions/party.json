@@ -4,7 +4,10 @@
 		"Prerequisites": [
 		],
 		"Cards":[
-			"The Brass Ambassador...,...bumps into you on the street outside"
+			{
+				"name":"The Brass Ambassador...",
+				"action":"...bumps into you on the street outside"
+			}
 		],
 		"Action": "veilgarden,Arriving,punctually"
 	},
@@ -15,7 +18,10 @@
 			"Progress,Time Remaining...,<6,PartyStep1"
 		],
 		"Cards":[
-			"The Tentacled Entrepreneur...,...is heading hopefully in your direction"
+			{
+				"name":"The Tentacled Entrepreneur...",
+				"action":"...is heading hopefully in your direction"
+			}
 		],
 		"Action": "veilgarden,Mingle,1"
 	},
@@ -43,8 +49,14 @@
 		],
 
 		"Cards":[
-			"The Jovial Contrarian...,...is about to give a Whiskered Admiral a fit",
-			"The Tentacled Entrepreneur...,...is confused by the cutlery"
+			{
+				"name":"The Jovial Contrarian...",
+				"action":"...is about to give a Whiskered Admiral a fit"
+			},
+			{
+				"name":"The Tentacled Entrepreneur...",
+				"action":"...is confused by the cutlery"
+			}
 		],
 		"Action": "veilgarden,dinner,express"
 	},
@@ -57,8 +69,14 @@
 		],
 
 		"Cards":[
-			"The Brass Ambassador...,...asked you to bring a certain document along",
-			"The Tentacled Entrepreneur...,...has a business proposition"
+			{
+				"name":"The Brass Ambassador...",
+				"action":"...asked you to bring a certain document along"
+			},
+			{
+				"name":"The Tentacled Entrepreneur...",
+				"action":"...has a business proposition"
+			}
 		],
 		"Action": "veilgarden,evening,1"
 	},

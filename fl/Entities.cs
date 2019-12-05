@@ -61,7 +61,7 @@ namespace fl
 		public string[] Prerequisites;
 		public string Action;
 		public int? Reward;
-		public string[] Cards;
+		public CardAction[] Cards;
 	}
 
 	public class ForcedAction

@@ -539,14 +539,12 @@ namespace fl
 		List<CardAction> _use = new List<CardAction>();
 		List<string> _keep = new List<string>();
 		List<string> _trash = new List<string>();
-		Opportunity _cachedOpportunity;
 
 		public async Task<CardAction> GetCardInUseList()
 		{
-			if (_cachedOpportunity == null)
-				_cachedOpportunity = await _session.DrawOpportunity();
+			var opp = await _state.DrawOpportunity();
 
-			var options = _cachedOpportunity.displayCards
+			var options = opp.displayCards
 				.Select(c => _use.GetCardFromUseListByName(c.name, c.eventId))
 				.Where(c => c != null);
 
@@ -564,30 +562,7 @@ namespace fl
 
 			var card = await GetCardInUseList();
 
-			if (card == null)
-				return HasActionsLeft.Available;
-
-			if (card.require != null)
-			{
-				foreach (var action in card.require.Select(r => new ActionString(r)))
-				{
-					string tag = action.third?.FirstOrDefault();
-					HasActionsLeft hasActionsLeft = await _engine.Require(action.location, action.first, action.second, tag);
-					if (hasActionsLeft == HasActionsLeft.Faulty)
-					{
-						if (card.eventId.HasValue)
-						{
-							Log.Warning($"Missing prereq path for card {card.name}, discarding.");
-							await _session.DiscardOpportunity(card.eventId.Value);
-						}
-						return HasActionsLeft.Available;
-					}
-					if (hasActionsLeft != HasActionsLeft.Available)
-						return hasActionsLeft;
-				}
-			}
-
-			HasActionsLeft result = await _state.ActivateOpportunityCard(card, _cachedOpportunity.isInAStorylet);
+			var result = await _engine.AttemptOpportunityCard(card);
 			return result;
 		}
 
@@ -612,14 +587,13 @@ namespace fl
 				Log.Info("In locked area, won't filter cards");
 				return;
 			}
-			_cachedOpportunity = await _session.DrawOpportunity();
-			foreach (var cardobj in _cachedOpportunity.displayCards)
+			var opp = await _state.DrawOpportunity();
+			foreach (var cardobj in opp.displayCards)
 			{
 				if (!ShouldKeepCard(cardobj))
 				{
 					Log.Info($"Discarding {cardobj.name}");
-					await _session.DiscardOpportunity(cardobj.eventId);
-					_cachedOpportunity = null;
+					await _state.DiscardOpportunityCard(cardobj.eventId);
 				}
 			}
 		}

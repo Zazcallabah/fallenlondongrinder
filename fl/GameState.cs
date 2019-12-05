@@ -8,6 +8,7 @@ namespace fl
 	{
 		Session _session;
 		StoryletList _cachedList;
+		Opportunity _cachedOpportunity;
 
 		public GameState(Session s)
 		{
@@ -32,18 +33,12 @@ namespace fl
 			return _cachedList.phase != "Available" && _cachedList.storylet != null && (_cachedList.storylet.canGoBack.HasValue && !_cachedList.storylet.canGoBack.Value);
 		}
 
-		public async Task DiscardOpportunityCard(Card card)
-		{
-			await _session.DiscardOpportunity(card.eventId);
-		}
-
-		public async Task<HasActionsLeft> ActivateOpportunityCard(CardAction card, bool inStoryletHint)
+		public async Task<HasActionsLeft> ActivateOpportunityCard(CardAction card)
 		{
 			if (card.eventId == null)
 				throw new Exception("card has no eventId set");
-			if (inStoryletHint)
+			if( _cachedOpportunity == null || _cachedOpportunity.isInAStorylet )
 				await _session.GoBack();
-
 
 			Log.Info($"doing card {card.name} action {card.action}");
 			_cachedList = await _session.BeginStorylet(card.eventId.Value);
@@ -119,7 +114,14 @@ namespace fl
 
 		public async Task<Opportunity> DrawOpportunity()
 		{
-			return await _session.DrawOpportunity();
+			_cachedOpportunity = await _session.DrawOpportunity();
+			return _cachedOpportunity;
+		}
+
+		public async Task<Opportunity> DiscardOpportunityCard(long id)
+		{
+			_cachedOpportunity = await _session.DiscardOpportunity(id);
+			return _cachedOpportunity;
 		}
 
 		public async Task<Possession> GetPossession(string category, string name)

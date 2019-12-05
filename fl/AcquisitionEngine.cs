@@ -145,38 +145,58 @@ namespace fl
 
 			if (acq.Cards != null)
 			{
-				var opportunity = await _state.DrawOpportunity();
-				foreach (var c in acq.Cards.Select(c => new ActionString(c)))
-				{
-					var discard = false;
-					if( c.location[0] == '!' ) {
-						discard = true;
-						c.location = c.location.Substring(1);
-					}
-					var cId = c.location.AsNumber();
-					var r = new Regex(c.location,RegexOptions.IgnoreCase);
-					var card = opportunity.displayCards.FirstOrDefault(d => cId == null ? r.IsMatch(d.name) : d.eventId == cId);
-					if (card != null)
-					{
-						if( discard )
-						{
-// todo check can you discard anytime?
-							await _state.DiscardOpportunityCard(card);
-						}
-						else
-						{
-							var cardaction = new CardAction { action = c.first, eventId = card.eventId, name = card.name };
-							var result = await _state.ActivateOpportunityCard(cardaction, opportunity.isInAStorylet);
+				var opp = await _state.DrawOpportunity();
 
-							if(result == HasActionsLeft.Faulty)
-								Log.Warning($"failed to activate card {card.name}, proceeding with acquisition");
-							else if (result == HasActionsLeft.Consumed)
-								return result;
-						}
-					}
+				var options = opp.displayCards
+					.Select(c => acq.Cards.GetCardFromUseListByName(c.name, c.eventId))
+					.Where(c => c != null);
+
+				foreach (var cardreq in options )
+				{
+					var result = await AttemptOpportunityCard(cardreq);
+					if(result == HasActionsLeft.Faulty)
+						Log.Warning($"failed to activate card {cardreq.name}, proceeding with acquisition");
+					else if (result == HasActionsLeft.Consumed)
+						return result;
 				}
 			}
 			return await Acquire(new ActionString(acq.Action), dryRun);
+		}
+
+		public async Task<HasActionsLeft> AttemptOpportunityCard(CardAction card)
+		{
+
+			if (card == null)
+				return HasActionsLeft.Available;
+
+			if( card.eventId == null )
+				return HasActionsLeft.Available;
+
+			if (card.require != null)
+			{
+				foreach (var action in card.require.Select(r => new ActionString(r)))
+				{
+					string tag = action.third?.FirstOrDefault();
+					HasActionsLeft hasActionsLeft = await Require(action.location, action.first, action.second, tag);
+					if (hasActionsLeft == HasActionsLeft.Faulty)
+					{
+						Log.Warning($"Missing prereq path for card {card.name}, discarding.");
+						await _state.DiscardOpportunityCard(card.eventId.Value);
+					}
+					if (hasActionsLeft != HasActionsLeft.Available)
+						return hasActionsLeft;
+				}
+			}
+
+			if( card.name[0] == '!' )
+			{
+				await _state.DiscardOpportunityCard(card.eventId.Value);
+				return HasActionsLeft.Available;
+			}
+			else
+			{
+				return await _state.ActivateOpportunityCard(card);
+			}
 		}
 	}
 }
