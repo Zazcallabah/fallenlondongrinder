@@ -143,23 +143,23 @@ namespace fl
 						return hasActionsLeft;
 				}
 
-			if (acq.Cards != null)
-			{
-				var opp = await _state.DrawOpportunity();
+			// if (acq.Cards != null)
+			// {
+			// 	var opp = await _state.DrawOpportunity();
 
-				var options = opp.displayCards
-					.Select(c => acq.Cards.GetCardFromUseListByName(c.name, c.eventId))
-					.Where(c => c != null);
+			// 	var options = opp.displayCards
+			// 		.Select(c => acq.Cards.GetCardFromUseListByName(c.name, c.eventId))
+			// 		.Where(c => c != null);
 
-				foreach (var cardreq in options )
-				{
-					var result = await AttemptOpportunityCard(cardreq);
-					if(result == HasActionsLeft.Faulty)
-						Log.Warning($"failed to activate card {cardreq.name}, proceeding with acquisition");
-					else if (result == HasActionsLeft.Consumed)
-						return result;
-				}
-			}
+			// 	foreach (var cardreq in options )
+			// 	{
+			// 		var result = await AttemptOpportunityCard(cardreq);
+			// 		if(result == HasActionsLeft.Faulty)
+			// 			Log.Warning($"failed to activate card {cardreq.name}, proceeding with acquisition");
+			// 		else if (result == HasActionsLeft.Consumed)
+			// 			return result;
+			// 	}
+			// }
 			return await Acquire(new ActionString(acq.Action), dryRun);
 		}
 

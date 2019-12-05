@@ -195,6 +195,8 @@ namespace fl
 			if (await _session.IsInLocation(location))
 				return;
 
+			if( (await _session.User()
+
 			if (await _session.GetLocationId(location) == await _session.GetLocationId("empress court"))
 			{
 				await _session.MoveTo("shutteredpalace");

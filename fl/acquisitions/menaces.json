@@ -54,7 +54,6 @@
 				"name": "!Promises of revenge"
 			},
 			{
-				 //todo what happens with red cards},
 				"name": "The passing dirigible"
 			},
 			{
@@ -95,7 +94,7 @@
 			},
 			{
 				"name": "The screaming prisoner",
-				"require":"Menaces,Nightmares,<6,ScreamingPrisonerHeadDown",
+				"require":["Menaces,Nightmares,<6,ScreamingPrisonerHeadDown"],
 				"action": "ask around"
 			}
 		]
