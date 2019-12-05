@@ -1,6 +1,5 @@
 {
 	"automaton":[
-		"require,Menaces,Suspicion,10,WidowSuspicion",
 		"require,Route,Route: Lodgings,1,RentLodgings",
 		"require,Route,Route: Mrs Plenty's Most Distracting Carnival,1",
 		"require,Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2",
