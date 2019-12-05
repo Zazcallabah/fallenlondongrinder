@@ -4,6 +4,11 @@
 			"require,Stories,Preparing for a Daring Escape,<2,EscapeFromNewgate"
 		]
 	},
+	"Imprisoned Return": {
+		"require": [
+			"require,Menaces,Suspicion,<1,MenaceSuspicionArea"
+		]
+	},
 	"An Elaborate Party":{
 		"require":[
 			"require,Progress,Time Remaining...,10,ElaborateParty"
@@ -11,5 +16,10 @@
 	},
 	"The Elder Continent":{
 		"forced": true
+	},
+	"Crowds":{
+		"require":[
+			"require,Progress,Approaching your Destination,10"
+		]
 	}
 }

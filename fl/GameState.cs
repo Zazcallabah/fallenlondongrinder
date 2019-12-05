@@ -32,12 +32,18 @@ namespace fl
 			return _cachedList.phase != "Available" && _cachedList.storylet != null && (_cachedList.storylet.canGoBack.HasValue && !_cachedList.storylet.canGoBack.Value);
 		}
 
+		public async Task DiscardOpportunityCard(Card card)
+		{
+			await _session.DiscardOpportunity(card.eventId);
+		}
+
 		public async Task<HasActionsLeft> ActivateOpportunityCard(CardAction card, bool inStoryletHint)
 		{
 			if (card.eventId == null)
 				throw new Exception("card has no eventId set");
 			if (inStoryletHint)
 				await _session.GoBack();
+
 
 			Log.Info($"doing card {card.name} action {card.action}");
 			_cachedList = await _session.BeginStorylet(card.eventId.Value);

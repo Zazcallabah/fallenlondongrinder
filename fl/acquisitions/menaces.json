@@ -35,5 +35,38 @@
 			"Currency,Penny,150"
 		],
 		"Action": "buy,Nikolas,Absolution,1"
+	},
+
+	"MenaceSuspicionArea": {
+		"Name":"MenaceSuspicionArea",
+		"Result":"MenaceSuspicionArea",
+		"Action":"prison life,observing",
+
+		// actions:
+		// write lawyer -2 on average if posi
+		// bribe -3 for 0.5 echoes
+		// prison life,observing -1 prereq watchful 67
+
+		"Cards":[
+			"!Voice from the oubliette",
+			"!Start a brawl",
+			"!Promises of revenge",
+			"University of Crime,avoid",
+			"The Warden,The Snuffer",
+			"The Troubled Undertaker,1",
+			"The talkative gaoler,listen",
+			"The Repentant Forger,1",
+			"The Stuttering Fence,Look after him",
+			"the new cell,Decipher the graffiti",
+			"The passing dirigible",//todo what happens with red cards?
+			"A visit from a priest,admit nothing",
+			"Scratched on the wall,Scratch a ribald ballad of your own",
+		]
+
+		// "The screaming prisoner < if nightmares -le 5 ask around, otherwise keep your head down",
+		// "The Governor, <- do if persuasive 60 and 2 intriguing snippets",
+		// "Bilge duty,Avoid <- costs 1 hint",
+
+
 	}
 }

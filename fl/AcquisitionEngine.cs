@@ -148,18 +148,31 @@ namespace fl
 				var opportunity = await _state.DrawOpportunity();
 				foreach (var c in acq.Cards.Select(c => new ActionString(c)))
 				{
+					var discard = false;
+					if( c.location[0] == '!' ) {
+						discard = true;
+						c.location = c.location.Substring(1);
+					}
 					var cId = c.location.AsNumber();
-					var r = new Regex(c.location);
+					var r = new Regex(c.location,RegexOptions.IgnoreCase);
 					var card = opportunity.displayCards.FirstOrDefault(d => cId == null ? r.IsMatch(d.name) : d.eventId == cId);
 					if (card != null)
 					{
-						var cardaction = new CardAction { action = c.first, eventId = card.eventId, name = card.name };
-						var result = await _state.ActivateOpportunityCard(cardaction, opportunity.isInAStorylet);
+						if( discard )
+						{
+// todo check can you discard anytime?
+							await _state.DiscardOpportunityCard(card);
+						}
+						else
+						{
+							var cardaction = new CardAction { action = c.first, eventId = card.eventId, name = card.name };
+							var result = await _state.ActivateOpportunityCard(cardaction, opportunity.isInAStorylet);
 
-						if(result == HasActionsLeft.Faulty)
-							Log.Warning($"failed to activate card {card.name}, proceeding with acquisition");
-						else if (result == HasActionsLeft.Consumed)
-							return result;
+							if(result == HasActionsLeft.Faulty)
+								Log.Warning($"failed to activate card {card.name}, proceeding with acquisition");
+							else if (result == HasActionsLeft.Consumed)
+								return result;
+						}
 					}
 				}
 			}
