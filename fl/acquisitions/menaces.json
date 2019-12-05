@@ -38,7 +38,7 @@
 	"MenaceSuspicionArea": {
 		"Name": "MenaceSuspicionArea",
 		"Result": "MenaceSuspicionArea",
-		"Action": "prison life,observing",
+		"Action": "prison,prison life,observing",
 		// actions:
 		// write lawyer -2 on average if posi
 		// bribe -3 for 0.5 echoes
