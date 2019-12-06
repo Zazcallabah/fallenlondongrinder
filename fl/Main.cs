@@ -21,7 +21,8 @@ namespace fl
 				Log.Info("Main account");
 				await h.RunMain();
 			}
-			catch(Exception ex){
+			catch (Exception ex)
+			{
 				Log.Error(ex.Message);
 			}
 
@@ -30,9 +31,16 @@ namespace fl
 
 			if (ae != null && ap != null)
 			{
-				Log.Info($"Current automaton: {ae}");
-				var ah = new Main(ae, ap);
-				await ah.RunAutomaton();
+				try
+				{
+					Log.Info($"Current automaton: {ae}");
+					var ah = new Main(ae, ap);
+					await ah.RunAutomaton();
+				}
+				catch (Exception ex)
+				{
+					Log.Error(ex.Message);
+				}
 			}
 		}
 
@@ -51,12 +59,12 @@ namespace fl
 
 		public async Task RunMain(bool force = false)
 		{
-			await _handler.RunActions(ActionHandler.Main(),force);
+			await _handler.RunActions(ActionHandler.Main(), force);
 		}
 
 		public async Task RunAutomaton(bool force = false)
 		{
-			await _handler.RunActions(ActionHandler.Automaton(),force);
+			await _handler.RunActions(ActionHandler.Automaton(), force);
 		}
 	}
 
