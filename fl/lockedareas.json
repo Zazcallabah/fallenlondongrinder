@@ -4,6 +4,11 @@
 			"require,Stories,Preparing for a Daring Escape,<2,EscapeFromNewgate"
 		]
 	},
+	"Insanity": {
+		"require": [
+			"require,Menaces,Nightmares,<1,MenaceNightmareArea"
+		]
+	},
 	"Imprisoned Return": {
 		"require": [
 			"require,Menaces,Suspicion,<1,MenaceSuspicionArea"

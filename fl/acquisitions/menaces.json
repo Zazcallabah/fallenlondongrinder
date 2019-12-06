@@ -111,5 +111,54 @@
 				"action": "keep"
 			}
 		]
+	},
+
+	"MenaceNightmareManager":{
+		"Name": "MenaceNightmareManager",
+		"Result": "MenaceNightmareManager",
+		"Action": "confusion,drink,gulp",
+		"Cards": [
+		{
+			"name":"!A lost secret"
+		},
+		{
+			"name":"!A shining nest"
+		},
+		{
+			"name":"!A plan occurs"
+		},
+		{
+			"name":"!A lizard of distinction"
+		},
+		{
+			"name":"A fungal bloom",
+			"action":""
+		},
+		{
+			"name":"A white cat!",
+			"action":""
+		},
+		{
+			"name":"The view from your room",
+			"action":"1"
+		},
+		{
+			"name":"A lamentable affair",
+			"action":"spurn"
+		},
+		{
+			"name":"A single-minded gentleman",
+			"action":"push him"
+		}
+		]
+	},
+
+	"MenaceNightmareArea":{
+		"Name": "MenaceNightmareArea",
+		"Result": "MenaceNightmareArea",
+		"Prerequisites": [
+			"Stories,Tracking down the Manager,5,MenaceNightmareManager"
+		],
+		"Action": "confusion,A word with the manager,complain"
 	}
 }
