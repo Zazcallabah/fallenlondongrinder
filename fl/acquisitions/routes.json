@@ -30,8 +30,8 @@
 
 
 	"Route: Forgotten Quarter": {
-		"Name": "Route: Forgotten Quarter",
-		"Result": "Route: Forgotten Quarter",
+		"Name": "Route: The Forgotten Quarter",
+		"Result": "Route: The Forgotten Quarter",
 		"Prerequisites": [
 			"Stories,A Name in Seven Secret Alphabets,5,NameAlphabets5"
 		],
