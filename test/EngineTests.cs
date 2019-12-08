@@ -4,6 +4,7 @@ using System.Linq;
 using System;
 using System.Threading.Tasks;
 using fl;
+using System.Collections.Generic;
 
 namespace test
 {
@@ -78,6 +79,24 @@ namespace test
 				cat.possessions = list.ToArray();
 			}
 			pos.level = pos.effectiveLevel = amount;
+		}
+
+		[Test]
+		public void TestCanGetCardActionFromUseList()
+		{
+			var cards = new []{
+				new CardAction{
+					action = "1",
+					name = "~Take a message to the living world"
+				}
+			};
+
+			var result = cards.GetCardFromUseListByName("&quot;Take a message to the living world!&quot;",11595);
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual(11595,result.eventId);
+			Assert.AreEqual("&quot;Take a message to the living world!&quot;", result.name);
+			Assert.AreEqual("1",result.action);
 		}
 
 		[Test]

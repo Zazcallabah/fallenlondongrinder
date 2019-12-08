@@ -46,6 +46,8 @@ namespace fl
 			{
 				return await PerformActions(card.action.Split(','));
 			}
+			else
+				_cachedList.LogMessages();
 
 			return HasActionsLeft.Consumed;
 		}

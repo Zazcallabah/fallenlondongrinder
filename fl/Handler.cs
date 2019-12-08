@@ -543,10 +543,7 @@ namespace fl
 		public async Task<CardAction> GetCardInUseList()
 		{
 			var opp = await _state.DrawOpportunity();
-
-			var options = opp.displayCards
-				.Select(c => _use.GetCardFromUseListByName(c.name, c.eventId))
-				.Where(c => c != null);
+			var options = opp.GetOptions(_use);
 
 			if (!options.Any())
 				return null;

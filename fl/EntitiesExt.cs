@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace fl
 {
-	static class StringExt
+	public static class StringExt
 	{
 		public static int? AsNumber(this string s)
 		{
@@ -17,7 +17,7 @@ namespace fl
 			return null;
 		}
 	}
-	static class CardExt
+	public static class CardExt
 	{
 		public static bool IsCommonCard(this Card card)
 		{
@@ -52,9 +52,15 @@ namespace fl
 			return collection.Any(c => r.IsMatch(c) || c.AsNumber() == card.eventId);
 		}
 
+		public static IEnumerable<CardAction> GetOptions(this Opportunity opp, IEnumerable<CardAction> cardActions )
+		{
+			return opp.displayCards
+					.Select(c => cardActions.GetCardFromUseListByName(c.name, c.eventId))
+					.Where(c => c != null);
+		}
+
 		public static CardAction GetCardFromUseListByName(this IEnumerable<CardAction> use, string name, long eventId)
 		{
-			var r = new Regex(name, RegexOptions.IgnoreCase);
 			var card = use.FirstOrDefault(c =>
 			{
 				if (string.IsNullOrWhiteSpace(c.name))
@@ -62,7 +68,8 @@ namespace fl
 
 				if (c.name[0] == '~')
 				{
-					return r.IsMatch(c.name.Substring(1));
+					var r = new Regex(c.name.Substring(1), RegexOptions.IgnoreCase);
+					return r.IsMatch(name);
 				}
 				var n = c.name;
 				if(n[0] == '!' ) {
@@ -73,6 +80,7 @@ namespace fl
 			if (card == null)
 				return null;
 			card.eventId = eventId;
+			card.name = name;
 			return card;
 		}
 	}
@@ -128,6 +136,15 @@ namespace fl
 		public static StoryletList AsDryrun(this StoryletList list, string message)
 		{
 			return new StoryletList { phase = message, isSuccess = list.isSuccess };
+		}
+
+		public static void LogMessages(this StoryletList list)
+		{
+			if( list.endStorylet != null )
+				fl.Log.Info($"EndStorylet: {list.endStorylet.eventValue.name} -> {list.endStorylet.eventValue.description}");
+			if( list.messages != null && list.messages.defaultMessages != null )
+				foreach (var m in list.messages.defaultMessages)
+					fl.Log.Info($"message: {m.message}");
 		}
 	}
 }

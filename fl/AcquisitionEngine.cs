@@ -147,9 +147,7 @@ namespace fl
 			{
 				var opp = await _state.DrawOpportunity();
 
-				var options = opp.displayCards
-					.Select(c => acq.Cards.GetCardFromUseListByName(c.name, c.eventId))
-					.Where(c => c != null);
+				var options = opp.GetOptions(acq.Cards);
 
 				foreach (var cardreq in options )
 				{
@@ -190,6 +188,7 @@ namespace fl
 
 			if( card.name[0] == '!' )
 			{
+				Log.Info($"Discarding {card.name}");
 				await _state.DiscardOpportunityCard(card.eventId.Value);
 				return HasActionsLeft.Available;
 			}

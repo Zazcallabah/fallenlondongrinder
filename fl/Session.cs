@@ -253,11 +253,7 @@ namespace fl
 			else
 			{
 				StoryletList ev = await Post<StoryletList>("storylet/choosebranch", new { branchId = id, secondChanceIds = new int[0] });
-				if( ev.endStorylet != null )
-					Log.Info($"EndStorylet: {ev.endStorylet.eventValue.name} -> {ev.endStorylet.eventValue.description}");
-				if( ev.messages != null && ev.messages.defaultMessages != null )
-					foreach (var m in ev.messages.defaultMessages)
-						Log.Info($"message: {m.message}");
+				ev.LogMessages();
 				return ev;
 			}
 		}
