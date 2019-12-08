@@ -4,6 +4,11 @@
 			"require,Stories,Preparing for a Daring Escape,<2,EscapeFromNewgate"
 		]
 	},
+	"Death": {
+		"require": [
+			"require,Menaces,Wounds,<1,MenaceWoundsArea"
+		]
+	},
 	"Insanity": {
 		"require": [
 			"require,Menaces,Nightmares,<1,MenaceNightmareArea"

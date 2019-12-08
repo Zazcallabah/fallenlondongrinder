@@ -160,5 +160,53 @@
 			"Stories,Tracking down the Manager,5,MenaceNightmareManager"
 		],
 		"Action": "confusion,A word with the manager,complain"
+	},
+
+
+
+	"MenaceWoundsArea":{
+		"Name": "MenaceWoundsArea",
+		"Result": "MenaceWoundsArea",
+		"Prerequisites": [
+			//"Stories,Tracking down the Manager,5,MenaceNightmareManager"
+		],
+		"Cards":[
+			{
+				"name":"~Take a message to the living world",
+				"action":"1"
+			},
+			{
+				"name":"Recall the glitter of the Shuttered Palace"
+			},
+			{
+				"name":"!...or you could just give up"
+			},
+			{
+				"name":"!How much can you see of the far bank?"
+			},
+			{
+				"name":"Remember where you fell",
+				"action":"1"
+			},
+			{
+				"name":"Pilfer a few breaths from another passenger",
+				"action":"1"
+			},
+			{"name":"Recall glad times at the Singing Mandrake"},
+			{"name":"Recall scenes from Ladybones Road"},
+			{"name":"Recall the glitter of the Shuttered Palace"},
+			{"name":"Recall the noise and life of Spite"},
+			{"name":"Recall the rough camaraderie of Watchmaker's Hill"},
+			{"name":"Remember the Flit"},
+			{"name":"Remember the Forgotten Quarter"},
+			{"name":"Remember the Regretful Soldier"},
+			{"name":"Remember the Repentant Forger"},
+			{"name":"Stare at the shore of the living world"},
+			{"name":"Trail your fingers in the water"},
+			{"name":"You loved someone once"},
+			{"name":"You remember the tomb-colonists, and shudder"},
+			{"name":"You've unfinished business in the world of the living"}
+		],
+		"Action": "death,chess,1"
 	}
 }
