@@ -15,6 +15,21 @@ namespace fl
 			return s;
 		}
 
+		public bool IsEmpty()
+		{
+			if(!string.IsNullOrWhiteSpace(location))
+				return false;
+			if(!string.IsNullOrWhiteSpace(first))
+				return false;
+			if(!string.IsNullOrWhiteSpace(second))
+				return false;
+			if(third == null)
+				return true;
+			if(third.Length == 0)
+				return true;
+			return third.All( s => string.IsNullOrWhiteSpace(s) );
+		}
+
 		public string location;
 		public string first;
 		public string second;

@@ -162,14 +162,47 @@
 		"Action": "confusion,A word with the manager,complain"
 	},
 
-
-
 	"MenaceWoundsArea":{
 		"Name": "MenaceWoundsArea",
 		"Result": "MenaceWoundsArea",
 		"Prerequisites": [
-			//"Stories,Tracking down the Manager,5,MenaceNightmareManager"
+			"Menaces,Wounds,<15,MenaceWoundsCards",
+			"Stories,The Boatman's Opponent,<25,MenaceWoundsCards",
+			"Basic,Watchful,200,MenaceWoundsBoatman2"
 		],
+		"Action":"death,chess,1"
+	},
+	"MenaceWoundsBoatman2":{
+		"Name": "MenaceWoundsBoatman2",
+		"Result": "MenaceWoundsBoatman2",
+		"Prerequisites": [
+			"Stories,The Boatman's Opponent,<15,MenaceWoundsCards",
+			"Basic,Watchful,152,MenaceWoundsBoatman3"
+		],
+		"Action":"death,chess,1"
+	},
+	"MenaceWoundsBoatman3":{
+		"Name": "MenaceWoundsBoatman3",
+		"Result": "MenaceWoundsBoatman3",
+		"Prerequisites": [
+			"Stories,The Boatman's Opponent,<9,MenaceWoundsCards",
+			"Basic,Watchful,46,MenaceWoundsBoatman4"
+		],
+		"Action":"death,chess,1"
+	},
+	"MenaceWoundsBoatman4":{
+		"Name": "MenaceWoundsBoatman4",
+		"Result": "MenaceWoundsBoatman4",
+		"Prerequisites": [
+			"Stories,The Boatman's Opponent,<5,MenaceWoundsCards",
+			"Basic,Watchful,14,MenaceWoundsCards"
+		],
+		"Action":"death,chess,1"
+	},
+
+	"MenaceWoundsCards":{
+		"Name": "MenaceWoundsCards",
+		"Result": "MenaceWoundsCards",
 		"Cards":[
 			{
 				"name":"~Take a message to the living world",
@@ -207,6 +240,6 @@
 			{"name":"You remember the tomb-colonists, and shudder"},
 			{"name":"You've unfinished business in the world of the living"}
 		],
-		"Action": "death,chess,1"
+		"Action": ""
 	}
 }

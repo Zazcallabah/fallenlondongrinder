@@ -356,6 +356,11 @@ namespace fl
 
 		public async Task<HasActionsLeft> DoAction(ActionString action)
 		{
+			if( action.IsEmpty() )
+			{
+				Log.Error("cant do empty action");
+				return HasActionsLeft.Faulty;
+			}
 			Log.Info($"doing action {action}");
 
 			//  bazaar can usually be done even in storylet, i think?
