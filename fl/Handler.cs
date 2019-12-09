@@ -26,7 +26,7 @@ namespace fl
 			FileHandler.ForEachFile("cards", MergeCardFile);
 		}
 
-		public async Task RunActions(IEnumerable<ActionString> actions, bool force = false)
+		public async Task RunActions(IEnumerable<ActionString> actions, bool force = false, bool respondToActions = false)
 		{
 
 			await FilterCards();
@@ -62,10 +62,13 @@ namespace fl
 				{
 					return;
 				}
-				// hasActionsLeft = await HandleSocialInteraction();
-				// if( hasActionsLeft != HasActionsLeft.Available ){
-				// 	return;
-				// }
+				if( respondToActions )
+				{
+					hasActionsLeft = await HandleSocialInteraction();
+					if( hasActionsLeft != HasActionsLeft.Available ){
+						return;
+					}
+				}
 				foreach (var action in actions)
 				{
 					hasActionsLeft = await DoAction(action);

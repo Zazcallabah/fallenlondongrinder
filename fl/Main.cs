@@ -48,8 +48,6 @@ namespace fl
 
 		public Main(string email, string password)
 		{
-			// if( string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password) )
-			// 	throw new Exception("missing login information");
 			Session session = new Session(email, password);
 			GameState state = new GameState(session);
 			AcquisitionEngine engine = new AcquisitionEngine(state);
@@ -64,7 +62,7 @@ namespace fl
 
 		public async Task RunAutomaton(bool force = false)
 		{
-			await _handler.RunActions(ActionHandler.Automaton(), force);
+			await _handler.RunActions(ActionHandler.Automaton(), force, true);
 		}
 	}
 
