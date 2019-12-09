@@ -112,6 +112,7 @@ namespace test
 
 			SessionHolder.Session.TestSetPlans(TestPlans("You need <span class='quality-name'>The Airs of London</span> 31-60<em> (you have 4)</em>"));
 			Assert.AreEqual(4,await SessionHolder.Session.Airs());
+			SessionHolder.Session.TestSetPlans(null);
 		}
 		[Test]
 		public async Task CanGetShopItem()

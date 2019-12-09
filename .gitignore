@@ -1,6 +1,6 @@
 env.ps1
 .vscode
-
+lcov.info
 build/
 # Azure Functions artifacts
 bin

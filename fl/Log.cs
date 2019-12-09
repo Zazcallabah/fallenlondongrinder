@@ -9,7 +9,7 @@ namespace fl
 		public static void Debug(string message)
 		{
 			if( _logObject == null )
-				System.Console.WriteLine(message);
+				System.Console.WriteLine($"DEBUG: {System.DateTime.Now.ToString("HH:mm:ss.fffff")} {message}");
 		}
 
 		public static void Info(string message)
@@ -17,21 +17,21 @@ namespace fl
 			if (_logObject != null)
 				_logObject.LogInformation(message);
 			else
-				System.Console.WriteLine($"INFO: {message}");
+				System.Console.WriteLine($"INFO: {System.DateTime.Now.ToString("HH:mm:ss.fffff")} {message}");
 		}
 		public static void Warning(string message)
 		{
 			if (_logObject != null)
 				_logObject.LogWarning(message);
 			else
-				System.Console.WriteLine($"WARN: {message}");
+				System.Console.WriteLine($"WARN: {System.DateTime.Now.ToString("HH:mm:ss.fffff")} {message}");
 		}
 		public static void Error(string message)
 		{
 			if (_logObject != null)
 				_logObject.LogError(message);
 			else
-				System.Console.WriteLine($"ERR: {message}");
+				System.Console.WriteLine($"ERR: {System.DateTime.Now.ToString("HH:mm:ss.fffff")} {message}");
 		}
 	}
 }

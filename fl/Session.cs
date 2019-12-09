@@ -20,10 +20,18 @@ namespace fl
 		// caches
 		User _user;
 		Myself _myself;
-		Plans _plans;
+		List<Plan> _plans;
 		public void TestSetPlans(Plans plans)
 		{
-			_plans = plans;
+			if( plans == null )
+			{
+				_plans = null;
+			}
+			else
+			{
+				_plans = plans.active.ToList();
+				_plans.AddRange(plans.complete);
+			}
 		}
 
 		public Session(string email, string pass)
@@ -65,7 +73,6 @@ namespace fl
 			{
 				await GetToken();
 			}
-
 			HttpResponseMessage response = await _client.PostAsync(href, MakeContent(payload));
 			var content = await response.Content.ReadAsStringAsync();
 			Log.Debug($"POST: {href} {payload} -> {response.StatusCode}");
@@ -258,22 +265,20 @@ namespace fl
 			}
 		}
 
-		async Task<Plans> Plans()
+		async Task<List<Plan>> Plans()
 		{
 			if (_plans == null)
 			{
-				_plans = await Get<Plans>("plan");
+				var p = await Get<Plans>("plan");
+				_plans = p.active.ToList();
+				_plans.AddRange(p.complete);
 			}
 			return _plans;
 		}
 
 		public async Task<IEnumerable<Plan>> ListPlans()
 		{
-			var plans = await Plans();
-			var pl = new List<Plan>();
-			pl.AddRange(plans.active);
-			pl.AddRange(plans.complete);
-			return pl;
+			return await Plans();
 		}
 
 		public async Task<Plan> GetPlan(string name)
@@ -293,14 +298,24 @@ namespace fl
 		// # post plan/update {"branchId":204598,"refresh":true} to restart plan
 		public async Task<PlanResult> CreatePlan(int id, string planKey)
 		{
-			_plans = null;
-			return await Post<PlanResult>("plan/create", new { branchId = id, planKey = planKey });
+			var p = await Post<PlanResult>("plan/create", new { branchId = id, planKey = planKey });
+			if(p.isSuccess)
+			{
+				var list = await Plans();
+				list.Add(p.plan);
+			}
+			return p;
 		}
 
 		public async Task<SuccessResult> DeletePlan(int id)
 		{
-			_plans = null;
-			return await Post<SuccessResult>($"plan/delete", new { branchid = id });
+			var r = await Post<SuccessResult>($"plan/delete", new { branchid = id });
+			if( r.isSuccess )
+			{
+				var list = await Plans();
+				list.RemoveAll( p => p.branch.id == id );
+			}
+			return r;
 		}
 		public async Task<OutfitSlot[]> PostEquipOutfit(long id)
 		{
