@@ -20,6 +20,19 @@ namespace fl
 			return _cachedList;
 		}
 
+		public async Task<HasActionsLeft> SocialInteraction(long id) {
+			await _session.BeginSocialEvent(id);
+
+			_cachedList = await _session.ListStorylet();
+			var action = SocialEventsHandler.GetActionFor(_cachedList.storylet.name);
+			if( action == null )
+			// todo add discard message here
+				return HasActionsLeft.Available;
+
+			Log.Info($"Doing interaction {_cachedList.storylet.name}");
+			return await PerformActions(action.Split(','));
+		}
+
 		public async Task<string> GetStoryletName(){
 			if (_cachedList == null)
 				_cachedList = await _session.ListStorylet();
@@ -137,6 +150,13 @@ namespace fl
 			{
 				_cachedList = await _session.ListStorylet();
 			}
+			if( _cachedList.phase == "Act" )
+			{
+				var branchId = _cachedList.socialAct.inviteeData.branchId;
+				var friend = _cachedList.socialAct.inviteeData.eligibleFriends.SelectFriend(name);
+				_cachedList = await _session.SendInternalSocialAct(branchId,friend.id);
+				return HasActionsLeft.Consumed;
+			}
 			if (_cachedList.phase == "Available")
 			{
 				throw new Exception($"Trying to perform action {name} while phase: Available");
@@ -151,6 +171,7 @@ namespace fl
 			var branchResult = await _session.ChooseBranch(branch.id);
 			if( branchResult != null )
 				_cachedList = branchResult;
+
 			return HasActionsLeft.Available; // can technically be consumed, but until we figure out list.phase and stuff, we have to depend on upstream calls knowing what they are doing
 		}
 

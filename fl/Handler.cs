@@ -62,6 +62,10 @@ namespace fl
 				{
 					return;
 				}
+				// hasActionsLeft = await HandleSocialInteraction();
+				// if( hasActionsLeft != HasActionsLeft.Available ){
+				// 	return;
+				// }
 				foreach (var action in actions)
 				{
 					hasActionsLeft = await DoAction(action);
@@ -101,6 +105,21 @@ namespace fl
 			if (!_lockedAreas.ContainsKey(name))
 				return null;
 			return _lockedAreas[name];
+		}
+
+		private async Task<HasActionsLeft> HandleSocialInteraction(){
+			var interactions = await _session.GetInteractions();
+			if( interactions != null )
+				foreach( var ia in interactions )
+				{
+					Log.Info($"Received interaction! type: {ia.type}");
+					Log.Info(ia.description);
+
+					var result = await _state.SocialInteraction(ia.relatedId);
+					if( result != HasActionsLeft.Available )
+						return result;
+				}
+			return HasActionsLeft.Available;
 		}
 
 		private async Task<HasActionsLeft> HandleLockedArea()

@@ -325,5 +325,19 @@ namespace fl
 			var encoded = System.Uri.EscapeDataString(name);
 			return await Post<dynamic>($"contact/addcontact/{encoded}");
 		}
+
+		public async Task<Interaction[]> GetInteractions() {
+			return await Get<Interaction[]>("messages/interactions");
+		}
+
+		public async Task<StoryletList> SendInternalSocialAct(long branchId, long characterId){
+			var result = await Post<StoryletList>("storylet/sendinternalsocialact", new {	userMessage="", branchId=branchId, targetCharacterId=characterId });
+			result.LogMessages();
+			return result;
+		}
+
+		public async Task BeginSocialEvent(long id){
+			await Post<dynamic>($"storylet/beginsocialevent/{id}");
+		}
 	}
 }

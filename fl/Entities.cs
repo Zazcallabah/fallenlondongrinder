@@ -283,6 +283,7 @@ namespace fl
 		public Storylet[] storylets;
 		public Storylet storylet;
 		public EndStorylet endStorylet;
+		public SocialAct socialAct;
 		public Messages messages;
 		public bool isSuccess;
 	}
@@ -422,6 +423,65 @@ namespace fl
 		public string frequency;
 		public string image;
 		public long id;
+	}
+
+	public class Exchange
+	{
+		string name;
+		string title;
+		string description;
+		Shop[] shops;
+		string image;
+
+		int id;
+	}
+	public class Shop
+	{
+		string name;
+		string image;
+		string description;
+		int ordering;
+		int id;
+	}
+
+	public class ExchangeResponse
+	{
+		Exchange exchange;
+		bool isSuccess;
+	}
+	public class InviteeData
+	{
+		public long branchId;
+		public string actQReqText;
+		public string actInviterQReqText;
+		public int addedFriendId;
+		public Friend[] eligibleFriends;
+	}
+	public class Friend
+	{
+		public long userId;
+		public long id;
+		public string name;
+		public string userName;
+	}
+
+	public class Interaction
+	{
+		public string type;
+		public string image;
+		public long relatedId;
+		public string description;
+		public string date;
+		public string ago;
+	}
+	public class SocialAct
+	{
+		public InviteeData inviteeData;
+		public Branch branch;
+		public bool uniqueActPending;
+		public string actMessagePreview;
+		public string urgency;
+		public bool isSocialEvent;
 	}
 
 	public class EndStorylet

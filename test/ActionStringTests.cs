@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using fl;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace test
 {
@@ -15,6 +16,12 @@ namespace test
 			Assert.AreEqual("c",s.second);
 			Assert.AreEqual(new []{"d","e","f"},s.third);
 			Assert.AreEqual("a,b,c,d,e,f",s.ToString());
+		}
+
+		[Test]
+		public void CanDeserializeSocial()
+		{
+			Assert.AreEqual("newspaper",SocialEventsHandler.GetActionFor("Help in Laying Rumours to Rest"));
 		}
 
 		[Test]

@@ -16,5 +16,6 @@
 		<None Update="forcedactions.json" CopyToOutputDirectory="PreserveNewest" />
 		<None Update="lockedareas.json" CopyToOutputDirectory="PreserveNewest" />
 		<None Update="function.json" CopyToOutputDirectory="PreserveNewest" />
+		<None Update="socialevents.json" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 </Project>

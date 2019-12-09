@@ -46,6 +46,15 @@ namespace fl
 			// 	return $hit -ne $null
 		}
 
+		// public static T LookupBestMatch<T>(this IDictionary<string,T> dict, string keyname)
+		// {
+		// 	var r = new Regex(keyname, RegexOptions.IgnoreCase);
+		// 	var key = dict.Keys.FirstOrDefault(k => r.IsMatch(k));
+		// 	if (key == null)
+		// 		return default(T);
+		// 	return dict[key];
+		// }
+
 		public static bool CollectionHasCard(this List<string> collection, Card card)
 		{
 			var r = new Regex(card.name, RegexOptions.IgnoreCase);
@@ -97,6 +106,20 @@ namespace fl
 		public static bool IsEquipped(this IEnumerable<OutfitSlot> slots, long id)
 		{
 			return slots.FirstOrDefault(s => s.qualityId == id) != null;
+		}
+
+		public static Friend SelectFriend(this Friend[] friends, string name )
+		{
+			if (name == "?")
+			{
+				return friends[_R.Next(friends.Length)];
+			}
+			var n = name.AsNumber();
+			if (n != null)
+			{
+				return friends[n.Value - 1];
+			}
+			return friends.FirstOrDefault(b => string.Equals(name,b.name,StringComparison.InvariantCultureIgnoreCase));
 		}
 		static Random _R = new Random();
 		static Branch InnerGetChildBranch(this IEnumerable<Branch> branches, string name)
