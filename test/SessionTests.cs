@@ -57,7 +57,6 @@ namespace test
 			Assert.AreEqual("Dangerous", (await SessionHolder.Session.GetPossession("Dangerous")).name);
 			Assert.AreEqual(211, (await SessionHolder.Session.GetPossession("Dangerous")).id);
 			Assert.AreEqual("Dangerous", (await SessionHolder.Session.GetPossession("Basic","Dangerous")).name);
-			Assert.AreEqual("A Constables' Pet", (await SessionHolder.Session.GetPossessionCategory("Stories"))[0].name);
 			Assert.AreEqual(380, (await SessionHolder.Session.GetPossession("Mysteries","Whispered Hint")).id);
 			Assert.AreEqual(380, (await SessionHolder.Session.GetPossession("Whispered Hint")).id);
 			Assert.AreEqual(380, (await SessionHolder.Session.GetPossession("Mysteries", "Whispered")).id);
@@ -87,13 +86,14 @@ namespace test
 			Assert.IsNotNull( a );
 		}
 
-	[Test]
+		[Test]
 		public async Task CanReadForgottenQuarterAirs()
 		{
 			var s = SessionHolder.Session;
 			var a = await s.AirsForgottenQuarter();
 			Assert.IsNotNull( a );
 		}
+
 		Plans TestPlans(string tooltip)
 		{
 			return new Plans { complete = new Plan[0], active = new[] { new Plan { branch = new PlanBranch{

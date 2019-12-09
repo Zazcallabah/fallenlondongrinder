@@ -282,7 +282,7 @@ namespace fl
 			var result = await s.CreatePlan(id, key);
 			if (!result.isSuccess)
 				return null;
-			return GetAirsFromPlans(new[] { result.plan });
+			return GetAirsFromPlans(new[] { result.plan },location);
 		}
 
 		public static async Task<int?> AirsForgottenQuarter(this Session s)

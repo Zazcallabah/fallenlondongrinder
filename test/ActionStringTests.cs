@@ -21,7 +21,7 @@ namespace test
 		[Test]
 		public void CanDeserializeSocial()
 		{
-			Assert.AreEqual("newspaper",SocialEventsHandler.GetActionFor("Help in Laying Rumours to Rest"));
+			Assert.AreEqual("newspaper,1",SocialEventsHandler.GetActionFor("Help in Laying Rumours to Rest"));
 		}
 
 		[Test]
