@@ -10,8 +10,8 @@ namespace fl
 	{
 		public static async Task Run(TimerInfo timer, ILogger log)
 		{
-			Log.Error("What if we log error, will it show up in the graph?");
 			Log._logObject = log;
+			Log.Error("What if we log error, will it show up in the graph?");
 
 			var e = Environment.GetEnvironmentVariable("LOGIN_EMAIL", EnvironmentVariableTarget.Process);
 			var p = Environment.GetEnvironmentVariable("LOGIN_PASS", EnvironmentVariableTarget.Process);
