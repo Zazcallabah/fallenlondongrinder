@@ -534,6 +534,12 @@ namespace fl
 				return HasActionsLeft.Consumed;
 			}
 
+			if (!await _engine.PossessionSatisfiesLevel("Stories", "A Name Signed With A Flourish", "3"))
+			{
+				var hasmoreActions = await _engine.Require(	"Stories","A Name Signed with a Flourish","3","NameFlourish3");
+				return HasActionsLeft.Consumed;
+			}
+
 			await _session.SellIfMoreThan("Curiosity", "Competent Short Story", 0);
 			await _session.SellIfMoreThan("Curiosity", "Compelling Short Story", 1);
 			await _session.SellIfMoreThan("Curiosity", "Exceptional Short Story", 1);
