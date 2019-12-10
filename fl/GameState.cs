@@ -224,6 +224,7 @@ namespace fl
 				_cachedList = await _session.ListStorylet();
 				await EnterStorylet("spend");
 				await PerformAction("1");
+				_cachedList = await _session.ListStorylet();
 				return;
 			}
 
