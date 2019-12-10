@@ -2,8 +2,7 @@
 	"NameFlourish1Start": {
 		"Name": "NameFlourish1Start",
 		"Result": "Commission: Praising Fungus in Verse",
-		"Prerequisites": [
-		],
+		"Prerequisites": [],
 		"Action": "veilgarden,Make Your Name: A Commissioned Epic,Mushroom Harvest"
 	},
 	"NameFlourish1Grind": {
@@ -33,16 +32,12 @@
 		],
 		"Action": "veilgarden,honey-sipping heiress,let her down gently"
 	},
-
 	"NameFlourish2Start": {
 		"Name": "NameFlourish2Start",
 		"Result": "NameFlourish2Start",
-		"Prerequisites": [
-		],
+		"Prerequisites": [],
 		"Action": "veilgarden,Making Your Name: Engage in a Notable Affair,Begin a romance with a Honey-Sipping Heiress,Begin"
 	},
-
-
 	"NameFlourish2Grind1": {
 		"Name": "NameFlourish2Grind1",
 		"Result": "NameFlourish2Grind1",
@@ -51,7 +46,6 @@
 		],
 		"Action": "veilgarden,charming young heiress,faster"
 	},
-
 	"NameFlourish2Grind2": {
 		"Name": "NameFlourish2Grind2",
 		"Result": "NameFlourish2Grind2",
@@ -69,15 +63,12 @@
 		],
 		"Action": "veilgarden,honey-sipping heiress,disgraceful suggestion/taste of danger/stay as they are"
 	},
-
 	"NameFlourishWorkingOn": {
 		"Name": "NameFlourishWorkingOn",
 		"Result": "NameFlourishWorkingOn",
-		"Prerequisites": [
-		],
+		"Prerequisites": [],
 		"Action": "veilgarden,Making Your Name: Writing a Short Story,begin,Write a Short Story"
 	},
-
 	"NameFlourishPotential": {
 		"Name": "NameFlourishPotential",
 		"Result": "NameFlourishPotential",
@@ -115,14 +106,12 @@
 		],
 		"Action": "veilgarden,The Writer's Desk,rework,finish,Make Your Name: Publish your story"
 	},
-
 	"SeamstressSilk": {
 		"Name": "SeamstressSilk",
 		"Result": "SeamstressSilk",
 		"Prerequisites": [],
 		"Action": "veilgarden,The Seamstress' favour,1"
 	},
-
 	"FlourishGossipGrind": {
 		"Name": "FlourishGossipGrind",
 		"Result": "FlourishGossipGrind",
@@ -131,7 +120,6 @@
 		],
 		"Action": "inventory,Rumour,Inkling of Identity,discuss"
 	},
-
 	"FlourishGossipGrind2": {
 		"Name": "FlourishGossipGrind2",
 		"Result": "FlourishGossipGrind2",
@@ -140,19 +128,16 @@
 		],
 		"Action": "inventory,Rumour,Proscribed Material,armful"
 	},
-
 	"FlourishGossipGrind3": {
 		"Name": "FlourishGossipGrind3",
 		"Result": "FlourishGossipGrind3",
-		"Prerequisites": [
-		],
+		"Prerequisites": [],
 		"Action": "veilgarden,Charm an influential social butterfly,1"
 	},
 	"FlourishGossipGrindProscribed1": {
 		"Name": "FlourishGossipGrindProscribed1",
 		"Result": "FlourishGossipGrindProscribed1",
-		"Prerequisites": [
-		],
+		"Prerequisites": [],
 		"Action": "veilgarden,Rescue banned books,pose"
 	},
 	"NameFlourish4": {
@@ -166,7 +151,7 @@
 		],
 		"Action": "veilgarden,Make Your Name: Getting to the Ball,Calling in favours,1"
 	},
-	"NameFlourish5":{
+	"NameFlourish5": {
 		"Name": "NameFlourish5",
 		"Result": "A Name Signed with a Flourish",
 		"Prerequisites": [
@@ -177,6 +162,84 @@
 			"Connected,Connected: The Duchess,5,ConnectedDuchessCarnival"
 		],
 		"Action": "shutteredpalace,an audience,Bring jade,Bazaar"
+	},
+	"NameFlourish6InitSeduction": {
+		"Name": "NameFlourish6InitSeduction",
+		"Action": "veilgarden,The Singing Mandrake,struggling artist's model,Fascinate"
+	},
+	"NameFlourish6EasyFascinating": {
+		"Name": "NameFlourish6EasyFascinating",
+		"Result": "A Name Signed with a Flourish",
+		"Prerequisites": [
+			"Ventures,Seduction: Artist's Model,1,NameFlourish6InitSeduction"
+		],
+		"Action": "veilgarden,seduce,flattery"
+	},
+	"NameFlourish6Fascinating": {
+		"Name": "NameFlourish6Fascinating",
+		"Result": "A Name Signed with a Flourish",
+		"Prerequisites": [
+			"Basic,Persuasive,110,NameFlourish6EasyFascinating"
+		],
+		"Action": "empresscourt,Attend to Matters of Romance,?"
+	},
+	"NameFlourish6Wit1": {
+		"Name": "NameFlourish6Wit1",
+		"Result": "A Name Signed with a Flourish",
+		"Action": "empresscourt,Barbed Wit,1"
+	},
+	"NameFlourish6Wit2": {
+		"Name": "NameFlourish6Wit2",
+		"Result": "A Name Signed with a Flourish",
+		"Prerequisites": [
+			"Stories,Seen with a Barbed Wit,1,NameFlourish6Wit1",
+			"Progress,Fascinating...,11,NameFlourish6Fascinating"
+		],
+		"Action": "empresscourt,Attend a ball,choose"
+	},
+	"NameFlourish6Wit3": {
+		"Name": "NameFlourish6Wit3",
+		"Result": "A Name Signed with a Flourish",
+		"Prerequisites": [
+			"Stories,Seen with a Barbed Wit,2,NameFlourish6Wit2",
+			"Progress,Fascinating...,11,NameFlourish6Fascinating"
+		],
+		"Action": "empresscourt,Sparkling wit,call attention"
+	},
+	"NameFlourish6Wit4": {
+		"Name": "NameFlourish6Wit4",
+		"Result": "A Name Signed with a Flourish",
+		"Prerequisites": [
+			"Stories,Seen with a Barbed Wit,3,NameFlourish6Wit3"
+		],
+		"Action": "empresscourt,The Wit and the Physician,join in"
+	},
+	"NameFlourish6Wit5": {
+		"Name": "NameFlourish6Wit5",
+		"Result": "A Name Signed with a Flourish",
+		"Prerequisites": [
+			"Stories,Seen with a Barbed Wit,4,NameFlourish6Wit4",
+			"Elder,Jade Fragment,300",
+			"Progress,Fascinating...,13,NameFlourish6Fascinating"
+		],
+		"Action": "empresscourt,Winning over the Barbed Wit,night"
+	},
+	"NameFlourish6Wit6": {
+		"Name": "NameFlourish6Wit6",
+		"Result": "A Name Signed with a Flourish",
+		"Prerequisites": [
+			"Stories,Seen with a Barbed Wit,5,NameFlourish6Wit5"
+		],
+		"Action": "empresscourt,An indecorous argument,return fire"
+	},
+	"NameFlourish6": {
+		"Name": "NameFlourish6",
+		"Result": "A Name Signed with a Flourish",
+		"Prerequisites": [
+			"Stories,A Name Signed with a Flourish,5,NameFlourish5",
+			"Progress,Fascinating...,10,NameFlourish6Fascinating",
+			"Stories,Seen with a Barbed Wit,6,NameFlourish6Wit6"
+		],
+		"Action": "empresscourt,Conclude your affair,let her in,enforce"
 	}
-
 }
