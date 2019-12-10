@@ -186,7 +186,8 @@ namespace fl
 			var simplekey = ForcedActionFile.simple.Keys.FirstOrDefault(k => r.IsMatch(k));
 			if (simplekey != null)
 			{
-				return await _state.PerformAction(ForcedActionFile.simple[simplekey]);
+				await _state.PerformAction(ForcedActionFile.simple[simplekey]);
+				return HasActionsLeft.Consumed;
 			}
 			var complexkey = ForcedActionFile.complex.Keys.FirstOrDefault(k => r.IsMatch(k));
 
@@ -204,7 +205,8 @@ namespace fl
 					}
 					if (total == satisfied)
 					{
-						return await _state.PerformAction(entry.Action);
+						await _state.PerformAction(entry.Action);
+						return HasActionsLeft.Consumed;
 					}
 				}
 			}
@@ -227,6 +229,14 @@ namespace fl
 			{
 				return HasActionsLeft.Available;
 			}
+
+			var d = await _session.GetPossessionLevel("Basic","Dangerous");
+			var p = await _session.GetPossessionLevel("Basic","Persuasive");
+			var s = await _session.GetPossessionLevel("Basic","Shadowy");
+			var w = await _session.GetPossessionLevel("Basic","Watchful");
+
+			if( d<50|| p<50 || s<50 || w<50)
+				return HasActionsLeft.Available;
 
 			var isPosi = await _engine.PossessionSatisfiesLevel("Accomplishments", "A Person of Some Importance", "1");
 			var mapper = new Dictionary<string, string>{
@@ -259,7 +269,8 @@ namespace fl
 					fullname = $"Renown: {mapper[faction]}";
 				}
 
-				if (await _engine.PossessionSatisfiesLevel("Contacts", fullname, "5"))
+				// todo handle spend favours for flit call in factions
+				if( d<90|| p<90 || s<90 || w<90)
 				{
 					if (isPosi)
 					{

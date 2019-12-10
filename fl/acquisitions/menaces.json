@@ -241,5 +241,49 @@
 			{"name":"You've unfinished business in the world of the living"}
 		],
 		"Action": ""
+	},
+
+	"MenaceScandalCards":{
+		"Name": "MenaceScandalCards",
+		"Result": "MenaceScandalCards",
+		"Cards":[
+			{"name":"Visit an old friend","action":"1"},
+			{"name":"Unorthodox technologies","action":"rejected"},
+			{"name":"~I have attended a ball","action":"quiet corner"},
+			{"name":"A Chilly Infestation","action":"suffered"},
+			{"name":"A friend of sorts","action":"wits"},
+			{"name":"~letter from an old acquaintance","action":"very professional reply/replied coolly"},
+			{"name":"A letter from the Comtessa's Father","action":"too kind"},
+			{"name":"A letter from the Palace","action":"useful"},
+			{"name":"A moment of joy","action":"restrained"},
+			{"name":"A Smuggler scorned","action":"who was he"},
+			{"name":"A tiny square of paper...","action":"operations"},
+			{"name":"Among the dead","action":"self-control"},
+			{"name":"An unexplained disappearance","action":"hint"},
+			{"name":"An Unusual Remedy","action":"did not"},
+			{"name":"Causing a scene","action":"flung"},
+			{"name":"I Met a Curious Creature","action":"feeding"},
+			{"name":"Lamentable tastes","action":"abandoned"},
+			{"name":"Remnants","action":"investigate/ignore"},
+			{"name":"The construction of the 'Grand Sanatoria'","action":"pursue"},
+			{"name":"Unexpected advances","action":"refused"}
+		],
+		"Action":""
+	},
+	"MenaceScandalLetter":{
+		"Name": "MenaceScandalLetter",
+		"Result": "MenaceScandalLetter",
+		"Prerequisites": [
+			"Basic,Persuasive,<20,MenaceScandalCards"
+		],
+		"Action":"scandal,A letter to a trusted friend,tell me"
+	},
+	"MenaceScandalArea":{
+		"Name": "MenaceScandalArea",
+		"Result": "MenaceScandalArea",
+		"Prerequisites": [
+			"Menaces,Scandal,=0,MenaceScandalLetter"
+		],
+		"Action":"scandal,Home: at last,1"
 	}
 }

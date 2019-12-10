@@ -19,6 +19,11 @@
 			"require,Menaces,Suspicion,<1,MenaceSuspicionArea"
 		]
 	},
+	"Scandal": {
+		"require": [
+			"require,Menaces,Scandal,=-1,MenaceScandalArea"
+		]
+	},
 	"An Elaborate Party":{
 		"require":[
 			"require,Progress,Time Remaining...,10,ElaborateParty"
