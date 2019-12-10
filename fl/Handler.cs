@@ -135,7 +135,9 @@ namespace fl
 
 			if (!await _session.IsLockedArea())
 			{
-				return HasActionsLeft.Available;
+				var result = await _engine.Require("Stories","A Clear Path","1","ClearPath");
+
+				return result;
 			}
 
 			// 		# canTravel false means you are in a locked area i think

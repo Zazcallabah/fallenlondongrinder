@@ -215,6 +215,8 @@ namespace fl
 
 		public async Task MoveIfNeeded(string location)
 		{
+			if(string.Equals("any",location,StringComparison.InvariantCultureIgnoreCase))
+				return;
 			if (await _session.IsInLocation(location))
 				return;
 

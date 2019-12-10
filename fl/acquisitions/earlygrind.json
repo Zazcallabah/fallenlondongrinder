@@ -143,7 +143,12 @@
 		],
 		"Action": "veilgarden,The demands of high society,attend",
 		"Reward":54
+	},
+	"ClearPath":{
+		"Name":"ClearPath",
+		"Prerequisites": [
+			"Stories,A Clear Path,=0"
+		],
+		"Action": "any,SNOWBOUND!,yourself"
 	}
-
-
 }
