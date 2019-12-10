@@ -165,5 +165,18 @@
 			"Rumour,Scrap of Incendiary Gossip,5,FlourishGossipGrind"
 		],
 		"Action": "veilgarden,Make Your Name: Getting to the Ball,Calling in favours,1"
+	},
+	"NameFlourish5":{
+		"Name": "NameFlourish5",
+		"Result": "A Name Signed with a Flourish",
+		"Prerequisites": [
+			"Stories,A Name Signed with a Flourish,4,NameFlourish4",
+			"Contacts,Favours: Society,<6,ConsumeSocietyDuchess",
+			"Contacts,Renown: Society,5,RenownSocietyCarnival",
+			"Elder,Jade Fragment,500",
+			"Connected,Connected: The Duchess,5,ConnectedDuchessCarnival"
+		],
+		"Action": "shutteredpalace,an audience,Bring jade,Bazaar"
 	}
+
 }

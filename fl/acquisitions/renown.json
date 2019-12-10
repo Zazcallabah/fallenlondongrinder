@@ -35,6 +35,15 @@
 		],
 		"Action": "shutteredpalace,Call in favours,lady-in-waiting"
 	},
+	"ConsumeSocietyDuchess": {
+		"Name": "ConsumeSocietyDuchess",
+		"Result": "ConsumeSocietyDuchess",
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
+			"Contacts,Favours: Society,1"
+		],
+		"Action": "shutteredpalace,Call in favours,Duchess"
+	},
 
 	"ConsumeTombColonies": {
 		"Name": "ConsumeTombColonies",
@@ -145,6 +154,15 @@
 		"Action": "carnival,The Big Top,Meet tomb-colonists"
 	},
 
+	"ConnectedDuchessCarnival":{
+		"Name": "ConnectedDuchessCarnival",
+		"Result": "ConnectedDuchessCarnival",
+		"Prerequisites": [
+			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
+			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues"
+		],
+		"Action": "carnival,Sideshows,Meet servants of the Duchess"
+	},
 
 	"RenownRevolutionariesCarnival": {
 		"Name": "RenownRevolutionariesCarnival",

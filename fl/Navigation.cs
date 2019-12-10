@@ -75,6 +75,7 @@ namespace fl
 			{"Favour", "Contacts"},
 			{"Favours", "Contacts"},
 			{"Renown", "Contacts"},
+			{"Connected","Contacts"},
 			{"Acquaintance", "Acquaintances"},
 			{"Story", "Stories"},
 			{"Circumstances", "Circumstance"},
