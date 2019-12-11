@@ -29,12 +29,18 @@
 			"require,Progress,Time Remaining...,10,ElaborateParty"
 		]
 	},
-	"The Elder Continent":{
-		"forced": true
-	},
 	"Crowds":{
 		"require":[
 			"require,Progress,Approaching your Destination,10"
 		]
+	},
+	"A Glimpse of the Future":{
+		"require":[
+			"require,Accomplishments,The Mark of Destiny,1,GlimpsePreMark"
+		],
+		"action":"any,1,?"
+	},
+	"The Elder Continent":{
+		"forced": true
 	}
 }

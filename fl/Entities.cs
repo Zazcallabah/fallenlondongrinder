@@ -201,6 +201,7 @@ namespace fl
 		public string name;
 		public string[] require;
 		public bool? forced;
+		public string action;
 	}
 	public class Map
 	{

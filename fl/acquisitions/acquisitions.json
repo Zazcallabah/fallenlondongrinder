@@ -539,6 +539,29 @@
 		"Action": "bazaar,Solicitors at Law,Your just due",
 		"Reward": 1
 	},
+	"GlimpsePreMark": {
+		"Name":"GlimpsePreMark",
+		"Action":"any,GLIMPSE,learn"
+	},
+
+
+//  "require,Accomplishments,The Mark of Destiny,1,OracleLintel"
+	"OracleLintel": {
+		"Name": "OracleLintel",
+		"Prerequisites": [
+			"Stories,Putting the Pieces Together: the Taste of Lacre,1,SnowLacre",
+			"Curiosity,Unusual Pail of So-Called Snow,1"
+		],
+		"Action": "any,Explore the Festive Season,Investigate,The Oracle of the Lintel,?"
+	},
+	"SnowLacre": {
+		"Name": "SnowLacre",
+		"Prerequisites": [
+			"Curiosity,Unusual Pail of So-Called Snow,1"
+		],
+		"Action": "any,Explore the Festive Season,Investigate,eat it"
+	},
+
 
 	"Fascinating...": {
 		"Name": "Fascinating...",

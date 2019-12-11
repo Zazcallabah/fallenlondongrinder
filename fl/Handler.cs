@@ -164,20 +164,28 @@ namespace fl
 			{
 				Log.Info("relying on forced action data");
 				await _state.GoBackIfInStorylet();
-				return HasActionsLeft.Consumed; // todo wait shouldnt this trigger earlier than this?
+				return await HandleForcedAction();
 			}
-			if (areaData.require == null)
+			if (areaData.require == null && string.IsNullOrWhiteSpace(areaData.action) )
 				return HasActionsLeft.Faulty;
-			foreach (var action in areaData.require.Select(a => new ActionString(a)))
-			{
-				string level = action.third?.FirstOrDefault();
-				string tag = action.third?.Skip(1)?.FirstOrDefault();
-				var hasactionsleft = await _engine.Require(action.first, action.second, level, tag);
-				if (hasactionsleft == HasActionsLeft.Faulty || hasactionsleft == HasActionsLeft.Consumed)
+
+			if( areaData.require != null )
+				foreach (var action in areaData.require.Select(a => new ActionString(a)))
 				{
-					return hasactionsleft;
+					string level = action.third?.FirstOrDefault();
+					string tag = action.third?.Skip(1)?.FirstOrDefault();
+					var hasactionsleft = await _engine.Require(action.first, action.second, level, tag);
+					if (hasactionsleft == HasActionsLeft.Faulty || hasactionsleft == HasActionsLeft.Consumed)
+					{
+						return hasactionsleft;
+					}
 				}
+
+			if(!string.IsNullOrWhiteSpace(areaData.action))
+			{
+				return await _state.NavigateIntoAction(new ActionString(areaData.action));
 			}
+
 			return HasActionsLeft.Consumed;
 		}
 

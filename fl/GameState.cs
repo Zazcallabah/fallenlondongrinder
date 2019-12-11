@@ -120,7 +120,7 @@ namespace fl
 			}
 			else
 			{
-				// 			# we check for this much earlier, this is redundant
+				// 			# we check for this much earlier, this is redundant. Also it is a forced action, not locked storylet
 				// 			$done = HandleLockedStorylet $list
 				// 			return $null
 				throw new Exception("called GoBackIfInStorylet on what looks like locked storylet");
