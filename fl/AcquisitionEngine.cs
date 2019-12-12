@@ -123,19 +123,13 @@ namespace fl
 				foreach (var action in acq.Prerequisites.Select(p => new ActionString(p)))
 				{
 					var t = action.third?.FirstOrDefault();
-
-					var alternate = false;
-					if( action.location.Length > 0 && action.location[0] == '!' )
-					{
-						alternate = true;
-					}
 					var hasActionsLeft = await Require(action.location, action.first, action.second, t, dryRun);
 
 					if( hasActionsLeft == HasActionsLeft.Mismatch )
 					{
 						// mismatch means we didnt consume, but we got the thing
 						// either the thing was a prereq for this require, (this is the normal case), continue with prereq as usual
-						if( alternate )
+						if( action.alternate )
 							// or, this was an alternate mean to get our current require, in which case return available
 							return HasActionsLeft.Available;
 					}

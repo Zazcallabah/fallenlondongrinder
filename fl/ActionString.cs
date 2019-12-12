@@ -34,11 +34,21 @@ namespace fl
 		public string first;
 		public string second;
 		public string[] third;
+		public bool alternate = false;
 		public ActionString(string s)
 		{
 			var spl = s.Split(',');
 
-			location = spl[0];
+			if( !string.IsNullOrWhiteSpace(spl[0]) && spl[0][0] == '!' )
+			{
+				alternate = true;
+				location = spl[0].Substring(1);
+			}
+			else
+			{
+				location = spl[0];
+			}
+
 			if( spl.Length > 1)
 				first = spl[1];
 
