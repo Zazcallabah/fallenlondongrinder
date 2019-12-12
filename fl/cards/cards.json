@@ -82,7 +82,7 @@
 		},
 		{
 			"name":"A dream of a high mountain path",
-			"require": ["Academic,Foxfire Candle Stub,150"],
+			"require": ["Academic,Foxfire Candle Stub,150,BuyFewerCandles"],
 			"action":"bird"
 		},
 		{

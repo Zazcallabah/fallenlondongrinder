@@ -443,6 +443,13 @@ namespace fl
 				await _session.Unequip(action.first);
 				return HasActionsLeft.Mismatch;
 			}
+			// todo require, but if faulty, return available, use for tea with vicar wich needs to start with a card
+			// gives Stories,Advising the Loquacious Vicar,1 then
+			// ladybones,More Tea with the Vicar,1
+			// ladybones,The Vicar's Search for Knowledge,the nature
+			// ladybones,A Matter of Mortality with the Loquacious Vicar,ask around
+			// ladybones,Looking to Warmer Climes with the Loquacious Vicar,remnants
+			// ladybones,The Loquacious Vicar's Great Work,material
 			else if (action.location == "require")
 			{
 				string level = action.third?.FirstOrDefault();
