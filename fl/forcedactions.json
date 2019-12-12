@@ -29,6 +29,23 @@
 	"The Burden of Truth":"?",
 	"Announcing your Findings":"salons",
 
+	"Below the Silken Chapel: The Spider-Council":[
+		{
+			"Conditions":[
+				"Menaces,Wounds,=8"
+			],
+			"Action": "A desperate gambit"
+		},
+		{
+			"Conditions":[
+				"Basic,Dangerous,65"
+			],
+			"Action": "kill"
+		},
+		{
+			"Action": "run away"
+		}
+	],
 	"Far Arbor": [
 		{
 			"Conditions":[
