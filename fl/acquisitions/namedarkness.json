@@ -93,9 +93,62 @@
 		"Name": "NameDarkness4",
 		"Result": "NameDarkness4",
 		"Prerequisites": [
+			"Stories,A Name Whispered in Darkness,=3,NameDarkness3",
 			"Route,Route: The Flit,1",
 			"Elder,Jade Fragment,1000,SpiteCourierJade"
 		],
 		"Action":"spite,Making your Name: Going Up in the World,secure an invitation,Concentrate on winning the game"
+	},
+
+	"NameDarkness5AreaDiving":{
+		"Name": "NameDarkness5AreaDiving",
+		"Result": "NameDarkness5AreaDiving",
+		"Prerequisites": [
+		],
+		"Action":"spite,Area-diving,1"
+	},
+
+	"NameDarkness5Casing":{
+		"Name": "NameDarkness5Casing",
+		"Result": "NameDarkness5Casing",
+		"Prerequisites": [
+			"Venture,Villainy: Area-Diving,1,NameDarkness5AreaDiving"
+		],
+		"Action":"spite,Casing the Target,chat to the kitchen"
+	},
+
+	"NameDarkness5Thief2":{
+		"Name": "NameDarkness5Thief2",
+		"Result": "NameDarkness5Thief2",
+		"Prerequisites": [
+			"Progress,Casing...,8,NameDarkness5Casing"
+		],
+		"Action":"flit,The Big Score: Choose a Target,ministry of public decency,outlying depository"
+	},
+
+	"NameDarkness5Thief5":{
+		"Name": "NameDarkness5Thief5",
+		"Result": "NameDarkness5Thief5",
+		"Prerequisites": [
+			"Stories,Master Thief,2,NameDarkness5Thief2",
+			"Progress,Casing...,12,NameDarkness5Casing", // maybe casing 13 if high suspicion?, 14 if really high?
+			"Mysteries,Cryptic Clue,20",
+			"Route,Route: The Shuttered Palace,1"
+		],
+		"Action":"flit,The Big Score: Choose a Target,Rob the Chambers of the Duchess,rob the study"
+	},
+
+
+	// time to fix handling outfits
+	// go through each possible slot, equip whatever gives highest total bonus
+	// possible future: given basic, equip for max
+	"NameDarkness5":{
+		"Name": "NameDarkness5",
+		"Result": "NameDarkness5",
+		"Prerequisites": [
+			"Stories,A Name Whispered in Darkness,=4,NameDarkness4",
+			"Stories,Master Thief,5,NameDarkness5Thief5"
+		],
+		"Action":""
 	}
 }
