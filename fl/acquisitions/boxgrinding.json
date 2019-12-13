@@ -1,7 +1,6 @@
 {
 	"BoxGrindPart1": {
 		"Name": "BoxGrindPart1",
-		"Result": "A Boxful of Intrigue",
 		"Prerequisites": [
 			"Stories,A Survivor of the Affair of the Box,12"
 		],
@@ -9,7 +8,6 @@
 	},
 	"BoxGrindPart2": {
 		"Name": "BoxGrindPart2",
-		"Result": "A Boxful of Intrigue",
 		"Prerequisites": [
 			"Stories,A Boxful of Intrigue,4,BoxGrindPart1"
 		],
@@ -17,7 +15,6 @@
 	},
 	"BoxGrindPart3": {
 		"Name": "BoxGrindPart3",
-		"Result": "A Boxful of Intrigue",
 		"Prerequisites": [
 			"Stories,A Boxful of Intrigue,7,BoxGrindPart2"
 		],
@@ -25,7 +22,6 @@
 	},
 	"BoxGrindPart4": {
 		"Name": "BoxGrindPart4",
-		"Result": "A Boxful of Intrigue",
 		"Prerequisites": [
 			"Stories,A Boxful of Intrigue,10,BoxGrindPart3"
 		],
@@ -33,7 +29,6 @@
 	},
 	"KeyAtLast": {
 		"Name": "KeyAtLast",
-		"Result": "",
 		"Prerequisites": [
 			"Stories,A Survivor of the Affair of the Box,15",
 			"Zee Treasures,Moon-Pearl,1",

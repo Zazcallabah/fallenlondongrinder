@@ -12,7 +12,6 @@
 	},
 
 	"BuyBrass":{
-		"Result": "BuyBrass",
 		"Name": "BuyBrass",
 		"Action": "buy,Merrigans,Nevercold Brass Sliver,500",
 		"Prerequisites": [
@@ -22,7 +21,6 @@
 	},
 
 	"BuySouls":{
-		"Result": "BuySouls",
 		"Name": "BuySouls",
 		"Action": "buy,Merrigans,Soul,500",
 		"Prerequisites": [
@@ -30,9 +28,11 @@
 		],
 		"Reward": 500
 	},
+
+	//todo grind tree for whispered hints
+
 	"Flit Whispered Hint": {
 		"Name": "Flit Whispered Hint",
-		"Result": "Flit Whispered Hint",
 		"Prerequisites": ["Route,Route: The Flit,1"],
 		"Action": "flit,its king,meeting,understand",
 		"Reward": 66

@@ -43,6 +43,21 @@ namespace fl
 			return await Handler.DoAction(actionstr);
 		}
 
+		// todo test for if any name and key arent equal, cuz they should
+		// todo
+		// 1 look for ignore case equals name
+		// 2 look for ignore case regex match name
+		// 3 grab list of ignore case equals result
+		// (we should remove any result that isnt open for general availability)
+		//	if 0, return faulty
+		//	if 1 return that
+		//	if > 1
+		// 		order by reward
+		// 	[possibly innstead order by weight]
+		// calculate weight by number of conversions needed
+		// weight:= sum weight prereqs
+		// prereq weight := 0 if fulfilled
+		// prereq weight := 1 + sum weight prereqs (with a marker towards avoiding reference loops)
 		public Acquisition LookupAcquisition(string name)
 		{
 			if (string.IsNullOrWhiteSpace(name))

@@ -108,5 +108,62 @@
 			"Elder,Presbyterate Passphrase,3,NameBloodPassp"
 		],
 		"Action":"watchmakers,fighting ring,painted,2,?"
+	},
+
+	"NameBlood5Chapel1Finance": {
+		"Name": "NameBlood5Chapel1Finance",
+		"Result": "NameBlood5Chapel1Finance",
+		"Prerequisites": [
+				"Stories,A Name Scrawled in Blood,4,NameBlood4"
+		],
+		"Action":"wolfstack,conspiracy of spiders,Investigate the Silken Chapel,finance"
+	},
+	"NameBlood5Chapel1": {
+		"Name": "NameBlood5Chapel1",
+		"Result": "NameBlood5Chapel1",
+		"Prerequisites": [
+				"Basic,Dangerous,60,NameBlood5Chapel1Finance",
+				"Stories,A Name Scrawled in Blood,4,NameBlood4"
+		],
+		"Action":"wolfstack,conspiracy of spiders,Investigate the Silken Chapel,go alone"
+	},
+
+	"NameBlood5Chapel2": {
+		"Name": "NameBlood5Chapel2",
+		"Result": "NameBlood5Chapel2",
+		"Prerequisites": [
+			"Stories,Investigating the Silken Chapel,1,NameBlood5Chapel1",
+//todo			"Basic,Dangerous,60,GrindDangerous"
+		],
+		"Action":"wolfstack,Conspiracy of Spiders,Brave the spiders' crypt,laughing"
+	},
+	"NameBlood5Arachno1": {
+		"Name": "NameBlood5Arachno1",
+		"Result": "NameBlood5Arachno1",
+		"Prerequisites": [
+			"Stories,Investigating the Silken Chapel,2,NameBlood5Chapel2",
+			"Mysteries,Cryptic Clue,100",
+			"Academic,Foxfire Candle Stub,200,BuyFewerCandles",
+			"Academic,Flask of Abominable Salts,20"
+		],
+		"Action":"wolfstack,Conspiracy of Spiders,face the thing,1"
+	},
+	"NameBlood5Arachno3": {
+		"Name": "NameBlood5Arachno3",
+		"Result": "NameBlood5Arachno3",
+		"Prerequisites": [
+			"Stories,Arachnologist,1,NameBlood5Arachno1"
+		],
+		"Action":"any,Letter from Feducci,1,?"
+	},
+
+	"NameBlood5": {
+		"Name": "NameBlood5",
+		"Result": "NameBlood5",
+		"Prerequisites": [
+			"Stories,A Name Scrawled in Blood,4,NameBlood4",
+			"Stories,Arachnologist,3,NameBlood5Arachno"
+		],
+		"Action":"any,Letter from Feducci,1,?"
 	}
 }
