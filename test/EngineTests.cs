@@ -134,9 +134,8 @@ namespace test
 		[Test]
 		public void TestLookup()
 		{
-			Assert.AreEqual("inventory,Curiosity,Ablution Absolution,1", _engine.LookupAcquisition("Suspicion").Action);
-			Assert.AreEqual("Cryptic Clue", _engine.LookupAcquisition("clue").Result);
-			Assert.AreEqual("StartShortStory", _engine.LookupAcquisition("Working on...").Name);
+			Assert.AreEqual("inventory,Curiosity,Ablution Absolution,1", _engine.LookupAcquisitionByName("Suspicion").Action);
+			Assert.AreEqual("StartShortStory", _engine.LookupAcquisitionByName("Working on...").Name);
 		}
 
 		[Test]
@@ -252,7 +251,7 @@ namespace test
 		}
 
 		[Test]
-		public async Task Require_CanDoNonCaseSensitiveMatch()
+		public async Task Require_PrioritizesTag()
 		{
 			AcqHolder.Acq.AddTestAcquisition(new Acquisition{
 				Name = "Test Cryptic Clue AOEUHTNS",
@@ -265,7 +264,7 @@ namespace test
 				Result = "Test Cryptic Clue"
 			});
 			await SetPossession("Mysteries","Test Cryptic Clue",10);
-			var r = await _engine.Require("Mysteries","Test Cryptic Clue","15","aoeuhtns",true);
+			var r = await _engine.Require("Mysteries","Test Cryptic Clue","15","Test Cryptic Clue aoeuhtns",true);
 			Assert.AreEqual( HasActionsLeft.Consumed, r);
 			Assert.AreEqual(1,_engine.ActionHistory.Count);
 			Assert.AreEqual("Test Cryptic Clue,a,c,1",_engine.ActionHistory[0].ToString());
