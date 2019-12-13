@@ -146,7 +146,7 @@
 		"Reward": 1
 	},
 	"Drop of Prisoner's Honey": {
-		"Name": "Honey",
+		"Name": "Drop of Prisoner's Honey",
 		"Result": "Drop of Prisoner's Honey",
 		"Prerequisites": [
 			"Accomplishments,A Person of Some Importance,1"
@@ -272,7 +272,7 @@
 	},
 
 	"ParthenaeumMembership":{
-		"Name":"A Member in Good Standing",
+		"Name":"ParthenaeumMembership",
 		"Result": "A Member in Good Standing",
 		"Prerequisites": [
 			"Accomplishments,A Person of Some Importance,1",
