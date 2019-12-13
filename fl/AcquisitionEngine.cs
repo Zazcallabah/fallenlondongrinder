@@ -43,7 +43,6 @@ namespace fl
 			return await Handler.DoAction(actionstr);
 		}
 
-		// todo test for if any name and key arent equal, cuz they should
 		// todo
 		// 1 look for ignore case equals name
 		// 2 look for ignore case regex match name
@@ -58,24 +57,47 @@ namespace fl
 		// weight:= sum weight prereqs
 		// prereq weight := 0 if fulfilled
 		// prereq weight := 1 + sum weight prereqs (with a marker towards avoiding reference loops)
-		public Acquisition LookupAcquisition(string name)
+		public Acquisition LookupAcquisitionByName(string name)
 		{
 			if (string.IsNullOrWhiteSpace(name))
 				return null;
 
-			if (_acqs.Acquisitions.ContainsKey(name))
-				return _acqs.Acquisitions[name];
-			var r = new Regex(name, RegexOptions.IgnoreCase);
-			var matching = _acqs.Acquisitions.Values.FirstOrDefault(a => r.IsMatch(a.Name));
-			if (matching != null)
-				return matching;
-			var resultmatching = _acqs.Acquisitions.Values.Where(a => !string.IsNullOrWhiteSpace(a.Result) && r.IsMatch(a.Result)).ToArray();
+			var equals = _acqs.Acquisitions.Values.Where( a => string.Equals( a.Name, name, StringComparison.InvariantCultureIgnoreCase ) );
+			if( equals.Any() )
+			{
+				if( equals.Count() > 1 )
+				{
+					//todo fix ordering in all results
+					Log.Warning($"found multiple acqs matching {name}");
+				}
+				return equals.First();
+			}
 
-			var exactmatch = resultmatching.Where(a => a.Result == name).OrderByDescending(a => a.Reward).FirstOrDefault();
-			if (exactmatch != null)
-				return exactmatch;
-			return resultmatching.OrderByDescending(a => a.Reward).FirstOrDefault();
+			var result = _acqs.Acquisitions.Values.Where(a => !string.IsNullOrWhiteSpace(a.Result) && string.Equals(a.Result, name, StringComparison.InvariantCultureIgnoreCase));
+			if( !result.Any() )
+				return null;
+			if( result.Count() == 1 )
+				return result.First();
 
+			Log.Warning($"found multiple acqs matching result {name}");
+
+			return result.OrderByDescending(a=>a.Reward).FirstOrDefault();
+		}
+		public Acquisition LookupAcquisitionByTag(string tag)
+		{
+			if (string.IsNullOrWhiteSpace(tag))
+				return null;
+
+			var equals = _acqs.Acquisitions.Values.Where( a => string.Equals( a.Name, tag, StringComparison.InvariantCultureIgnoreCase ) );
+			if( equals.Any() )
+			{
+				if( equals.Count() > 1 )
+				{
+					Log.Warning($"found multiple acqs matching tag {tag}");
+				}
+				return equals.First();
+			}
+			return null;
 		}
 
 		public async Task<bool> PossessionSatisfiesLevel(string category, string name, string level)
@@ -123,10 +145,10 @@ namespace fl
 
 			Log.Debug($"    REQ: {category} {name} {level} ({tag})");
 
-			var acq = LookupAcquisition(tag);
+			var acq = LookupAcquisitionByTag(tag);
 			if (acq == null)
 			{
-				acq = LookupAcquisition(name);
+				acq = LookupAcquisitionByName(name);
 			}
 			if (acq == null)
 			{

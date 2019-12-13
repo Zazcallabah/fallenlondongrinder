@@ -32,7 +32,6 @@ namespace fl
 			Acquisitions.Add(name, new Acquisition
 			{
 				Name = name,
-				Key = name,
 				Action = action,
 				Prerequisites = prereq ?? new string[0],
 				Result = result,
@@ -70,7 +69,6 @@ namespace fl
 				return new Acquisition
 				{
 					Action = action,
-					Key = name,
 					Name = name,
 					Prerequisites = new[] { p },
 					Result = result,
@@ -118,7 +116,7 @@ namespace fl
 			foreach (Newtonsoft.Json.Linq.JProperty property in jobject.Properties())
 			{
 				Acquisition a = property.Value.ToObject<Acquisition>();
-				a.Key = property.Name;
+				a.Name = property.Name;
 				yield return a;
 			}
 		}

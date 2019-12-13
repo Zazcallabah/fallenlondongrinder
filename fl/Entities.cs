@@ -43,7 +43,6 @@ namespace fl
 
 	public class Acquisition
 	{
-		public string Key;
 		public string Name;
 		public string Result;
 		public string[] Prerequisites;
