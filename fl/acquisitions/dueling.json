@@ -1,46 +1,114 @@
 {
+
+	"BlackRibbon2" : {
+		"Prerequisites": [
+			"Stories,A Name Scrawled in Blood,5,NameBlood5"
+		],
+		"Action": "wolfstack,Little Talk with Feducci,joining"
+	},
+
+	"BlackRibbon3" : {
+		"Prerequisites": [
+			"Stories,Duelling with the Black Ribbon,2,BlackRibbon2",
+		//todo when grind in place	"Basic,Dangerous,80,GrindDangerous"
+		],
+		"Action": "wolfstack,drownies,dockside"
+	},
+
+	"BlackRibbon4" : {
+		"Prerequisites": [
+			"Stories,Duelling with the Black Ribbon,3,BlackRibbon3",
+			"Basic,Dangerous,100,BlackRibbon4Persuade"
+		],
+		"Action": "wolfstack,errant,death"
+	},
+	"BlackRibbon4Persuade" : {
+		"Prerequisites": [
+			"Basic,Persuasive,80,GrindPersuasive"
+		],
+		"Action": "wolfstack,errant,civilised"
+	},
+
+	"BlackRibbon5":{
+		"Prerequisites":[
+			"Stories,Duelling with the Black Ribbon,4,BlackRibbon4"
+		],
+		"Action":"wolfstack,Meet again with Feducci,dinner"
+	},
+
+	"BlackRibbon6":{
+		"Prerequisites":[
+			"Stories,Duelling with the Black Ribbon,5,BlackRibbon5",
+			"Route,Route: The Flit,1",
+			"Progress,Running Battle...,14"
+			],
+		"Action":"wolfstack,Challenge,Vendrick,death"
+	},
+
+	"InfestationEradication" :{
+		"Prerequisites": [
+			"Stories,A Name Scrawled in Blood,2,NameBlood2",
+		],
+		"Action":"watchmakers,Department of Menace Eradication,infestation of sorrow-spiders"
+	},
+
+	"RunningBattleEasy" :{
+			"Prerequisites": [
+				"Ventures,Menace Eradication Contract: Sorrow-spider infestation,1,InfestationEradication"
+			],
+			"Action":"watchmakers,Destroy an Infestation of Sorrow-Spiders,track them"
+		},
+
 	"Running Battle..." : {
-		"Name": "Running Battle...",
-		"Result": "Running Battle...",
 		"Prerequisites": [
+			"Stories,Duelling with the Black Ribbon,2,BlackRibbon2",
+			"Basic,Dangerous,130,RunningBattleEasy",
+			"Goods,Piece of Rostygold,10"
 		],
-		"Action": "wolfstack,Duelling the Black Ribbon,sparring/scout/find out/arrange"
+		"Action": "wolfstack,Duelling the Black Ribbon,sparring/scout/arrange"
 	},
+
 	"Duel Priest" : {
-		"Name": "Duel Priest",
-		"Result": "A Fearsome Duellist",
 		"Prerequisites": [
-			"Progress,Running Battle,7"
+			"Progress,Running Battle,8"
 		],
-		"Action": "wolfstack,Challenge,Priest,1"
+		"Action": "wolfstack,Challenge,Priest,friendly"
 	},
+
 	"Duel Inch" : {
-		"Name": "Duel Inch",
-		"Result": "A Fearsome Duellist",
 		"Prerequisites": [
-			"Progress,Running Battle,9",
-			"Stories,A Fearsome Duellist,1"
+			"Stories,A Fearsome Duellist,1,Duel priest",
+			"Progress,Running Battle,9"
 		],
 		"Action": "wolfstack,Challenge,Inch,1"
 	},
+
 	"Duel Vendrick" : {
-		"Name": "Duel Vendrick",
-		"Result": "A Fearsome Duellist",
 		"Prerequisites": [
-			"Progress,Running Battle,12",
-			"Menaces,Wounds,<4",
-			"Stories,A Fearsome Duellist,2"
+			"Stories,A Fearsome Duellist,2,Duel Priest",
+			"Progress,Running Battle,13",
+			"Menaces,Wounds,<4"
 		],
 		"Action": "wolfstack,Challenge,Vendrick,1"
 	},
+
 	"Duel Fencing" : {
-		"Name": "Duel Fencing",
-		"Result": "A Fearsome Duellist",
 		"Prerequisites": [
+			"Stories,A Fearsome Duellist,3,Duel Priest",
 			"Progress,Running Battle,15",
-			"Menaces,Wounds,<4",
-			"Stories,A Fearsome Duellist,3"
+			"Menaces,Wounds,<4"
 		],
 		"Action": "wolfstack,Challenge,Fencing,1"
+	},
+
+
+	"Duel Feducci" : {
+		"Prerequisites": [
+			"Stories,A Fearsome Duellist,3,Duel Priest",
+			"Progress,Running Battle,20",
+			"Menaces,Wounds,<2"
+		],
+		"Action": "wolfstack,Challenge,Feducci,1"
 	}
+
 }

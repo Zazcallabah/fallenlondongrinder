@@ -3,7 +3,10 @@
 	"GrindPersuasive": {
 		"Name": "GrindPersuasive",
 		"Result": "Persuasive",
-		"Prerequisites": [],
+		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1" //todo maybe alt grind for low levels?
+		],
+		// this is a .4 echo reward 95 persuasive check, at the expense of your fascinating if P<60
 		"Action": "empresscourt,attend,perform"
 	},
 	"GrindShadowy": {
@@ -18,6 +21,9 @@
 		"Name": "GrindDangerous",
 		"Result": "Dangerous",
 		"Prerequisites": [
+			"Basic,Dangerous,40,EarlyDangerousGrind",
+
+			// todo up to like 80 where this can take over?
 			"Progress,Running Battle,15",
 			"Menaces,Wounds,<3",
 			"Stories,A Fearsome Duellist,3"
@@ -36,6 +42,15 @@
 	},
 
 
+
+	"EarlyDangerousGrind": {
+		"Prerequisites": [
+			"Stories,A Name Scrawled in Blood,1,NameBlood1",
+			"Circumstance,Your Quarry,=1,MakeNameScrawledInBlood1Start",
+			"Stories,Quarry: Confounded Thing is Hiding,=0,MakeNameScrawledInBlood1GrindRat"
+		],
+		"Action":"watchmakers,Hunting across london,where the rat is lairing,shoot it"
+	},
 
 	"GrindWatchfulSpirifer":{
 		"Prerequisites": [
