@@ -545,7 +545,7 @@ namespace fl
 		{
 			if (await _engine.PossessionSatisfiesLevel("Route", "Route: The Forgotten Quarter", "1") && await _engine.PossessionSatisfiesLevel("Stories", "Archaeologist", "2"))
 			{
-				var hasmoreActions = await _engine.Require("Progress", "Archaeologist's Progress", "99"); // infinite grind for money
+				var hasmoreActions = await _engine.Require("Progress", "Archaeologist's Progress", "99", "SilkExpedition"); // infinite grind for money
 				return HasActionsLeft.Consumed;
 			}
 

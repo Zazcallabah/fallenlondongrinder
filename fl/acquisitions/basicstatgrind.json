@@ -7,12 +7,12 @@
 		"Action": "empresscourt,attend,perform"
 	},
 	"GrindShadowy": {
-		"Name": "GrindShadowy",
 		"Result": "Shadowy",
 		"Prerequisites": [
-			"Goods,Piece of Rostygold,10"
+			"Stories,A Name in Seven Secret Alphabets,4"
 		],
-		"Action": "spite,unfinished Business,?"
+		// shadowy 51 no menace
+		"Action": "ladybones,Track down a Spirifer,disguise"
 	},
 	"GrindDangerous": {
 		"Name": "GrindDangerous",
@@ -28,9 +28,28 @@
 		"Name": "GrindWatchful",
 		"Result": "Watchful",
 		"Prerequisites": [
-			"Progress,Archaeologist's Progress,99"
+			"Basic,Watchful,35,GrindWatchfulLifeLadybones",
+			"Basic,Watchful,68,GrindWatchfulSpirifer",
+			"Progress,Archaeologist's Progress,99,SilkExpedition" // loops back to here if <68
 		],
 		"Action": "forgotten quarter,prepare,rumours"
+	},
+
+
+
+	"GrindWatchfulSpirifer":{
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,4"
+		],
+		// shadowy 57 no menace
+		"Action": "ladybones,Track down a Spirifer,rooftops"
+	},
+	"GrindWatchfulLifeLadybones":{
+		"Prerequisities":[
+			"Stories,A Name in Seven Secret Alphabets,3,NameAlphabets3"
+		],
+		//watchful 20-22 no menace
+		"Action":"ladybones,life on ladybones road,Babysit/furtive/Discover the secrets of the Clay Men/society indiscretions,1"
 	},
 	"GetWaveThroughTerror": {
 		"Name":"GetWaveThroughTerror",

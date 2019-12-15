@@ -44,6 +44,9 @@ If you prefix a less-than sign to the amount, the grind will continue as long as
 
 ## todo
 
+* add endgame random grinder
+	when automaton reaches the end of the req list, do something like 5% chance to go to different random area, 10% chance to consume a random card, click randomly until you consume below action threshold
+
 * Add handling of more interesting locked locations like boat stuff or prison or death etc.
 * opportunity cards during heist or other locked storylets
 * find your way into more locations. like a newspaper or a boat or something.
@@ -63,7 +66,6 @@ If you prefix a less-than sign to the amount, the grind will continue as long as
 * four different making your name stories
 * newspaper progress https://fallenlondon.fandom.com/wiki/An_Editor_of_Newspapers
 * add acq for favour in high places, comprehensive bribe, personal reccommendation
-* https://fallenlondon.fandom.com/wiki/Attending_a_Party_(Guide)
 * bizarre, dreaded, ?
 
 * ambition, hearts desire, go to ... hunters keep? by boat, get stone key
@@ -80,3 +82,75 @@ A Name Signed with a Flourish https://fallenlondon.fandom.com/wiki/Shaping_a_Mas
 
 A Name Whispered in Darkness
 -> something about bats and cats in flit, embroiled in wars of illusion
+
+
+grinding fast
+constrained by challenge without menace on fail
+as high challenge as possible that is still a reachable storylet
+
+grind medium
+70-90?
+still cant have menace on fail
+would also like best echo/ap gain on success
+
+
+grinding slow
+100, so can have menace on fail
+find whatever has best echo/ap gain
+basically this could be a money grind
+
+grinding specific items
+
+flit,and its king,meeting,understand
+watchful 66
+66 whispered hints
+
+flit,and its king,meeting,present
+shadowy 63
+63 rat
+no menace
+
+flit,and its king,entertain,legerdemain
+shadowy 68
+35 rat
+35 silk
+no menace
+
+flit,fisher-kings,speak softly
+persuasive 40
+5 maniac prayer
+no menace
+
+flit,money on the side,rob a
+shadowy 102
+50 moon pearl
+26 jade
+26 nevercold brass sliver
+
+flit,money on the side,follow
+shadowy 100
+70 pearl
+1 relic 2
+1 relic 3
+1 relic 4
+
+flit,money on the side,fleece
+shadowy 98
+24 clue
+49 pearl
+
+flit,gullible,fleece
+shadowy 103
+53 rat
+50 jade
+
+flit,gullible,steal
+shadowy 106
+22 clue
+53 pearl
+
+flit,gullible,set up
+shadowy 109
+55 pearl
+27 clue
+

@@ -280,7 +280,7 @@
 		"Prerequisites": [
 			"Contacts,Renown: The Church,8,RenownChurch5",
 			"Contacts,Favours: The Church,5",
-			"Infernal,Soul,125,BuySouls",
+			"Infernal,Soul,125",
 			"Curiosity,Tiny Jewelled Reliquary,1"
 		]
 	},

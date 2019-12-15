@@ -321,15 +321,20 @@
 		"Reward": 10
 	},
 
-
 	"SpiriferSouls": {
-		"Name": "SpiriferSouls",
-		"Result": "SpiriferSouls",
 		"Prerequisites": [
-			"!Stories,A Name in Seven Secret Alphabets,4,BuySouls",
-			"!Basic,Watchful,60,BuySouls"
+			"Stories,A Name in Seven Secret Alphabets,4",
+			"Basic,Watchful,45,SpiriferSoulsShadowy"
 		],
 		"Action": "ladybones,Track down a Spirifer,Watch from the rooftops",
+		"Reward": 28
+	},
+
+	"SpiriferSoulsShadowy": {
+		"Prerequisites": [
+			"Stories,A Name in Seven Secret Alphabets,4"
+		],
+		"Action": "ladybones,Track down a Spirifer,disguise",
 		"Reward": 28
 	},
 

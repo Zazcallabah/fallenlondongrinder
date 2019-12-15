@@ -209,14 +209,14 @@
 		"Action": "forgotten quarter,prepare,begin,tomb of seven"
 	},
 
-
 	"NameAlphabetStones": {
 		"Name": "NameAlphabetStones",
 		"Result": "NameAlphabetStones",
 		"Prerequisites": [
 			"Stories,Archaeologist,3",
 			"Circumstance,An Expedition,=7,TombSeven",
-			"Progress,Archaeologist's Progress,30,EarlyProgressFilter"
+			"Stories,Rivals' Progress,<10,OrthosRivalProgress",
+			"Progress,Archaeologist's Progress,30,ProgressFilter"
 		],
 		"Action": "forgotten quarter,Pursuing an Archaeological Expedition,The Tomb of the Seven!"
 	},
