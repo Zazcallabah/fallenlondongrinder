@@ -11,24 +11,6 @@
 		"Reward": 10
 	},
 
-	"BuyBrass":{
-		"Name": "BuyBrass",
-		"Action": "buy,Merrigans,Nevercold Brass Sliver,500",
-		"Prerequisites": [
-			"Currency,Penny,1500"
-		],
-		"Reward": 500
-	},
-
-	"BuySouls":{
-		"Name": "BuySouls",
-		"Action": "buy,Merrigans,Soul,500",
-		"Prerequisites": [
-			"Currency,Penny,2000"
-		],
-		"Reward": 500
-	},
-
 	//todo grind tree for whispered hints
 
 	"Flit Whispered Hint": {
@@ -398,8 +380,7 @@
 		"Name": "NightwatchfforBrass",
 		"Result": "NightwatchfforBrass",
 		"Prerequisites": [
-			"!Stories,A Name in Seven Secret Alphabets,4,BuyBrass",
-			"!Basic,Watchful,65,BuyBrass"
+			"Basic,Watchful,65,GrindWatchfulO"
 		],
 		"Action": "ladybones,Night watch at the Brass Embassy warehouse,easy",
 		"Reward": 50
