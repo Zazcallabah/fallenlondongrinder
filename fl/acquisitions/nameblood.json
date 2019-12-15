@@ -132,7 +132,7 @@
 		"Name": "NameBlood5Chapel2",
 		"Result": "NameBlood5Chapel2",
 		"Prerequisites": [
-			"Stories,Investigating the Silken Chapel,1,NameBlood5Chapel1",
+			"Stories,Investigating the Silken Chapel,1,NameBlood5Chapel1"
 //todo			"Basic,Dangerous,60,GrindDangerous"
 		],
 		"Action":"wolfstack,Conspiracy of Spiders,Brave the spiders' crypt,laughing"
@@ -165,5 +165,17 @@
 			"Stories,Arachnologist,3,NameBlood5Arachno"
 		],
 		"Action":"any,Letter from Feducci,1,?"
+	},
+
+	"NameBlood6":{
+		"Prerequisites":[
+			"Stories,A Name Scrawled in Blood,5,NameBlood5",
+			"Stories,A Fearsome Duellist,3,Duel Priest",
+			"Stories,Duelling with the Black Ribbon,6,BlackRibbon6",
+			"Stories,A Fearsome Duellist,5,Duel Vendrick"
+		],
+		"Action":"wolfstack,Meet again with Feducci,dinner"
 	}
 }
+
+
