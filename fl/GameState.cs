@@ -222,6 +222,7 @@ namespace fl
 
 			if (await _session.GetLocationId(location) == await _session.GetLocationId("empress court"))
 			{
+				//todo require route shuttered plaace
 				await _session.MoveTo("shutteredpalace");
 				_cachedList = await _session.ListStorylet();
 				await EnterStorylet("spend");

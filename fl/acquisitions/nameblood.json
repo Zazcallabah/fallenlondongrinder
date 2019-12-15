@@ -5,7 +5,7 @@
 		"Prerequisites": [
 			"Circumstance,Your Quarry,=0"
 		],
-		"Action":"watchmakers,Menace Eradication,Make your name"
+		"Action":"watchmakers,Menace Eradication,Worryingly Large Rat"
 	},
 	"MakeNameScrawledInBlood1GrindRat": {
 		"Name": "MakeNameScrawledInBlood1GrindRat",

@@ -32,32 +32,25 @@
 	},
 
 	"RostygoldNameBlood": {
-		"Name": "RostygoldNameBlood",
-		"Result": "RostygoldNameBlood",
 		"Prerequisites": [
 			"Stories,A Name Scrawled in Blood,1,NameBlood1",
-			"Stories,A Name Scrawled in Blood,<4,RostygoldMedusa",
-			"Basic,Dangerous,23,RostygoldNameBlood2"
+			"Basic,Dangerous,30,RostygoldNameBlood2",
+			"Circumstance,Your Quarry,=1,MakeNameScrawledInBlood1Start",
+			"Stories,Quarry: Confounded Thing is Hiding,=0,MakeNameScrawledInBlood1GrindRat"
 		],
-		"Action": "watchmaker,brawl at the medusa,fight,?",
-		"Reward": 25
+		"Action":"watchmakers,Hunting across london,where the rat is lairing,shoot it"
 	},
 
 	"RostygoldNameBlood2": {
-		"Name": "RostygoldNameBlood2",
-		"Result": "RostygoldNameBlood2",
 		"Prerequisites": [
-			"Stories,A Name Scrawled in Blood,1,NameBlood1",
 			"Stories,A Name Scrawled in Blood,<4,RostygoldMedusa",
-			"Basic,Dangerous,16,RostygoldMedusa"
+			"Basic,Dangerous,23,RostygoldMedusa"
 		],
-		"Action": "watchmaker,Needle-wrestling,safe",
-		"Reward": 13
+		"Action": " watchmaker,brawl at the medusa,fight,?",
+		"Reward": 25
 	},
 
 	"RostygoldMedusa": {
-		"Name": "RostygoldMedusa",
-		"Result": "RostygoldMedusa",
 		"Prerequisites": [],
 		"Action": "watchmaker,rowdy times,subdue",
 		"Reward": 10
