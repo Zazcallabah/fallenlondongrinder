@@ -43,6 +43,19 @@ namespace fl
 			return await Handler.DoAction(actionstr);
 		}
 
+		public static bool TrimmedStringEquals( string a, string b )
+		{
+			if( a == null )
+				return b == null;
+			if( b == null )
+				return false;
+
+			var ta = a.Trim(' ','\t','.');
+			var tb = b.Trim(' ','\t','.');
+
+			return string.Equals( ta,tb, StringComparison.InvariantCultureIgnoreCase );
+		}
+
 		// todo
 		// 1 look for ignore case equals name
 		// 2 look for ignore case regex match name
@@ -62,7 +75,7 @@ namespace fl
 			if (string.IsNullOrWhiteSpace(name))
 				return null;
 
-			var equals = _acqs.Acquisitions.Values.Where( a => string.Equals( a.Name, name, StringComparison.InvariantCultureIgnoreCase ) );
+			var equals = _acqs.Acquisitions.Values.Where( a => TrimmedStringEquals( a.Name, name ) );
 			if( equals.Any() )
 			{
 				if( equals.Count() > 1 )
@@ -73,7 +86,7 @@ namespace fl
 				return equals.First();
 			}
 
-			var result = _acqs.Acquisitions.Values.Where(a => !string.IsNullOrWhiteSpace(a.Result) && string.Equals(a.Result, name, StringComparison.InvariantCultureIgnoreCase));
+			var result = _acqs.Acquisitions.Values.Where(a => !string.IsNullOrWhiteSpace(a.Result) && TrimmedStringEquals(a.Result, name));
 			if( !result.Any() )
 				return null;
 			if( result.Count() == 1 )
@@ -88,7 +101,7 @@ namespace fl
 			if (string.IsNullOrWhiteSpace(tag))
 				return null;
 
-			var equals = _acqs.Acquisitions.Values.Where( a => string.Equals( a.Name, tag, StringComparison.InvariantCultureIgnoreCase ) );
+			var equals = _acqs.Acquisitions.Values.Where( a => TrimmedStringEquals( a.Name, tag ) );
 			if( equals.Any() )
 			{
 				if( equals.Count() > 1 )
