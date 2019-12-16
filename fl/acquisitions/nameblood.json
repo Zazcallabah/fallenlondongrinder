@@ -170,11 +170,10 @@
 	"NameBlood6":{
 		"Prerequisites":[
 			"Stories,A Name Scrawled in Blood,5,NameBlood5",
-			"Stories,A Fearsome Duellist,3,Duel Priest",
-			"Stories,Duelling with the Black Ribbon,6,BlackRibbon6",
+			"Stories,A Fearsome Duellist,2,Duel Priest",
 			"Stories,A Fearsome Duellist,5,Duel Vendrick"
 		],
-		"Action":"wolfstack,Meet again with Feducci,dinner"
+		"Action":""
 	}
 }
 

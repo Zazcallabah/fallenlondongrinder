@@ -9,7 +9,7 @@
 
 	"BlackRibbon3" : {
 		"Prerequisites": [
-			"Stories,Duelling with the Black Ribbon,2,BlackRibbon2",
+			"Stories,Duelling with the Black Ribbon,2,BlackRibbon2"
 		//todo when grind in place	"Basic,Dangerous,80,GrindDangerous"
 		],
 		"Action": "wolfstack,drownies,dockside"
@@ -47,7 +47,7 @@
 
 	"InfestationEradication" :{
 		"Prerequisites": [
-			"Stories,A Name Scrawled in Blood,2,NameBlood2",
+			"Stories,A Name Scrawled in Blood,2,NameBlood2"
 		],
 		"Action":"watchmakers,Department of Menace Eradication,infestation of sorrow-spiders"
 	},
@@ -86,14 +86,16 @@
 	"Duel Vendrick" : {
 		"Prerequisites": [
 			"Stories,A Fearsome Duellist,2,Duel Priest",
+			"Stories,Duelling with the Black Ribbon,<5,Duel Chi Lan",
 			"Progress,Running Battle,13",
 			"Menaces,Wounds,<4"
 		],
 		"Action": "wolfstack,Challenge,Vendrick,1"
 	},
 
-	"Duel Fencing" : {
+	"Duel Chi Lan" : {
 		"Prerequisites": [
+			"Route,Route: The Shuttered Palace,1",
 			"Stories,A Fearsome Duellist,3,Duel Priest",
 			"Progress,Running Battle,15",
 			"Menaces,Wounds,<4"

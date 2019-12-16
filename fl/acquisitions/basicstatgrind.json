@@ -24,11 +24,9 @@
 			"Basic,Dangerous,40,EarlyDangerousGrind",
 
 			// todo up to like 80 where this can take over?
-			"Progress,Running Battle,15",
-			"Menaces,Wounds,<3",
-			"Stories,A Fearsome Duellist,3"
+			"Stories,A Fearsome Duellist,99,Duel Chi Lan"
 		],
-		"Action": "wolfstack,Challenge,Fencing,1"
+		"Action": ""
 	},
 	"GrindWatchful": {
 		"Name": "GrindWatchful",
