@@ -29,14 +29,28 @@ namespace localrunnertest
 		public async Task RunAuto()
 		{
 			dynamic credentials = JsonConvert.DeserializeObject(System.IO.File.ReadAllText("secrets.json"));
-			string e = credentials.auto[0];
-			string p = credentials.auto[1];
+			await Do((string)credentials.auto[0],(string)credentials.auto[1]);
+		}
+		[Test]
+		public async Task RunAuto2()
+		{
+			dynamic credentials = JsonConvert.DeserializeObject(System.IO.File.ReadAllText("secrets.json"));
+			await Do((string)credentials.auto2[0],(string)credentials.auto2[1]);
+		}
+		[Test]
+		public async Task RunAuto3()
+		{
+			dynamic credentials = JsonConvert.DeserializeObject(System.IO.File.ReadAllText("secrets.json"));
+			await Do((string)credentials.auto3[0],(string)credentials.auto3[1]);
+		}
 
+		public async Task Do(string e, string p){
 			if( e == null || p == null )
 				throw new Exception("missing login");
 			var n = new Main(e,p);
 			await n.RunAutomaton(true);
 			Assert.Fail("Fail test to see output");
+
 		}
 	}
 }
