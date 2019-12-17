@@ -588,7 +588,7 @@ namespace fl
 			}
 			if (!exceptional)
 			{
-				hasMoreActions = await _engine.Require("Curiosity", "Compelling Short Story", "1");
+				hasMoreActions = await _engine.Require("Curiosity", "Compelling Short Story", "2");
 			}
 
 			await _session.SellIfMoreThan("Curiosity", "Competent Short Story", 0);
