@@ -5,7 +5,7 @@
 			"Goods,Crate of Expedition Supplies,10", // todo will fail if not fulfilled
 			"Mysteries,Cryptic Clue,20"
 		],
-		"Action": "forgotten quarter,Archaeological Expedition,confront,1"
+		"Action": "forgotten quarter,Archaeological Expedition,confront,distract"
 	},
 
 	"ChalcociteRivalProgress": {
@@ -13,7 +13,7 @@
 			"Goods,Crate of Expedition Supplies,10",
 			"Mysteries,Cryptic Clue,20"
 		],
-		"Action": "forgotten quarter,Archaeological Expedition,confront,1"
+		"Action": "forgotten quarter,Archaeological Expedition,confront,rescue"
 	},
 	"OrthosRivalProgress": {
 		"Prerequisites": [
@@ -21,7 +21,7 @@
 			"Goods,Crate of Expedition Supplies,10", // todo will fail if not fulfilled
 			"Mysteries,Cryptic Clue,20"
 		],
-		"Action": "forgotten quarter,Archaeological Expedition,confront,1"
+		"Action": "forgotten quarter,Archaeological Expedition,confront,assault"
 	},
 
 	"Silk adventure": {
