@@ -1,0 +1,54 @@
+{
+	"MissingWoman2":{
+		"Prerequisites": [
+			"Route,Route: Wilmot's End,1",
+		],
+		"Action": "wilmot,The Missing Woman,Whatever is necessary"
+	},
+
+	"MissingWoman3Alt":{
+		"Prerequisites": [
+			"Stories,Searching out a Missing Woman,2,MissingWoman2"
+		],
+		"Action": "wilmot,Your Own Eyes,looking"
+	},
+
+	"MissingWoman3":{
+		"Prerequisites": [
+			"Stories,Searching out a Missing Woman,2,MissingWoman2",
+			"Stories,Looking in High Places and Low,2,MissingWoman3Alt"
+		],
+		"Action": "wilmot,The Agents and the Agents of the Agents,report"
+	},
+
+	"MissingWoman4":{
+		"Prerequisites": [
+			"Stories,Searching out a Missing Woman,3,MissingWoman3"
+		],
+		"Action": "wilmot,Who is she,1"
+	},
+
+	"MissingWoman5":{
+		"Prerequisites": [
+			"Stories,Searching out a Missing Woman,4,MissingWoman4"
+		],
+		"Action": "wilmot,A Charming Prussian Fellow,speak"
+	},
+
+	"Dramatic Tension":{
+		"Prerequisites": [
+			"Stories,Searching out a Missing Woman,5,MissingWoman5"
+		],
+		"Action": "wilmot,The End of a Search,down to business"
+	},
+
+	"LabourFromWilmot":{
+		"Result":"Strong-Backed Labour",
+		"Prerequisites": [
+			"Route,Route: Wilmot's End,1,BuyCrate",
+			"Progress,Dramatic Tension,2",
+			"Stories,Searching out a Missing Woman,5,MissingWoman5"
+		],
+		"Action": "wilmot,The End of a Search,a friendly gesture"
+	}
+}

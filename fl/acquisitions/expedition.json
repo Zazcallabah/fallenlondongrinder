@@ -127,12 +127,21 @@
 		"Action": "forgotten quarter,Prepare,Rumours"
 	},
 
+
+	"CrateFromWilmot":{
+		"Prerequisites": [
+			"Route,Route: Wilmot's End,1,BuyCrate",
+			"Curiosity,Strong-Backed Labour,1"
+		],
+		"Action": "forgotten quarter,Prepare,Burly guards and porters"
+	},
+
 	"Crate of Expedition Supplies": {
 		"Result": "Crate of Expedition Supplies",
 		"Prerequisites": [
 			"Progress,Archaeologist's Progress,<1", // todo this is weird, needs exit condition
 			"Contacts,Renown: The Docks,5,RenownDocksCarnival",
-			"Contacts,Favours: The Docks,1,BuyCrate",
+			"Contacts,Favours: The Docks,1,CrateFromWilmot",
 			"Goods,Piece of Rostygold,50"
 		],
 		"Action": "forgotten quarter,Prepare,Hire a porter from the docks"
