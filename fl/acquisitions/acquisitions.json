@@ -479,6 +479,12 @@
 		"Reward": 1
 	},
 
+	"Enjoying Lethal Prominence":{
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1"
+		],
+		"Action":"lodgings,local gossip,Assassins"
+	},
 
 	"Velocipede": {
 		"Name": "Velocipede",

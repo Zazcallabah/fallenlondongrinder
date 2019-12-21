@@ -27,7 +27,7 @@
 	"Silk adventure": {
 		"Result": "An Expedition",
 		"Prerequisites": [
-			"Goods,Crate of Expedition Supplies,99",
+			"Goods,Crate of Expedition Supplies,90",
 			"Stories,Archaeologist,2"
 		],
 		"Action": "forgotten quarter,prepare,begin,tomb of the Silken Thread"
