@@ -69,6 +69,13 @@
 			"action": "charm"
 		},
 		{
+			"name":"Swap Incendiary Gossip",
+			"require":[
+				"Rumour,Scrap of Incendiary Gossip,1"
+			],
+			"action":"1"
+		},
+		{
 			"name":"Providing for the revels",
 			"require": [
 				"Nostalgia,Drop of Prisoner's Honey,400",
@@ -294,7 +301,6 @@
 		"A day out in your Clay Sedan Chair",
 		"The Lofty Tower: the Potential of Premises at the Bazaar",
 		"Once upon a time in a carriage",
-		"One's public",
 		"Call in favours in the Flit",
 		"The High Castle: What Occurs in a Rooftop Shack",
 		"Promenade with the Celebrated Artist's Model",
