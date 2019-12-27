@@ -221,10 +221,6 @@
 			"action":"welcome"
 		},
 		{
-			"name":"A Polite Invitation",
-			"action":"Reply and attend"
-		},
-		{
 			"name":"Plumb the Firebrand's secrets",
 			"action":"allow him"
 		},
@@ -292,6 +288,7 @@
 		"Taking matters into your own hands",
 		"A Raggedy Creature",
 		"A flash of white",
+		"A polite invitation",
 		"A commotion above!",
 		"Park and Palace: Society",
 		"The mournful rubbery instrument",
