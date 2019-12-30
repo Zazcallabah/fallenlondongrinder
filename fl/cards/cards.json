@@ -28,6 +28,10 @@
 			"action": "party/dispensary"
 		},
 		{
+			"name":"Watching the Shroom-Hopping",
+			"action":"different"
+		},
+		{
 			"name": "The Fallen Angel",
 			"action": "tackle"
 		},
