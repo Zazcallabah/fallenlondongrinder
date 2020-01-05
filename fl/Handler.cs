@@ -238,6 +238,7 @@ namespace fl
 
 		private async Task<HasActionsLeft> HandleRenown()
 		{
+			// dont even try it if we havent even found the carnival yet
 			if (!await _engine.PossessionSatisfiesLevel("Route", "Route: Mrs Plenty's Most Distracting Carnival", "1"))
 			{
 				return HasActionsLeft.Available;
@@ -248,6 +249,7 @@ namespace fl
 			var s = await _session.GetPossessionLevel("Basic","Shadowy");
 			var w = await _session.GetPossessionLevel("Basic","Watchful");
 
+			// dont bother with renown until all basics are above 50
 			if( d<50|| p<50 || s<50 || w<50)
 				return HasActionsLeft.Available;
 
@@ -261,30 +263,48 @@ namespace fl
 			};
 			var factions = new[]{
 				"Church",
-		//		"Bohemians",
+				"Bohemians",
 				"Constables",
 				"Criminals",
 				"Hell",
 				"Revolutionaries",
 				"Society",
-		//		"Docks",
+				"Docks",
 				"Urchins",
 				"GreatGame",
 				"TombColonies",
 				"RubberyMen"
 			};
+
+			// first grind the first 5 renown through carnival
 			foreach (var faction in factions)
 			{
 				var fullname = $"Renown: {faction}";
-
 				if (mapper.ContainsKey(faction))
-				{
 					fullname = $"Renown: {mapper[faction]}";
-				}
 
-				// todo handle spend favours for flit call in factions
-				if( d<90|| p<90 || s<90 || w<90)
+				var hasActionsLeft = await _engine.Require("Contacts", fullname, "5", $"Renown{faction}Carnival");
+				if (hasActionsLeft == HasActionsLeft.Consumed)
 				{
+					return hasActionsLeft;
+				}
+			}
+
+
+			// if all basics above 90, grind further
+			if( d<90|| p<90 || s<90 || w<90)
+				return HasActionsLeft.Available;
+
+			foreach (var faction in factions)
+			{
+				var fullname = $"Renown: {faction}";
+				if (mapper.ContainsKey(faction))
+					fullname = $"Renown: {mapper[faction]}";
+
+				// only attempt when we have the full 7 favours
+				if( await _engine.PossessionSatisfiesLevel("Contacts", fullname, "7"))
+				{
+					// wait until posi for the grind to 15
 					if (isPosi)
 					{
 						var hasActionsLeft = await _engine.Require("Contacts", fullname, "15", $"Renown{faction}8");
