@@ -163,8 +163,13 @@
 			"action":"1"
 		},
 		{
+			"name":"ACE OF HUNGERS",
+			"require":["Goods,Piece of Rostygold,10"],
+			"action":"chestnuts"
+		},
+		{
 			"name":"A visit",
-			"require":["Acquaintances,Acquaintance: Sardonic Music-Hall Singer,1"],
+			"require":["Acquaintances,Acquaintance: the Sardonic Music-Hall Singer,1"],
 			"action":"sardonic,drop in"
 		},
 		{
