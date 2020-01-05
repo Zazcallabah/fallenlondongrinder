@@ -165,6 +165,12 @@ namespace fl
 				};
 			}
 			var possessions = await s.GetPossessionCategory(category);
+
+			// first prioritize exact match (non case sensitive)
+			var result = possessions.FirstOrDefault( p => string.Equals(name,p.name,StringComparison.InvariantCultureIgnoreCase));
+			if( result != null )
+				return result;
+
 			var r = new Regex(name, RegexOptions.IgnoreCase);
 			return possessions.FirstOrDefault(p => r.IsMatch(p.name));
 		}

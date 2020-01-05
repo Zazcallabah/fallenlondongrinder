@@ -63,6 +63,17 @@ namespace test
 		}
 
 		[Test]
+		public async Task IsntConfusedBySouls()
+		{
+			var m = await SessionHolder.Session.Myself();
+			m.SetPossession("Infernal","Brilliant Soul",1);
+			m.SetPossession("Infernal","Soul",100);
+
+			var s = await SessionHolder.Session.GetPossessionLevel("Infernal","Soul");
+			Assert.AreEqual(100,s);
+		}
+
+		[Test]
 		public async Task CanDrawCards(){
 
 			var s = SessionHolder.Session;
