@@ -246,7 +246,11 @@ namespace fl
 				if (result.isSuccess && !dryRun )
 				{
 					_cachedList = null;
-					return await PerformAction(action);
+					var hasActionsLeft = await PerformAction(action); // performaction defaults to available, until we figure out phase for storyletlist, handle this manually
+					if( hasActionsLeft == HasActionsLeft.Available )
+						return HasActionsLeft.Consumed;
+					else
+						return hasActionsLeft;
 				}
 				// todo the following two could possibly be thrown instead
 				return HasActionsLeft.Faulty; // usequality failed
