@@ -69,6 +69,11 @@ namespace fl
 						return;
 					}
 				}
+				hasActionsLeft = await HandleMakingWaves();
+				if( hasActionsLeft != HasActionsLeft.Available)
+				{
+					return;
+				}
 				foreach (var action in actions)
 				{
 					hasActionsLeft = await DoAction(action);
@@ -234,6 +239,16 @@ namespace fl
 				return hasActionsLeft;
 			}
 			return await _engine.Require("Curiosity", "An Earnest of Payment", "<1", "Payment");
+		}
+
+		private async Task<HasActionsLeft> HandleMakingWaves()
+		{
+			if( await _engine.PossessionSatisfiesLevel("Accomplishments", "A Person of Some Importance", "1") )
+			{
+				var not = await _session.GetPossessionLevel("Prominence","Notability");
+				return await _engine.Require("Prominence","Making Waves",not.ToString(),"GetWaveThroughTerror");
+			}
+			return HasActionsLeft.Available;
 		}
 
 		private async Task<HasActionsLeft> HandleRenown()

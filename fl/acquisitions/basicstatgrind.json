@@ -70,6 +70,6 @@
 		"Prerequisites": [
 			"Mysteries,Tale of Terror!!,50"
 		],
-		"Action": "inventory,Tale of Terror!!,fireside"
+		"Action": "inventory,Mysteries,Tale of Terror!!,fireside"
 	}
 }
