@@ -168,6 +168,11 @@
 			"action":"chestnuts"
 		},
 		{
+			"name":"Matters Cartographical",
+			"require":["Cartography,Map Scrap,50"],
+			"action":"Pay a Retired Zee-Captain"
+		},
+		{
 			"name":"A visit",
 			"require":["Acquaintances,Acquaintance: the Sardonic Music-Hall Singer,1"],
 			"action":"sardonic,drop in"

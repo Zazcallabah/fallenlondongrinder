@@ -334,11 +334,25 @@
 		"Name": "Shard of Glim",
 		"Result": "Shard of Glim",
 		"Prerequisites": [
-			"Accomplishments,A Person of Some Importance,1"
+			"Accomplishments,A Person of Some Importance,1,GlimVillainy"
 		],
 		"Action": "spite,unfinished business,Rob a glim shipment",
 		"Reward": 100
 	},
+
+
+	"GlimVillainy":{
+		"Result": "Shard of Glim",
+		"Prerequisites": [
+			"Routes,Route: Wolfstack Docks,1",
+			"Stories,A Name Whispered in Darkness,4,NameDarkness4",
+			"Stories,Master Thief,1,NameDarkness5Thief2",
+			"Progress,Casing...,8,NameDarkness5Casing"
+		],
+		"Action":"flit,The Big Score: Choose a Target,Rob the Glim Shipment,glim ship"
+	},
+
+
 	"Stolen Correspondence": {
 		"Name": "Stolen Correspondence",
 		"Result": "Stolen Correspondence",
