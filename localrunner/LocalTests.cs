@@ -43,7 +43,12 @@ namespace localrunnertest
 			dynamic credentials = JsonConvert.DeserializeObject(System.IO.File.ReadAllText("secrets.json"));
 			await Do((string)credentials.auto3[0],(string)credentials.auto3[1]);
 		}
-
+	[Test]
+		public async Task RunAuto4()
+		{
+			dynamic credentials = JsonConvert.DeserializeObject(System.IO.File.ReadAllText("secrets.json"));
+			await Do((string)credentials.auto4[0],(string)credentials.auto4[1]);
+		}
 		public async Task Do(string e, string p){
 			if( e == null || p == null )
 				throw new Exception("missing login");
