@@ -351,6 +351,11 @@ namespace fl
 			return result;
 		}
 
+		public async Task<ContentMessage> AcceptInvitation( long relatedId ){
+			var result = await Post<ContentMessage>($"messages/acceptinvitation/{relatedId}");
+			return result;
+		}
+
 		public async Task BeginSocialEvent(long id){
 			await Post<dynamic>($"storylet/beginsocialevent/{id}");
 		}

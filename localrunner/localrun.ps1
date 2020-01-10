@@ -1,5 +1,5 @@
 while($true) {
-	write-host "`n`n`n`n`n`n`n`n`n`n"
+	write-host "`n`n`n`n############################`n############################`n############################`n`n`n`n`n"
 	$mark = [DateTime]::UtcNow;
 	git pull
 	dotnet test --filter RunAuto
