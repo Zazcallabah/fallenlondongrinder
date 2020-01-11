@@ -39,6 +39,7 @@ namespace fl
 		Consumed,
 		Faulty,
 		Mismatch,
+		Unmet
 	}
 
 	public class Acquisition

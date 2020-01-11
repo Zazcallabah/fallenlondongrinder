@@ -145,7 +145,7 @@
 		"Result": "A Name Signed with a Flourish",
 		"Prerequisites": [
 			"Stories,A Name Signed with a Flourish,3,NameFlourish3",
-			"Contacts,Favours: Society,1,RenownSocietyCarnival",
+			"Contacts,Favours: Society,1",
 			"Rag Trade,Silk Scrap,500,SeamstressSilk",
 			"Rumour,Scrap of Incendiary Gossip,5,FlourishGossipGrind"
 		],

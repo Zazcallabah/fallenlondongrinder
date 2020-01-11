@@ -151,9 +151,21 @@ namespace fl
 
 		public async Task<HasActionsLeft> Require(string category, string name, string level, string tag = null, bool dryRun = false)
 		{
+			var passIfUnmet = false;
+			if( category[0] == '?' )
+			{
+				passIfUnmet = true;
+				category = category.Substring(1);
+			}
+
 			if (await PossessionSatisfiesLevel(category, name, level))
 			{
 				return HasActionsLeft.Available;
+			}
+
+			if( passIfUnmet )
+			{
+				return HasActionsLeft.Unmet;
 			}
 
 			Log.Debug($"    REQ: {category} {name} {level} ({tag})");
@@ -220,9 +232,14 @@ namespace fl
 				{
 					string tag = action.third?.FirstOrDefault();
 					HasActionsLeft hasActionsLeft = await Require(action.location, action.first, action.second, tag);
-					if (hasActionsLeft == HasActionsLeft.Faulty)
+					if (hasActionsLeft == HasActionsLeft.Faulty )
 					{
 						Log.Warning($"Missing prereq path for card {card.name}, discarding.");
+						await _state.DiscardOpportunityCard(card.eventId.Value);
+					}
+					else if( hasActionsLeft == HasActionsLeft.Unmet )
+					{
+						Log.Warning($"Unmet prereq for card {card.name}, discarding. ({action.location} {action.first} {action.second} {tag})");
 						await _state.DiscardOpportunityCard(card.eventId.Value);
 					}
 					if (hasActionsLeft != HasActionsLeft.Available)
