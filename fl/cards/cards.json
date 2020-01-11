@@ -8,6 +8,28 @@
 			"action":"Loamsprach/I OFFER JADE/Statues/Stories/Unfinished"
 		},
 		{
+			"name":"The Keen-Eyed Lapidary",
+			"action":"1"
+		},
+		{
+			"name":"The Keen-Eyed Lapidary returns",
+			"require":[
+				"Cartography,Shard of Glim,400"
+			],
+			"action":"1"
+		},
+		{
+			"name":"The Keen-Eyed Lapidary's offer",
+			"require":[
+				"?Accomplishments,A Person of Some Importance,1",
+				"Weapon,Tasselled Walking-Stick,1",
+				"Curiosity,Venom-ruby,5",
+				"Curiosity,Sapphire,5",
+				"Contraband,Ostentatious Diamond,1"
+			],
+			"action":"1"
+		},
+		{
 			"name":"Attending a masquerade",
 			"action":"zailor"
 		},

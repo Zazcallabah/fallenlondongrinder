@@ -551,6 +551,38 @@
 	},
 
 
+	"Ostentatious Diamond": {
+		"Result": "Ostentatious Diamond",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1",
+			"Mysteries,Cryptic Clue,25"
+		],
+		"Action": "bazaar side-streets,adornments,pick out a diamond"
+	},
+	"Sapphire": {
+		"Result": "Sapphire",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1",
+			"Mysteries,Cryptic Clue,75"
+		],
+		"Action": "bazaar side-streets,adornments,pick out a sapphire"
+	},
+	"Venom-Ruby": {
+		"Result": "Venom-Ruby",
+		"Prerequisites": [
+			"Accomplishments,A Person of Some Importance,1",
+			"Mysteries,Cryptic Clue,75"
+		],
+		"Action": "bazaar side-streets,adornments,pick out a venom-ruby"
+	},
+	"Tasselled Walking-Stick": {
+		"Result": "Tasselled Walking-Stick",
+		"Prerequisites": [
+			"Currency,Penny,1280"
+		],
+		"Action": "buy,carrow's steel,Tasselled Walking-Stick"
+	},
+
 //  "require,Accomplishments,The Mark of Destiny,1,OracleLintel"
 	"OracleLintel": {
 		"Name": "OracleLintel",
