@@ -12,18 +12,6 @@
 			"action":"zailor"
 		},
 		{
-			"name":"Sign on to a glim-steamer",
-			"action":"1"
-		},
-		{
-			"name":"A trip around the Southern Archipelago",
-			"action":"1"
-		},
-		{
-			"name":"Gather round me bully boys...",
-			"action":"1"
-		},
-		{
 			"name":"Break through the Revolutionary Firebrand's reserve",
 			"action":"?"
 		},
@@ -75,10 +63,6 @@
 		{
 			"name": "The Cities that Fell",
 			"action": "pages/gatecrash/lordship/ancient/whispers"
-		},
-		{
-			"name": "~Cheesemonger",
-			"action": "Eavesdrop/Start the gang war/Open it up/Look into the matter/Take the shipment/venal/a forthright approach/Private investigations/Steal the manuscript/Listen to him"
 		},
 		{
 			"name": "Attend a society funeral",
@@ -149,10 +133,6 @@
 		{
 			"name":"F.F. Gebrandt and you",
 			"action":"bidding"
-		},
-		{
-			"name":"An evening's zailing",
-			"action":"glim"
 		},
 		{
 			"name":"-SUNLESS SEA- Intruding upon Ratty Larceny",
@@ -259,8 +239,8 @@
 			"action":"allow him"
 		},
 		{
-			"name":"what's that smell",
-			"action":"listen to him"
+			"name":"A Tipple with the Bohemian Sculptress",
+			"action":"1"
 		},
 		{
 			"name":"The Cities that Fell",

@@ -1,0 +1,40 @@
+{
+	"use":[
+		{
+			"name":"Thief!",
+			"action":"1"
+		},
+		{
+			"name":"A day at the library",
+			"action":"1"
+		},
+		{
+			"name":"A little eavesdropping",
+			"action":"1"
+		},
+		{
+			"name": "~Cheesemonger",
+			"action": "Eavesdrop/open it up/Start the gang war/Look into the matter/Open it up/Look into the matter/Take the shipment/venal/a forthright approach/Private investigations/Steal the manuscript/Listen to him/?"
+		},
+		{
+			"name":"The spy with the hat",
+			"action":"1"
+		},
+		{
+			"name":"The sign of the looped wire",
+			"action":"game/1"
+		},
+		{
+			"name":"what's that smell",
+			"action":"listen to him"
+		},
+
+
+	],
+
+	"trash":[
+		"An evening of drink and intrigue",
+		"What do the urchins know?",
+		"Out of a job",
+	]
+}
