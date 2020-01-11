@@ -39,7 +39,7 @@ namespace fl
 			});
 		}
 
-		class CsvItem
+		public class CsvItem
 		{
 
 			static readonly Regex _splitter = new Regex("^\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"");
@@ -85,7 +85,7 @@ namespace fl
 				string b
 			)
 			{
-				Economy = a;
+				Economy = e;
 				Level = l;
 				Item = i;
 				Cost = c;

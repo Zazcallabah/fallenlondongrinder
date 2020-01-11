@@ -113,6 +113,51 @@ namespace test
 		}
 
 		[Test]
+		public void CanReadAcqs()
+		{
+			var acq = _engine.LookupAcquisitionByTag("DefaultMysteries3bJournals");
+
+			Assert.AreEqual( "inventory,Mysteries,Appalling Secret,duchess", acq.Action );
+			Assert.AreEqual( "DefaultMysteries3bJournals", acq.Name );
+			Assert.AreEqual( new string[] { "Mysteries,Appalling Secret,333", "Contacts,Connected: The Duchess,5" }, acq.Prerequisites );
+			Assert.AreEqual( "Journal of Infamy", acq.Result );
+			Assert.AreEqual( 105, acq.Reward );
+		}
+
+		[Test]
+		public void CanMakeCsvItem()
+		{
+			var item = AcquisitionsHandler.CsvItem.FromRow("\"Mysteries\",\"1\",\"Whispered Hint\",\"500\",\"combine\",\"200\",\"Cryptic Clue\"");
+			Assert.AreEqual( "combine", item.Action );
+			Assert.AreEqual( "Cryptic Clue", item.BoughtItem );
+			Assert.AreEqual( "500", item.Cost );
+			Assert.AreEqual( "Mysteries", item.Economy );
+			Assert.AreEqual( "200", item.Gain );
+			Assert.AreEqual( "Whispered Hint", item.Item );
+			Assert.AreEqual( "1", item.Level );
+
+			var acq = item.ToAcq();
+			Assert.AreEqual( "inventory,Mysteries,Whispered Hint,combine", acq.Action );
+			Assert.AreEqual( "DefaultMysteries1Cryptic Clue", acq.Name );
+			Assert.AreEqual( new string[] { "Mysteries,Whispered Hint,500" }, acq.Prerequisites );
+			Assert.AreEqual( "Cryptic Clue", acq.Result );
+			Assert.AreEqual( 200, acq.Reward );
+
+		}
+
+		[Test]
+		public void CanReadCsvAcqs()
+		{
+			var acq = _engine.LookupAcquisitionByTag("DefaultMysteries1Cryptic Clue");
+
+			Assert.AreEqual( "inventory,Mysteries,Whispered Hint,combine", acq.Action );
+			Assert.AreEqual( "DefaultMysteries1Cryptic Clue", acq.Name );
+			Assert.AreEqual( new string[] { "Mysteries,Whispered Hint,500" }, acq.Prerequisites );
+			Assert.AreEqual( "Cryptic Clue", acq.Result );
+			Assert.AreEqual( 200, acq.Reward );
+		}
+
+		[Test]
 		public async Task PossessionSatisfiesLevel()
 		{
 			await SetPossession("Mysteries", "Extraordinary Implication", 21);
