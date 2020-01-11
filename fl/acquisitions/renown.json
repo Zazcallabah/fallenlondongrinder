@@ -137,6 +137,7 @@
 		"Result": "RenownSocietyCarnival",
 		"Prerequisites": [
 			"Route,Route: Mrs Plenty's Most Distracting Carnival,1",
+			"Accomplishments,The Darling of the Ambassador's Ball,1",
 			"Curiosity,Carnival Ticket,1,Carnival Ticket Clues",
 			"Contacts,Favours: Society,<7,ConsumeSociety"
 		],

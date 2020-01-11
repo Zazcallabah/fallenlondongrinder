@@ -312,12 +312,18 @@
 			"action":"Clay Men"
 		},
 		{
+			"name":"City Vices: a Rather Decadent Evening",
+			"require":[
+				"?Basic,Persuasive,68"
+			],
+			"action":"1"
+		},
+		{
 			"name":"A Word about Menaces",
 			"action":"1"
 		}
 	],
 	"keep":[
-		"City Vices: a Rather Decadent Evening",
 		"Secrets and Spending",
 		"Taking matters into your own hands",
 		"A Raggedy Creature",
