@@ -7,6 +7,7 @@ using fl;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
+using System.Threading;
 
 namespace localrunnertest
 {
@@ -48,8 +49,16 @@ namespace localrunnertest
 		public async Task RunAuto4()
 		{
 			string gitCommand = "git";
+			string commit = "commit -am \"add changes\"";
 			string push = @"push" ;
 
+			var p = Process.Start(gitCommand, commit );
+			var count = 0;
+			while (count < 100 && !p.HasExited )
+			{
+				Thread.Sleep(1000);
+				count++;
+			}
 			Process.Start(gitCommand, push );
 
 			dynamic credentials = JsonConvert.DeserializeObject(System.IO.File.ReadAllText("secrets.json"));
