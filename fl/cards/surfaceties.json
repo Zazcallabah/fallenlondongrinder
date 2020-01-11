@@ -1,0 +1,24 @@
+{
+	"use":[
+		{
+			"name":"Surface Ties: done with the surface",
+			"action":"home"
+		},
+		{
+			"name":"Surface Ties: the Stalker",
+			"action": "former/silence/master/plant/?"
+		},
+		{
+			"name":"Surface Ties: the Admirer",
+			"action": "gain/charm"
+		},
+		{
+			"name":"Surface Ties: the Seeker",
+			"action": "villain/you don't"
+		},
+		{
+			"name":"Surface Ties: the Assailant",
+			"action": "Murder him properly this time/?"
+		}
+	]
+}
