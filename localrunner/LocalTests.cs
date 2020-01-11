@@ -48,19 +48,6 @@ namespace localrunnertest
 		[Test]
 		public async Task RunAuto4()
 		{
-			string gitCommand = "git";
-			string commit = "commit -am \"add changes\"";
-			string push = @"push" ;
-
-			var p = Process.Start(gitCommand, commit );
-			var count = 0;
-			while (count < 100 && !p.HasExited )
-			{
-				Thread.Sleep(1000);
-				count++;
-			}
-			Process.Start(gitCommand, push );
-
 			dynamic credentials = JsonConvert.DeserializeObject(System.IO.File.ReadAllText("secrets.json"));
 			await Do((string)credentials.auto4[0],(string)credentials.auto4[1]);
 		}
