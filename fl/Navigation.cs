@@ -143,7 +143,7 @@ namespace fl
 			}
 
 			return myself.possessions
-				.Where(c => string.IsNullOrWhiteSpace(category) || c.name == category)
+				.Where(c => string.IsNullOrWhiteSpace(category) || string.Equals(c.name, category, StringComparison.InvariantCultureIgnoreCase) )
 				.SelectMany(c => c.possessions)
 				.ToList();
 		}
@@ -156,7 +156,7 @@ namespace fl
 
 		public static async Task<Possession> GetPossession(this Session s, string category, string name)
 		{
-			if( category == "Special" && name == "Airs" ) {
+			if( string.Equals(category,"Special",StringComparison.InvariantCultureIgnoreCase) && string.Equals(name,"Airs",StringComparison.InvariantCultureIgnoreCase) ) {
 				var a = await s.Airs();
 				return new Possession{
 					name = "Airs",

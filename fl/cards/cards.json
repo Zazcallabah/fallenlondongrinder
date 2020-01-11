@@ -12,6 +12,18 @@
 			"action":"zailor"
 		},
 		{
+			"name":"Sign on to a glim-steamer",
+			"action":"1"
+		},
+		{
+			"name":"A trip around the Southern Archipelago",
+			"action":"1"
+		},
+		{
+			"name":"Gather round me bully boys...",
+			"action":"1"
+		},
+		{
 			"name":"Break through the Revolutionary Firebrand's reserve",
 			"action":"?"
 		},

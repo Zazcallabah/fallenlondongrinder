@@ -124,6 +124,22 @@ namespace fl
 		public UserData user;
 		public int id;
 	}
+	public class Content
+	{
+		public string type;
+		public string image;
+		public long relatedId;
+		public string description;
+		public string date;
+		public string ago;
+	}
+	public class ContentMessage
+	{
+		public int actions;
+		public Content content;
+		public string message;
+		public bool isSuccess;
+	}
 	public class Domicile
 	{
 		public string name;

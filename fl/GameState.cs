@@ -33,6 +33,13 @@ namespace fl
 			return await PerformActions(action.Split(','));
 		}
 
+		public async Task<HasActionsLeft> SocialInvitationToYou(long id){
+			// todo decide on accept/reject
+			var res = await _session.AcceptInvitation(id);
+			Log.Info( res.content.description );
+			return HasActionsLeft.Consumed;
+		}
+
 		public async Task<string> GetStoryletName(){
 			if (_cachedList == null)
 				_cachedList = await _session.ListStorylet();

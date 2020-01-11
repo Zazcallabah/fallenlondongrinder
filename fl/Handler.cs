@@ -123,9 +123,18 @@ namespace fl
 					Log.Info($"Received interaction! type: {ia.type}");
 					Log.Info(ia.description);
 
-					var result = await _state.SocialInteraction(ia.relatedId);
-					if( result != HasActionsLeft.Available )
-						return result;
+					if( ia.type == "SocialMessage" )
+					{
+						var result = await _state.SocialInteraction(ia.relatedId);
+						if( result != HasActionsLeft.Available )
+							return result;
+					}
+					else if( ia.type == "InvitationToYou" )
+					{
+						var result = await _state.SocialInvitationToYou(ia.relatedId);
+						if( result != HasActionsLeft.Available )
+							return result;
+					}
 				}
 			return HasActionsLeft.Available;
 		}

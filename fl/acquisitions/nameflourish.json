@@ -146,7 +146,7 @@
 		"Prerequisites": [
 			"Stories,A Name Signed with a Flourish,3,NameFlourish3",
 			"Contacts,Favours: Society,1,RenownSocietyCarnival",
-			"Rag trade,Silk Scrap,500,SeamstressSilk",
+			"Rag Trade,Silk Scrap,500,SeamstressSilk",
 			"Rumour,Scrap of Incendiary Gossip,5,FlourishGossipGrind"
 		],
 		"Action": "veilgarden,Make Your Name: Getting to the Ball,Calling in favours,1"

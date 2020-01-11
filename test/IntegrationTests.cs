@@ -15,7 +15,10 @@ namespace test
 		[OneTimeSetUp]
 		public void RunBeforeAnyTests()
 		{
-			Session = new fl.Session("automaton@prefect.se", "aoeu1234");
+			dynamic credentials = JsonConvert.DeserializeObject(System.IO.File.ReadAllText("secrets.json"));
+			string e = credentials.auto[0];
+			string p = credentials.auto[1];
+			Session = new fl.Session(e,p);
 		}
 	}
 
