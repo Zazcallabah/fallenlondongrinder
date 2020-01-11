@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using fl;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Diagnostics;
 
 namespace localrunnertest
 {
@@ -43,9 +44,14 @@ namespace localrunnertest
 			dynamic credentials = JsonConvert.DeserializeObject(System.IO.File.ReadAllText("secrets.json"));
 			await Do((string)credentials.auto3[0],(string)credentials.auto3[1]);
 		}
-	[Test]
+		[Test]
 		public async Task RunAuto4()
 		{
+			string gitCommand = "git";
+			string push = @"push" ;
+
+			Process.Start(gitCommand, push );
+
 			dynamic credentials = JsonConvert.DeserializeObject(System.IO.File.ReadAllText("secrets.json"));
 			await Do((string)credentials.auto4[0],(string)credentials.auto4[1]);
 		}
