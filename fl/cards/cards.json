@@ -201,15 +201,6 @@
 			"action":"Put on a fine show for them"
 		},
 		{
-			"name": "The Eater-of-Chains has Returned",
-			"action":"Ask someone you know well"
-		},
-		{
-			"name":"The Eater-of-Chains Lies in Wait",
-			"require":["Nostalgia,Drop of Prisoner's Honey,10"],
-			"action":"1"
-		},
-		{
 			"name": "City Vices: help the Sardonic Music-Hall Singer",
 			"action": "Help her negotiate"
 		},

@@ -1,0 +1,34 @@
+{
+	"use":[
+		{
+			"name":"Horrors in the drawing room",
+			"action": "1"
+		},
+		{
+			"name":"An unusual itch",
+			"require": ["?Basic,Dangerous,65"],
+			"action": "1"
+		},
+		{
+			"name":"The lair of the beast",
+			"require": ["?Basic,Dangerous,81","Nostalgia,Drop of Prisoner's Honey,2"],
+			"action": "1"
+		},
+		{
+			"name":"The Eater-of-Chains!",
+			"require": ["?Basic,Dangerous,130","Nostalgia,Drop of Prisoner's Honey,5"],
+			"action": "inspect,meditate,lair"
+		},
+		{
+			"name": "The Eater-of-Chains has Returned",
+			"action":"Ask someone you know well"
+		},
+		{
+			"name":"The Eater-of-Chains Lies in Wait",
+			"require":["Nostalgia,Drop of Prisoner's Honey,10"],
+			"action":"1"
+		}
+	],
+	"keep":[
+	]
+}
