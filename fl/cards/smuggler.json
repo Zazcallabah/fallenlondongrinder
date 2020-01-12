@@ -1,0 +1,55 @@
+{
+	"use":[
+		{
+			"name":"Freelance Smuggling",
+			"action": "agree"
+		},
+		{
+			"name": "A gallant tomb-colonist",
+			"action": "stick"
+		},
+		{
+			"name": "An invitation from the Once-Dashing Smuggler",
+			"action": "attend"
+		},
+		{
+			"name": "Who is this Smuggler?",
+			"action": "Ask him"
+		},
+		{
+			"name":"Watching the Shroom-Hopping",
+			"action":"different"
+		},
+		{
+			"name":"Attending a masquerade",
+			"action":"zailor"
+		},
+		{
+			"name":"A trip to the Emporium",
+			"action":"enjoy"
+		},
+		{
+			"name":"Going Batwatching with the Once-Dashing Smuggler",
+			"action":"attend"
+		},
+		{
+			"name":"Attend one of the Brass Embassy's hunts",
+			"action":"ride out"
+		},
+		{
+			"name":"Treasures from the Royal table",
+			"action":"invitation"
+		},
+		{
+			"name":"A Smuggler's farewell",
+			"action":"see him off"
+		}
+	],
+	"keep":[
+	],
+	"trash":[
+		"The troublesome suitor"
+	]
+}
+
+

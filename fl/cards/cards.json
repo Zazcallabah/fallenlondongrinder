@@ -29,10 +29,7 @@
 			],
 			"action":"1"
 		},
-		{
-			"name":"Attending a masquerade",
-			"action":"zailor"
-		},
+
 		{
 			"name":"Break through the Revolutionary Firebrand's reserve",
 			"action":"?"
@@ -53,10 +50,7 @@
 			"name": "~What will you do with your Hungover Terrier",
 			"action": "party/dispensary"
 		},
-		{
-			"name":"Watching the Shroom-Hopping",
-			"action":"different"
-		},
+
 		{
 			"name": "The Fallen Angel",
 			"action": "tackle"
@@ -126,10 +120,7 @@
 			"require": ["Academic,Foxfire Candle Stub,150,BuyFewerCandles"],
 			"action":"bird"
 		},
-		{
-			"name": "Who is this Smuggler?",
-			"action": "Ask him"
-		},
+
 		{
 			"name":"Entertainers for the revels",
 			"require": ["Influence,Compromising Document,15"],
@@ -361,7 +352,6 @@
 		"An Afternoon of Good Deeds",
 		"A voice from a well",
 		"A dream about",
-		"The troublesome suitor",
 		"The Secular Missionary: a Package Arrives",
 		"Remember the Honey-sipping Jewel Thief",
 		"The Coquettish Relicker and Mathilde are Making the Rounds",
