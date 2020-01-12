@@ -362,15 +362,31 @@
 		"Action": "spite,unfinished business,Ambush a few couriers for old times' sake",
 		"Reward": 20
 	},
+
 	"Rat on a String": {
-		"Name": "Rat on a String",
 		"Result": "Rat on a String",
 		"Prerequisites": [
-			"Accomplishments,A Person of Some Importance,1"
+			"Accomplishments,A Person of Some Importance,1,FlitRats"
 		],
 		"Action": "spite,unfinished business,Keep your hands quick",
 		"Reward": 100
 	},
+	"FlitRats": {
+		"Result": "Rat on a String",
+		"Prerequisites": [
+			"Route,Route: The Flit,1,BuyRats",
+			"Basic,Shadowy,75,BuyRats"
+		],
+		"Action": "flit,and its king,present"
+	},
+	"BuyRats": {
+		"Result": "Rat on a String",
+		"Prerequisites": [
+			"Currency,Penny,600"
+		],
+		"Action": "buy,merrigans,rat on a string,300"
+	},
+
 	"more Cryptic Clue": {
 		"Name": "more Cryptic Clue",
 		"Result": "Cryptic Clue",
@@ -598,6 +614,14 @@
 			"Curiosity,Unusual Pail of So-Called Snow,1"
 		],
 		"Action": "any,Explore the Festive Season,Investigate,eat it"
+	},
+
+	"Key to a Lair in the Marshes": {
+		"Result": "Key to a Lair in the Marshes",
+		"Prerequisites": [
+			"Ratness,Rat on a String,300"
+		],
+		"Action": "buy,Penstock,Key to a Lair in the Marshes,1"
 	},
 
 
