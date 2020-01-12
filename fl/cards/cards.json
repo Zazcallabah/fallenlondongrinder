@@ -29,7 +29,6 @@
 			],
 			"action":"1"
 		},
-
 		{
 			"name":"Break through the Revolutionary Firebrand's reserve",
 			"action":"?"
@@ -50,7 +49,6 @@
 			"name": "~What will you do with your Hungover Terrier",
 			"action": "party/dispensary"
 		},
-
 		{
 			"name": "The Fallen Angel",
 			"action": "tackle"
@@ -120,7 +118,6 @@
 			"require": ["Academic,Foxfire Candle Stub,150,BuyFewerCandles"],
 			"action":"bird"
 		},
-
 		{
 			"name":"Entertainers for the revels",
 			"require": ["Influence,Compromising Document,15"],
@@ -344,7 +341,6 @@
 		"A fair sized job for the right cracksman",
 		"All fear the Overgoat!",
 		"Investigating the Affluent Photographer",
-		"A letter from your aunt",
 		"Gold frame, black painting",
 		"Make Friends with a Young Stag",
 		"A Sporting Sort",

@@ -1,0 +1,24 @@
+{
+	"use":[
+		{
+			"name":"Good for the Constitution",
+			"require": ["?Basic,Persuasive,50"],
+			"action": "1"
+		},
+		{
+			"name":"Aunt amok!",
+			"require": ["?Basic,Persuasive,80"],
+			"action": "1"
+		},
+		{
+			"name":"The sins of the aunts",
+			"require": ["?Basic,Persuasive,100"],
+			"action": "1"
+		}
+	],
+	"keep":[
+	],
+	"trash":[
+		"A letter from your aunt",
+	]
+}
