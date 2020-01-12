@@ -1,0 +1,37 @@
+{
+	"use":[
+		{
+			"name":"An interview with Mr Pages",
+			"require": ["?Basic,Watchful,80"],
+			"action": "1"
+		},
+		{
+			"name":"A case for a Reliable",
+			"require": ["?Basic,Watchful,80"],
+			"action": "1"
+		},
+		{
+			"name":"There are the thieves!",
+			"require": ["?Basic,Watchful,110"],
+			"action": "1"
+		},
+		{
+			"name":"Another Case for a Reliable",
+			"require": ["?Basic,Persuasive,150","Rumour,Scrap of Incendiary Gossip,1"],
+			"action": "1"
+		},
+		{
+			"name":"Following the Trail",
+			"require": ["?Basic,Watchful,130"],
+			"action": "1"
+		},
+		{
+			"name":"Breaking and Entering on Behalf of Mr Pages",
+			"action": "break,force"
+		},
+		{
+			"name":"Returning to Mr Pages",
+			"action":"1"
+		}
+	]
+}
