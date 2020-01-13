@@ -6,4 +6,4 @@ services:
     environment:
       - NoForceAutomaton=1
     volumes:
-      - /home/peter/testlogs/fl:/var/testoutput
+      - /mnt/backup/logs/fl:/var/testoutput
