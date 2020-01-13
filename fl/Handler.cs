@@ -58,7 +58,7 @@ namespace fl
 				}
 
 				hasActionsLeft = await TryOpportunity();
-				if (hasActionsLeft != HasActionsLeft.Available && hasActionsLeft != HasActionsLeft.Faulty)
+				if (hasActionsLeft != HasActionsLeft.Available && hasActionsLeft != HasActionsLeft.Faulty && hasActionsLeft != HasActionsLeft.Unmet )
 				{
 					return;
 				}
