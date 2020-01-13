@@ -1,3 +1,4 @@
+#!/bin/bash
 if [[ -d "/mnt/backup/logs/fl" ]]
 then
 	cd "$(dirname "$0")"
