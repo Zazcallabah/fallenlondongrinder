@@ -28,7 +28,7 @@
 		"require,Stories,A Name Scrawled in Blood,6,NameBlood6",
 		"require,Stories,A Name Signed with a Flourish,6,NameFlourish6",
 		"require,Stories,A Name in Seven Secret Alphabets,6,NameAlphabets6",
-		"Stories,Duelling with the Black Ribbon,6,BlackRibbon6",
+		"require,Stories,Duelling with the Black Ribbon,6,BlackRibbon6",
 		"require,Contacts,Renown: Bohemians,5,RenownBohemiansCarnival",
 		"require,Contacts,Renown: The Docks,5,RenownDocksCarnival",
 		"require,Currency,Penny,1000000,Penny"
