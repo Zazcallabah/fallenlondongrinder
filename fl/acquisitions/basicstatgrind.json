@@ -80,17 +80,6 @@
 		"Action":"lodgings,Shadows and Suspicion,Tricks traps and treats"
 	},
 
-
-
-
-
-
-	"require,Advantage,Hard-Earned Lesson,<5,",
-	"require,Advantage,Confident Smile,<5,",
-	"require,Advantage,Hastily Scrawled Warning Note,<5,",
-
-
-
 	"GrindWatchfulSpirifer":{
 		"Prerequisites": [
 			"Stories,A Name in Seven Secret Alphabets,4"
