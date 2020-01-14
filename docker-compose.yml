@@ -1,0 +1,9 @@
+version: "3"
+services:
+  fl:
+    image: fl:latest
+    build: ./
+    environment:
+      - NoForceAutomaton=1
+    volumes:
+      - /mnt/backup/logs/fl:/var/testoutput

@@ -55,7 +55,8 @@ namespace localrunnertest
 			if( e == null || p == null )
 				throw new Exception("missing login");
 			var n = new Main(e,p);
-			await n.RunAutomaton(true);
+			var forceauto = Environment.GetEnvironmentVariable("NoForceAutomaton") == null;
+			await n.RunAutomaton(forceauto);
 			Assert.Fail("Fail test to see output");
 
 		}
