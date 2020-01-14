@@ -1,0 +1,24 @@
+{
+	"use":[
+		{
+			"name":"A possible coincidence",
+			"action": "1"
+		},
+		{
+			"name":"A curious coincidence",
+			"action": "1"
+		},
+		{
+			"name":"Almost certainly not a coincidence",
+			"action": "1"
+		},
+		{
+			"name":"Probably not a coincidence",
+			"action": "1"
+		}
+	]
+}
+
+
+
+

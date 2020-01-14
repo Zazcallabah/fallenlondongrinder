@@ -1,0 +1,34 @@
+{
+	"use":[
+		{
+			"name":"A particular thirst",
+			"require": ["?Basic,Watchful,34"],
+			"action": "1"
+		},
+		{
+			"name":"Taking matters into your own hands",
+			"require": ["?Basic,Shadowy,67"],
+			"action": "Duchess"
+		},
+		{
+			"name":"A visit to the Gracious Widow",
+			"require": ["?Basic,Shadowy,50"],
+			"action": "accept"
+		},
+		{
+			"name":"Someone's taking an interest in your affairs!",
+			"require": ["?Basic,Persuasive,80"],
+			"action": "greet"
+		},
+		{
+			"name":"It's time to hire a locksmith",
+			"require": ["?Basic,Persuasive,94","Nostalgia,Vision of the Surface,1"],
+			"action": "ask"
+		},
+		{
+			"name":"The shipment arrives tomorrow!",
+			"require": ["?Basic,Shadowy,129"],
+			"action": "Gracious Widow"
+		}
+	]
+}
