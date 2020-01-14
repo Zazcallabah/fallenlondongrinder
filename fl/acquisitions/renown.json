@@ -49,7 +49,7 @@
 		"Name": "ConsumeTombColonies",
 		"Result": "ConsumeTombColonies",
 		"Prerequisites": [
-			"Route,Route: The Shuttered Palace,1",
+			"Route,Route: The Forgotten Quarter,1",
 			"Contacts,Favours: Tomb-Colonies,1"
 		],
 		"Action": "forgottenquarter,Call in favours,dead men"
@@ -58,7 +58,7 @@
 		"Name": "ConsumeRubbery",
 		"Result": "ConsumeRubbery",
 		"Prerequisites": [
-			"Route,Route: The Shuttered Palace,1",
+			"Route,Route: The Forgotten Quarter,1",
 			"Contacts,Favours: Rubbery Men,1"
 		],
 		"Action": "forgottenquarter,Call in favours,curious"
@@ -67,7 +67,7 @@
 		"Name": "ConsumeHell",
 		"Result": "ConsumeHell",
 		"Prerequisites": [
-			"Route,Route: The Shuttered Palace,1",
+			"Route,Route: The Forgotten Quarter,1",
 			"Contacts,Favours: Hell,1"
 		],
 		"Action": "forgottenquarter,Call in favours,soothing"

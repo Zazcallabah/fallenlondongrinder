@@ -616,15 +616,6 @@
 		"Action": "any,Explore the Festive Season,Investigate,eat it"
 	},
 
-	"Key to a Lair in the Marshes": {
-		"Result": "Key to a Lair in the Marshes",
-		"Prerequisites": [
-			"Ratness,Rat on a String,300"
-		],
-		"Action": "buy,Penstock,Key to a Lair in the Marshes,1"
-	},
-
-
 	"Fascinating...": {
 		"Name": "Fascinating...",
 		"Result": "Fascinating...",

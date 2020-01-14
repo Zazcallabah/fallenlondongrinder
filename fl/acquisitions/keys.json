@@ -1,0 +1,58 @@
+{
+	"Key to a Rooftop Shack": {
+		"Result": "Key to a Rooftop Shack",
+		"Prerequisites": [
+			"Wild Words,Primordial Shriek,150"
+		],
+		"Action": "buy,Penstock,Key to a Rooftop Shack,1"
+	},
+	"Key to a Smoky Flophouse Dormitory": {
+		"Result": "Key to a Smoky Flophouse Dormitory",
+		"Prerequisites": [
+			"Goods,Piece of Rostygold,200"
+		],
+		"Action": "buy,Penstock,Key to a Smoky Flophouse Dormitory,1"
+	},
+	"Key to a Lair in the Marshes": {
+		"Result": "Key to a Lair in the Marshes",
+		"Prerequisites": [
+			"Ratness,Rat on a String,300"
+		],
+		"Action": "buy,Penstock,Key to a Lair in the Marshes,1"
+	},
+	"Key to a Cottage by the Observatory": {
+		"Result": "Key to a Cottage by the Observatory",
+		"Prerequisites": [
+			"Elder,Jade Fragment,400"
+		],
+		"Action": "buy,Penstock,Key to a Cottage by the Observatory,1"
+	},
+	"Key to your Rooms above a Gambling Den": {
+		"Result": "Key to your Rooms above a Gambling Den",
+		"Prerequisites": [
+			"Rubbery,Nodule of Deep Amber,420"
+		],
+		"Action": "buy,Penstock,Key to your Rooms above a Gambling Den,1"
+	},
+	"Key to your Rooms above a Bookshop": {
+		"Result": "Key to your Rooms above a Bookshop",
+		"Prerequisites": [
+			"Mysteries,Whispered Hint,450"
+		],
+		"Action": "buy,Penstock,Key to your Rooms above a Bookshop,1"
+	},
+	"Key to a Handsome Townhouse": {
+		"Result": "Key to a Handsome Townhouse",
+		"Prerequisites": [
+			"Nostalgia,Romantic Notion,500"
+		],
+		"Action": "buy,Penstock,Key to a Handsome Townhouse,1"
+	},
+	"Deed to a Decommissioned Steamer": {
+		"Result": "Deed to a Decommissioned Steamer",
+		"Prerequisites": [
+			"Cartography,Shard of Glim,800"
+		],
+		"Action": "buy,Penstock,Deed to a Decommissioned Steamer,1"
+	}
+}
