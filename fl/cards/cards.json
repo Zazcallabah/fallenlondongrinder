@@ -114,11 +114,6 @@
 			"action": "depths"
 		},
 		{
-			"name":"A dream of a high mountain path",
-			"require": ["Academic,Foxfire Candle Stub,150,BuyFewerCandles"],
-			"action":"bird"
-		},
-		{
 			"name":"Entertainers for the revels",
 			"require": ["Influence,Compromising Document,15"],
 			"action": "1"
@@ -189,10 +184,6 @@
 			"action":"1"
 		},
 		{
-			"name":"A conversation in the rain",
-			"action":"boldly"
-		},
-		{
 			"name": "One's public",
 			"action":"Put on a fine show for them"
 		},
@@ -210,10 +201,6 @@
 				"Mysteries,Cryptic Clue,10"
 			],
 			"action":"?"
-		},
-		{
-			"name":"a familiar visitor",
-			"action":"Prevaricate"
 		},
 		{
 			"name":"A fine day in the Flit",
@@ -302,7 +289,6 @@
 	],
 	"keep":[
 		"Secrets and Spending",
-		"Taking matters into your own hands",
 		"A Raggedy Creature",
 		"A flash of white",
 		"A commotion above!",

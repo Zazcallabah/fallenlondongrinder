@@ -1,0 +1,32 @@
+{
+	"use":[
+		{
+			"name":"A conversation in the rain",
+			"action":"boldly"
+		},
+		{
+			"name":"Death and the River",
+			"action":"accept"
+		},
+		{
+			"name":"The thing on the dresser",
+			"action":"Feed it the blood of small animals!"
+		},
+		{
+			"name":"a familiar visitor",
+			"action":"Capitulate"
+		},
+		{
+			"name":"The attention of the Ministry of Public Decency",
+			"action":"where"
+		},
+		{
+			"name":"A dream of a high mountain path",
+			"action":"scratch/forget/push the idol"
+		}
+	],
+	"trash":[
+		"Peel off your own face",
+		"Search for information on the Scowling Flint Idol"
+	]
+}
