@@ -2,6 +2,10 @@
 	"automaton":[
 		"require,Route,Route: Lodgings,1,RentLodgings",
 		"require,Route,Route: Mrs Plenty's Most Distracting Carnival,1",
+		"require,Advantage,Sudden Insight,<8,SpendSuddenInsight",
+		"require,Advantage,Hard-Earned Lesson,<8,SpendLesson",
+		"require,Advantage,Confident Smile,<8,SpendConfidentSmile",
+		"require,Advantage,Hastily Scrawled Warning Note,<8,SpendWarningNote",
 		"require,Stories,A Name in Seven Secret Alphabets,2,NameAlphabets2",
 		"require,Stories,A Name Signed with a Flourish,2,NameFlourish2",
 		"require,Stories,A Name Scrawled in Blood,2,NameBlood2",

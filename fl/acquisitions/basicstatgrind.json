@@ -50,6 +50,47 @@
 		"Action":"watchmakers,Hunting across london,where the rat is lairing,shoot it"
 	},
 
+
+	"SpendSuddenInsight": {
+		"Prerequisites": [
+			"Route,Route: Lodgings,1",
+			"Advantage,Sudden Insight,5"
+		],
+		"Action":"lodgings,Watchfulness and Nightmares,Every stone"
+	},
+	"SpendLesson": {
+		"Prerequisites": [
+			"Route,Route: Lodgings,1",
+			"Advantage,Hard-Earned Lesson,5"
+		],
+		"Action":"lodgings,Danger and Wounds,The strength of scars"
+	},
+	"SpendConfidentSmile": {
+		"Prerequisites": [
+			"Route,Route: Lodgings,1",
+			"Advantage,Confident Smile,5"
+		],
+		"Action":"lodgings,Persuasion and Scandal,An easy confidence"
+	},
+	"SpendWarningNote": {
+		"Prerequisites": [
+			"Route,Route: Lodgings,1",
+			"Advantage,Hastily Scrawled Warning Note,5"
+		],
+		"Action":"lodgings,Shadows and Suspicion,Tricks traps and treats"
+	},
+
+
+
+
+
+
+	"require,Advantage,Hard-Earned Lesson,<5,",
+	"require,Advantage,Confident Smile,<5,",
+	"require,Advantage,Hastily Scrawled Warning Note,<5,",
+
+
+
 	"GrindWatchfulSpirifer":{
 		"Prerequisites": [
 			"Stories,A Name in Seven Secret Alphabets,4"
