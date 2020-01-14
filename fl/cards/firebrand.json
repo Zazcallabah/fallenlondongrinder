@@ -1,0 +1,39 @@
+{
+	"use":[
+		{
+			"name":"The Revolutionary Firebrand",
+			"require": ["?Basic,Persuasive,50"],
+			"action": "1"
+		},
+		{
+			"name":"The Revolutionary Firebrand's Card",
+			"require": ["?Basic,Persuasive,60"],
+			"action": "do nothing"
+		},
+		{
+			"name":"Revolution and the Firebrand",
+			"require": ["?Basic,Persuasive,70"],
+			"action": "recommend"
+		},
+		{
+			"name":"Debating with the Revolutionary Firebrand",
+			"require": ["?Basic,Persuasive,70"],
+			"action": "1"
+		},
+		{
+			"name":"Break through the Revolutionary Firebrand's reserve",
+			"require": ["?Basic,Persuasive,80"],
+			"action": "dinner in spite"
+		},
+		{
+			"name":"Plumb the Firebrand's secrets",
+			"require": ["?Basic,Persuasive,110"],
+			"action": "allow"
+		}
+	],
+
+	"keep":[
+	],
+	"trash":[
+	]
+}
