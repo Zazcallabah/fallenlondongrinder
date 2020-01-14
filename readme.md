@@ -3,13 +3,11 @@
 Azure function set up to run every 10 minutes. Will cycle through a given set of storylets and choices in fallen london, as long as there are actions to spare.
 
 
-Most of the following describes the original, powershell port, but most of the descriptions should be relevant for the cs port. The powershell port is now deprecated.
-
 ## how
 
 An `action` is a sequence of navigational clicks in fallen london. They are simple strings, divided into different parts by commas.
 
-`action.json` contains a list of actions. Each time the script runs, one of those actions are performed. Which action is chosen based on the date. Each day that passes progresses one step further in the list of actions. When the list is done, it restarts from the beginning.
+`action.json` contains a list of actions. Each time the script runs, one of those actions are performed. Which action is chosen based on the date and player inventory. Each day that passes progresses one step further in the list of actions. When the list is done, it restarts from the beginning.
 
 ### types of actions
 
@@ -17,9 +15,9 @@ An `action` is a sequence of navigational clicks in fallen london. They are simp
 
 The string is divided into location, name of storylet, then an optional number of branch navigations, then at the end a choice.
 
-The location is the area you wish to move to. The full name of an area will always work as long as you know the route. Some care has been taken to accept shorthand names, look for `$script:locations` in `apicalls.ps1`. If location is carnival then tickets will be automatically acquired. If location is shuttered palace, an action will be spent to gain access. Other locations may have other custom handling applied.
+The location is the area you wish to move to. The full name of an area will always work as long as you know the route. Some care has been taken to accept shorthand names, look for `_locations` in `Session.cs`. If location is carnival then tickets will be automatically acquired. If location is shuttered palace, an action will be spent to gain access. Other locations may have other custom handling applied.
 
-Storylet and branch name lookup is done using the `-match` operator. You can also supply an index number (starting at 1), or a question mark for a random selection. Multiple options can be given, separated by forward-slashes. In that case they will be tried one after another, left-to-right, until one works.
+Storylet and branch name lookup is done using the case insensitive regex matching. You can also supply an index number (starting at 1), or a question mark for a random selection. Multiple options can be given, separated by forward-slashes. In that case they will be tried one after another, left-to-right, until one works.
 
 #### require
 
@@ -35,7 +33,35 @@ If you prefix a less-than sign to the amount, the grind will continue as long as
 
 #### others
 
-`buy`, `sell`, `grind_money`, `inventory`. Self explanatory, or check the details in the code.
+`buy`, `sell`, `grind_money`, `inventory`, others. Self explanatory, or check the details in the code.
+
+### acquisitions
+
+An acquisition (acq) has a name and a result. These can be used to lookup the acquisition if you want a specific one, or if you want an acquisition with a specific result. The lookup is done using non-case-sensitive equals comparisons.
+
+Acqs also have an action, to be used to gain that result, as well as prerequisites that must be fullfilleb before the action is taken.
+Some care is taken to make sure that the default named acq for each item results in the best possible action depending on inventory contents.
+
+Note: The name property on the json objects is deprecated and unused. The json object key is used instead.
+
+Note: Because buying and selling doesnt consume actions, prerequisites that end with these actions can falsely report their results. Prefix these prereqs with `!` to avoid this. Example:
+
+	"Foxfire Candle Stub": {
+		"Prerequisites": [
+			"!Accomplishments,A Person of Some Importance,1,BuyCandles"
+		],
+		"Action": "veilgarden,unfinished business,An admirer among the clergy",
+	}
+
+Because the prereq doesnt give you the named property, rather it gives an alternative path to the requested object, it will report positive and encounter an error when you're not PosI.
+
+Acqs can also hold a list of cards. This is primarily used in areas with constrained opportunity decks, where the odds of hitting a specified card is very high. Prefix the card name with `!` to force discard named card when encountered.
+
+### cards
+
+Name lookup is done using non-case-sensitive equals comparison. Prefix a card name with `~` to instead use regex matching.
+Cards can have optional prereqs under the `requrie` property. Use `?` to denote a requirement that must be fulfilled, else the card is discarded.
+
 
 ## code overview
 
@@ -47,23 +73,16 @@ If you prefix a less-than sign to the amount, the grind will continue as long as
 * add endgame random grinder
 	when automaton reaches the end of the req list, do something like 5% chance to go to different random area, 10% chance to consume a random card, click randomly until you consume below action threshold
 
-* Add handling of more interesting locked locations like boat stuff or prison or death etc.
-* opportunity cards during heist or other locked storylets
 * find your way into more locations. like a newspaper or a boat or something.
 * finish flit heists grind, and handle that locked area
-
 * Velocipede squad stuff
 * mahogani Master-Classes in Etiquette loop
 * affair of the box grind loop, after mahogany hall done to sunday)
 * flit chicanery progression
 * stealing painting for flit king
-* grind for favors?
 
 * is it viable to lower suspicion through # "ladybones,life,associate,publish" # prereq 50 Silk Scrap 25 clues Subtle 4
-* Add opportunity cards for favours etc?
 * how to get rubbery?
-
-* four different making your name stories
 * newspaper progress https://fallenlondon.fandom.com/wiki/An_Editor_of_Newspapers
 * add acq for favour in high places, comprehensive bribe, personal reccommendation
 * bizarre, dreaded, ?
@@ -71,19 +90,6 @@ If you prefix a less-than sign to the amount, the grind will continue as long as
 * ambition, hearts desire, go to ... hunters keep? by boat, get stone key
 
 Polythreme for touching love stories, into wwriting money grind
-
-A Name in Seven Secret Alphabets
--> progress in the university
-
-A Name Scrawled in Blood
--> fix a hunt is on, starts in wolfstack https://fallenlondon.fandom.com/wiki/The_Hunt_is_On!_(Guide)
-
-A Name Signed with a Flourish https://fallenlondon.fandom.com/wiki/Shaping_a_Masterpiece_for_the_Empress
--> empress court make  Inspired... 24, Working on... an Opera, Carving out a Reputation at Court exactly 6
-
-A Name Whispered in Darkness
--> something about bats and cats in flit, embroiled in wars of illusion
-
 
 grinding fast
 constrained by challenge without menace on fail

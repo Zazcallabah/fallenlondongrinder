@@ -1,41 +1,29 @@
-digraph Project {
+[Main] -> [Handler]
 
-	Session [ shape = box, label = "\N\n* Cached User\n* Login"];
-	Session -> HttpClient;
+[Handler|DoAction;RunActions]
+[Handler] -> [AcquisitionEngine]
+[Handler] -> [Session]
+[Handler] -> [GameState]
 
-	Navigation [ shape = box, label = "\N\nextends Session"];
-	Navigation -> Session;
+[AcquisitionEngine|Acquire;Require| Callback to DoAction when required.
+GameState used inventory and card actions]
+[AcquisitionEngine] -> [GameState]
+[AcquisitionEngine] -> [Handler]
 
-	Handler [ shape = box]
-	Handler -> Session
-	Handler -> GameState
-	Handler -> AcquisitionEngine
 
-	Main [ shape = box]
-	Main -> Log
-	Main -> Handler
-	Main -> ActionHandler
+[Session|cached inventory;login credentials;api requests]
+[Session] -> [HttpClient]
+[Navigation|extension methods;wrapping api requests] --:> [Session]
 
-	GameState [ shape = box, label = "\N\n* Cached StoryletList\n* Navigate\n* Draw card"];
-	GameState -> Session
-	GameState -> SocialEventsHandler
+[GameState|cached game state;complex navigation]
+[GameState] -> [Session]
 
-	AcquisitionEngine [ shape = box, label = "\N\n* Require\n* Acquire"];
-	AcquisitionEngine -> GameState [ label = "inventory & cards" ];
-	AcquisitionEngine -> AcquisitionsHandler
-	AcquisitionEngine -> Handler [ label = "DoAction" ];
 
-	AcquisitionsHandler;
-}
-
-digraph FileHandler {
-	ActionHandler [ shape = box ];
-	ActionHandler -> FileHandler;
-
-	AcquisitionsHandler [ shape = box ];
-	AcquisitionsHandler -> CsvItem;
-	AcquisitionsHandler -> FileHandler;
-
-	SocialEventsHandler [ shape = box ];
-	SocialEventsHandler -> FileHandler
-}
+[Reading Files|
+  [Handler] -> [FileHandler]
+  [ActionHandler] -> [FileHandler]
+  [ForcedActionHandler] -> [FileHandler]
+  [SocialEventsHandler] -> [FileHandler]
+  [AcquisitionsHandler] -> [FileHandler]
+  [AcquisitionsHandler] -> [<usecase>CsvItem]
+]
