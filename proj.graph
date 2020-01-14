@@ -1,0 +1,41 @@
+digraph Project {
+
+	Session [ shape = box, label = "\N\n* Cached User\n* Login"];
+	Session -> HttpClient;
+
+	Navigation [ shape = box, label = "\N\nextends Session"];
+	Navigation -> Session;
+
+	Handler [ shape = box]
+	Handler -> Session
+	Handler -> GameState
+	Handler -> AcquisitionEngine
+
+	Main [ shape = box]
+	Main -> Log
+	Main -> Handler
+	Main -> ActionHandler
+
+	GameState [ shape = box, label = "\N\n* Cached StoryletList\n* Navigate\n* Draw card"];
+	GameState -> Session
+	GameState -> SocialEventsHandler
+
+	AcquisitionEngine [ shape = box, label = "\N\n* Require\n* Acquire"];
+	AcquisitionEngine -> GameState [ label = "inventory & cards" ];
+	AcquisitionEngine -> AcquisitionsHandler
+	AcquisitionEngine -> Handler [ label = "DoAction" ];
+
+	AcquisitionsHandler;
+}
+
+digraph FileHandler {
+	ActionHandler [ shape = box ];
+	ActionHandler -> FileHandler;
+
+	AcquisitionsHandler [ shape = box ];
+	AcquisitionsHandler -> CsvItem;
+	AcquisitionsHandler -> FileHandler;
+
+	SocialEventsHandler [ shape = box ];
+	SocialEventsHandler -> FileHandler
+}
