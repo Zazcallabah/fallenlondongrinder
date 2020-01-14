@@ -240,7 +240,10 @@
 		},
 		{
 			"name":"A Dream of Roses",
-			"require":["Mysteries,Extraordinary Implication,21"],
+			"require":[
+				"?Basic,Watchful,160",
+				"Mysteries,Extraordinary Implication,21"
+			],
 			"action":"1"
 		},
 		{
