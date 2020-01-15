@@ -1,0 +1,18 @@
+{
+	"use":[
+		{
+			"name":"They're coming for you!",
+			"require": ["?Basic,Shadowy,135","Route,Route: The Flit,1"],
+			"action": "Hide!"
+		},
+		{
+			"name":"A commission from anarchists",
+			"require": ["?Basic,Shadowy,105"],
+			"action": "money/business"
+		},
+		{
+			"name":"Bringing the revolution",
+			"action": "?"
+		}
+	]
+}

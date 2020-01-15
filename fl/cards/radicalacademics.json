@@ -1,0 +1,19 @@
+{
+	"use":[
+		{
+			"name":"A gathering of scholars",
+			"require": ["?Basic,Watchful,120"],
+			"action": "1"
+		},
+		{
+			"name":"Unusual Academics",
+			"require": ["?Basic,Watchful,130"],
+			"action": "1"
+		},
+		{
+			"name":"The Museum of Mistakes",
+			"require": ["?Basic,Watchful,145"],
+			"action": "1"
+		}
+	]
+}
