@@ -410,7 +410,7 @@
 		"Name": "NightwatchfforBrass",
 		"Result": "NightwatchfforBrass",
 		"Prerequisites": [
-			"Basic,Watchful,65,GrindWatchfulO"
+			"Basic,Watchful,65,GrindWatchful"
 		],
 		"Action": "ladybones,Night watch at the Brass Embassy warehouse,easy",
 		"Reward": 50
