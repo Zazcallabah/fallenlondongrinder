@@ -142,9 +142,15 @@ namespace fl
 					return true;
 				}
 			}
-			else if (pos != null && pos.effectiveLevel >= level.AsNumber())
+			else if (pos != null)
 			{
-				return true;
+				if(pos.effectiveLevel >= level.AsNumber())
+					return true;
+				else return false;
+			}
+			else
+			{
+				return level.AsNumber() == 0;
 			}
 			return false;
 		}

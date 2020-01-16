@@ -166,10 +166,19 @@ namespace test
 			Assert.IsTrue(await _engine.PossessionSatisfiesLevel("Mysteries", "Extraordinary Implication", "3"));
 			Assert.IsTrue(await _engine.PossessionSatisfiesLevel("Mysteries", "Extraordinary Implication", null));
 			Assert.IsFalse(await _engine.PossessionSatisfiesLevel("Mysteries", "Not Found Item", null));
+			Assert.IsFalse(await _engine.PossessionSatisfiesLevel("Mysteries", "Not Found Item", "1"));
 			Assert.IsTrue(await _engine.PossessionSatisfiesLevel("Mysteries", "Not Found Item", "=0"));
+			Assert.IsTrue(await _engine.PossessionSatisfiesLevel("Mysteries", "Not Found Item", "<5"));
 			Assert.IsTrue(await _engine.PossessionSatisfiesLevel("Mysteries", "Extraordinary Implication", "=21"));
 			Assert.IsFalse(await _engine.PossessionSatisfiesLevel("Mysteries", "Extraordinary Implication", "22"));
 			Assert.IsFalse(await _engine.PossessionSatisfiesLevel("Mysteries", "Extraordinary Implication", "=20"));
+		}
+
+
+		[Test]
+		public async Task PossessionSatisfiesLevelZeroWhenNull()
+		{
+			Assert.IsTrue(await _engine.PossessionSatisfiesLevel("Mysteries", "Not Found Item", "0"));
 		}
 
 		[Test]
