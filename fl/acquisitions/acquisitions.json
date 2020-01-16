@@ -82,35 +82,7 @@
 		],
 		"Action": "mahogany,variety is the spice of life,props"
 	},
-
-	"HeistBaseborn" : {
-		"Name": "HeistBaseborn",
-		"Result": "Planning a Heist:",
-		"Prerequisites": [
-			"Circumstance,Planning a Heist:,<0"
-		],
-		"Action": "flit,embark,baseborn"
-	},
-	"PrepPosi": {
-		"Name": "PrepPosi",
-		"Result": "Casing...",
-		"Prerequisites": [
-			"Accomplishments,A Person of Some Importance,1,PrepBaseborn"
-		],
-		"Action": "flit,preparing,Well-planned villainy",
-		"Reward":3
-	},
-	"PrepBaseborn" : {
-		"Name": "PrepBaseborn",
-		"Result": "PrepBaseborn",
-		"Prerequisites": [
-			"Circumstance,Planning a Heist:,1,HeistBaseborn"
-		],
-		"Action": "flit,preparing,formulate",
-		"Reward":3
-	},
 	"StealPermits":{
-		"Name": "StealPermits",
 		"Result": "Bazaar Permit",
 		"Prerequisites": [
 			"Progress,Casing...,10"

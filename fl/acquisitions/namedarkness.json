@@ -150,5 +150,23 @@
 			"Stories,Master Thief,5,NameDarkness5Thief5"
 		],
 		"Action":""
+	},
+
+	"NameDarkness6RecordsHeist":{
+		"Prerequisites": [
+			"Circumstance,Planning a Heist,0"
+		],
+		"Action":"flit,embark,Making Your Name: the records office in Concord Square"
+	},
+
+	"NameDarkness6":{
+		"Result": "NameDarkness6",
+		"Prerequisites": [
+			"Stories,A Name Whispered in Darkness,=5,NameDarkness5",
+			"Circumstance,Planning a Heist,3,NameDarkness6RecordsHeist"
+			// casing
+			// inside information
+		],
+		"Action":" something something flit heist begin" // then locked area?
 	}
 }
