@@ -163,9 +163,9 @@
 		"Result": "NameDarkness6",
 		"Prerequisites": [
 			"Stories,A Name Whispered in Darkness,=5,NameDarkness5",
-			"Circumstance,Planning a Heist,3,NameDarkness6RecordsHeist"
-			// casing
-			// inside information
+			"Circumstance,Planning a Heist,3,NameDarkness6RecordsHeist",
+			"Curiosity,Inside Information,1",
+			"Progress,Casing...,5"
 		],
 		"Action":" something something flit heist begin" // then locked area?
 	}

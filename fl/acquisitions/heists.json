@@ -1,9 +1,20 @@
 {
 
 
+	"Inside Information" : {
+		"Name": "Inside Information",
+		"Result": "Inside Information",
+		"Prerequisites": [
+			"Basic,Shadowy,90,GrindShadowy",
+			"Circumstance,Planning a Heist,1",
+			"Progress,Casing...,5"
+		],
+		"Action": "flit,begin the heist,Purchase Inside Information"
+	},
+
 	"HeistBaseborn" : {
 		"Name": "HeistBaseborn",
-		"Result": "Planning a Heist:",
+		"Result": "Planning a Heist",
 		"Prerequisites": [
 			"Circumstance,Planning a Heist,=0"
 		],
