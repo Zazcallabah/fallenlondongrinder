@@ -138,8 +138,6 @@
 		"Action":"wolfstack,Conspiracy of Spiders,Brave the spiders' crypt,laughing"
 	},
 	"NameBlood5Arachno1": {
-		"Name": "NameBlood5Arachno1",
-		"Result": "NameBlood5Arachno1",
 		"Prerequisites": [
 			"Stories,Investigating the Silken Chapel,2,NameBlood5Chapel2",
 			"Mysteries,Cryptic Clue,100",
@@ -149,8 +147,6 @@
 		"Action":"wolfstack,Conspiracy of Spiders,face the thing,1"
 	},
 	"NameBlood5Arachno3": {
-		"Name": "NameBlood5Arachno3",
-		"Result": "NameBlood5Arachno3",
 		"Prerequisites": [
 			"Stories,Arachnologist,1,NameBlood5Arachno1"
 		],
@@ -162,7 +158,7 @@
 		"Result": "NameBlood5",
 		"Prerequisites": [
 			"Stories,A Name Scrawled in Blood,4,NameBlood4",
-			"Stories,Arachnologist,3,NameBlood5Arachno"
+			"Stories,Arachnologist,3,NameBlood5Arachno3"
 		],
 		"Action":"any,Letter from Feducci,1,?"
 	},
