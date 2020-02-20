@@ -46,9 +46,9 @@ namespace fl
 
 		Handler _handler;
 
-		public Main(string email, string password)
+		public Main(string email, string password, bool beta = false)
 		{
-			Session session = new Session(email, password);
+			Session session = new Session(email, password, beta);
 			GameState state = new GameState(session);
 			AcquisitionEngine engine = new AcquisitionEngine(state);
 

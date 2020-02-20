@@ -51,10 +51,16 @@ namespace localrunnertest
 			dynamic credentials = JsonConvert.DeserializeObject(System.IO.File.ReadAllText("secrets.json"));
 			await Do((string)credentials.auto4[0],(string)credentials.auto4[1]);
 		}
-		public async Task Do(string e, string p){
+		[Test]
+		public async Task RunBeta()
+		{
+			dynamic credentials = JsonConvert.DeserializeObject(System.IO.File.ReadAllText("secrets.json"));
+			await Do((string)credentials.beta[0],(string)credentials.beta[1], true);
+		}
+		public async Task Do(string e, string p, bool beta= false){
 			if( e == null || p == null )
 				throw new Exception("missing login");
-			var n = new Main(e,p);
+			var n = new Main(e,p, beta);
 			var forceauto = Environment.GetEnvironmentVariable("NoForceAutomaton") == null;
 			await n.RunAutomaton(forceauto);
 			Assert.Fail("Fail test to see output");

@@ -34,13 +34,59 @@ namespace fl
 			}
 		}
 
-		public Session(string email, string pass)
+		public Session(string email, string pass, bool beta = false)
 		{
 			_email = email;
 			_pass = pass;
-			_client.BaseAddress = new System.Uri("https://api.fallenlondon.com/api/");
-			_client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:67.0) Gecko/20100101 Firefox/67.0");
+			_client.BaseAddress = new System.Uri( beta ? "https://beta.api.fallenlondon.com/api/" : "https://api.fallenlondon.com/api/" );
+			_client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0");
+			// _client.DefaultRequestHeaders.Accept.ParseAdd("application/json, *.*");
+			// _client.DefaultRequestHeaders.Referrer = new Uri( beta ? "https://beta.fallenlondon.com/" : "https://www.fallenlondon.com/");
+			// _client.DefaultRequestHeaders.Connection.ParseAdd("keep-alive");
+
 		}
+
+
+
+// Host: beta.api.fallenlondon.com
+// User-Agent:
+
+// Accept: application/json, *.*
+
+// Accept-Language: en-US,en;q=0.5
+// Accept-Encoding: gzip, deflate, br
+// Content-Type: application/json
+// X-Requested-With: XMLHttpRequest
+// Content-Length: 61
+// Origin: https://beta.fallenlondon.com
+// DNT: 1
+// Connection: keep-alive
+// Referer: https://beta.fallenlondon.com/
+
+// Host: api.fallenlondon.com
+// User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0
+// Accept: application/json, text/plain, */*
+// Accept-Language: en-US,en;q=0.5
+// Accept-Encoding: gzip, deflate, br
+// Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIxMTE1ODQ2IiwiQ2hhcmFjdGVySWQiOiIxMjExOTkxIiwiU3Vic2NyaXB0aW9uIjoiRmFsc2UiLCJuYmYiOjE1ODA3NTMyMjAsImV4cCI6MTU4MDkyNjAyMCwiaWF0IjoxNTgwNzUzMjIwfQ.wY15ssCqU_sdQs0DwglPrDKkwBONVbJt-shpKjWdcjo
+// Origin: https://www.fallenlondon.com
+// DNT: 1
+// Connection: keep-alive
+// Referer: https://www.fallenlondon.com/
+
+
+// Host: beta.api.fallenlondon.com
+// User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0
+// Accept: application/json, text/plain, */*
+// Accept-Language: en-US,en;q=0.5
+// Accept-Encoding: gzip, deflate, br
+// Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIxMTI4MzcwIiwiQ2hhcmFjdGVySWQiOiIxMjIzNzA2IiwiU3Vic2NyaXB0aW9uIjoiRmFsc2UiLCJuYmYiOjE1ODA3NTMxMTAsImV4cCI6MTU4MDkyNTkxMCwiaWF0IjoxNTgwNzUzMTEwfQ.6sGc1E_qpWmwevIcH1l9bs_VZDEoV8jUawmo63Gx3V8
+// Origin: https://beta.fallenlondon.com
+// DNT: 1
+// Connection: keep-alive
+// Referer: https://beta.fallenlondon.com/
+
+
 
 		HttpContent MakeContent(dynamic payload)
 		{
@@ -146,7 +192,7 @@ namespace fl
 			["A State of Some Confusion"] = 1,
 		};
 
-		public async Task<int> GetLocationId(string name)
+		public async Task<long> GetLocationId(string name)
 		{
 			var r = new Regex(name, RegexOptions.IgnoreCase);
 			var key = _locations.Keys.FirstOrDefault(k => r.IsMatch(k));

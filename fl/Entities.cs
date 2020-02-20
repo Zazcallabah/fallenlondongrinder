@@ -226,11 +226,17 @@ namespace fl
 	public class MapEntry
 	{
 		public string name;
+		public MapEntry[] childAreas;
 		public string description;
 		public bool showOps;
 		public bool hideName;
 		public bool premiumSubRequired;
-		public int id;
+		public bool canMoveTo;
+		public bool discovered;
+		public bool unlocked;
+		public string areaKey;
+		public string type;
+		public long id;
 	}
 	public class Messages
 	{

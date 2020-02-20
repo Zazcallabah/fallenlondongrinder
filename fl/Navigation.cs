@@ -27,7 +27,7 @@ namespace fl
 			return await s.IsInLocation(id);
 		}
 
-		public static async Task<bool> IsInLocation(this Session s, int location)
+		public static async Task<bool> IsInLocation(this Session s, long location)
 		{
 			if (await s.IsLockedArea())
 				return true;
